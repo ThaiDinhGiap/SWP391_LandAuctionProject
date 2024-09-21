@@ -15,12 +15,32 @@ public class Tag {
     @Column(name = "description")
     private String description;
 
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    private List<Asset> assets;
+
     public Tag() {
     }
 
-    public Tag(int tagId, String tagName, String description) {
+    public Tag(int tagId, String tagName, String description, List<Asset> assets) {
         this.tagId = tagId;
         this.tagName = tagName;
+        this.description = description;
+        this.assets = assets;
+    }
+
+    public List<Asset> getAssets() {
+        return assets;
+    }
+
+    public void setAssets(List<Asset> assets) {
+        this.assets = assets;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -38,14 +58,6 @@ public class Tag {
 
     public void setTagName(String tagName) {
         this.tagName = tagName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     @Override

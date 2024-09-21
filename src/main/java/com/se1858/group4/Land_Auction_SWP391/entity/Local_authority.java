@@ -1,8 +1,10 @@
 package com.se1858.group4.Land_Auction_SWP391.entity;
 
+import com.se1858.group4.Land_Auction_SWP391.Entity.Ban_log;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "Local_authority")
@@ -29,6 +31,10 @@ public class Local_authority {
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
+    @OneToMany(mappedBy = "localAuthority", fetch = FetchType.LAZY,
+            cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    private List<Asset> assets;
+
     public Local_authority() {
     }
 
@@ -40,6 +46,17 @@ public class Local_authority {
         this.email = email;
         this.localAuthorityAddress = localAuthorityAddress;
         this.createdDate = createdDate;
+    }
+
+    public Local_authority(List<Asset> assets, String contactPerson, LocalDateTime createdDate, String email, String localAuthorityAddress, int localAuthorityId, String localAuthorityName, String phoneNumber) {
+        this.assets = assets;
+        this.contactPerson = contactPerson;
+        this.createdDate = createdDate;
+        this.email = email;
+        this.localAuthorityAddress = localAuthorityAddress;
+        this.localAuthorityId = localAuthorityId;
+        this.localAuthorityName = localAuthorityName;
+        this.phoneNumber = phoneNumber;
     }
 
     public int getLocalAuthorityId() {
@@ -96,6 +113,14 @@ public class Local_authority {
 
     public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public List<Asset> getAssets() {
+        return assets;
+    }
+
+    public void setAssets(List<Asset> assets) {
+        this.assets = assets;
     }
 
     @Override

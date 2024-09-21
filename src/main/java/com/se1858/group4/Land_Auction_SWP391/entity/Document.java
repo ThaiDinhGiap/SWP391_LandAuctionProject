@@ -12,7 +12,7 @@ public class Document {
     @Column(name = "document_id")
     private int documentId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "asset_id")
     private Asset asset;
 
@@ -22,7 +22,7 @@ public class Document {
     @Column(name = "path", nullable = false)
     private String path;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "type_id")
     private DocumentType type;
 

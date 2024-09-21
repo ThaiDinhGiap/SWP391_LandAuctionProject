@@ -12,7 +12,7 @@ public class Image {
     @Column(name = "image_id")
     private int imageId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "asset_id")
     private Asset asset;
 
