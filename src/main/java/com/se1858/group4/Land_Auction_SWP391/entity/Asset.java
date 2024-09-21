@@ -32,7 +32,7 @@ public class Asset {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "local_authority_id", referencedColumnName = "local_authority_id")
-    private LocalAuthority localAuthority;
+    private Local_authority localAuthority;
 
     @Column(name = "asset_status", length = 100)
     private String assetStatus;
@@ -60,7 +60,7 @@ public class Asset {
     public Asset() {
     }
 
-    public Asset(BigDecimal area, int assetId, String assetStatus, String classify, String description, BigDecimal length, LocalAuthority localAuthority, String location, List<Tag> tags, BigDecimal width) {
+    public Asset(BigDecimal area, int assetId, String assetStatus, String classify, String description, BigDecimal length, Local_authority localAuthority, String location, List<Tag> tags, BigDecimal width) {
         this.area = area;
         this.assetId = assetId;
         this.assetStatus = assetStatus;
@@ -73,7 +73,7 @@ public class Asset {
         this.width = width;
     }
 
-    public Asset(BigDecimal area, int assetId, String assetStatus, String classify, String description, List<Document> documents, List<Image> images, BigDecimal length, LocalAuthority localAuthority, String location, List<Tag> tags, BigDecimal width) {
+    public Asset(BigDecimal area, int assetId, String assetStatus, String classify, String description, List<Document> documents, List<Image> images, BigDecimal length, Local_authority localAuthority, String location, List<Tag> tags, BigDecimal width) {
         this.area = area;
         this.assetId = assetId;
         this.assetStatus = assetStatus;
@@ -152,11 +152,11 @@ public class Asset {
         this.length = length;
     }
 
-    public LocalAuthority getLocalAuthority() {
+    public Local_authority getLocalAuthority() {
         return localAuthority;
     }
 
-    public void setLocalAuthority(LocalAuthority localAuthority) {
+    public void setLocalAuthority(Local_authority localAuthority) {
         this.localAuthority = localAuthority;
     }
 

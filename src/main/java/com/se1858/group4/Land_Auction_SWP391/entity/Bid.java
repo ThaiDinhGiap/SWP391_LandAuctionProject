@@ -30,7 +30,7 @@ public class Bid {
     public Bid(int bidId, Long bidAmount, Auction_register auctionRegister, LocalDateTime timeCreateBid) {
         this.bidId = bidId;
         this.bidAmount = bidAmount;
-        this.Auction_register = auctionRegister;
+        this.auctionRegister = auctionRegister;
         this.timeCreateBid = timeCreateBid;
     }
 
