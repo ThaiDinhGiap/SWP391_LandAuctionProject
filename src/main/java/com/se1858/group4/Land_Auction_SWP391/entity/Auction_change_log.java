@@ -1,4 +1,4 @@
-package com.se1858.group4.Land_Auction_SWP391.Entity;
+package com.se1858.group4.Land_Auction_SWP391.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -24,23 +24,15 @@ public class Auction_change_log {
     @Column(name = "time")
     private LocalDateTime time;
 
-    public Auction_change_log(int changeId, Account auctioneer, String changeType, String reason, LocalDateTime time) {
+    public Auction_change_log(Auction_session auction_session, int changeId, String changeType, String reason, LocalDateTime time) {
+        this.auction_session = auction_session;
         this.changeId = changeId;
-        this.auctioneer = auctioneer;
         this.changeType = changeType;
         this.reason = reason;
         this.time = time;
     }
 
     public Auction_change_log() {
-    }
-
-    public Account getAuctioneer() {
-        return auctioneer;
-    }
-
-    public void setAuctioneer(Account auctioneer) {
-        this.auctioneer = auctioneer;
     }
 
     public int getChangeId() {
@@ -86,7 +78,7 @@ public class Auction_change_log {
     @Override
     public String toString() {
         return "Auction_change_log{" +
-                "auctioneer=" + auctioneer +
+                "auction_session=" + auction_session +
                 ", changeId=" + changeId +
                 ", changeType='" + changeType + '\'' +
                 ", reason='" + reason + '\'' +

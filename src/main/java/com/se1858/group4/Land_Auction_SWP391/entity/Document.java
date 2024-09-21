@@ -24,7 +24,7 @@ public class Document {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "type_id")
-    private DocumentType type;
+    private Document_type type;
 
     @Column(name = "upload_date")
     private LocalDateTime uploadDate;
@@ -32,7 +32,7 @@ public class Document {
     public Document() {
     }
 
-    public Document(int documentId, Asset asset, String documentName, String path, DocumentType type, LocalDateTime uploadDate) {
+    public Document(int documentId, Asset asset, String documentName, String path, Document_type type, LocalDateTime uploadDate) {
         this.documentId = documentId;
         this.asset = asset;
         this.documentName = documentName;
@@ -73,11 +73,11 @@ public class Document {
         this.path = path;
     }
 
-    public DocumentType getType() {
+    public Document_type getType() {
         return type;
     }
 
-    public void setType(DocumentType type) {
+    public void setType(Document_type type) {
         this.type = type;
     }
 

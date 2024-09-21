@@ -1,4 +1,4 @@
-package com.se1858.group4.Land_Auction_SWP391.Entity;
+package com.se1858.group4.Land_Auction_SWP391.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -30,7 +30,7 @@ public class Bid {
     public Bid(int bidId, Long bidAmount, Auction_register auctionRegister, LocalDateTime timeCreateBid) {
         this.bidId = bidId;
         this.bidAmount = bidAmount;
-        this.Auction_register = auctionRegister;
+        this.auctionRegister = auctionRegister;
         this.timeCreateBid = timeCreateBid;
     }
 

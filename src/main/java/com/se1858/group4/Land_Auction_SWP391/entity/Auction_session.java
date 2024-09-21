@@ -1,4 +1,4 @@
-package com.se1858.group4.Land_Auction_SWP391.Entity;
+package com.se1858.group4.Land_Auction_SWP391.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;

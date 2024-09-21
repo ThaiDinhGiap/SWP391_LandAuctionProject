@@ -11,7 +11,7 @@ public class Auction_register {
     @Id
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "auction_id")
-    private AuctionSession auction;
+    private Auction_session auction;
 
     @Id
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
@@ -52,7 +52,7 @@ public class Auction_register {
     public Auction_register() {
     }
 
-    public Auction_register(AuctionSession auction, Account buyer, String result, Integer rank, String registerStatus, String purchaseStatus, String depositStatus, String nickName, LocalDateTime registrationTime, LocalDateTime registrationOpenDate, LocalDateTime registrationCloseDate) {
+    public Auction_register(Auction_session auction, Account buyer, String result, Integer rank, String registerStatus, String purchaseStatus, String depositStatus, String nickName, LocalDateTime registrationTime, LocalDateTime registrationOpenDate, LocalDateTime registrationCloseDate) {
         this.auction = auction;
         this.buyer = buyer;
         this.result = result;
@@ -66,11 +66,11 @@ public class Auction_register {
         this.registrationCloseDate = registrationCloseDate;
     }
 
-    public AuctionSession getAuction() {
+    public Auction_session getAuction() {
         return auction;
     }
 
-    public void setAuction(AuctionSession auction) {
+    public void setAuction(Auction_session auction) {
         this.auction = auction;
     }
 

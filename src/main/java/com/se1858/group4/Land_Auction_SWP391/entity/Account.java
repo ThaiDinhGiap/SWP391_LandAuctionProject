@@ -1,4 +1,4 @@
-package com.se1858.group4.Land_Auction_SWP391.Entity;
+package com.se1858.group4.Land_Auction_SWP391.entity;
 
 import jakarta.persistence.*;
 
@@ -52,23 +52,23 @@ public class Account {
 
     @OneToMany(mappedBy = "propertyAgent", fetch = FetchType.LAZY,
             cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    private List<Task> tasks;
+    private List<Task> propertyAgent_tasks;
 
     @OneToMany(mappedBy = "auctioneer", fetch = FetchType.LAZY,
             cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    private List<Task> tasks;
+    private List<Task> auctioneer_tasks;
 
     @OneToMany(mappedBy = "auctioneer", fetch = FetchType.LAZY,
             cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    private List<Auction_session> auction_sessions;
+    private List<Auction_session> auctioneer_auction_sessions;
 
     @OneToMany(mappedBy = "winner", fetch = FetchType.LAZY,
             cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    private List<Auction_session> auction_sessions;
+    private List<Auction_session> winner_auction_sessions;
 
     @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY,
             cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    private List<Auction_register> Auction_register;
+    private List<Auction_register> auction_registers;
 
     // Constructors
     public Account() {}
@@ -211,28 +211,44 @@ public class Account {
         this.customer = customer;
     }
 
-    public List<Task> getTasks() {
-        return tasks;
+    public List<Auction_register> getAuction_registers() {
+        return auction_registers;
     }
 
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
+    public void setAuction_registers(List<Auction_register> auction_registers) {
+        this.auction_registers = auction_registers;
     }
 
-    public List<Auction_session> getAuction_sessions() {
-        return auction_sessions;
+    public List<Auction_session> getWinner_auction_sessions() {
+        return winner_auction_sessions;
     }
 
-    public void setAuction_sessions(List<Auction_session> auction_sessions) {
-        this.auction_sessions = auction_sessions;
+    public void setWinner_auction_sessions(List<Auction_session> winner_auction_sessions) {
+        this.winner_auction_sessions = winner_auction_sessions;
     }
 
-    public List<Auction_register> getAuction_register() {
-        return Auction_register;
+    public List<Task> getPropertyAgent_tasks() {
+        return propertyAgent_tasks;
     }
 
-    public void setAuction_register(List<Auction_register> auction_register) {
-        Auction_register = auction_register;
+    public void setPropertyAgent_tasks(List<Task> propertyAgent_tasks) {
+        this.propertyAgent_tasks = propertyAgent_tasks;
+    }
+
+    public List<Task> getAuctioneer_tasks() {
+        return auctioneer_tasks;
+    }
+
+    public void setAuctioneer_tasks(List<Task> auctioneer_tasks) {
+        this.auctioneer_tasks = auctioneer_tasks;
+    }
+
+    public List<Auction_session> getAuctioneer_auction_sessions() {
+        return auctioneer_auction_sessions;
+    }
+
+    public void setAuctioneer_auction_sessions(List<Auction_session> auctioneer_auction_sessions) {
+        this.auctioneer_auction_sessions = auctioneer_auction_sessions;
     }
 
     @Override
