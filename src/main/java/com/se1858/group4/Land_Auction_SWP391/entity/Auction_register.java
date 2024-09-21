@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -11,12 +12,12 @@ import java.util.Objects;
 @Table(name = "Auction_register")
 public class Auction_register {
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "auction_id")
-    private AuctionSession auction;
+    private Auction_session auction;
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "buyer_id")
     private Account buyer;
 
@@ -46,6 +47,10 @@ public class Auction_register {
 
     @Column(name = "registration_close_date")
     private LocalDateTime registrationCloseDate;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "auctionRegister",
+            cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    private List<Bid> bids;
 
     public Auction_register() {
     }
@@ -150,6 +155,14 @@ public class Auction_register {
 
     public void setRegistrationCloseDate(LocalDateTime registrationCloseDate) {
         this.registrationCloseDate = registrationCloseDate;
+    }
+
+    public List<Bid> getBids() {
+        return bids;
+    }
+
+    public void setBids(List<Bid> bids) {
+        this.bids = bids;
     }
 
     @Override

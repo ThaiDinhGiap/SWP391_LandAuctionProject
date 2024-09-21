@@ -1,5 +1,6 @@
 package com.se1858.group4.Land_Auction_SWP391.entity;
 
+import com.se1858.group4.Land_Auction_SWP391.entity.Account;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -11,7 +12,7 @@ public class Staff {
     @Column(name = "staff_id")
     private int staffId;
 
-    @ManyToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "account_id")
     private Account account;
 
