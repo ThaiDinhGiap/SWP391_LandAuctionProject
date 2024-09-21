@@ -2,9 +2,12 @@ package com.se1858.group4.Land_Auction_SWP391.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
+@IdClass(Auction_register.AuctionRegisterId.class)
 @Table(name = "Auction_register")
 public class Auction_register {
     @Id
@@ -164,6 +167,32 @@ public class Auction_register {
                 ", registrationOpenDate=" + registrationOpenDate +
                 ", registrationCloseDate=" + registrationCloseDate +
                 '}';
+    }
+
+    public static class AuctionRegisterId implements Serializable {
+        private Long auction;
+        private Long buyer;
+
+        public AuctionRegisterId() {
+        }
+
+        public AuctionRegisterId(Long auction, Long buyer) {
+            this.auction = auction;
+            this.buyer = buyer;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            AuctionRegisterId that = (AuctionRegisterId) o;
+            return Objects.equals(auction, that.auction) && Objects.equals(buyer, that.buyer);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(auction, buyer);
+        }
     }
 }
 
