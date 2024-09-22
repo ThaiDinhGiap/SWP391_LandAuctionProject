@@ -25,6 +25,10 @@ public class Account {
     @Column(name = "email", length = 100)
     private String email;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "avatar_image_id", referencedColumnName = "image_id")
+    private Image avatar_image;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "role_id", referencedColumnName = "role_id")
     private Role role;
@@ -115,6 +119,20 @@ public class Account {
         this.customer = customer;
         this.email = email;
         this.notifications = notifications;
+        this.password = password;
+        this.registrationDate = registrationDate;
+        this.role = role;
+        this.staff = staff;
+        this.status = status;
+        this.username = username;
+    }
+
+    public Account(String accountId, List<Ban_log> ban_logs, Customer customer, String email, Image avatar_image, String password, LocalDateTime registrationDate, Role role, Staff staff, Integer status, String username) {
+        this.accountId = accountId;
+        this.ban_logs = ban_logs;
+        this.customer = customer;
+        this.email = email;
+        this.avatar_image = avatar_image;
         this.password = password;
         this.registrationDate = registrationDate;
         this.role = role;
@@ -249,6 +267,14 @@ public class Account {
 
     public void setAuctioneer_auction_sessions(List<Auction_session> auctioneer_auction_sessions) {
         this.auctioneer_auction_sessions = auctioneer_auction_sessions;
+    }
+
+    public Image getAvatar_image() {
+        return avatar_image;
+    }
+
+    public void setAvatar_image(Image avatar_image) {
+        this.avatar_image = avatar_image;
     }
 
     @Override
