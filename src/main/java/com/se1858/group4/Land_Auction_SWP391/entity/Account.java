@@ -20,7 +20,7 @@ public class Account {
     private String password;
 
     @Column(name = "status")
-    private Integer status;
+    private String status;
 
     @Column(name = "email", length = 100)
     private String email;
@@ -77,7 +77,7 @@ public class Account {
     // Constructors
     public Account() {}
 
-    public Account(String accountId, String email, List<Notification> notifications, String password, LocalDateTime registrationDate, Role role, Integer status, String username) {
+    public Account(String accountId, String email, List<Notification> notifications, String password, LocalDateTime registrationDate, Role role, String status, String username) {
         this.accountId = accountId;
         this.email = email;
         this.notifications = notifications;
@@ -88,7 +88,7 @@ public class Account {
         this.username = username;
     }
 
-    public Account(String username, Integer status, Staff staff, Role role, LocalDateTime registrationDate, String password, List<Notification> notifications, String email, String accountId) {
+    public Account(String username, String status, Staff staff, Role role, LocalDateTime registrationDate, String password, List<Notification> notifications, String email, String accountId) {
         this.username = username;
         this.status = status;
         this.staff = staff;
@@ -100,7 +100,7 @@ public class Account {
         this.accountId = accountId;
     }
 
-    public Account(String accountId, String username, Integer status, Staff staff, Role role, LocalDateTime registrationDate, String password, List<Notification> notifications, String email, List<Ban_log> ban_logs) {
+    public Account(String accountId, String username, String status, Staff staff, Role role, LocalDateTime registrationDate, String password, List<Notification> notifications, String email, List<Ban_log> ban_logs) {
         this.accountId = accountId;
         this.username = username;
         this.status = status;
@@ -113,7 +113,7 @@ public class Account {
         this.ban_logs = ban_logs;
     }
 
-    public Account(String accountId, List<Ban_log> ban_logs, Customer customer, String email, List<Notification> notifications, String password, LocalDateTime registrationDate, Role role, Staff staff, Integer status, String username) {
+    public Account(String accountId, List<Ban_log> ban_logs, Customer customer, String email, List<Notification> notifications, String password, LocalDateTime registrationDate, Role role, Staff staff, String status, String username) {
         this.accountId = accountId;
         this.ban_logs = ban_logs;
         this.customer = customer;
@@ -127,7 +127,7 @@ public class Account {
         this.username = username;
     }
 
-    public Account(String accountId, List<Ban_log> ban_logs, Customer customer, String email, Image avatar_image, String password, LocalDateTime registrationDate, Role role, Staff staff, Integer status, String username) {
+    public Account(String accountId, List<Ban_log> ban_logs, Customer customer, String email, Image avatar_image, String password, LocalDateTime registrationDate, Role role, Staff staff, String status, String username) {
         this.accountId = accountId;
         this.ban_logs = ban_logs;
         this.customer = customer;
@@ -189,11 +189,11 @@ public class Account {
         this.role = role;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
