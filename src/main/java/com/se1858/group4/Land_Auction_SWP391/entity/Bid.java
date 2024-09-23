@@ -18,10 +18,7 @@ public class Bid {
     private LocalDateTime timeCreateBid;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinColumns({
-            @JoinColumn(name = "auction_id", referencedColumnName = "auction_id"),
-            @JoinColumn(name = "bidder_id", referencedColumnName = "buyer_id")
-    })
+    @JoinColumn(name = "register_id")
     private Auction_register auctionRegister;
 
     public Bid() {

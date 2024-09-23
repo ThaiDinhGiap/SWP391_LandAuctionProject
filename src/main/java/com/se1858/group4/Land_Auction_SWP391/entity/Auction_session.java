@@ -62,6 +62,12 @@ public class Auction_session {
     @Column(name = "status", length = 50)
     private String status;
 
+    @Column(name = "registration_open_date")
+    private LocalDateTime registrationOpenDate;
+
+    @Column(name = "registration_close_date")
+    private LocalDateTime registrationCloseDate;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinColumn(name = "asset_id", referencedColumnName = "asset_id")
     private Asset asset;
@@ -77,28 +83,44 @@ public class Auction_session {
     public Auction_session() {
     }
 
-    public Auction_session(int auctionId, String auctionName, Long startingPrice, Long startingPricePerUnit, Account auctioneer, Asset asset, Long minimumBidIncrement, int extraTimeUnit, LocalDateTime startTime, LocalDateTime expectedEndTime, LocalDateTime actualEndTime, Long registerFee, Long currentHighestPrice, Long dealedPrice, Long dealedPricePerUnit, Long deposit, Account winner, String status) {
-        this.auctionId = auctionId;
-        this.auctionName = auctionName;
-        this.startingPrice = startingPrice;
-        this.startingPricePerUnit = startingPricePerUnit;
-        this.auctioneer = auctioneer;
-        this.asset = asset;
-        this.minimumBidIncrement = minimumBidIncrement;
-        this.extraTimeUnit = extraTimeUnit;
-        this.startTime = startTime;
-        this.expectedEndTime = expectedEndTime;
-        this.actualEndTime = actualEndTime;
-        this.registerFee = registerFee;
-        this.currentHighestPrice = currentHighestPrice;
-        this.dealedPrice = dealedPrice;
-        this.dealedPricePerUnit = dealedPricePerUnit;
-        this.deposit = deposit;
-        this.winner = winner;
-        this.status = status;
-    }
+    public Auction_session(int auctionId, String auctionName, LocalDateTime startTime, LocalDateTime expectedEndTime,
+			Long startingPrice, Long startingPricePerUnit, Account auctioneer, Long minimumBidIncrement, Long deposit,
+			Long registerFee, int extraTimeUnit, String status, LocalDateTime registrationOpenDate,
+			LocalDateTime registrationCloseDate, Asset asset) {
+		this.auctionId = auctionId;
+		this.auctionName = auctionName;
+		this.startTime = startTime;
+		this.expectedEndTime = expectedEndTime;
+		this.startingPrice = startingPrice;
+		this.startingPricePerUnit = startingPricePerUnit;
+		this.auctioneer = auctioneer;
+		this.minimumBidIncrement = minimumBidIncrement;
+		this.deposit = deposit;
+		this.registerFee = registerFee;
+		this.extraTimeUnit = extraTimeUnit;
+		this.status = status;
+		this.registrationOpenDate = registrationOpenDate;
+		this.registrationCloseDate = registrationCloseDate;
+		this.asset = asset;
+	}
+    
+	public LocalDateTime getRegistrationOpenDate() {
+		return registrationOpenDate;
+	}
 
-    public LocalDateTime getActualEndTime() {
+	public void setRegistrationOpenDate(LocalDateTime registrationOpenDate) {
+		this.registrationOpenDate = registrationOpenDate;
+	}
+
+	public LocalDateTime getRegistrationCloseDate() {
+		return registrationCloseDate;
+	}
+
+	public void setRegistrationCloseDate(LocalDateTime registrationCloseDate) {
+		this.registrationCloseDate = registrationCloseDate;
+	}
+
+	public LocalDateTime getActualEndTime() {
         return actualEndTime;
     }
 
@@ -258,27 +280,14 @@ public class Auction_session {
         this.auction_registers = auction_registers;
     }
 
-    @Override
-    public String toString() {
-        return "Auction_session{" +
-                "actualEndTime=" + actualEndTime +
-                ", auctionId=" + auctionId +
-                ", auctionName='" + auctionName + '\'' +
-                ", startTime=" + startTime +
-                ", expectedEndTime=" + expectedEndTime +
-                ", startingPrice=" + startingPrice +
-                ", startingPricePerUnit=" + startingPricePerUnit +
-                ", dealedPrice=" + dealedPrice +
-                ", dealedPricePerUnit=" + dealedPricePerUnit +
-                ", currentHighestPrice=" + currentHighestPrice +
-                ", winner=" + winner +
-                ", minimumBidIncrement=" + minimumBidIncrement +
-                ", deposit=" + deposit +
-                ", registerFee=" + registerFee +
-                ", extraTimeUnit=" + extraTimeUnit +
-                ", status='" + status + '\'' +
-                ", auctioneer=" + auctioneer +
-                ", asset=" + asset +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "Auction_session [auctionId=" + auctionId + ", auctionName=" + auctionName + ", startTime=" + startTime
+				+ ", expectedEndTime=" + expectedEndTime + ", startingPrice=" + startingPrice
+				+ ", startingPricePerUnit=" + startingPricePerUnit + ", auctioneer=" + auctioneer
+				+ ", minimumBidIncrement=" + minimumBidIncrement + ", deposit=" + deposit + ", registerFee="
+				+ registerFee + ", extraTimeUnit=" + extraTimeUnit + ", status=" + status + ", registrationOpenDate="
+				+ registrationOpenDate + ", registrationCloseDate=" + registrationCloseDate + ", asset=" + asset + "]";
+	}
+
 }

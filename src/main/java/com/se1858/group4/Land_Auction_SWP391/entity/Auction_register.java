@@ -8,15 +8,17 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-//@IdClass(Auction_register.AuctionRegisterId.class)
 @Table(name = "Auction_register")
 public class Auction_register {
-    @Id
+	
+	@Id
+    @Column(name = "register_id")
+    private int registerId;
+	
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "auction_id")
     private Auction_session auction;
 
-    @Id
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "buyer_id")
     private Account buyer;
@@ -42,12 +44,6 @@ public class Auction_register {
     @Column(name = "registration_time")
     private LocalDateTime registrationTime;
 
-    @Column(name = "registration_open_date")
-    private LocalDateTime registrationOpenDate;
-
-    @Column(name = "registration_close_date")
-    private LocalDateTime registrationCloseDate;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "auctionRegister",
             cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     private List<Bid> bids;
@@ -55,21 +51,19 @@ public class Auction_register {
     public Auction_register() {
     }
 
-    public Auction_register(Auction_session auction, Account buyer, String result, Integer rank, String registerStatus, String purchaseStatus, String depositStatus, String nickName, LocalDateTime registrationTime, LocalDateTime registrationOpenDate, LocalDateTime registrationCloseDate) {
-        this.auction = auction;
-        this.buyer = buyer;
-        this.result = result;
-        this.rank = rank;
-        this.registerStatus = registerStatus;
-        this.purchaseStatus = purchaseStatus;
-        this.depositStatus = depositStatus;
-        this.nickName = nickName;
-        this.registrationTime = registrationTime;
-        this.registrationOpenDate = registrationOpenDate;
-        this.registrationCloseDate = registrationCloseDate;
-    }
+    public Auction_register(int registerId, Auction_session auction, Account buyer, String registerStatus,
+			String purchaseStatus, String depositStatus, String nickName, LocalDateTime registrationTime) {
+		this.registerId = registerId;
+		this.auction = auction;
+		this.buyer = buyer;
+		this.registerStatus = registerStatus;
+		this.purchaseStatus = purchaseStatus;
+		this.depositStatus = depositStatus;
+		this.nickName = nickName;
+		this.registrationTime = registrationTime;
+	}
 
-    public Auction_session getAuction() {
+	public Auction_session getAuction() {
         return auction;
     }
 
@@ -141,22 +135,6 @@ public class Auction_register {
         this.registrationTime = registrationTime;
     }
 
-    public LocalDateTime getRegistrationOpenDate() {
-        return registrationOpenDate;
-    }
-
-    public void setRegistrationOpenDate(LocalDateTime registrationOpenDate) {
-        this.registrationOpenDate = registrationOpenDate;
-    }
-
-    public LocalDateTime getRegistrationCloseDate() {
-        return registrationCloseDate;
-    }
-
-    public void setRegistrationCloseDate(LocalDateTime registrationCloseDate) {
-        this.registrationCloseDate = registrationCloseDate;
-    }
-
     public List<Bid> getBids() {
         return bids;
     }
@@ -164,48 +142,21 @@ public class Auction_register {
     public void setBids(List<Bid> bids) {
         this.bids = bids;
     }
+    
+	public int getRegisterId() {
+		return registerId;
+	}
 
-    @Override
-    public String toString() {
-        return "Auction_register{" +
-                "auction=" + auction +
-                ", buyer=" + buyer +
-                ", result='" + result + '\'' +
-                ", rank=" + rank +
-                ", registerStatus='" + registerStatus + '\'' +
-                ", purchaseStatus='" + purchaseStatus + '\'' +
-                ", depositStatus='" + depositStatus + '\'' +
-                ", nickName='" + nickName + '\'' +
-                ", registrationTime=" + registrationTime +
-                ", registrationOpenDate=" + registrationOpenDate +
-                ", registrationCloseDate=" + registrationCloseDate +
-                '}';
-    }
+	public void setRegisterId(int registerId) {
+		this.registerId = registerId;
+	}
 
-//    public static class AuctionRegisterId implements Serializable {
-//        private Long auction;
-//        private Long buyer;
-//
-//        public AuctionRegisterId() {
-//        }
-//
-//        public AuctionRegisterId(Long auction, Long buyer) {
-//            this.auction = auction;
-//            this.buyer = buyer;
-//        }
-//
-//        @Override
-//        public boolean equals(Object o) {
-//            if (this == o) return true;
-//            if (o == null || getClass() != o.getClass()) return false;
-//            AuctionRegisterId that = (AuctionRegisterId) o;
-//            return Objects.equals(auction, that.auction) && Objects.equals(buyer, that.buyer);
-//        }
-//
-//        @Override
-//        public int hashCode() {
-//            return Objects.hash(auction, buyer);
-//        }
-//    }
+	@Override
+	public String toString() {
+		return "Auction_register [registerId=" + registerId + ", auction=" + auction + ", buyer=" + buyer
+				+ ", registerStatus=" + registerStatus + ", purchaseStatus=" + purchaseStatus + ", depositStatus="
+				+ depositStatus + ", nickName=" + nickName + ", registrationTime=" + registrationTime + "]";
+	}
+
 }
 
