@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 public class Bid {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bid_id")
     private int bidId;
 

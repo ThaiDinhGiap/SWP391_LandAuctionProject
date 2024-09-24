@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Table(name = "Image")
 public class Image {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "image_id")
     private int imageId;
 

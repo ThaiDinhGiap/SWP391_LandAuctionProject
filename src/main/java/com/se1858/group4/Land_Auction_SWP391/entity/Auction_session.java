@@ -9,6 +9,7 @@ import java.util.List;
 public class Auction_session {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "auction_id")
     private int auctionId;
 

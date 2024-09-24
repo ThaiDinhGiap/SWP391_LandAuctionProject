@@ -9,6 +9,7 @@ import java.util.List;
 public class Asset {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "asset_id")
     private int assetId;
 
