@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 public class Auction_change_log {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "change_id")
     private int changeId;
 

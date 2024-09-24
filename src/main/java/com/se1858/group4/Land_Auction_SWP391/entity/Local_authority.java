@@ -9,6 +9,7 @@ import java.util.List;
 @Table(name = "Local_authority")
 public class Local_authority {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "local_authority_id")
     private int localAuthorityId;
 
