@@ -12,6 +12,7 @@ import java.util.Objects;
 public class Auction_register {
 	
 	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "register_id")
     private int registerId;
 	

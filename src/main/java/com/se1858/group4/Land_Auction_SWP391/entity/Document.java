@@ -8,7 +8,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "Document")
 public class Document {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "document_id")
     private int documentId;
 

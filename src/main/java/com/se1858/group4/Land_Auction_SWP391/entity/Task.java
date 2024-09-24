@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Table(name = "Task")
 public class Task {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "task_id")
     private int taskId;
 

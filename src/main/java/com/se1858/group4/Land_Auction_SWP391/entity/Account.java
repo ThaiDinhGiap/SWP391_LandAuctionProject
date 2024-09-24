@@ -10,13 +10,14 @@ import java.util.List;
 public class Account {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id", length = 8)
-    private String accountId;
+    private int accountId;
 
-    @Column(name = "username", length = 100, nullable = false)
+    @Column(name = "username", length = 100)
     private String username;
 
-    @Column(name = "password", length = 100, nullable = false)
+    @Column(name = "password", length = 100)
     private String password;
 
     @Column(name = "status")
@@ -77,7 +78,7 @@ public class Account {
     // Constructors
     public Account() {}
 
-    public Account(String accountId, String email, List<Notification> notifications, String password, LocalDateTime registrationDate, Role role, String status, String username) {
+    public Account(int accountId, String email, List<Notification> notifications, String password, LocalDateTime registrationDate, Role role, String status, String username) {
         this.accountId = accountId;
         this.email = email;
         this.notifications = notifications;
@@ -88,7 +89,7 @@ public class Account {
         this.username = username;
     }
 
-    public Account(String username, String status, Staff staff, Role role, LocalDateTime registrationDate, String password, List<Notification> notifications, String email, String accountId) {
+    public Account(String username, String status, Staff staff, Role role, LocalDateTime registrationDate, String password, List<Notification> notifications, String email, int accountId) {
         this.username = username;
         this.status = status;
         this.staff = staff;
@@ -100,7 +101,7 @@ public class Account {
         this.accountId = accountId;
     }
 
-    public Account(String accountId, String username, String status, Staff staff, Role role, LocalDateTime registrationDate, String password, List<Notification> notifications, String email, List<Ban_log> ban_logs) {
+    public Account(int accountId, String username, String status, Staff staff, Role role, LocalDateTime registrationDate, String password, List<Notification> notifications, String email, List<Ban_log> ban_logs) {
         this.accountId = accountId;
         this.username = username;
         this.status = status;
@@ -113,7 +114,7 @@ public class Account {
         this.ban_logs = ban_logs;
     }
 
-    public Account(String accountId, List<Ban_log> ban_logs, Customer customer, String email, List<Notification> notifications, String password, LocalDateTime registrationDate, Role role, Staff staff, String status, String username) {
+    public Account(int accountId, List<Ban_log> ban_logs, Customer customer, String email, List<Notification> notifications, String password, LocalDateTime registrationDate, Role role, Staff staff, String status, String username) {
         this.accountId = accountId;
         this.ban_logs = ban_logs;
         this.customer = customer;
@@ -127,7 +128,7 @@ public class Account {
         this.username = username;
     }
 
-    public Account(String accountId, List<Ban_log> ban_logs, Customer customer, String email, Image avatar_image, String password, LocalDateTime registrationDate, Role role, Staff staff, String status, String username) {
+    public Account(int accountId, List<Ban_log> ban_logs, Customer customer, String email, Image avatar_image, String password, LocalDateTime registrationDate, Role role, Staff staff, String status, String username) {
         this.accountId = accountId;
         this.ban_logs = ban_logs;
         this.customer = customer;
@@ -141,11 +142,11 @@ public class Account {
         this.username = username;
     }
 
-    public String getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(String accountId) {
+    public void setAccountId(int accountId) {
         this.accountId = accountId;
     }
 
