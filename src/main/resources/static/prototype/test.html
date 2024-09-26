@@ -24,7 +24,9 @@ Author URL: http://w3layouts.com
             <h1><a class="navbar-brand" href="index.html">
                 Viet<span class="sub-color">Land</span>
             </a></h1>
-            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false"
+                    aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon fa icon-expand fa-bars"></span>
                 <span class="navbar-toggler-icon fa icon-close fa-times"></span>
             </button>
@@ -45,14 +47,16 @@ Author URL: http://w3layouts.com
                     </li>
                 </ul>
                 <!--/search-->
-                <button id="trigger-overlay" class="searchw3-icon me-xl-4 me-lg-3" type="button"><i class="fas fa-search"></i></button>
+                <button id="trigger-overlay" class="searchw3-icon me-xl-4 me-lg-3" type="button"><i
+                        class="fas fa-search"></i></button>
                 <!-- open/close -->
                 <div class="overlay overlay-slidedown">
                     <button type="button" class="overlay-close"><i class="fas fa-times"></i></button>
                     <nav class="w3l-formhny">
                         <h5 class="mb-3">Search here</h5>
                         <form action="#" method="GET" class="d-sm-flex search-header">
-                            <input class="form-control me-2" type="search" placeholder="Search here..." aria-label="Search" required>
+                            <input class="form-control me-2" type="search" placeholder="Search here..."
+                                   aria-label="Search" required>
                             <button class="btn btn-style btn-primary" type="submit">Search</button>
                         </form>
                     </nav>
@@ -104,46 +108,29 @@ Author URL: http://w3layouts.com
                     <!-- //home-page-video-popup-->
                 </div>
             </div>
-            <div class="w3ab-left-top col-lg-6 mt-lg-0 mt-5 ps-lg-5">
+            <div class="w3ab-left-top col-lg-6 mt-lg-0 mt-5 ps-lg-5" id="bid-page">
                 <!-- Notification for user status -->
-                <div class="alert alert-warning text-center" role="alert">
+                <div class="alert alert-warning text-center" role="alert" id="userStatusMessage">
                     You have not yet bid on this lot
                 </div>
 
                 <!-- Current Bid Information -->
                 <div class="current-bid-info text-center mb-3">
-                    <h5>Current Bid (not with you)</h5>
-                    <h2 style="color: #d81b60; font-size: 36px;">£152,000</h2>
+                    <h5>Current Bid</h5>
+                    <h2 id="currentBid" style="color: #d81b60; font-size: 36px;"></h2>
                 </div>
 
                 <!-- Bid Input Section -->
                 <div class="bid-input d-flex justify-content-center align-items-center mb-3">
                     <button class="btn btn-danger" id="decreaseBid">-</button>
-                    <input type="text" class="form-control text-center mx-2" id="bidAmount" value="153,000" style="width: 150px;">
+                    <input type="text" class="form-control text-center mx-2" id="bidAmount" placeholder="Enter your bid"
+                           style="width: 150px;">
                     <button class="btn btn-danger" id="increaseBid">+</button>
                 </div>
 
                 <!-- Place Bid Button -->
                 <div class="text-center mb-3">
-                    <button class="btn btn-primary btn-lg">Place Bid</button>
-                </div>
-
-                <!-- Time Left and Scheduled End Date -->
-                <div class="time-info d-flex justify-content-between">
-                    <div>
-                        <h6>Time Left</h6>
-                        <p>18m 5s</p>
-                    </div>
-                    <div>
-                        <h6>Scheduled End Date</h6>
-                        <p>10th Aug 2021 14:00</p>
-                    </div>
-                </div>
-
-                <!-- Additional Options -->
-                <div class="additional-options d-flex justify-content-between mt-3">
-                    <button class="btn btn-dark">Unwatch</button>
-                    <button class="btn btn-dark">Help on Bidding</button>
+                    <button class="btn btn-primary btn-lg" id="placeBidButton">Place Bid</button>
                 </div>
 
                 <!-- Bidding History -->
@@ -157,16 +144,12 @@ Author URL: http://w3layouts.com
                             <th>Date</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td>Bidder 3</td>
-                            <td>£152,000</td>
-                            <td>10/08/21 12:57:42</td>
-                        </tr>
-                        <!-- Add more rows as needed -->
+                        <tbody id="biddingHistory">
+                        <!-- Rows will be added dynamically -->
                         </tbody>
                     </table>
                 </div>
+            </div>
         </div>
     </div>
 </section>
@@ -180,7 +163,8 @@ Author URL: http://w3layouts.com
                 <div class="row footer-hny-grids sub-columns">
                     <div class="col-lg-3 sub-one-left">
                         <h6>About </h6>
-                        <p class="footer-phny pe-lg-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ute dolor sit.</p>
+                        <p class="footer-phny pe-lg-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                            eiusmod tempor incididunt ute dolor sit.</p>
                         <div class="columns-2 mt-4 pt-lg-2">
                             <ul class="social">
                                 <li><a href="#facebook"><span class="fab fa-facebook-f"></span></a>
@@ -247,7 +231,8 @@ Author URL: http://w3layouts.com
                         <div class="w3l-subscribe-content align-self mt-lg-0 mt-5">
                             <form action="#" method="post" class="subscribe-wthree">
                                 <div class="flex-wrap subscribe-wthree-field">
-                                    <input class="form-control" type="email" placeholder="Email" name="email" required="">
+                                    <input class="form-control" type="email" placeholder="Email" name="email"
+                                           required="">
                                     <button class="btn btn-style btn-primary" type="submit">Subscribe</button>
                                 </div>
                             </form>
@@ -260,7 +245,8 @@ Author URL: http://w3layouts.com
             <div class="below-section mt-5 pt-lg-3">
                 <div class="copyright-footer">
                     <div class="columns text-left">
-                        <p>© 2021 RealHouzing.All rights reserved. Design by <a href="https://w3layouts.com/" target="_blank">
+                        <p>© 2021 RealHouzing.All rights reserved. Design by <a href="https://w3layouts.com/"
+                                                                                target="_blank">
                             W3Layouts</a></p>
                     </div>
                     <ul class="footer-w3list text-right">
@@ -282,7 +268,7 @@ Author URL: http://w3layouts.com
     </button>
     <script>
         // When the user scrolls down 20px from the top of the document, show the button
-        window.onscroll = function() {
+        window.onscroll = function () {
             scrollFunction()
         };
 
@@ -316,7 +302,7 @@ Author URL: http://w3layouts.com
 <!--//search-->
 <!-- MENU-JS -->
 <script>
-    $(window).on("scroll", function() {
+    $(window).on("scroll", function () {
         var scroll = $(window).scrollTop();
 
         if (scroll >= 80) {
@@ -327,14 +313,14 @@ Author URL: http://w3layouts.com
     });
 
     //Main navigation Active Class Add Remove
-    $(".navbar-toggler").on("click", function() {
+    $(".navbar-toggler").on("click", function () {
         $("header").toggleClass("active");
     });
-    $(document).on("ready", function() {
+    $(document).on("ready", function () {
         if ($(window).width() > 991) {
             $("header").removeClass("active");
         }
-        $(window).on("resize", function() {
+        $(window).on("resize", function () {
             if ($(window).width() > 991) {
                 $("header").removeClass("active");
             }
@@ -346,8 +332,8 @@ Author URL: http://w3layouts.com
 
 <!-- disable body scroll which navbar is in active -->
 <script>
-    $(function() {
-        $('.navbar-toggler').click(function() {
+    $(function () {
+        $('.navbar-toggler').click(function () {
             $('body').toggleClass('noscroll');
         })
     });
@@ -356,6 +342,9 @@ Author URL: http://w3layouts.com
 <!-- //disable body scroll which navbar is in active -->
 <!-- //bootstrap -->
 <script src="assets/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="assets/js/bid.js"></script>
 
 </body>
 
