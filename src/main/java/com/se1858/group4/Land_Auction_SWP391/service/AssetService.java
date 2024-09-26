@@ -5,6 +5,8 @@ import com.se1858.group4.Land_Auction_SWP391.repository.AssetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +19,8 @@ public class AssetService {
         this.assetRepository = assetRepository;
     }
     public Asset registerAsset(Asset asset) {
-        asset.setAssetStatus("Dang xac minh");
+        asset.setAssetStatus("Waiting for Auction Scheduling");
+        asset.setCreatedDate(LocalDateTime.now());
         return assetRepository.save(asset);
     }
     public Optional<Asset> getAssetById(int id) {
