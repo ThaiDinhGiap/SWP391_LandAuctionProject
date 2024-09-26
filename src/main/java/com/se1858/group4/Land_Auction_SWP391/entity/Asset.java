@@ -2,6 +2,7 @@ package com.se1858.group4.Land_Auction_SWP391.entity;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -55,7 +56,8 @@ public class Asset {
     private List<Document> documents;
 
     @OneToMany(mappedBy = "asset",
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}
+    )
     private List<Auction_session> auction_sessions;
 
     public Asset() {
@@ -206,5 +208,30 @@ public class Asset {
                 ", localAuthority=" + localAuthority +
                 ", assetStatus='" + assetStatus + '\'' +
                 '}';
+    }
+
+    public void addTag(Tag tag) {
+        if(this.tags == null){
+            this.tags = new ArrayList<>();
+        }
+        this.tags.add(tag);
+    }
+    public void addImage(Image image) {
+        if(this.images == null){
+            this.images = new ArrayList<>();
+        }
+        this.images.add(image);
+    }
+    public void addDocument(Document document) {
+        if(this.documents == null){
+            this.documents = new ArrayList<>();
+        }
+        this.documents.add(document);
+    }
+    public void addAuctionSession(Auction_session auction) {
+        if(this.auction_sessions == null){
+            this.auction_sessions = new ArrayList<>();
+        }
+        this.auction_sessions.add(auction);
     }
 }
