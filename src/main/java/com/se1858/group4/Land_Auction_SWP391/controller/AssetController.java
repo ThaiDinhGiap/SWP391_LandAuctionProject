@@ -53,13 +53,13 @@ public class AssetController {
 
     @GetMapping("/list_unsuccessful_sale_asset")
     public String listUnseccessfulSaleAsset(Model model) {
-        List<Asset> list=assetService.getAllUnseccessfulSaleAsset();
+        List<Asset> list=assetService.getAllAssetWithStatus("Ban khong thanh cong");
         model.addAttribute("listAsset",list);
         return "ListAsset";
     }
     @GetMapping("/get_all_verified_asset")
     public String getAllVerifiedAsset(Model model) {
-        List<Asset> list=assetService.getAllVerifiedAsset();
+        List<Asset> list=assetService.getAllAssetWithStatus("Dang xac minh");
         model.addAttribute("listAsset",list);
         return "ListAsset";
     }

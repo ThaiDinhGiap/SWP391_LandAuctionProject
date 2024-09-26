@@ -24,7 +24,7 @@ public class UploadFile {
     }
     //ham upload anh
     public void UploadImages(List<MultipartFile> images, Asset asset){
-        String imageUploadDir = "src/main/resources/static/Image/";
+        String imageUploadDir = "src/main/resources/static/image/";
         for (MultipartFile image : images) {
             if (!image.isEmpty()) {
                 try {
@@ -51,7 +51,7 @@ public class UploadFile {
                     Image img = new Image();
                     img.setUploadDate(LocalDateTime.now());
                     img.setAsset(asset);
-                    img.setPath("/Image/" + imgName);
+                    img.setPath("/image/" + imgName);
                     asset.addImage(img);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -61,7 +61,7 @@ public class UploadFile {
     }
     //ham upload folder
     public void UploadDocuments(List<MultipartFile> documents, Asset asset){
-        String documentUploadDir = "src/main/resources/static/Document/";
+        String documentUploadDir = "src/main/resources/static/document/";
         for (MultipartFile document : documents) {
             if (!document.isEmpty()) {
                 try {
@@ -77,7 +77,7 @@ public class UploadFile {
                     // Kiểm tra file đã tồn tại hay chưa, nếu có thì thêm số phiên bản vào
                     int version = 1;
                     while (Files.exists(path)) {
-                        documentName = "Document_" + fileName + "(" + version + ")" + fileExtension;
+                        documentName = "Asset_" + fileName + "(" + version + ")" + fileExtension;
                         path = Paths.get(documentUploadDir + documentName);
                         version++;
                     }
@@ -88,7 +88,7 @@ public class UploadFile {
                     Document doc = new Document();
                     doc.setUploadDate(LocalDateTime.now());
                     doc.setAsset(asset);
-                    doc.setPath("/Document/" + documentName);
+                    doc.setPath("/document/" + documentName);
                     asset.addDocument(doc);
                 } catch (IOException e) {
                     e.printStackTrace();

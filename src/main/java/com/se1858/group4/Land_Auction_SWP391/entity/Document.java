@@ -24,22 +24,17 @@ public class Document {
     @Column(name = "path", nullable = false)
     private String path;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinColumn(name = "type_id")
-    private Document_type type;
-
     @Column(name = "upload_date")
     private LocalDateTime uploadDate;
 
     public Document() {
     }
 
-    public Document(int documentId, Asset asset, String documentName, String path, Document_type type, LocalDateTime uploadDate) {
+    public Document(int documentId, Asset asset, String documentName, String path, LocalDateTime uploadDate) {
         this.documentId = documentId;
         this.asset = asset;
         this.documentName = documentName;
         this.path = path;
-        this.type = type;
         this.uploadDate = uploadDate;
     }
 
@@ -75,14 +70,6 @@ public class Document {
         this.path = path;
     }
 
-    public Document_type getType() {
-        return type;
-    }
-
-    public void setType(Document_type type) {
-        this.type = type;
-    }
-
     public LocalDateTime getUploadDate() {
         return uploadDate;
     }
@@ -98,7 +85,6 @@ public class Document {
                 ", asset=" + asset +
                 ", documentName='" + documentName + '\'' +
                 ", path='" + path + '\'' +
-                ", type=" + type +
                 ", uploadDate=" + uploadDate +
                 '}';
     }

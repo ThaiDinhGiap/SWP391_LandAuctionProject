@@ -23,26 +23,13 @@ public class AssetService {
     public Optional<Asset> getAssetById(int id) {
         return assetRepository.findById(id);
     }
-    public List<Asset> getAllUnseccessfulSaleAsset() {
+    public List<Asset> getAllAssetWithStatus(String status) {
         List<Asset> list=assetRepository.findAll();
         List<Asset> result=null;
         if(list.size()>0){
             result=new ArrayList<Asset>();
             for(Asset asset:list){
-                if(asset.getAssetStatus().equals("Ban khong thanh cong")){
-                    result.add(asset);
-                }
-            }
-        }
-        return result;
-    }
-    public List<Asset> getAllVerifiedAsset() {
-        List<Asset> list=assetRepository.findAll();
-        List<Asset> result=null;
-        if(list.size()>0){
-            result=new ArrayList<Asset>();
-            for(Asset asset:list){
-                if(asset.getAssetStatus().equals("Dang xac minh")){
+                if(asset.getAssetStatus().equals(status)){
                     result.add(asset);
                 }
             }

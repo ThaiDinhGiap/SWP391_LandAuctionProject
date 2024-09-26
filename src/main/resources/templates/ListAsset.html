@@ -54,7 +54,7 @@
          <th>Location</th>
          <th>Area</th>
          <th>Description</th>
-         <th>Classify</th>
+         <th>Coordinates On Map</th>
          <th>Action</th>
      </tr>
      </thead>
@@ -63,7 +63,7 @@
          <td th:text="${asset.location}"></td>
          <td th:text="${asset.area}"></td>
          <td th:text="${asset.description}"></td>
-         <td th:text="${asset.classify}"></td>
+         <td th:text="${asset.coordinatesOnMap}"></td>
          <td>
              <a th:href="@{/asset/viewDetail(assetId=${asset.getAssetId()})}"
                 class="btn btn-sm">
