@@ -39,8 +39,7 @@ public class Task {
     public Task() {
     }
 
-    public Task(int taskId, Account propertyAgent, Account auctioneer, Asset asset, String contentTask, LocalDateTime createdDate, LocalDateTime finishedDate, String status) {
-        this.taskId = taskId;
+    public Task(Account propertyAgent, Account auctioneer, Asset asset, String contentTask, LocalDateTime createdDate, LocalDateTime finishedDate, String status) {
         this.propertyAgent = propertyAgent;
         this.auctioneer = auctioneer;
         this.asset = asset;

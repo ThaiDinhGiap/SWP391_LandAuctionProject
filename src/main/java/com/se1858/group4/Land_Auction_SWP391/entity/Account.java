@@ -53,7 +53,7 @@ public class Account {
 
     @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY,
             cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    private List<Ban_log> ban_logs;
+    private List<BanLog> ban_logs;
 
     @OneToMany(mappedBy = "propertyAgent", fetch = FetchType.LAZY,
             cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
@@ -65,21 +65,20 @@ public class Account {
 
     @OneToMany(mappedBy = "auctioneer", fetch = FetchType.LAZY,
             cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    private List<Auction_session> auctioneer_auction_sessions;
+    private List<AuctionSession> auctioneer_auction_sessions;
 
     @OneToMany(mappedBy = "winner", fetch = FetchType.LAZY,
             cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    private List<Auction_session> winner_auction_sessions;
+    private List<AuctionSession> winner_auction_sessions;
 
     @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY,
             cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    private List<Auction_register> auction_registers;
+    private List<AuctionRegister> auction_registers;
 
     // Constructors
     public Account() {}
 
-    public Account(int accountId, String email, List<Notification> notifications, String password, LocalDateTime registrationDate, Role role, String status, String username) {
-        this.accountId = accountId;
+    public Account(String email, List<Notification> notifications, String password, LocalDateTime registrationDate, Role role, String status, String username) {
         this.email = email;
         this.notifications = notifications;
         this.password = password;
@@ -101,8 +100,7 @@ public class Account {
         this.accountId = accountId;
     }
 
-    public Account(int accountId, String username, String status, Staff staff, Role role, LocalDateTime registrationDate, String password, List<Notification> notifications, String email, List<Ban_log> ban_logs) {
-        this.accountId = accountId;
+    public Account(String username, String status, Staff staff, Role role, LocalDateTime registrationDate, String password, List<Notification> notifications, String email, List<BanLog> ban_logs) {
         this.username = username;
         this.status = status;
         this.staff = staff;
@@ -114,8 +112,7 @@ public class Account {
         this.ban_logs = ban_logs;
     }
 
-    public Account(int accountId, List<Ban_log> ban_logs, Customer customer, String email, List<Notification> notifications, String password, LocalDateTime registrationDate, Role role, Staff staff, String status, String username) {
-        this.accountId = accountId;
+    public Account(List<BanLog> ban_logs, Customer customer, String email, List<Notification> notifications, String password, LocalDateTime registrationDate, Role role, Staff staff, String status, String username) {
         this.ban_logs = ban_logs;
         this.customer = customer;
         this.email = email;
@@ -128,8 +125,7 @@ public class Account {
         this.username = username;
     }
 
-    public Account(int accountId, List<Ban_log> ban_logs, Customer customer, String email, Image avatar_image, String password, LocalDateTime registrationDate, Role role, Staff staff, String status, String username) {
-        this.accountId = accountId;
+    public Account(List<BanLog> ban_logs, Customer customer, String email, Image avatar_image, String password, LocalDateTime registrationDate, Role role, Staff staff, String status, String username) {
         this.ban_logs = ban_logs;
         this.customer = customer;
         this.email = email;
@@ -214,11 +210,11 @@ public class Account {
         this.staff = staff;
     }
 
-    public List<Ban_log> getBan_logs() {
+    public List<BanLog> getBan_logs() {
         return ban_logs;
     }
 
-    public void setBan_logs(List<Ban_log> ban_logs) {
+    public void setBan_logs(List<BanLog> ban_logs) {
         this.ban_logs = ban_logs;
     }
 
@@ -230,19 +226,19 @@ public class Account {
         this.customer = customer;
     }
 
-    public List<Auction_register> getAuction_registers() {
+    public List<AuctionRegister> getAuction_registers() {
         return auction_registers;
     }
 
-    public void setAuction_registers(List<Auction_register> auction_registers) {
+    public void setAuction_registers(List<AuctionRegister> auction_registers) {
         this.auction_registers = auction_registers;
     }
 
-    public List<Auction_session> getWinner_auction_sessions() {
+    public List<AuctionSession> getWinner_auction_sessions() {
         return winner_auction_sessions;
     }
 
-    public void setWinner_auction_sessions(List<Auction_session> winner_auction_sessions) {
+    public void setWinner_auction_sessions(List<AuctionSession> winner_auction_sessions) {
         this.winner_auction_sessions = winner_auction_sessions;
     }
 
@@ -262,11 +258,11 @@ public class Account {
         this.auctioneer_tasks = auctioneer_tasks;
     }
 
-    public List<Auction_session> getAuctioneer_auction_sessions() {
+    public List<AuctionSession> getAuctioneer_auction_sessions() {
         return auctioneer_auction_sessions;
     }
 
-    public void setAuctioneer_auction_sessions(List<Auction_session> auctioneer_auction_sessions) {
+    public void setAuctioneer_auction_sessions(List<AuctionSession> auctioneer_auction_sessions) {
         this.auctioneer_auction_sessions = auctioneer_auction_sessions;
     }
 

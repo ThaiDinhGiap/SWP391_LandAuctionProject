@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Ban_log")
-public class Ban_log {
+public class BanLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,11 +26,10 @@ public class Ban_log {
     @Column(name = "reason", columnDefinition = "NVARCHAR(MAX)")
     private String reason;
 
-    public Ban_log() {
+    public BanLog() {
     }
 
-    public Ban_log(int logId, Account admin, Account account, String reason, LocalDateTime timestamp) {
-        this.logId = logId;
+    public BanLog(Account admin, Account account, String reason, LocalDateTime timestamp) {
         this.admin = admin;
         this.account = account;
         this.reason = reason;

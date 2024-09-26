@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Auction_change_log")
-public class Auction_change_log {
+public class AuctionChangeLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,20 +20,19 @@ public class Auction_change_log {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "auction_id")
-    private Auction_session auction_session;
+    private AuctionSession auction_session;
 
     @Column(name = "time")
     private LocalDateTime time;
 
-    public Auction_change_log(Auction_session auction_session, int changeId, String changeType, String reason, LocalDateTime time) {
+    public AuctionChangeLog(AuctionSession auction_session, String changeType, String reason, LocalDateTime time) {
         this.auction_session = auction_session;
-        this.changeId = changeId;
         this.changeType = changeType;
         this.reason = reason;
         this.time = time;
     }
 
-    public Auction_change_log() {
+    public AuctionChangeLog() {
     }
 
     public int getChangeId() {
@@ -68,11 +67,11 @@ public class Auction_change_log {
         this.time = time;
     }
 
-    public Auction_session getAuction_session() {
+    public AuctionSession getAuction_session() {
         return auction_session;
     }
 
-    public void setAuction_session(Auction_session auction_session) {
+    public void setAuction_session(AuctionSession auction_session) {
         this.auction_session = auction_session;
     }
 

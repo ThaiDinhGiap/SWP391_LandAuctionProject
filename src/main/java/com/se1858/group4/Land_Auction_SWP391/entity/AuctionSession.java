@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Auction_session")
-public class Auction_session {
+public class AuctionSession {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -75,20 +75,19 @@ public class Auction_session {
 
     @OneToMany(mappedBy = "auction_session", fetch = FetchType.LAZY,
             cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    private List<Auction_change_log> auction_change_logs;
+    private List<AuctionChangeLog> auction_change_logs;
 
     @OneToMany(mappedBy = "auction", fetch = FetchType.LAZY,
             cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    private List<Auction_register> auction_registers;
+    private List<AuctionRegister> auction_registers;
 
-    public Auction_session() {
+    public AuctionSession() {
     }
 
-    public Auction_session(int auctionId, String auctionName, LocalDateTime startTime, LocalDateTime expectedEndTime,
-			Long startingPrice, Long startingPricePerUnit, Account auctioneer, Long minimumBidIncrement, Long deposit,
-			Long registerFee, int extraTimeUnit, String status, LocalDateTime registrationOpenDate,
-			LocalDateTime registrationCloseDate, Asset asset) {
-		this.auctionId = auctionId;
+    public AuctionSession(String auctionName, LocalDateTime startTime, LocalDateTime expectedEndTime,
+                          Long startingPrice, Long startingPricePerUnit, Account auctioneer, Long minimumBidIncrement, Long deposit,
+                          Long registerFee, int extraTimeUnit, String status, LocalDateTime registrationOpenDate,
+                          LocalDateTime registrationCloseDate, Asset asset) {
 		this.auctionName = auctionName;
 		this.startTime = startTime;
 		this.expectedEndTime = expectedEndTime;
@@ -265,19 +264,19 @@ public class Auction_session {
         this.winner = winner;
     }
 
-    public List<Auction_change_log> getAuction_change_logs() {
+    public List<AuctionChangeLog> getAuction_change_logs() {
         return auction_change_logs;
     }
 
-    public void setAuction_change_logs(List<Auction_change_log> auction_change_logs) {
+    public void setAuction_change_logs(List<AuctionChangeLog> auction_change_logs) {
         this.auction_change_logs = auction_change_logs;
     }
 
-    public List<Auction_register> getAuction_registers() {
+    public List<AuctionRegister> getAuction_registers() {
         return auction_registers;
     }
 
-    public void setAuction_registers(List<Auction_register> auction_registers) {
+    public void setAuction_registers(List<AuctionRegister> auction_registers) {
         this.auction_registers = auction_registers;
     }
 

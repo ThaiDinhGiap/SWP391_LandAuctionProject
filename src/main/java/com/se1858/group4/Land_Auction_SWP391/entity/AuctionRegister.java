@@ -2,14 +2,12 @@ package com.se1858.group4.Land_Auction_SWP391.entity;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "Auction_register")
-public class Auction_register {
+public class AuctionRegister {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +16,7 @@ public class Auction_register {
 	
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "auction_id")
-    private Auction_session auction;
+    private AuctionSession auction;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "buyer_id")
@@ -49,12 +47,11 @@ public class Auction_register {
             cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     private List<Bid> bids;
 
-    public Auction_register() {
+    public AuctionRegister() {
     }
 
-    public Auction_register(int registerId, Auction_session auction, Account buyer, String registerStatus,
-			String purchaseStatus, String depositStatus, String nickName, LocalDateTime registrationTime) {
-		this.registerId = registerId;
+    public AuctionRegister(AuctionSession auction, Account buyer, String registerStatus,
+                           String purchaseStatus, String depositStatus, String nickName, LocalDateTime registrationTime) {
 		this.auction = auction;
 		this.buyer = buyer;
 		this.registerStatus = registerStatus;
@@ -64,11 +61,11 @@ public class Auction_register {
 		this.registrationTime = registrationTime;
 	}
 
-	public Auction_session getAuction() {
+	public AuctionSession getAuction() {
         return auction;
     }
 
-    public void setAuction(Auction_session auction) {
+    public void setAuction(AuctionSession auction) {
         this.auction = auction;
     }
 

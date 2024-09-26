@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Local_authority")
-public class Local_authority {
+public class LocalAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "local_authority_id")
@@ -35,11 +35,10 @@ public class Local_authority {
             cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     private List<Asset> assets;
 
-    public Local_authority() {
+    public LocalAuthority() {
     }
 
-    public Local_authority(int localAuthorityId, String localAuthorityName, String contactPerson, String phoneNumber, String email, String localAuthorityAddress, LocalDateTime createdDate) {
-        this.localAuthorityId = localAuthorityId;
+    public LocalAuthority(String localAuthorityName, String contactPerson, String phoneNumber, String email, String localAuthorityAddress, LocalDateTime createdDate) {
         this.localAuthorityName = localAuthorityName;
         this.contactPerson = contactPerson;
         this.phoneNumber = phoneNumber;
@@ -48,13 +47,12 @@ public class Local_authority {
         this.createdDate = createdDate;
     }
 
-    public Local_authority(List<Asset> assets, String contactPerson, LocalDateTime createdDate, String email, String localAuthorityAddress, int localAuthorityId, String localAuthorityName, String phoneNumber) {
+    public LocalAuthority(List<Asset> assets, String contactPerson, LocalDateTime createdDate, String email, String localAuthorityAddress, String localAuthorityName, String phoneNumber) {
         this.assets = assets;
         this.contactPerson = contactPerson;
         this.createdDate = createdDate;
         this.email = email;
         this.localAuthorityAddress = localAuthorityAddress;
-        this.localAuthorityId = localAuthorityId;
         this.localAuthorityName = localAuthorityName;
         this.phoneNumber = phoneNumber;
     }

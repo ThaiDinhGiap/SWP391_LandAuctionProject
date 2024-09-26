@@ -30,8 +30,7 @@ public class Document {
     public Document() {
     }
 
-    public Document(int documentId, Asset asset, String documentName, String path, LocalDateTime uploadDate) {
-        this.documentId = documentId;
+    public Document(Asset asset, String documentName, String path, LocalDateTime uploadDate) {
         this.asset = asset;
         this.documentName = documentName;
         this.path = path;

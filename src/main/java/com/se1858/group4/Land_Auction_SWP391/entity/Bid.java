@@ -20,13 +20,12 @@ public class Bid {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "register_id")
-    private Auction_register auctionRegister;
+    private AuctionRegister auctionRegister;
 
     public Bid() {
     }
 
-    public Bid(int bidId, Long bidAmount, Auction_register auctionRegister, LocalDateTime timeCreateBid) {
-        this.bidId = bidId;
+    public Bid(Long bidAmount, AuctionRegister auctionRegister, LocalDateTime timeCreateBid) {
         this.bidAmount = bidAmount;
         this.auctionRegister = auctionRegister;
         this.timeCreateBid = timeCreateBid;
@@ -48,11 +47,11 @@ public class Bid {
         this.bidAmount = bidAmount;
     }
 
-    public Auction_register getAuctionRegister() {
+    public AuctionRegister getAuctionRegister() {
         return auctionRegister;
     }
 
-    public void setAuctionRegister(Auction_register auctionRegister) {
+    public void setAuctionRegister(AuctionRegister auctionRegister) {
         this.auctionRegister = auctionRegister;
     }
 

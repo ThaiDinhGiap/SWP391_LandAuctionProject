@@ -26,8 +26,7 @@ public class Image {
     public Image() {
     }
 
-    public Image(int imageId, Asset asset, String path, LocalDateTime uploadDate) {
-        this.imageId = imageId;
+    public Image(Asset asset, String path, LocalDateTime uploadDate) {
         this.asset = asset;
         this.path = path;
         this.uploadDate = uploadDate;

@@ -24,8 +24,7 @@ public class Tag {
     public Tag() {
     }
 
-    public Tag(int tagId, String tagName, String description, List<Asset> assets) {
-        this.tagId = tagId;
+    public Tag(String tagName, String description, List<Asset> assets) {
         this.tagName = tagName;
         this.description = description;
         this.assets = assets;
