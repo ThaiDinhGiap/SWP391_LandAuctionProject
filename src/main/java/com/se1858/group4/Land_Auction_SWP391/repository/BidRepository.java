@@ -8,15 +8,16 @@ import java.util.List;
 
 @Repository
 public interface BidRepository extends JpaRepository<Bid, Integer> {
-    // Lấy tất cả các bid của một phiên đấu giá theo auctionRegisterId
-    List<Bid> findByAuctionRegister_AuctionSession_AuctionIdOrderByTimeCreateBidDesc(int auctionId);
+
+    // Lấy tất cả các bid của một phiên đấu giá theo auctionId
+    List<Bid> findByAuctionRegister_Auction_AuctionIdOrderByTimeCreateBidDesc(int auctionId);
 
     // Lấy tất cả các bid của một người tham gia cụ thể
     List<Bid> findByAuctionRegister_RegisterIdOrderByTimeCreateBidDesc(int registerId);
 
     // Lấy bid cao nhất của một phiên đấu giá
-    Bid findTopByAuctionRegister_AuctionSession_AuctionIdOrderByBidAmountDesc(int auctionId);
+    Bid findTopByAuctionRegister_Auction_AuctionIdOrderByBidAmountDesc(int auctionId);
 
     // Đếm tổng số lượng bid trong một phiên đấu giá
-    long countByAuctionRegister_AuctionSession_AuctionId(int auctionId);
+    long countByAuctionRegister_Auction_AuctionId(int auctionId);
 }
