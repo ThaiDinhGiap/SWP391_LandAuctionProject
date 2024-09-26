@@ -70,4 +70,9 @@ public class AssetController {
         model.addAttribute("asset",asset);
         return "AssetDetail";
     }
+
+    @GetMapping("/homepage")
+    public String openAssetRegisterForm() {
+        return "customer/homepage";
+    }
 }
