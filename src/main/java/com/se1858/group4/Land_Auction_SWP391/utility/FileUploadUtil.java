@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,15 +17,20 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
-public class UploadFile {
+public class FileUploadUtil {
     private AssetService assetService;
     @Autowired
-    public UploadFile(AssetService assetService) {
+    public FileUploadUtil(AssetService assetService) {
         this.assetService = assetService;
     }
     //ham upload anh
     public void UploadImages(List<MultipartFile> images, Asset asset){
         String imageUploadDir = "src/main/resources/static/image/";
+        //kiem tra xem thu muc da ton tai chua
+        File directory = new File(imageUploadDir);
+        if (!directory.exists()) {
+            directory.mkdirs(); //tao thu muc neu chua ton tai
+        }
         for (MultipartFile image : images) {
             if (!image.isEmpty()) {
                 try {
@@ -62,6 +68,11 @@ public class UploadFile {
     //ham upload folder
     public void UploadDocuments(List<MultipartFile> documents, Asset asset){
         String documentUploadDir = "src/main/resources/static/document/";
+        //kiem tra xem thu muc da ton tai chua
+        File directory = new File(documentUploadDir);
+        if (!directory.exists()) {
+            directory.mkdirs(); //tao thu muc neu chua ton tai
+        }
         for (MultipartFile document : documents) {
             if (!document.isEmpty()) {
                 try {

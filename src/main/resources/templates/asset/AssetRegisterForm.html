@@ -134,7 +134,7 @@
          </div>
      </div>
  </form>
- <span th:text="${param.message}" class="alert-message"></span>
+ <span th:if="${param.message}" th:text="${param.message}" class="alert-message"></span>
  <hr>
  <a th:href="@{/asset/get_all_verified_asset}">
      Back to validated asset list

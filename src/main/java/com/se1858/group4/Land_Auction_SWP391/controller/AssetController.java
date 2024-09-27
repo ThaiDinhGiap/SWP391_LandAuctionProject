@@ -4,11 +4,10 @@ import com.se1858.group4.Land_Auction_SWP391.dto.AssetDTO;
 import com.se1858.group4.Land_Auction_SWP391.entity.Asset;
 import com.se1858.group4.Land_Auction_SWP391.entity.LocalAuthority;
 import com.se1858.group4.Land_Auction_SWP391.entity.Tag;
-import com.se1858.group4.Land_Auction_SWP391.repository.ImageRepository;
 import com.se1858.group4.Land_Auction_SWP391.service.AssetService;
 import com.se1858.group4.Land_Auction_SWP391.service.LocalAuthorityService;
 import com.se1858.group4.Land_Auction_SWP391.service.TagService;
-import com.se1858.group4.Land_Auction_SWP391.utility.UploadFile;
+import com.se1858.group4.Land_Auction_SWP391.utility.FileUploadUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +21,10 @@ import java.util.Optional;
 @RequestMapping("/asset")
 public class AssetController {
     private AssetService assetService;
-    private UploadFile uploadFile;
+    private FileUploadUtil uploadFile;
     private TagService tagService;
     private LocalAuthorityService localAuthorityService;
-    public AssetController(AssetService assetService, TagService tagService, UploadFile uploadFile, LocalAuthorityService localAuthorityService) {
+    public AssetController(AssetService assetService, TagService tagService, FileUploadUtil uploadFile, LocalAuthorityService localAuthorityService) {
         this.assetService = assetService;
         this.uploadFile=uploadFile;
         this.tagService=tagService;
