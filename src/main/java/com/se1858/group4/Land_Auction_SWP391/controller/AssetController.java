@@ -8,6 +8,7 @@ import com.se1858.group4.Land_Auction_SWP391.service.AssetService;
 import com.se1858.group4.Land_Auction_SWP391.service.LocalAuthorityService;
 import com.se1858.group4.Land_Auction_SWP391.service.TagService;
 import com.se1858.group4.Land_Auction_SWP391.utility.FileUploadUtil;
+import com.se1858.group4.Land_Auction_SWP391.utility.GetSrcInGoogleMapEmbededURL;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -84,6 +85,8 @@ public class AssetController {
     @GetMapping("/viewDetail")
     public String getAssetById(@RequestParam("assetId") int assetId, Model model) {
         Optional<Asset> asset=assetService.getAssetById(assetId);
+        String embedUrl = GetSrcInGoogleMapEmbededURL.extractSrcFromIframe(asset.get().getCoordinatesOnMap());
+        model.addAttribute("embedUrl", embedUrl);
         model.addAttribute("asset",asset);
         return "asset/AssetDetail";
     }

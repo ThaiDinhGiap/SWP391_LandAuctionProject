@@ -98,6 +98,18 @@
          </div>
      </div>
  </div>
+<!-- Hien thi map-->
+ <div>
+     <iframe
+             th:src="${embedUrl}"
+             width="400"
+             height="300"
+             style="border:0;"
+             allowfullscreen=""
+             loading="lazy"
+             referrerpolicy="no-referrer-when-downgrade">
+     </iframe>
+ </div>
  <hr>
  <a th:href="@{/asset/get_all_verified_asset}">
      Back to validated asset list
