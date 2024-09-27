@@ -53,7 +53,7 @@
      <tr>
          <th>Location</th>
          <th>Area</th>
-         <th>Description</th>
+<!--         <th>Description</th>-->
 <!--         <th>Coordinates On Map</th>-->
          <th>Action</th>
      </tr>
@@ -62,7 +62,7 @@
      <tr th:each="asset:${listAsset}">
          <td th:text="${asset.location}"></td>
          <td th:text="${asset.area}"></td>
-         <td th:text="${asset.description}"></td>
+<!--         <td th:text="${asset.description}"></td>-->
 <!--         <td th:text="${asset.coordinatesOnMap}"></td>-->
          <td>
              <a th:href="@{/asset/viewDetail(assetId=${asset.getAssetId()})}"

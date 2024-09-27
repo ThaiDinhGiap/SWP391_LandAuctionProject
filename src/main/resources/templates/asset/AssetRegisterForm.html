@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <title>Đăng ký tài sản đấu giá</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<!--  them richtext  -->
+    <!-- CSS của Summernote -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" rel="stylesheet">
+    <!-- jQuery (yêu cầu của Summernote) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- JavaScript của Summernote -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js"></script>
+
     <style>
         body {
             background-color: #f8f9fa;
@@ -86,7 +94,7 @@
      <div class="mb-3 row">
          <label for="description" class="col-sm-2 col-form-label">Description</label>
          <div class="col-sm-5">
-             <input type="text" th:field="*{asset.description}" id="description" class="form-control">
+             <textarea th:field="*{asset.description}" id="description" class="form-control"></textarea>
          </div>
      </div>
      <div class="mb-3 row">
@@ -139,5 +147,27 @@
  <a th:href="@{/asset/get_all_verified_asset}">
      Back to validated asset list
  </a>
+<!-- script cho richtext-->
+ <script>
+     $(document).ready(function() {
+         $('#description').summernote({
+             height: 300, // Chiều cao của editor
+             tabsize: 2,
+             placeholder: 'Enter content here...',
+             toolbar: [
+                 ['style', ['style']],
+                 ['font', ['bold', 'italic', 'underline', 'clear']],
+                 ['fontname', ['fontname']],
+                 ['fontsize', ['fontsize']],
+                 ['color', ['color']],
+                 ['para', ['ul', 'ol', 'paragraph']],
+                 ['height', ['height']],
+                 ['table', ['table']],
+                 ['insert', ['link', 'picture', 'video']],
+                 ['view', ['fullscreen', 'codeview', 'help']]
+             ]
+         });
+     });
+ </script>
 </body>
 </html>
