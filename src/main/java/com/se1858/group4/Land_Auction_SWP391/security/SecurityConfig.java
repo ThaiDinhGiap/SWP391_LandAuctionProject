@@ -19,30 +19,57 @@ public class SecurityConfig {
     @Autowired
     private AccountRepository accountRepository;
 
+//    @Bean
+//    public UserDetailsManager userDetailsManager(DataSource dataSource) {
+//        JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
+//
+//        // Câu truy vấn để lấy thông tin tài khoản
+//        // Chọn username, password, và status (để kiểm tra trạng thái tài khoản)
+//        userDetailsManager.setUsersByUsernameQuery(
+//                "SELECT username, password, status FROM Account WHERE username=?"
+//        );
+//
+//        // Câu truy vấn để lấy thông tin vai trò
+//        // Kết nối bảng Account với bảng Role qua role_id
+//        userDetailsManager.setAuthoritiesByUsernameQuery(
+//                "SELECT a.username, r.role_name AS authority " +
+//                        "FROM Account a JOIN Role r ON a.role_id = r.role_id WHERE a.username=?"
+//        );
+//
+//        return userDetailsManager;
+//    }
+
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
         JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
 
-        // Query for fetching the user details
+        // Câu truy vấn để lấy thông tin tài khoản
+        // Sử dụng trường status (1 = enabled, 0 = disabled)
         userDetailsManager.setUsersByUsernameQuery(
-                "SELECT username, password, active AS enabled FROM members WHERE username=?"
+                "SELECT username, password, status as enabled FROM Account WHERE username=?"
         );
 
-        // Query for fetching the authorities (roles)
-        // Here we assume roles are stored in the 'roles' table, and we prefix them with 'ROLE_'
+        // Câu truy vấn để lấy thông tin vai trò
+        // Kết nối bảng Account với bảng Role qua role_id
         userDetailsManager.setAuthoritiesByUsernameQuery(
-                "SELECT username, CONCAT('ROLE_', role) AS authority FROM roles WHERE username=?"
+                "SELECT a.username, r.role_name AS authority " +
+                        "FROM Account a " +
+                        "JOIN Role r ON a.role_id = r.role_id " +
+                        "WHERE a.username=?"
         );
 
         return userDetailsManager;
     }
 
+
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(configurer -> configurer
-                        .requestMatchers("/customer/**").hasRole("CUSTOMER")
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/customer/**").hasRole("Customer") // Chú ý sử dụng tên vai trò đúng
+                        .requestMatchers("/admin/**").hasRole("Admin")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -59,4 +86,5 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 }

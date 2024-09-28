@@ -8,10 +8,10 @@ public class LoginController {
 
     @GetMapping("/default")
     public String defaultAfterLogin() {
-        if (hasRole("ROLE_Customer")) {
+        if (hasRole("ROLE_Customer")) { // Sử dụng đúng tên vai trò
             return "redirect:/customer/home";
         }
-        if (hasRole("ROLE_ADMIN")) {
+        if (hasRole("ROLE_Admin")) { // Cũng nên sửa vai trò ở đây
             return "redirect:/admin/home";
         }
         return "redirect:/";
@@ -21,6 +21,7 @@ public class LoginController {
         return org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(role));
     }
+
 
 
     @GetMapping({"/showMyLoginPage"})
@@ -43,5 +44,9 @@ public class LoginController {
     public String adminHome() {
         return "admin";
     }
+
+
+
+
 
 }
