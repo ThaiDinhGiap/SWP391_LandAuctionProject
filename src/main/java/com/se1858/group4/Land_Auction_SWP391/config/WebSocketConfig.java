@@ -1,4 +1,4 @@
-package com.se1858.group4.Land_Auction_SWP391.websocket.config;
+package com.se1858.group4.Land_Auction_SWP391.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
