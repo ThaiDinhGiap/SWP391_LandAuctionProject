@@ -8,21 +8,11 @@ public class LoginController {
 
     @GetMapping("/showMyLoginPage")
     public String showMyLoginPage() {
-        return "login";
+        return "showMyLoginPage"; // trả về view đăng nhập
     }
 
     @GetMapping("/access-denied")
     public String showAccessDenied() {
         return "access-denied";
-    }
-
-    @GetMapping("/admin/test")
-    public String showAdminPage() {
-        return "test";
-    }
-
-    @GetMapping("/customer/homepage_customer")
-    public String showCustomerPage() {
-        return "homepage_customer";
     }
 }
