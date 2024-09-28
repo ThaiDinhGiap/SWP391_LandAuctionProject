@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <title>Đăng ký tài sản đấu giá</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<!--  them richtext  -->
+    <!-- CSS của Summernote -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" rel="stylesheet">
+    <!-- jQuery (yêu cầu của Summernote) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- JavaScript của Summernote -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js"></script>
+
     <style>
         body {
             background-color: #f8f9fa;
@@ -20,20 +28,17 @@
             border: 1px solid #dee2e6;
             border-radius: 8px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+            max-width: 90%;
             margin: 0 auto;
         }
-
         .form-control {
             padding: 10px;
             font-size: 16px;
         }
-
         .form-control:focus {
             border-color: #80bdff;
             box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
         }
-
         .btn-info {
             background-color: #17a2b8;
             border: none;
@@ -41,19 +46,9 @@
             font-size: 16px;
             transition: background-color 0.3s;
         }
-
         .btn-info:hover {
             background-color: #138496;
         }
-
-        .mb-4 {
-            margin-bottom: 1rem !important;
-        }
-
-        .w-25 {
-            width: 50% !important;
-        }
-
         hr {
             margin: 20px 0;
         }
@@ -74,49 +69,70 @@
  <form th:action="@{/asset/register}" th:method="post" th:object="${assetDTO}" enctype="multipart/form-data">
      <div class="mb-3 row">
          <label for="location" class="col-sm-2 col-form-label">Location</label>
-         <div class="col-sm-10">
+         <div class="col-sm-5">
              <input type="text" th:field="*{asset.location}" id="location" class="form-control">
          </div>
      </div>
      <div class="mb-3 row">
          <label for="length" class="col-sm-2 col-form-label">Length</label>
-         <div class="col-sm-10">
+         <div class="col-sm-5">
              <input type="text" th:field="*{asset.length}" id="length" class="form-control">
          </div>
      </div>
      <div class="mb-3 row">
          <label for="width" class="col-sm-2 col-form-label">Width</label>
-         <div class="col-sm-10">
+         <div class="col-sm-5">
              <input type="text" th:field="*{asset.width}" id="width" class="form-control">
          </div>
      </div>
      <div class="mb-3 row">
          <label for="area" class="col-sm-2 col-form-label">Area</label>
-         <div class="col-sm-10">
+         <div class="col-sm-5">
              <input type="text" th:field="*{asset.area}" id="area" class="form-control">
          </div>
      </div>
      <div class="mb-3 row">
          <label for="description" class="col-sm-2 col-form-label">Description</label>
-         <div class="col-sm-10">
-             <input type="text" th:field="*{asset.description}" id="description" class="form-control">
+         <div class="col-sm-5">
+             <textarea th:field="*{asset.description}" id="description" class="form-control"></textarea>
          </div>
      </div>
      <div class="mb-3 row">
-         <label for="classify" class="col-sm-2 col-form-label">Coordinates On Map</label>
-         <div class="col-sm-10">
+         <label for="classify" class="col-sm-2 col-form-label">Coordinates on map</label>
+         <div class="col-sm-5">
              <input type="text" th:field="*{asset.coordinatesOnMap}" id="classify" class="form-control">
          </div>
      </div>
      <div class="mb-3 row">
-         <label for="images" class="col-sm-2 col-form-label">Choose Images</label>
+         <label class="col-sm-2 col-form-label">Choose tags</label>
          <div class="col-sm-10">
+             <div th:each="tag : ${listTag}" >
+                 <input type="checkbox" th:id="${'tag' + tag.tagId}" th:value="${tag.tagId}" name="selectedTags" th:title="${tag.description}"/>
+                 <label th:for="${'tag' + tag.tagId}" th:text="${tag.tagName}"></label><br/>
+             </div>
+         </div>
+     </div>
+     <div class="mb-3 row">
+         <label for="authority" class="col-sm-2 col-form-label">Choose local authority</label>
+         <div class="col-sm-5">
+             <select id="authority" name="authorityId" class="form-control">
+                 <option value="">-- Select Local Authority --</option>
+                 <option th:each="authority : ${listLocalAuthority}"
+                         th:value="${authority.localAuthorityId}"
+                         th:text="${authority.localAuthorityName}">
+                 </option>
+             </select>
+         </div>
+     </div>
+     <div class="mb-3 row">
+         <label for="images" class="col-sm-2 col-form-label">Choose images</label>
+         <div class="col-sm-7">
              <input type="file" name="images" id="images" class="form-control" multiple required accept="image/png, image/jpeg, image/jpg, image/gif">
          </div>
      </div>
      <div class="mb-3 row">
-         <label for="documents" class="col-sm-2 col-form-label">Choose Documents</label>
-         <div class="col-sm-10">
+         <label for="documents" class="col-sm-2 col-form-label">Choose documents</label>
+         <div class="col-sm-7">
              <input type="file" name="documents" id="documents" class="form-control" multiple required>
          </div>
      </div>
@@ -126,10 +142,32 @@
          </div>
      </div>
  </form>
- <span th:text="${param.message}" class="alert-message"></span>
+ <span th:if="${param.message}" th:text="${param.message}" class="alert-message"></span>
  <hr>
  <a th:href="@{/asset/get_all_verified_asset}">
      Back to validated asset list
  </a>
+<!-- script cho richtext-->
+ <script>
+     $(document).ready(function() {
+         $('#description').summernote({
+             height: 300, // Chiều cao của editor
+             tabsize: 2,
+             placeholder: 'Enter content here...',
+             toolbar: [
+                 ['style', ['style']],
+                 ['font', ['bold', 'italic', 'underline', 'clear']],
+                 ['fontname', ['fontname']],
+                 ['fontsize', ['fontsize']],
+                 ['color', ['color']],
+                 ['para', ['ul', 'ol', 'paragraph']],
+                 ['height', ['height']],
+                 ['table', ['table']],
+                 ['insert', ['link', 'picture', 'video']],
+                 ['view', ['fullscreen', 'codeview', 'help']]
+             ]
+         });
+     });
+ </script>
 </body>
 </html>

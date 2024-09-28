@@ -21,7 +21,10 @@ public class Account {
     private String password;
 
     @Column(name = "status")
-    private String status;
+    private int status;
+
+    @Column(name = "verify")
+    private int verify;
 
     @Column(name = "email", length = 100)
     private String email;
@@ -78,19 +81,21 @@ public class Account {
     // Constructors
     public Account() {}
 
-    public Account(String email, List<Notification> notifications, String password, LocalDateTime registrationDate, Role role, String status, String username) {
+    public Account(String email, List<Notification> notifications, String password, LocalDateTime registrationDate, Role role, int status, int verify, String username) {
         this.email = email;
         this.notifications = notifications;
         this.password = password;
         this.registrationDate = registrationDate;
         this.role = role;
         this.status = status;
+        this.verify = verify;
         this.username = username;
     }
 
-    public Account(String username, String status, Staff staff, Role role, LocalDateTime registrationDate, String password, List<Notification> notifications, String email, int accountId) {
+    public Account(String username, int status, int verify, Staff staff, Role role, LocalDateTime registrationDate, String password, List<Notification> notifications, String email, int accountId) {
         this.username = username;
         this.status = status;
+        this.verify = verify;
         this.staff = staff;
         this.role = role;
         this.registrationDate = registrationDate;
@@ -100,9 +105,10 @@ public class Account {
         this.accountId = accountId;
     }
 
-    public Account(String username, String status, Staff staff, Role role, LocalDateTime registrationDate, String password, List<Notification> notifications, String email, List<BanLog> ban_logs) {
+    public Account(String username, int status, int verify, Staff staff, Role role, LocalDateTime registrationDate, String password, List<Notification> notifications, String email, List<BanLog> ban_logs) {
         this.username = username;
         this.status = status;
+        this.verify = verify;
         this.staff = staff;
         this.role = role;
         this.registrationDate = registrationDate;
@@ -112,7 +118,7 @@ public class Account {
         this.ban_logs = ban_logs;
     }
 
-    public Account(List<BanLog> ban_logs, Customer customer, String email, List<Notification> notifications, String password, LocalDateTime registrationDate, Role role, Staff staff, String status, String username) {
+    public Account(List<BanLog> ban_logs, Customer customer, String email, List<Notification> notifications, String password, LocalDateTime registrationDate, Role role, Staff staff, int status, int verify, String username) {
         this.ban_logs = ban_logs;
         this.customer = customer;
         this.email = email;
@@ -122,10 +128,11 @@ public class Account {
         this.role = role;
         this.staff = staff;
         this.status = status;
+        this.verify = verify;
         this.username = username;
     }
 
-    public Account(List<BanLog> ban_logs, Customer customer, String email, Image avatar_image, String password, LocalDateTime registrationDate, Role role, Staff staff, String status, String username) {
+    public Account(List<BanLog> ban_logs, Customer customer, String email, Image avatar_image, String password, LocalDateTime registrationDate, Role role, Staff staff, int status, int verify, String username) {
         this.ban_logs = ban_logs;
         this.customer = customer;
         this.email = email;
@@ -135,6 +142,7 @@ public class Account {
         this.role = role;
         this.staff = staff;
         this.status = status;
+        this.verify = verify;
         this.username = username;
     }
 
@@ -186,11 +194,19 @@ public class Account {
         this.role = role;
     }
 
-    public String getStatus() {
+    public int getVerify() {
+        return verify;
+    }
+
+    public void setVerify(int verify) {
+        this.verify = verify;
+    }
+
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -281,6 +297,7 @@ public class Account {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", status=" + status +
+                ", verify=" + verify +
                 ", email='" + email + '\'' +
                 ", role=" + role +
                 ", registrationDate=" + registrationDate +

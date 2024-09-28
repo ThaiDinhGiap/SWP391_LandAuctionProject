@@ -2,6 +2,7 @@ package com.se1858.group4.Land_Auction_SWP391.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -69,6 +70,12 @@ public class Tag {
                 ", tagName='" + tagName + '\'' +
                 ", description='" + description + '\'' +
                 '}';
+    }
+    public void addAsset(Asset asset) {
+        if(this.assets == null){
+            this.assets = new ArrayList<>();
+        }
+        this.assets.add(asset);
     }
 }
 
