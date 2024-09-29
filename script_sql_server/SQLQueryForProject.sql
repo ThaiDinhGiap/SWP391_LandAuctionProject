@@ -2,10 +2,7 @@
 --create database project_land_auction_swp391
 use project_land_auction_swp391
 --------------------------------TAO BANG--------------------------------------------------
-CREATE TABLE Role (
-    role_id int PRIMARY KEY IDENTITY(1,1), 
-    role_name NVARCHAR(100) NOT NULL         
-);
+
 CREATE TABLE Tag (
     tag_id INT PRIMARY KEY IDENTITY(1,1),
     tag_name NVARCHAR(100) NOT NULL,
