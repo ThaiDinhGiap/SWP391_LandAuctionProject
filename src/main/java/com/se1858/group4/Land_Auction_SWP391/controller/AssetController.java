@@ -53,14 +53,14 @@ public class AssetController {
         uploadFile.UploadDocuments(documents,asset);
         //them tag vao asset
         for (Integer tagId : selectedTags) {
-            Optional<Tag> tag = tagService.getTagById(tagId);
-            tag.get().addAsset(asset);
-            asset.addTag(tag.get());
+            Tag tag = tagService.getTagById(tagId);
+            tag.addAsset(asset);
+            asset.addTag(tag);
         }
         //them local authority
         if(authorityId != null){
-            Optional<LocalAuthority> localAuthority=localAuthorityService.getLocalAuthorityById(authorityId);
-            asset.setLocalAuthority(localAuthority.get());
+            LocalAuthority localAuthority=localAuthorityService.getLocalAuthorityById(authorityId);
+            asset.setLocalAuthority(localAuthority);
         }
         else asset.setLocalAuthority(null);
         //luu tai san vao database
@@ -84,15 +84,10 @@ public class AssetController {
 
     @GetMapping("/viewDetail")
     public String getAssetById(@RequestParam("assetId") int assetId, Model model) {
-        Optional<Asset> asset=assetService.getAssetById(assetId);
-        String embedUrl = GetSrcInGoogleMapEmbededURL.extractSrcFromIframe(asset.get().getCoordinatesOnMap());
+        Asset asset=assetService.getAssetById(assetId);
+        String embedUrl = GetSrcInGoogleMapEmbededURL.extractSrcFromIframe(asset.getCoordinatesOnMap());
         model.addAttribute("embedUrl", embedUrl);
         model.addAttribute("asset",asset);
         return "asset/AssetDetail";
-    }
-
-    @GetMapping("/homepage")
-    public String openAssetRegisterForm() {
-        return "customer/homepage";
     }
 }

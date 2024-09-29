@@ -70,12 +70,12 @@
 </head>
 <body>
  <h3>Chi tiết tài sản</h3>
- <span th:text="${asset.get().getLocation()}"></span>
- <div th:utext="${asset.get().getDescription()}"></div>
+ <span th:text="${asset.getLocation()}"></span>
+ <div th:utext="${asset.getDescription()}"></div>
  <hr>
  <div class="row">
      <!-- Sử dụng th:each để lặp qua danh sách ảnh trong asset.listImage -->
-     <div th:each="tag : ${asset.get().getTags()}" class="col-md-3 mb-3">
+     <div th:each="tag : ${asset.getTags()}" class="col-md-3 mb-3">
          <div class="card">
              <!-- Hiển thị ảnh ${image.path} -->
              <span th:text="${tag.tagName}"></span>
@@ -84,7 +84,7 @@
  </div>
  <div class="row" id="image-gallery">
      <!-- Sử dụng th:each để lặp qua danh sách ảnh trong asset.listImage -->
-     <div th:each="image : ${asset.get().getImages()}" class="col-md-3 mb-3">
+     <div th:each="image : ${asset.getImages()}" class="col-md-3 mb-3">
          <div class="card">
              <!-- Hiển thị ảnh ${image.path} -->
              <img th:src="@{''+${image.path}}" class="card-img-top" alt="Asset Image" style="cursor: pointer;">
@@ -92,7 +92,7 @@
      </div>
  </div>
  <div class="row">
-     <div th:each="document : ${asset.get().getDocuments()}" class="col-md-3 mb-3">
+     <div th:each="document : ${asset.getDocuments()}" class="col-md-3 mb-3">
          <div class="card">
              <a th:href="@{''+${document.path}}" target="_blank" class="btn btn-primary" style="cursor: pointer;">
                  View Document
