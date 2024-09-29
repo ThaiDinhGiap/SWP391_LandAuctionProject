@@ -36,8 +36,6 @@ public class LoginController {
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(role));
     }
 
-
-
     @GetMapping({"/showMyLoginPage"})
     public String showLoginPage() {
         return "showMyLoginPage";
@@ -48,7 +46,6 @@ public class LoginController {
         return "access-denied";
     }
 
-
     @GetMapping("/customer/home")
     public String customerHome() {
         return "homepage_customer";
@@ -58,9 +55,4 @@ public class LoginController {
     public String adminHome() {
         return "admin";
     }
-
-
-
-
-
 }

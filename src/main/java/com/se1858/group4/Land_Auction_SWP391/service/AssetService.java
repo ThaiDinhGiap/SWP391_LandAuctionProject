@@ -23,8 +23,8 @@ public class AssetService {
         asset.setCreatedDate(LocalDateTime.now());
         return assetRepository.save(asset);
     }
-    public Optional<Asset> getAssetById(int id) {
-        return assetRepository.findById(id);
+    public Asset getAssetById(int id) {
+        return assetRepository.findById(id).get();
     }
     public List<Asset> getAllAssetWithStatus(String status) {
         List<Asset> list=assetRepository.findAll();

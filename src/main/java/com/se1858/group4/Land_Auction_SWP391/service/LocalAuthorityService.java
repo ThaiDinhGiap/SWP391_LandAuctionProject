@@ -18,7 +18,7 @@ public class LocalAuthorityService {
     public List<LocalAuthority> getAllLocalAuthority(){
         return localAuthorityRepository.findAll();
     }
-    public Optional<LocalAuthority> getLocalAuthorityById(int id){
-        return localAuthorityRepository.findById(id);
+    public LocalAuthority getLocalAuthorityById(int id){
+        return localAuthorityRepository.findById(id).get();
     }
 }
