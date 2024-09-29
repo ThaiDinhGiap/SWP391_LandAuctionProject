@@ -172,7 +172,7 @@ CREATE TABLE Question (
     question NVARCHAR(max) NOT NULL,
     answer NVARCHAR(max) NOT NULL
 );
-CREATE TABLE TagForNews (
+CREATE TABLE Tag_for_news (
     tag_id INT PRIMARY KEY IDENTITY(1,1), 
     tag_name NVARCHAR(MAX) NOT NULL       
 );
@@ -183,13 +183,13 @@ CREATE TABLE News (
     created_date datetime2(3), 
     staff_id INT FOREIGN KEY REFERENCES Account(account_id)
 );
-CREATE TABLE News_TagForNews (
-    tag_id INT NOT NULL FOREIGN KEY REFERENCES TagForNews(tag_id),
+CREATE TABLE News_Tag_for_news (
+    tag_id INT NOT NULL FOREIGN KEY REFERENCES Tag_for_news(tag_id),
     news_id INT NOT NULL FOREIGN KEY REFERENCES News(news_id),
     PRIMARY KEY (tag_id, news_id)
 );
 ---------------------------------DU LIEU CO DINH (KHONG DUOC XOA)-------------------------------------------------
-INSERT INTO TagForNews(tag_name) VALUES
+INSERT INTO Tag_for_news(tag_name) VALUES
 ('Law'),
 ('Auction Notice'),
 ('Auction Results'),
