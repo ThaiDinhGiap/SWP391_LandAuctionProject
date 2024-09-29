@@ -1,10 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .sidebar {
+            height: 100%;
+            background-color: #343a40;
+        }
+
+        .sidebar .nav-link {
+            color: white;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: #495057;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .header h2 {
+            margin: 0;
+        }
+    </style>
 </head>
+
 <body>
-Welcome Admin
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="sidebar p-3">
+        <h4 class="text-white">Admin Dashboard</h4>
+        <nav class="nav flex-column">
+            <a class="nav-link active" href="#">Dashboard</a>
+            <a class="nav-link" href="#">Users</a>
+            <a class="nav-link" href="#">Settings</a>
+            <a class="nav-link" href="#">Reports</a>
+            <a class="nav-link" href="#">Logout</a>
+        </nav>
+    </div>
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <div class="header">
+            <div class="container-fluid">
+                <h2>Welcome to the Admin Dashboard</h2>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

@@ -68,10 +68,19 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(configurer -> configurer
-                        .requestMatchers("/customer/**").hasRole("Customer") // Chú ý sử dụng tên vai trò đúng
+                        .requestMatchers("/customer/**").hasRole("Customer")
                         .requestMatchers("/admin/**").hasRole("Admin")
+                        .requestMatchers("/property-agent/**").hasRole("Property_Agent")
+                        .requestMatchers("/autioneer/**").hasRole("Autioneer")
+                        .requestMatchers("/customer_care/**").hasRole("Customer_Care")
+                        .requestMatchers("/news_writer/**").hasRole("News_Writer")
                         .anyRequest().authenticated()
                 )
+                .oauth2Login(oauth2login -> {
+                    oauth2login
+                            .loginPage("/showMyLoginPage")
+                            .successHandler((request, response, authentication) -> response.sendRedirect("/customer/home"));
+                })
                 .formLogin(form -> form
                         .loginPage("/showMyLoginPage")
                         .loginProcessingUrl("/authenticateTheUser")

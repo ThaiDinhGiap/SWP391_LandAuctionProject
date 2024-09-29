@@ -2,18 +2,32 @@ package com.se1858.group4.Land_Auction_SWP391.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 
 @Controller
 public class LoginController {
 
     @GetMapping("/default")
     public String defaultAfterLogin() {
-        if (hasRole("ROLE_Customer")) { // Sử dụng đúng tên vai trò
+        if (hasRole("ROLE_Customer")) {
             return "redirect:/customer/home";
         }
-        if (hasRole("ROLE_Admin")) { // Cũng nên sửa vai trò ở đây
+        if (hasRole("ROLE_Admin")) {
             return "redirect:/admin/home";
         }
+        if (hasRole("ROLE_Property_Agent")) {
+            return "redirect:/property-agent/home";
+        }
+        if (hasRole("ROLE_Autioneer")) {
+            return "redirect:/autioneer/home";
+        }
+        if (hasRole("ROLE_Customer_Care")) {
+            return "redirect:/customer-care/home";
+        }
+        if (hasRole("ROLE_News_Writer")) {
+            return "redirect:/news-writer/home";
+        }
+
         return "redirect:/";
     }
 
