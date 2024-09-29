@@ -26,6 +26,14 @@ public class AssetService {
     public Asset getAssetById(int id) {
         return assetRepository.findById(id).get();
     }
+    public Asset updateAsset(Asset newAsset) {
+        Asset existingAsset = getAssetById(newAsset.getAssetId());
+        if(existingAsset!=null) {
+            existingAsset.setAssetStatus(newAsset.getAssetStatus());
+            return assetRepository.save(existingAsset);
+        }
+        else return null;
+    }
     public List<Asset> getAllAssetWithStatus(String status) {
         List<Asset> list=assetRepository.findAll();
         List<Asset> result=null;
@@ -38,5 +46,12 @@ public class AssetService {
             }
         }
         return result;
+    }
+    public Asset cancelAssetById(int id) {
+        Asset asset = assetRepository.findById(id).get();
+        if(asset!=null){
+            asset.setAssetStatus("Canceled");
+        }
+        return updateAsset(asset);
     }
 }
