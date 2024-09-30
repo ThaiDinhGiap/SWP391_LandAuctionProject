@@ -12,4 +12,5 @@ public interface AuctionRegisterRepository extends JpaRepository<AuctionRegister
 
     // Kiểm tra xem người dùng có trạng thái "accepted" trong phiên đấu giá không
     Optional<AuctionRegister> findByAuction_AuctionIdAndBuyer_AccountIdAndRegisterStatus(int auctionId, int accountId, String registerStatus);
+    Optional<AuctionRegister> findByAuction_AuctionIdAndBuyer_AccountId(int auctionId, int accountId);
 }
