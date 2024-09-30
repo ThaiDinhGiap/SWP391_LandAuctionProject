@@ -56,13 +56,13 @@
                 </li>
                 <li>
                     <a th:href="@{/property_agent/register_form}">
-                        <i class="nc-icon nc-caps-small"></i>
+                        <i class="nc-icon nc-single-copy-04"></i>
                         <p>Register asset for auction</p>
                     </a>
                 </li>
                 <li class="active ">
                     <a th:href="@{/property_agent/list_unsuccessful_sale_asset}">
-                        <i class="nc-icon nc-caps-small"></i>
+                        <i class="nc-icon nc-bullet-list-67"></i>
                         <p>Unsuccessful sale assets</p>
                     </a>
                 </li>
@@ -84,7 +84,15 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Unsuccessful sale assets</h4>
+                            <a th:href="@{/property_agent/list_unsuccessful_sale_asset}"
+                               class="btn btn-sm">
+                                Unsuccessful sale assets
+                            </a>
+                            <a th:href="@{/property_agent/get_all_verified_asset}"
+                               class="btn btn-sm">
+                                All verified assets
+                            </a>
+                            <h4 class="card-title" th:text="${pageTitle}"></h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -113,11 +121,12 @@
                                         <td th:text="${asset.assetStatus}"></td>
                                         <td th:text="${asset.createdDate}"></td>
                                         <td class="text-right">
-                                            <a th:href="@{/asset/viewDetail(assetId=${asset.getAssetId()})}"
+                                            <a th:href="@{/property_agent/viewDetail(assetId=${asset.getAssetId()})}"
                                                class="btn btn-sm">
                                                 <i class="bi bi-eye-fill"></i>
                                             </a>
-                                            <a th:href="@{/property_agent/cancelAsset(assetId=${asset.getAssetId()})}"
+                                            <a  th:if="${deletePermission == 'true'}"
+                                                    th:href="@{/property_agent/cancelAsset(assetId=${asset.getAssetId()})}"
                                                class="btn btn-sm" onclick="return confirmDelete();">
                                                 <i class="bi bi-trash3-fill"></i>
                                             </a>

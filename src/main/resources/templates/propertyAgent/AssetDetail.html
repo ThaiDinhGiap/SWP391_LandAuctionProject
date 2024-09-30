@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <link rel="apple-touch-icon" sizes="76x76" th:href="@{/dashboardStatic/img/apple-icon.png}">
+    <link rel="icon" type="image/png" th:href="@{/dashboardStatic/img/favicon.png}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>
+        Paper Dashboard 2 by Creative Tim
+    </title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+          name='viewport'/>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <!-- CSS Files -->
+    <!-- CHI SUA CAC DUONG DAN CSS O DUOI DAY -->
+    <link th:href="@{/dashboardStatic/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/dashboardStatic/css/paper-dashboard.css?v=2.0.1}" rel="stylesheet"/>
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link th:href="@{/dashboardStatic/demo/demo.css}" rel="stylesheet"/>
+    <!--thu vien cho de zoom anh-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.10.5/viewer.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.10.5/viewer.min.js"></script>
+    <!--  script cho zoom anh  -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const gallery = document.getElementById('image-gallery');
+            const viewer = new Viewer(gallery, {
+                toolbar: {
+                    zoomIn: 1,
+                    zoomOut: 1,
+                    oneToOne: 1,
+                    reset: 1,
+                    prev: 1,
+                    next: 1
+                },
+                navbar: true,
+                title: true,
+                fullscreen: true, // Support full-screen viewing
+                transition: false //tat hieu ung chuyen doi de do lag
+            });
+        });
+    </script>
+    <style>
+        #image-gallery {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-image img {
+            width: 100%; /* Hoặc một giá trị cụ thể như 600px */
+            height: auto; /* Giữ tỷ lệ ảnh */
+        }
+
+        .thumbnail-images {
+            display: flex;
+            justify-content: flex-start; /* Đặt các ảnh phụ sát lề trái */
+            flex-wrap: wrap; /* Cho phép các thumbnail xuống hàng nếu không đủ chỗ */
+            margin-top: 10px; /* Khoảng cách giữa ảnh chính và thumbnail */
+        }
+
+        .thumbnail {
+            margin: 5px; /* Khoảng cách giữa các thumbnail */
+        }
+
+        .thumbnail img {
+            width: 100%; /* Kích thước thumbnail */
+            height: auto; /* Kích thước thumbnail */
+            object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */
+            border: none; /* Bỏ viền cho ảnh phụ */
+        }
+    </style>
+</head>
+
+<body class="">
+<div class="wrapper ">
+    <!--  Side navbar: chua lien ket den cac trang tuy chon cua minh  -->
+    <div class="sidebar" data-color="white" data-active-color="danger">
+        <div class="logo">
+            <!--     Đường dẫn đến web chính của dự án     -->
+            <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-mini">
+                <!--     Avatar người dùng ở đây     -->
+                <div class="logo-image-small">
+                    <img th:src="@{/dashboardStatic/img/logo-small.png}">
+                </div>
+                <!-- <p>CT</p> -->
+            </a>
+            <!--     Đường dẫn đến web chính của dự án     -->
+            <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-normal">
+                Bui Minh Chien
+                <!--     Thêm logo dự án ở đây     -->
+                <!--           <div class="logo-image-big">-->
+                <!--            <img src="../assets/img/logo-big.png">-->
+                <!--          </div>-->
+            </a>
+        </div>
+        <div class="sidebar-wrapper">
+            <ul class="nav">
+                <li>
+                    <a th:href="@{/property_agent/dashboard}">
+                        <i class="nc-icon nc-bank"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/property_agent/register_form}">
+                        <i class="nc-icon nc-single-copy-04"></i>
+                        <p>Register asset for auction</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/property_agent/list_unsuccessful_sale_asset}">
+                        <i class="nc-icon nc-bullet-list-67"></i>
+                        <p>Unsuccessful sale assets</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--  End side navbar  -->
+    <div class="main-panel">
+        <!-- Top Navbar, SUA TIEU DE TRANG CHO PHU HOP -->
+        <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+            <div class="container-fluid">
+                <span class="navbar-brand">VietLand Auction</span>
+            </div>
+        </nav>
+        <!-- End Top Navbar -->
+        <!-- Noi dung cua trang se nam trong phan content nay -->
+        <div class="content">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card card-user">
+                        <div class="card-body">
+                            <div id="image-gallery">
+                                <div class="main-image">
+                                    <img th:src="@{${asset.getImages().get(0).path}}" alt="Main Asset Image"
+                                         class="img-fluid"/>
+                                </div>
+                                <div class="thumbnail-images row">
+                                    <!-- Sử dụng th:each để lặp qua danh sách ảnh trong asset.listImage, bắt đầu từ vị trí 1 -->
+                                    <div th:each="image, iterStat : ${asset.getImages()}" th:if="${iterStat.index > 0}"
+                                         class="col-md-3 mb-3">
+                                        <div class="thumbnail">
+                                            <img th:src="@{${image.path}}" class="img-thumbnail" alt="Asset Image"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <hr>
+                            <!--                            <div class="button-container">-->
+                            <!--                                <div class="row">-->
+                            <!--                                    <div class="col-lg-3 col-md-6 col-6 ml-auto">-->
+                            <!--                                        <h5>12<br><small>Files</small></h5>-->
+                            <!--                                    </div>-->
+                            <!--                                    <div class="col-lg-4 col-md-6 col-6 ml-auto mr-auto">-->
+                            <!--                                        <h5>2GB<br><small>Used</small></h5>-->
+                            <!--                                    </div>-->
+                            <!--                                    <div class="col-lg-3 mr-auto">-->
+                            <!--                                        <h5>24,6$<br><small>Spent</small></h5>-->
+                            <!--                                    </div>-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
+                            <div class="row">
+                                <div th:each="document : ${asset.getDocuments()}" class="col-md-3 mb-3">
+                                    <div class="col-md-2">
+                                        <a th:href="@{''+${document.path}}" target="_blank" class="btn btn-primary"
+                                           style="cursor: pointer;">
+                                            View Document
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-user">
+                        <div class="card-header">
+                            <h5 class="card-title">Asset information</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Location</label>
+                                        <input type="text" class="form-control" disabled=""
+                                               th:value="${asset.location}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Length (m)</label>
+                                        <input type="text" class="form-control" disabled=""
+                                               th:value="${asset.length}">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Width (m)</label>
+                                        <input type="text" class="form-control" disabled=""
+                                               th:value="${asset.width}">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Area <span>(m<sup>2</sup>)</span></label>
+                                        <input type="text" class="form-control" disabled=""
+                                               th:value="${asset.area}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Local authority</label>
+                                        <input type="text" class="form-control" disabled=""
+                                               th:value="${asset.localAuthority != null ? asset.localAuthority.localAuthorityName : 'null'}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Asset tags</label>
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <ul th:each="tag : ${asset.getTags()}" class="col-md-6">
+                                                    <li th:text="${tag.tagName}"></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Status</label>
+                                        <input type="text" class="form-control" disabled=""
+                                               th:value="${asset.assetStatus}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Create date</label>
+                                        <input type="text" class="form-control" disabled=""
+                                               th:value="${asset.createdDate}">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--                            <div class="row">-->
+                            <!--                                <div class="update ml-auto mr-auto">-->
+                            <!--                                    <button type="submit" class="btn btn-primary btn-round">Update Profile</button>-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="card col-md-12">
+                    <div class="card-header">
+                        <h4 class="card-title">Asset description</h4>
+                    </div>
+                    <div class="card-body">
+                        <div th:utext="${asset.description}"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="card col-md-12">
+                    <div class="card-body">
+                        <div>
+                            <iframe
+                                    th:src="${embedUrl}"
+                                    width=100%
+                                    height="400"
+                                    style="border:0;"
+                                    allowfullscreen=""
+                                    loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Het phan noi dung cua trang -->
+    </div>
+</div>
+<!---------------------------------------KHONG DUOC SUA------------------------------------------------------>
+<!--   Core JS Files   -->
+<script th:src="@{/dashboardStatic/js/core/jquery.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/core/popper.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/core/bootstrap.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/plugins/perfect-scrollbar.jquery.min.js}"></script>
+<!-- Chart JS -->
+<script th:src="@{/dashboardStatic/js/plugins/chartjs.min.js}"></script>
+<!--  Notifications Plugin    -->
+<script th:src="@{/dashboardStatic/js/plugins/bootstrap-notify.js}"></script>
+<!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+<script th:src="@{/dashboardStatic/js/paper-dashboard.min.js?v=2.0.1}" type="text/javascript"></script>
+<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
+<script th:src="@{/dashboardStatic/demo/demo.js}"></script>
+</body>
+
+</html>

@@ -8,6 +8,26 @@
 <!--thu vien cho de zoom anh-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.10.5/viewer.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.10.5/viewer.min.js"></script>
+<!--  script cho zoom anh  -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const gallery = document.getElementById('image-gallery');
+            const viewer = new Viewer(gallery, {
+                toolbar: {
+                    zoomIn: 1,
+                    zoomOut: 1,
+                    oneToOne: 1,
+                    reset: 1,
+                    prev: 1,
+                    next: 1
+                },
+                navbar: true,
+                title: true,
+                fullscreen: true, // Support full-screen viewing
+                transition: false //tat hieu ung chuyen doi de do lag
+            });
+        });
+    </script>
     <style>
         body {
             background-color: #f8f9fa;
@@ -47,26 +67,6 @@
             margin-right: 5px;
         }
     </style>
-<!--  script cho zoom anh  -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const gallery = document.getElementById('image-gallery');
-            const viewer = new Viewer(gallery, {
-                toolbar: {
-                    zoomIn: 1,
-                    zoomOut: 1,
-                    oneToOne: 1,
-                    reset: 1,
-                    prev: 1,
-                    next: 1
-                },
-                navbar: true,
-                title: true,
-                fullscreen: true, // Support full-screen viewing
-                transition: false //tat hieu ung chuyen doi de do lag
-            });
-        });
-    </script>
 </head>
 <body>
  <h3>Chi tiết tài sản</h3>
