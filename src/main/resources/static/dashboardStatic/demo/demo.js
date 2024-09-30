@@ -404,5 +404,37 @@ demo = {
       }
     });
   }
+  // showNotification: function() {
+  //   color = 'primary';
+  //
+  //   $.notify({
+  //     icon: "nc-icon nc-bell-55",
+  //     message: 'hello' // Sử dụng thông điệp từ tham số
+  //
+  //   }, {
+  //     type: color,
+  //     timer: 8000,
+  //     placement: {
+  //       from: 'bottom',
+  //       align: 'right'
+  //     }
+  //   });
+  // }
+  // showNotification: function(from, align, message) {
+  //   color = 'primary';
+  //
+  //   $.notify({
+  //     icon: "nc-icon nc-bell-55",
+  //     message: message // Sử dụng thông điệp từ tham số
+  //
+  //   }, {
+  //     type: color,
+  //     timer: 8000,
+  //     placement: {
+  //       from: from,
+  //       align: align
+  //     }
+  //   });
+  // }
 
 };
