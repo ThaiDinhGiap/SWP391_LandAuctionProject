@@ -82,34 +82,37 @@ public class SecurityConfig {
 //        return http.build();
 //    }
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(configurer -> configurer
+                        // Allow unrestricted access to the homepage, login page, and error page
+                        .requestMatchers("/", "/showMyLoginPage", "/access-denied").permitAll()
+                        // Define role-based access for other URLs
                         .requestMatchers("/customer/**").hasRole("Customer")
                         .requestMatchers("/admin/**").hasRole("Admin")
                         .requestMatchers("/property-agent/**").hasRole("Property_Agent")
                         .requestMatchers("/autioneer/**").hasRole("Autioneer")
                         .requestMatchers("/customer_care/**").hasRole("Customer_Care")
                         .requestMatchers("/news_writer/**").hasRole("News_Writer")
+                        // Any other request should be authenticated
                         .anyRequest().authenticated()
                 )
-
                 .formLogin(form -> form
-                        .loginPage("/showMyLoginPage")
-                        .loginProcessingUrl("/authenticateTheUser")
+                        .loginPage("/showMyLoginPage") // Define custom login page
+                        .loginProcessingUrl("/authenticateTheUser") // Login form POST URL
                         .permitAll()
-                        .defaultSuccessUrl("/default", true)
+                        .defaultSuccessUrl("/default", true) // Where to go after successful login
                 )
                 .logout(LogoutConfigurer::permitAll)
                 .exceptionHandling(configurer -> configurer
                         .accessDeniedPage("/access-denied")
                 )
-                .csrf(AbstractHttpConfigurer::disable);
+                .csrf(AbstractHttpConfigurer::disable); // Disable CSRF for simplicity (optional)
 
         return http.build();
     }
+
 
 
 }

@@ -38,6 +38,11 @@ public class LoginController {
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(role));
     }
 
+    @GetMapping("/")
+    public String homepage() {
+        return "homepage/homepage";
+    }
+
     @GetMapping({"/showMyLoginPage"})
     public String showLoginPage() {
         return "showMyLoginPage";
