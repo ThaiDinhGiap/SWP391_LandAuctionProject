@@ -3,7 +3,7 @@ Author: W3layouts
 Author URL: http://w3layouts.com
 -->
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <!-- Required meta tags -->
@@ -13,7 +13,7 @@ Author URL: http://w3layouts.com
   <!-- google fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
   <!-- Template CSS -->
-  <link rel="stylesheet" href="assets/css/style-starter.css">
+  <link rel="stylesheet" th:href="@{/assets_CustomerSide/css/style-starter.css}">
 
   <style>
     .btn {
@@ -140,7 +140,7 @@ Author URL: http://w3layouts.com
     <div class="row">
       <div class="col-md-6 mt-md-0">
         <div class="grids3-info position-relative">
-          <a href="#img" class="d-block zoom"><img src="assets/images/banner1.jpg" alt="" class="img-fluid news-image"></a>
+          <a href="#img" class="d-block zoom"><img th:src="@{/assets_CustomerSide/images/banner1.jpg}" alt="" class="img-fluid news-image"></a>
           <div class="w3-grids3-info">
             <h4 class="gdnhy-1"><a href="#img">Property Listings</a>
               <a class="w3item-link btn btn-style mt-4" href="#">
@@ -153,7 +153,7 @@ Author URL: http://w3layouts.com
       </div>
       <div class="col-md-6 mt-md-0 mt-4 grids3-info2">
         <div class="grids3-info position-relative">
-          <a href="#img" class="d-block zoom"><img src="assets/images/banner2.jpg" alt="" class="img-fluid news-image"></a>
+          <a href="#img" class="d-block zoom"><img th:src="@{/assets_CustomerSide/images/banner2.jpg}" alt="" class="img-fluid news-image"></a>
           <div class="w3-grids3-info second">
             <h4 class="gdnhy-1"><a href="#img">Auction Listings</a>
               <a class="w3item-link btn btn-style mt-4" href="#">
@@ -579,13 +579,13 @@ Author URL: http://w3layouts.com
 <!--//footer-9 -->
 
 <!-- Template JavaScript -->
-<script src="assets/js/jquery-3.3.1.min.js"></script>
-<script src="assets/js/theme-change.js"></script>
+<script th:src="@{/assets_CustomerSide/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/theme-change.js}"></script>
 
 <!--/search-->
-<script src="assets/js/modernizr.custom.js"></script>
-<script src="assets/js/classie.js"></script>
-<script src="assets/js/demo1.js"></script>
+<script th:src="@{/assets_CustomerSide/js/modernizr.custom.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/classie.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/demo1.js}"></script>
 <!--//search-->
 <!-- MENU-JS -->
 <script>
@@ -649,7 +649,7 @@ Author URL: http://w3layouts.com
 </script>
 <!-- //disable body scroll which navbar is in active -->
 <!-- //bootstrap -->
-<script src="assets/js/bootstrap.min.js"></script>
+<script th:src="@{/assets_CustomerSide/js/bootstrap.min.js}"></script>
 
 </body>
 

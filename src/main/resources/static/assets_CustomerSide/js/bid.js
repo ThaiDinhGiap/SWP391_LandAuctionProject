@@ -1,21 +1,16 @@
-document.addEventListener('DOMContentLoaded', function() {
-    var username = localStorage.getItem('username');
-    if (!username) {
-        window.location.href = "login.html";
-        return;
-    }
-
+document.addEventListener('DOMContentLoaded', function () {
+    // Các biến username và auctionId sẽ được định nghĩa trong auctionPage.html
     var socket = new SockJS('/ws');
     var stompClient = Stomp.over(socket);
 
     stompClient.connect({}, onConnected, onError);
 
     function onConnected() {
-        // Subscribe to the Public Topic
-        stompClient.subscribe('/topic/public', onMessageReceived);
+        // Subscribe to the specific auction topic
+        stompClient.subscribe('/topic/auction/' + auctionId, onMessageReceived);
 
         // Notify server that the user has joined
-        stompClient.send("/app/chat.addUser", {}, JSON.stringify({ sender: username, type: 'JOIN' }));
+        stompClient.send("/app/chat.addUser", {}, JSON.stringify({sender: username, type: 'JOIN'}));
     }
 
     function onError(error) {
@@ -23,15 +18,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Functionality for placing a bid
-    document.getElementById('placeBidButton').onclick = function() {
+    document.getElementById('placeBidButton').onclick = function () {
         var bidAmount = document.getElementById('bidAmount').value.trim();
         if (stompClient && bidAmount && !isNaN(bidAmount)) {
             var bidMessage = {
                 sender: username,
-                content: bidAmount,
-                type: 'BID'
+                content: parseFloat(bidAmount),
+                type: 'BID',
+                auctionId: auctionId
             };
-            stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(bidMessage));
+            stompClient.send("/app/bid", {}, JSON.stringify(bidMessage));
             document.getElementById('bidAmount').value = ''; // Clear input field after sending
         }
     };
@@ -47,16 +43,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Adjust bid amount
-    document.getElementById('decreaseBid').onclick = function() {
+    document.getElementById('decreaseBid').onclick = function () {
         var bidAmount = parseFloat(document.getElementById('bidAmount').value) || 0;
         if (bidAmount > 0) {
-            document.getElementById('bidAmount').value = (bidAmount - 1000).toFixed(2);
+            document.getElementById('bidAmount').value = (bidAmount - 10000000).toFixed(2);
         }
     };
 
-    document.getElementById('increaseBid').onclick = function() {
+    document.getElementById('increaseBid').onclick = function () {
         var bidAmount = parseFloat(document.getElementById('bidAmount').value) || 0;
-        document.getElementById('bidAmount').value = (bidAmount + 1000).toFixed(2);
+        document.getElementById('bidAmount').value = (bidAmount + 10000000).toFixed(2);
     };
 
     // Handle incoming bid messages
