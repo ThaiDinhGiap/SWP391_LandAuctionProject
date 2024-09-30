@@ -34,11 +34,11 @@ public class LoginController {
 
     @GetMapping("/customer/home")
     public String customerHome() {
-        return "homepage_customer";
+        return "customer/homepage_customer";
     }
 
     @GetMapping("/admin/home")
     public String adminHome() {
-        return "admin";
+        return "dashboardTemplates/dashboard";
     }
 }

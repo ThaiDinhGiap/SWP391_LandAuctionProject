@@ -4,14 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class BidRequestDTO {
-
-    private Long bidAmount;          // Số tiền bid mà khách hàng muốn đặt
-    private int registerId;          // ID của người đăng ký tham gia đấu giá
-    private LocalDateTime bidTime;   // Thời điểm đặt bid
+    private String sender;         // Tên người dùng đặt bid
+    private Long content;        // Số tiền bid mà khách hàng muốn đặt
+    private String type;           // Loại thông điệp (ví dụ: 'BID')
+    private int auctionId;         // ID của phiên đấu giá
 }

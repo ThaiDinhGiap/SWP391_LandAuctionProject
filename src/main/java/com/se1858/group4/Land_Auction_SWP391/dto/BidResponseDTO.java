@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BidResponseDTO {
-
-    private int bidId;                 // ID của bid
-    private Long bidAmount;            // Số tiền bid
-    private int registerId;            // ID của người đăng ký tham gia đấu giá
-    private LocalDateTime bidTime;     // Thời điểm đặt bid
+    private String sender;         // Tên người dùng đặt bid
+    private Long content;        // Số tiền bid
+    private LocalDateTime bidTime; // Thời điểm đặt bid
+    private String type;           // Loại thông điệp (ví dụ: 'BID')
+    private int auctionId;         // ID của phiên đấu giá
 }
