@@ -1,33 +1,48 @@
 package com.se1858.group4.Land_Auction_SWP391.service;
 
 import com.se1858.group4.Land_Auction_SWP391.entity.Account;
-import com.se1858.group4.Land_Auction_SWP391.entity.Staff;
 import com.se1858.group4.Land_Auction_SWP391.repository.AccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
 
 @Service
 public class AccountService {
+
+    @Autowired
+    private JavaMailSender mailSender;
+    @Autowired
     private AccountRepository accountRepository;
-    public AccountService(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
+
+    private String storedOtp; // for simplicity, store OTP temporarily in memory or use a database.
+
+    public void registerUser(String username, String password, String email) {
+        // Registration logic here
+        storedOtp = generateOTP(); // Generate OTP
+        sendOtpEmail(email, storedOtp); // Send OTP email
     }
-    public Account findAccountById(int id) {
-        return accountRepository.findById(id).get();
+
+    public boolean verifyOtp(String otp) {
+        return otp.equals(storedOtp); // Validate OTP
     }
-    public List<Staff> findAllStaffsByRole(String role) {
-        List<Account> listAccount = accountRepository.findAll();
-        List<Staff> result = null;
-        for(Account account : listAccount) {
-            if(account.getRole().getRoleName().equals(role)) {
-                if(result == null) {
-                    result = new ArrayList<Staff>();
-                }
-                result.add(account.getStaff());
-            }
-        }
-        return result;
+
+    private void sendOtpEmail(String to, String otp) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("OTP Verification");
+        message.setText("Your OTP is: " + otp);
+        mailSender.send(message);
+    }
+
+    private String generateOTP() {
+        // Generate a random 6-digit OTP
+        return String.format("%06d", new Random().nextInt(999999));
+    }
+
+
+    public Object findAllStaffsByRole(String roleAuctioneer) {
     }
 }
