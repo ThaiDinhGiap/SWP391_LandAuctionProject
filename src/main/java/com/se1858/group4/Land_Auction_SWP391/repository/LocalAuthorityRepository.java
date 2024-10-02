@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LocalAuthorityRepository extends JpaRepository<Local_authority, Integer> {
-   
+
 }
