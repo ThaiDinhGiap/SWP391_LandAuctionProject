@@ -2,7 +2,10 @@
 --create database project_land_auction_swp391
 use project_land_auction_swp391
 --------------------------------TAO BANG--------------------------------------------------
-
+CREATE TABLE Role (
+    role_id int PRIMARY KEY IDENTITY(1,1), 
+    role_name NVARCHAR(100) NOT NULL         
+);
 CREATE TABLE Tag (
     tag_id INT PRIMARY KEY IDENTITY(1,1),
     tag_name NVARCHAR(100) NOT NULL,
@@ -179,7 +182,8 @@ CREATE TABLE Tag_for_news (
 CREATE TABLE News (
     news_id INT PRIMARY KEY IDENTITY(1,1), 
     title NVARCHAR(MAX) NOT NULL,          
-    content NVARCHAR(MAX) NOT NULL,      
+    content NVARCHAR(MAX) NOT NULL,     
+	cover_photo_id INT FOREIGN KEY REFERENCES Image(image_id),
     created_date datetime2(3), 
     staff_id INT FOREIGN KEY REFERENCES Account(account_id)
 );
@@ -223,7 +227,8 @@ INSERT INTO Tag (tag_name, description) VALUES
 ('Rural', 'Rural: Land located in rural areas, usually quiet and far from urban centers'),
 ('Urban', 'Urban: Land located within cities or urban centers');
 INSERT INTO Image (asset_id, path, upload_date) 
-VALUES (null, '/static/image/avatar_default.jpg', '2024-09-26 15:38:54.468');
+VALUES (null, '/static/image/avatar_default.jpg', '2024-09-26 15:38:54.468'),
+(null, '/static/image/auction_hammer.jpg', '2024-09-26 15:38:54.468');
 INSERT INTO Topic (topic_name, parent_topic_id) VALUES 
 ('Auction Participation Process', NULL),
 ('Account Registration', 1),
@@ -269,9 +274,6 @@ INSERT INTO Question (topic_id, question, answer) VALUES
 INSERT INTO Local_authority (local_authority_name, contact_person, phone_number, email, local_authority_address, created_date) 
 VALUES (N'Ủy ban nhân dân thành phố Hà Nội', N'Thái Đình Giáp', '0123456789', 'hanoi_authority@example.com', N'Số 12 Lê Lai, phường Lý Thái Tổ, Hoàn kiếm, Hà Nội', '2024-09-26 07:16:54.466');
 
-INSERT INTO Asset (location, length, width, area, description, coordinates_on_map, local_authority_id, asset_status, created_date) 
-VALUES (N'Thạch Hòa, Thạch Thất, Hà Nội', 100.5, 50.25, 5050.125, N'Đất của đại học FPT, rất là rộng rãi, nhiều cây xanh, ao hồ đủ cả', '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3540.2208718984934!2d105.52271427503096!3d21.012416680632853!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135abc60e7d3f19%3A0x2be9d7d0b5abcbf4!2sFPT%20University!5e1!3m2!1sen!2s!4v1727506158519!5m2!1sen!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>', 1, 'Waiting for Auction Scheduling', '2024-09-26 07:16:54.466');
-
 INSERT INTO Notification (content, created_date, read_status) 
 VALUES (N'Hê sờ lô, hô sờ ly ly!!!', '2024-09-26 07:16:54.468837', 'unread');
 
@@ -292,8 +294,6 @@ VALUES (1, 'John Doe', 'M', '1990-01-01 00:00:00', '123 Main St, Hanoi', '012345
 
 INSERT INTO Customer (account_id, full_name, gender, date_of_birth, address, phone_number, tax_identification_number, citizen_identification, id_issuance_date, id_issuance_place, id_card_front_image_id, id_card_back_image_id, bank_account_number, bank_name, bank_branch, bank_owner) 
 VALUES (6, 'Alex Peter', 'M', '1985-05-05', '456 Buyer St, Hanoi', '0987654321', 'TAX123456', 'ID123456789', '2010-01-01', 'Hanoi', 1, 1, '1234567890', 'Bank of Hanoi', 'Hanoi Main Branch', 'Alex Peter');
-
-INSERT INTO Asset_Tag (tag_id, asset_id) VALUES (1, 1);
 
 INSERT INTO Account_Notification (notification_id, account_id) VALUES (1, 2);
 

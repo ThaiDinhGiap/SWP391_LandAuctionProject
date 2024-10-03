@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BidResponseDTO {
-    private String sender;         // Tên người dùng đặt bid
+    private String sender;
+    private String nickName;         // Tên người dùng đặt bid
     private Long content;        // Số tiền bid
     private LocalDateTime bidTime; // Thời điểm đặt bid
     private String type;           // Loại thông điệp (ví dụ: 'BID')
