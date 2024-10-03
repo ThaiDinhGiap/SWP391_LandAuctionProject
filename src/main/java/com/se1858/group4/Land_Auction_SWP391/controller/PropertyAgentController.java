@@ -7,7 +7,7 @@ import com.se1858.group4.Land_Auction_SWP391.entity.Tag;
 import com.se1858.group4.Land_Auction_SWP391.entity.Task;
 import com.se1858.group4.Land_Auction_SWP391.service.*;
 import com.se1858.group4.Land_Auction_SWP391.utility.FileUploadUtil;
-import com.se1858.group4.Land_Auction_SWP391.utility.GetSrcInGoogleMapEmbededURL;
+import com.se1858.group4.Land_Auction_SWP391.utility.GetSrcInGoogleMapEmbededURLUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -62,8 +62,8 @@ public class PropertyAgentController {
                                 RedirectAttributes redirectAttributes) {
         Asset asset=assetDTO.getAsset();
         //them image va document
-        uploadFile.UploadImages(images,asset);
-        uploadFile.UploadDocuments(documents,asset);
+        uploadFile.UploadImagesForAsset(images,asset);
+        uploadFile.UploadDocumentsForAsset(documents,asset);
         //them tag vao asset
         for (Integer tagId : selectedTags) {
             Tag tag = tagService.getTagById(tagId);
@@ -92,7 +92,7 @@ public class PropertyAgentController {
         model.addAttribute("listAsset",list);
         model.addAttribute("pageTitle","All verified assets");
         model.addAttribute("deletePermission","false");
-        return "propertyAgent/ListAsset";
+        return "propertyAgent/AssetList";
     }
     @GetMapping("/list_unsuccessful_sale_asset")
     public String listUnseccessfulSaleAsset(Model model) {
@@ -100,7 +100,7 @@ public class PropertyAgentController {
         model.addAttribute("listAsset",list);
         model.addAttribute("pageTitle","Unsuccessful sale assets");
         model.addAttribute("deletePermission","true");
-        return "propertyAgent/ListAsset";
+        return "propertyAgent/AssetList";
     }
     @GetMapping("/cancelAsset")
     public String cancelAsset(@RequestParam("assetId") int assetId) {
@@ -110,7 +110,7 @@ public class PropertyAgentController {
     @GetMapping("/viewDetail")
     public String getAssetById(@RequestParam("assetId") int assetId, Model model) {
         Asset asset=assetService.getAssetById(assetId);
-        String embedUrl = GetSrcInGoogleMapEmbededURL.extractSrcFromIframe(asset.getCoordinatesOnMap());
+        String embedUrl = GetSrcInGoogleMapEmbededURLUtil.extractSrcFromIframe(asset.getCoordinatesOnMap());
         model.addAttribute("embedUrl", embedUrl);
         model.addAttribute("asset",asset);
         return "propertyAgent/AssetDetail";

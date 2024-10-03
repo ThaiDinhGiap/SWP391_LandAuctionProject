@@ -20,6 +20,10 @@ public class News {
     @Column(name = "content", nullable = false, columnDefinition = "NVARCHAR(MAX)")
     private String content;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "cover_photo_id", referencedColumnName = "image_id")
+    private Image cover_photo;
+
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
@@ -44,6 +48,15 @@ public class News {
         this.tags = tags;
         this.staff = staff;
         this.createdDate = createdDate;
+    }
+
+    public News(String title, String content, Image cover_photo, List<TagForNews> tags, LocalDateTime createdDate, Account staff) {
+        this.title = title;
+        this.content = content;
+        this.cover_photo = cover_photo;
+        this.tags = tags;
+        this.createdDate = createdDate;
+        this.staff = staff;
     }
 
     public News(String title, String content, Account staff, LocalDateTime createdDate) {
@@ -99,6 +112,14 @@ public class News {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Image getCover_photo() {
+        return cover_photo;
+    }
+
+    public void setCover_photo(Image cover_photo) {
+        this.cover_photo = cover_photo;
     }
 
     @Override

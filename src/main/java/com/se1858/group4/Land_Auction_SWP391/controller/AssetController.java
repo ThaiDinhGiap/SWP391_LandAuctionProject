@@ -8,7 +8,7 @@ import com.se1858.group4.Land_Auction_SWP391.service.AssetService;
 import com.se1858.group4.Land_Auction_SWP391.service.LocalAuthorityService;
 import com.se1858.group4.Land_Auction_SWP391.service.TagService;
 import com.se1858.group4.Land_Auction_SWP391.utility.FileUploadUtil;
-import com.se1858.group4.Land_Auction_SWP391.utility.GetSrcInGoogleMapEmbededURL;
+import com.se1858.group4.Land_Auction_SWP391.utility.GetSrcInGoogleMapEmbededURLUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -48,8 +48,8 @@ public class AssetController {
                                 RedirectAttributes redirectAttributes) {
         Asset asset=assetDTO.getAsset();
         //them image va document
-        uploadFile.UploadImages(images,asset);
-        uploadFile.UploadDocuments(documents,asset);
+        uploadFile.UploadImagesForAsset(images,asset);
+        uploadFile.UploadDocumentsForAsset(documents,asset);
         //them tag vao asset
         for (Integer tagId : selectedTags) {
             Tag tag = tagService.getTagById(tagId);
@@ -84,7 +84,7 @@ public class AssetController {
     @GetMapping("/viewDetail")
     public String getAssetById(@RequestParam("assetId") int assetId, Model model) {
         Asset asset=assetService.getAssetById(assetId);
-        String embedUrl = GetSrcInGoogleMapEmbededURL.extractSrcFromIframe(asset.getCoordinatesOnMap());
+        String embedUrl = GetSrcInGoogleMapEmbededURLUtil.extractSrcFromIframe(asset.getCoordinatesOnMap());
         model.addAttribute("embedUrl", embedUrl);
         model.addAttribute("asset",asset);
         return "asset/AssetDetail";
