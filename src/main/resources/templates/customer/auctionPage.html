@@ -25,21 +25,22 @@
             </div>
             <div class="w3ab-left-top col-lg-6 mt-lg-0 mt-5 ps-lg-5" id="bid-page">
                 <!-- Notification for user status -->
-                <div class="alert alert-warning text-center" role="alert" id="userStatusMessage">
-                    You have not yet bid on this lot
+                <div class="alert alert-warning text-center" role="alert" id="userStatusMessage" hidden>
                 </div>
 
                 <!-- Current Bid Information -->
                 <div class="current-bid-info text-center mb-3">
-                    <h5>Current Bid</h5>
-                    <h2 id="currentBid" style="color: #d81b60; font-size: 36px;" th:text="${auctionSession.currentHighestPrice}"></h2>
+                    <h5 id="currentBidName" th:text="${bidList[0].auctionRegister.buyer.username == accountCustomer.username ? 'Current Bid (with you)' : 'Current Bid (not with you)'}"></h5>
+                    <h2 id="currentBid" style="color: #d81b60; font-size: 36px;"
+                        th:text="${auctionSession.currentHighestPrice} + ₫"></h2>
                 </div>
 
                 <!-- Bid Input Section -->
                 <div class="bid-input d-flex justify-content-center align-items-center mb-3">
                     <button class="btn btn-danger" id="decreaseBid">-</button>
-                    <input type="text" class="form-control text-center mx-2" id="bidAmount" placeholder="Enter your bid"
-                           style="width: 150px;">
+                    <input type="text" class="form-control text-center mx-2" id="bidAmount"
+                           placeholder="Enter your bid" style="width: 150px;"
+                           th:value="${auctionSession.currentHighestPrice + auctionSession.minimumBidIncrement}">
                     <button class="btn btn-danger" id="increaseBid">+</button>
                 </div>
 
@@ -48,21 +49,41 @@
                     <button class="btn btn-primary btn-lg" id="placeBidButton">Place Bid</button>
                 </div>
 
+                <div class="auction-timing mt-4">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <strong>Time Left:</strong>
+                            <span id="timeLeft" style="color: red;">Calculating...</span>
+                        </div>
+                        <div>
+                            <strong>Scheduled End Date:</strong>
+                            <span th:text="${#temporals.format(auctionSession.expectedEndTime, 'yyyy-MM-dd HH:mm:ss')}"
+                                  style="color: green;"></span>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Bidding History -->
                 <div class="bidding-history mt-4">
                     <h5>Bidding History</h5>
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>User</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                        </tr>
-                        </thead>
-                        <tbody id="biddingHistory">
-                        <!-- Rows will be added dynamically -->
-                        </tbody>
-                    </table>
+                    <div style="max-height: 200px; overflow-y: auto;">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                            </tr>
+                            </thead>
+                            <tbody id="biddingHistory">
+                            <tr th:each="bid : ${bidList}">
+                                <td th:text="${bid.auctionRegister.buyer.username == accountCustomer.username ? 'Your bid' : bid.auctionRegister.nickName}"></td>
+                                <td th:text="${bid.bidAmount} + ₫"></td>
+                                <td th:text="${#temporals.format(bid.timeCreateBid, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -72,6 +93,9 @@
 <script th:inline="javascript">
     var username = /*[[${accountCustomer.username}]]*/ "defaultUser";
     var auctionId = /*[[${auctionSession.auctionId}]]*/ 0;
+    var endTime = /*[[${auctionSession.expectedEndTime}]]*/ 0;
+    var minimumBidIncrement = /*[[${auctionSession.minimumBidIncrement }]]*/ 0;
+    var currentHighestPrice = /*[[${auctionSession.currentHighestPrice }]]*/ 0;
 </script>
 
 <script th:src="@{/assets_CustomerSide/js/jquery-3.3.1.min.js}"></script>

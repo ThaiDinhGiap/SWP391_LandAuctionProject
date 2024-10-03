@@ -1,6 +1,6 @@
 package com.se1858.group4.Land_Auction_SWP391.utility;
 
-public class GetSrcInGoogleMapEmbededURL {
+public class GetSrcInGoogleMapEmbededURLUtil {
     public static String extractSrcFromIframe(String iframeCode) {
         // Tìm chỉ mục bắt đầu của thuộc tính src
         int startIndex = iframeCode.indexOf("src=\"") + 5;

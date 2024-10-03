@@ -5,7 +5,7 @@
     <link rel="apple-touch-icon" sizes="76x76" th:href="@{/dashboardStatic/img/apple-icon.png}">
     <link rel="icon" type="image/png" th:href="@{/dashboardStatic/img/favicon.png}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>Đăng ký tài sản đấu giá</title>
+    <title>Tạo bài viết</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
           name='viewport'/>
     <!--  dashboard template  -->
@@ -53,21 +53,21 @@
         <div class="sidebar-wrapper">
             <ul class="nav">
                 <li>
-                    <a th:href="@{/property_agent/dashboard}">
+                    <a th:href="@{/news_writer/dashboard}">
                         <i class="nc-icon nc-bank"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li class="active ">
-                    <a th:href="@{/property_agent/register_form}">
+                    <a th:href="@{/news_writer/create_news}">
                         <i class="nc-icon nc-single-copy-04"></i>
-                        <p>Register asset for auction</p>
+                        <p>Create news</p>
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/property_agent/list_unsuccessful_sale_asset}">
+                    <a th:href="@{/news_writer/list}">
                         <i class="nc-icon nc-bullet-list-67"></i>
-                        <p>Asset list</p>
+                        <p>News list</p>
                     </a>
                 </li>
             </ul>
@@ -89,125 +89,49 @@
                 <div class="col-md-12">
                     <div class="card card-user">
                         <div class="card-header">
-                            <h5 class="card-title">Mời bạn nhập thông tin tài sản</h5>
+                            <h5 class="card-title">Mời soạn bài viết</h5>
                         </div>
                         <div class="card-body">
-                            <form th:action="@{/property_agent/register}" th:method="post" th:object="${assetDTO}"
+                            <form th:action="@{/news_writer/add}" th:method="post" th:object="${newsDTO}"
                                   enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="location">Location</label>
-                                            <input type="text" th:field="*{asset.location}" id="location"
+                                            <label for="title">Title</label>
+                                            <input type="text" th:field="*{news.title}" id="title"
                                                    class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4 pr-1">
-                                        <div class="form-group">
-                                            <label for="length">Length (m)</label>
-                                            <input type="text" th:field="*{asset.length}" id="length"
-                                                   class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 px-1">
-                                        <div class="form-group">
-                                            <label for="width">Width (m)</label>
-                                            <input type="text" th:field="*{asset.width}" id="width"
-                                                   class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 pl-1">
-                                        <div class="form-group">
-                                            <label for="area">Area <span>(m<sup>2</sup>)</span></label>
-                                            <input type="text" th:field="*{asset.area}" id="area" class="form-control">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="description">Description</label>
-                                            <textarea th:field="*{asset.description}" id="description"
+                                            <label for="content">Content</label>
+                                            <textarea th:field="*{news.content}" id="content"
                                                       class="form-control"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="coordinatesOnMap">Coordinates on map</label>
-                                            <input type="text" th:field="*{asset.coordinatesOnMap}"
-                                                   id="coordinatesOnMap"
-                                                   class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Choose tags</label>
-                                            <div class="col-sm-10">
-                                                <div class="row">
-                                                    <div th:each="tag : ${listTag}" class="col-md-3">
-                                                        <input type="checkbox" th:id="${'tag' + tag.tagId}"
-                                                               th:value="${tag.tagId}"
-                                                               name="selectedTags"
-                                                               th:title="${tag.description}"/>
-                                                        <label th:for="${'tag' + tag.tagId}"
-                                                               th:text="${tag.tagName}"></label><br/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="authority">Choose local authority</label>
-                                            <select id="authority" name="authorityId" class="form-control">
-                                                <option value="">-- Select Local Authority --</option>
-                                                <option th:each="authority : ${listLocalAuthority}"
-                                                        th:value="${authority.localAuthorityId}"
-                                                        th:text="${authority.localAuthorityName}">
-                                                </option>
-                                            </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div>
-                                            <label for="images">Choose images</label>
-                                            <input type="file" name="images" id="images" class="form-control" multiple
+                                            <label for="images">Choose cover photo</label>
+                                            <input type="file" name="images" id="images" class="form-control"
                                                    required
                                                    accept="image/png, image/jpeg, image/jpg, image/gif">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div>
-                                            <label for="documents">Choose documents</label>
-                                            <input type="file" name="documents" id="documents" class="form-control"
-                                                   multiple
-                                                   required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="auctioneer">Select auctioneer</label>
-                                            <select id="auctioneer" name="auctioneerAccountId" class="form-control">
-                                                <option value="">-- Select Auctioneer --</option>
-                                                <option th:each="auctioneer : ${listAuctioneer}"
-                                                        th:value="${auctioneer.account.getAccountId()}"
-                                                        th:text="${auctioneer.fullName}">
-                                                </option>
-                                            </select>
+                                            <label>Choose tags for news</label>
+                                            <div class="col-sm-10">
+                                                <div th:each="tag : ${listTag}" >
+                                                    <input type="checkbox" th:id="${'tag' + tag.tagId}" th:value="${tag.tagId}" name="selectedTags" th:title="${tag.tagName}"/>
+                                                    <label th:for="${'tag' + tag.tagId}" th:text="${tag.tagName}"></label><br/>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -244,11 +168,11 @@
 <script th:src="@{/dashboardStatic/js/paper-dashboard.min.js?v=2.0.1}" type="text/javascript"></script>
 <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
 <script th:src="@{/dashboardStatic/demo/demo.js}"></script>
-<!--Dùng cho summernote-->
+
 <script>
     $(document).ready(function () {
         <!-- script cho richtext-->
-        $('#description').summernote({
+        $('#content').summernote({
             height: 300, // Chiều cao của editor
             tabsize: 2,
             placeholder: 'Enter content here...',
@@ -270,28 +194,28 @@
 <!--Kiểm tra tỷ lệ khung ảnh-->
 <script>
     document.getElementById('images').addEventListener('change', function(event) {
-        const files = event.target.files; // Lấy danh sách các tệp được chọn
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            if (file) {
-                const img = new Image();
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    img.src = e.target.result;
-                    img.onload = function() {
-                        const width = img.width;
-                        const height = img.height;
-                        // Kiểm tra xem ảnh có chiều rộng lớn hơn chiều cao không
-                        if (width < height) {
-                            alert(`Image ${file.name} is incorrect. Please use a rectangular image (width must be equal to or greater than height).`);
-                            // Reset input nếu có ảnh không hợp lệ
-                            event.target.value = '';
-                            return; // Ngừng kiểm tra ảnh còn lại
-                        }
-                    };
+        const file = event.target.files[0];
+
+        if (file) {
+            const img = new Image();
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                img.src = e.target.result;
+
+                img.onload = function() {
+                    const width = img.width;
+                    const height = img.height;
+
+                    // Kiểm tra xem ảnh có chiều rộng lớn hơn chiều cao không
+                    if (width < height) {
+                        alert('Image size is incorrect. Please use a rectangular image (width must be equal to or greater than height).');
+                        // Reset input nếu không đúng tỷ lệ
+                        event.target.value = '';
+                    }
                 };
-                reader.readAsDataURL(file);
-            }
+            };
+            reader.readAsDataURL(file);
         }
     });
 </script>

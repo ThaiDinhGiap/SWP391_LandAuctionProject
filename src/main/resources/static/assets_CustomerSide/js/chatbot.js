@@ -1,15 +1,27 @@
+function initChat(){
+    fetchMainTopics();
+}
+
 document.getElementById("init").addEventListener("click", showChatBot);
 var cbot = document.getElementById("chat-box");
 
 function showChatBot() {
     var chatbox = document.getElementById('chatbox');
-    if (chatbox.style.display === 'none' || chatbox.style.display === '') {
-        chatbox.style.display = 'block';
-        document.getElementById('init').innerText = 'CLOSE CHAT';
-        fetchMainTopics();  // Fetch main topics khi mở chat
+    var initButton = document.getElementById('init');
+
+    // Lấy vị trí của nút init
+    var rect = initButton.getBoundingClientRect();
+    var originX = rect.left + rect.width / 2;
+    var originY = rect.top + rect.height / 2;
+
+    // Tính toán điểm bắt đầu cho transform-origin (theo vị trí của nút init)
+    chatbox.style.transformOrigin = `${originX}px ${originY}px`;
+
+    if (chatbox.classList.contains('show')) {
+        chatbox.classList.remove('show');
     } else {
-        chatbox.style.display = 'none';
-        document.getElementById('init').innerText = 'START CHAT';
+        chatbox.classList.add('show');
+        fetchMainTopics();
     }
 }
 
@@ -48,6 +60,14 @@ function handleOpt() {
     var selectedOptionName = this.innerText;
     var type = this.dataset.type;
 
+    // Xóa class selected khỏi tất cả các topic
+    document.querySelectorAll('.opt').forEach(function(el) {
+        el.classList.remove('selected');
+    });
+
+    // Thêm class selected vào topic được chọn
+    this.classList.add('selected');
+
     var replyElm = document.createElement("p");
     replyElm.setAttribute("class", "rep");
     replyElm.innerHTML = selectedOptionName;
@@ -56,7 +76,7 @@ function handleOpt() {
     // Xóa tất cả các options cũ
     document.querySelectorAll(".opt").forEach(el => el.remove());
 
-    // Gửi request tới server để lấy subtopics hoặc câu hỏi
+    // Gửi request tới server để lấy subtopics, câu hỏi, hoặc nhân viên
     fetch(`/api/chatbot/topics/${selectedOptionId}`)
         .then(response => response.json())
         .then(data => {
@@ -64,9 +84,13 @@ function handleOpt() {
                 displayOptions(data.data, "subtopics");
             } else if (data.type === 'questions') {
                 displayQuestionList(data.data);
+            } else if (data.type === 'Direct Support') {
+                displayStaffList(data.data);
             }
         });
 }
+
+
 
 function displayQuestionList(questions) {
     questions.forEach(question => {
@@ -95,6 +119,30 @@ function displayAnswer(answer, questionElm) {
     cbot.insertBefore(answerElm, questionElm.nextSibling);
     handleScroll();
 }
+
+function displayStaffList(staffList) {
+    staffList.forEach(staff => {
+        var staffElm = document.createElement("span");
+        staffElm.innerHTML = `<strong>Staff:</strong> ${staff.fullName} (${staff.gender}) - ${staff.email}`;
+        staffElm.setAttribute("class", "opt");
+        staffElm.dataset.id = staff.staffId;
+        staffElm.addEventListener("click", function () {
+            displayStaffDetails(staff);
+        });
+        cbot.appendChild(staffElm);
+        handleScroll();
+    });
+}
+
+// Hàm để hiển thị chi tiết của nhân viên khi người dùng chọn
+function displayStaffDetails(staff) {
+    var staffDetailElm = document.createElement("p");
+    staffDetailElm.innerHTML = `<strong>Contacting:</strong> ${staff.fullName}`;
+    staffDetailElm.setAttribute("class", "msg");
+    cbot.appendChild(staffDetailElm);
+    handleScroll();
+}
+
 
 function handleScroll() {
     var elem = document.getElementById('chat-box');
