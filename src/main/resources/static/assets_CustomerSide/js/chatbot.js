@@ -7,13 +7,21 @@ var cbot = document.getElementById("chat-box");
 
 function showChatBot() {
     var chatbox = document.getElementById('chatbox');
-    if (chatbox.style.display === 'none' || chatbox.style.display === '') {
-        chatbox.style.display = 'block';
-        document.getElementById('init').innerText = 'CLOSE CHAT';
-        fetchMainTopics();  // Fetch main topics khi mở chat
+    var initButton = document.getElementById('init');
+
+    // Lấy vị trí của nút init
+    var rect = initButton.getBoundingClientRect();
+    var originX = rect.left + rect.width / 2;
+    var originY = rect.top + rect.height / 2;
+
+    // Tính toán điểm bắt đầu cho transform-origin (theo vị trí của nút init)
+    chatbox.style.transformOrigin = `${originX}px ${originY}px`;
+
+    if (chatbox.classList.contains('show')) {
+        chatbox.classList.remove('show');
     } else {
-        chatbox.style.display = 'none';
-        document.getElementById('init').innerText = 'START CHAT';
+        chatbox.classList.add('show');
+        fetchMainTopics();
     }
 }
 
@@ -52,6 +60,14 @@ function handleOpt() {
     var selectedOptionName = this.innerText;
     var type = this.dataset.type;
 
+    // Xóa class selected khỏi tất cả các topic
+    document.querySelectorAll('.opt').forEach(function(el) {
+        el.classList.remove('selected');
+    });
+
+    // Thêm class selected vào topic được chọn
+    this.classList.add('selected');
+
     var replyElm = document.createElement("p");
     replyElm.setAttribute("class", "rep");
     replyElm.innerHTML = selectedOptionName;
@@ -68,11 +84,12 @@ function handleOpt() {
                 displayOptions(data.data, "subtopics");
             } else if (data.type === 'questions') {
                 displayQuestionList(data.data);
-            } else if (data.type === 'Direct Support') {  // Trường hợp hiển thị danh sách nhân viên
+            } else if (data.type === 'Direct Support') {
                 displayStaffList(data.data);
             }
         });
 }
+
 
 
 function displayQuestionList(questions) {

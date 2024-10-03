@@ -10,5 +10,10 @@ public class ChatBotPageController {
     public String chatbotPage() {
         return "chatbot"; // Trả về tên file HTML chatbot.html
     }
+
+    @GetMapping("/chatbothome")
+    public String chatbotHomePage() {
+        return "customer/homepage"; // Trả về tên file HTML chatbot.html
+    }
 }
 

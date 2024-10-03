@@ -10,6 +10,27 @@
             bottom: 20px;
             left: 20px;
             z-index: 1000;
+            background-color: #97CADB; /* Màu xanh dương nhạt */
+            color: white;
+            border: none;
+            border-radius: 50%; /* Giúp nút trở nên tròn */
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ cho nút */
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s; /* Thêm hiệu ứng chuyển đổi */
+        }
+
+        .chat-btn i {
+            font-size: 24px; /* Tăng kích thước icon */
+        }
+
+        .chat-btn:hover {
+            background-color: #80B3C4; /* Màu thay đổi khi hover */
+            transform: scale(1.1); /* Nút phóng to khi hover */
         }
 
         #chatbox {
@@ -115,7 +136,8 @@
     </div>
 </div>
 
-<button id="init" class="btn btn-primary chat-btn">START CHAT</button>
+<button id="init" class="btn btn-primary chat-btn"><i class="fas fa-headset"></i></button>
+
 <script src="assets_CustomerSide/js/chatbot.js"></script>
 </body>
 </html>
