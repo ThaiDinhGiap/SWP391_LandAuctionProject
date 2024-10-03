@@ -34,8 +34,7 @@ public class Staff {
     public Staff() {
     }
 
-    public Staff(int staffId, Account account, String fullName, String gender, LocalDateTime dateOfBirth, String address, String phoneNumber) {
-        this.staffId = staffId;
+    public Staff(Account account, String fullName, String gender, LocalDateTime dateOfBirth, String address, String phoneNumber) {
         this.account = account;
         this.fullName = fullName;
         this.gender = gender;

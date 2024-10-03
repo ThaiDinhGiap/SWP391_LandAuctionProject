@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Auction Session Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets_CustomerSide/css/style-starter.css}">
+</head>
+
+<body>
+<section class="w3l-grids-3 py-5" id="about">
+    <div class="container py-md-5 py-3">
+        <div class="row bottom-ab-grids">
+            <div class="w3l-video-left col-lg-6" id="video">
+                <div class="w3l-index5">
+                    <div class="position-relative mt-4">
+                        <a href="#small-dialog" class="popup-with-zoom-anim play-view text-center position-absolute">
+                            <span class="video-play-icon">
+                                <span class="fa fa-play"></span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="w3ab-left-top col-lg-6 mt-lg-0 mt-5 ps-lg-5" id="bid-page">
+                <!-- Notification for user status -->
+                <div class="alert alert-warning text-center" role="alert" id="userStatusMessage">
+                    You have not yet bid on this lot
+                </div>
+
+                <!-- Current Bid Information -->
+                <div class="current-bid-info text-center mb-3">
+                    <h5>Current Bid</h5>
+                    <h2 id="currentBid" style="color: #d81b60; font-size: 36px;" th:text="${auctionSession.currentHighestPrice}"></h2>
+                </div>
+
+                <!-- Bid Input Section -->
+                <div class="bid-input d-flex justify-content-center align-items-center mb-3">
+                    <button class="btn btn-danger" id="decreaseBid">-</button>
+                    <input type="text" class="form-control text-center mx-2" id="bidAmount" placeholder="Enter your bid"
+                           style="width: 150px;">
+                    <button class="btn btn-danger" id="increaseBid">+</button>
+                </div>
+
+                <!-- Place Bid Button -->
+                <div class="text-center mb-3">
+                    <button class="btn btn-primary btn-lg" id="placeBidButton">Place Bid</button>
+                </div>
+
+                <!-- Bidding History -->
+                <div class="bidding-history mt-4">
+                    <h5>Bidding History</h5>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                        </tr>
+                        </thead>
+                        <tbody id="biddingHistory">
+                        <!-- Rows will be added dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script th:inline="javascript">
+    var username = /*[[${accountCustomer.username}]]*/ "defaultUser";
+    var auctionId = /*[[${auctionSession.auctionId}]]*/ 0;
+</script>
+
+<script th:src="@{/assets_CustomerSide/js/jquery-3.3.1.min.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script th:src="@{/assets_CustomerSide/js/bid.js}"></script>
+</body>
+</html>

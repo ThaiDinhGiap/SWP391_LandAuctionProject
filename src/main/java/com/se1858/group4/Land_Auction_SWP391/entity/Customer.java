@@ -67,8 +67,7 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(int customerId, Account account, String fullName, String gender, String phoneNumber, String address, LocalDateTime dateOfBirth, String citizenIdentification, Image idCardBackImage, Image idCardFrontImage, LocalDate idIssuanceDate, String idIssuancePlace, String taxIdentificationNumber, String bankOwner, String bankName, String bankBranch, String bankAccountNumber) {
-        this.customerId = customerId;
+    public Customer(Account account, String fullName, String gender, String phoneNumber, String address, LocalDateTime dateOfBirth, String citizenIdentification, Image idCardBackImage, Image idCardFrontImage, LocalDate idIssuanceDate, String idIssuancePlace, String taxIdentificationNumber, String bankOwner, String bankName, String bankBranch, String bankAccountNumber) {
         this.account = account;
         this.fullName = fullName;
         this.gender = gender;

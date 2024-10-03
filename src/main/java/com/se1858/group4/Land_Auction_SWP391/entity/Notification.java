@@ -28,11 +28,10 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(List<Account> accounts, String content, LocalDateTime createdDate, int notificationId, String readStatus) {
+    public Notification(List<Account> accounts, String content, LocalDateTime createdDate, String readStatus) {
         this.accounts = accounts;
         this.content = content;
         this.createdDate = createdDate;
-        this.notificationId = notificationId;
         this.readStatus = readStatus;
     }
 
