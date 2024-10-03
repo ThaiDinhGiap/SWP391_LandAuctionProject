@@ -2,8 +2,10 @@ package com.se1858.group4.Land_Auction_SWP391.controller;
 
 import com.se1858.group4.Land_Auction_SWP391.entity.Account;
 import com.se1858.group4.Land_Auction_SWP391.entity.AuctionSession;
+import com.se1858.group4.Land_Auction_SWP391.entity.Bid;
 import com.se1858.group4.Land_Auction_SWP391.service.AuctionService;
 import com.se1858.group4.Land_Auction_SWP391.repository.AccountRepository;
+import com.se1858.group4.Land_Auction_SWP391.service.BidService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
+import java.util.List;
+
 @Controller
 public class AuctionController {
 
@@ -21,6 +25,9 @@ public class AuctionController {
 
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private BidService bidService;
 
     /**
      * Xử lý yêu cầu truy cập trang đấu giá
@@ -52,10 +59,12 @@ public class AuctionController {
 
         // Lấy thông tin phiên đấu giá
         AuctionSession auctionSession = auctionService.getAuctionSessionById(auctionId);
+        List<Bid> bidList = bidService.getAllBidsByAuctionId(auctionId);
 
         // Truyền dữ liệu phiên đấu giá đến View
         model.addAttribute("auctionSession", auctionSession);
         model.addAttribute("accountCustomer", currentAccount);
+        model.addAttribute("bidList", bidList);
 
         // Trả về tên của view đấu giá
         return "customer/auctionPage"; // Chắc chắn rằng bạn đã có file auctionPage.html trong thư mục templates
