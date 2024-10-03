@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -54,7 +55,7 @@ public class BidService {
         Long currentHighestBid = auctionSession.getCurrentHighestPrice();
         Long minimumBidIncrement = auctionSession.getMinimumBidIncrement();
 
-        if (bidRequestDTO.getContent() <= currentHighestBid + minimumBidIncrement) {
+        if (bidRequestDTO.getContent() < currentHighestBid + minimumBidIncrement) {
             throw new IllegalArgumentException("Bid amount is insufficient.");
         }
 
@@ -70,12 +71,19 @@ public class BidService {
         auctionRegister.getAuction().setCurrentHighestPrice(savedBid.getBidAmount());
 
         return new BidResponseDTO(
-                bidRequestDTO.getSender(),
+                bid.getAuctionRegister().getBuyer().getUsername(),
+                bid.getAuctionRegister().getNickName(),
                 savedBid.getBidAmount(),
                 savedBid.getTimeCreateBid(),
                 "BID",
                 auctionRegister.getAuction().getAuctionId()
         );
     }
+
+    @Transactional(readOnly = true)
+    public List<Bid> getAllBidsByAuctionId(int auctionId) {
+        return bidRepository.findAllByAuctionRegister_Auction_AuctionIdOrderByTimeCreateBidDesc(auctionId);
+    }
+
 }
 
