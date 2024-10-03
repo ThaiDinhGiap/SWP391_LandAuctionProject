@@ -1,16 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title><form action="/register" method="POST">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <button type="submit">Register</button>
-        </form>
-    </title>
+    <title>Register</title>
+    <link href="//fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        body {
+            text-align: center;
+            padding-top: 2rem;
+        }
+        .register-container {
+            margin: 20px;
+        }
+    </style>
 </head>
 <body>
+
+<div class="register-container">
+    <h1>Register</h1>
+
+    <form action="/register" method="POST">
+        <p>
+            Username: <input type="text" name="username" required/>
+        </p>
+        <p>
+            Password: <input type="password" name="password" required/>
+        </p>
+        <p>
+            Email: <input type="email" name="email" required/>
+        </p>
+        <input type="submit" value="Register"/>
+    </form>
+
+    <!-- Login link -->
+    <p>Already have an account?  <a th:href="@{/showMyLoginPage}" style="font-size: 20px;">Login</a>
+</div>
 
 </body>
 </html>
