@@ -39,7 +39,11 @@ public class AccountService {
 
     private String storedOtp; // for simplicity, store OTP temporarily in memory or use a database.
     private String storedEmail; // Store the email temporarily for verification
-    private Account temporaryAccount; // Temporarily hold account until OTP is verified
+//    private Account temporaryAccount = new Account(); // Temporarily hold account until OTP is verified
+Account account = new Account();
+    public AccountService() {
+
+    }
 
 //
 //    public Account findAccountByAccountId(int accountId) {
@@ -73,48 +77,51 @@ public class AccountService {
 
 
 
-
-
     public void registerUser(String username, String password, String email) {
-        Account account = new Account();
+
         account.setUsername(username);
 
         // Encrypt password
         account.setPassword(passwordEncoder.encode(password));
-
         account.setEmail(email);
         account.setVerify(0);  // Not verified yet
-        account.setStatus(1);
+        account.setStatus(0);  // Disabled until OTP verification
         account.setRegistrationDate(LocalDateTime.now());
 
-        // Fetch the role from the database
-        Role role = roleRepository.findByRoleName("ROLE_Customer");
-        if (role == null) {
-            throw new RuntimeException("Role not found");
-        }
+//        // Fetch the existing role from the database
+//        Role role = roleRepository.findByRoleName("ROLE_Customer");
+//        if (role == null) {
+//            throw new RuntimeException("Role not found");
+//        }
 
-        account.setRole(role);
+        // Assign the existing role to the account (do not persist role again)
 
 
+//        // Temporarily store account info for OTP verification
+//        temporaryAccount.setUsername(account.getUsername());
+//        temporaryAccount.setPassword(account.getPassword());
+//        temporaryAccount.setEmail(account.getEmail());
+//        temporaryAccount.setRole(role);
+//        temporaryAccount.setRegistrationDate(account.getRegistrationDate());
+//        temporaryAccount.setStatus(0);
 
-        temporaryAccount = account; // Temporarily store account info
-        temporaryAccount.setRole(account.getRole());
-
-        storedOtp = generateOTP();  // Generate OTP
-        storedEmail = email;  // Store email for verification
-        sendOtpEmail(email, storedOtp);  // Send OTP email
+        // Generate OTP and send to email
+        storedOtp = generateOTP();
+        storedEmail = email;
+        sendOtpEmail(email, storedOtp);
     }
 
 
+
     public boolean verifyOtp(String otp) {
-        System.out.println("Pla");
+
         if (otp.equals(storedOtp)) {
             System.out.println("Hi");
-            if (temporaryAccount != null && temporaryAccount.getEmail().equals(storedEmail)) {
-                System.out.println("Hello");
-                temporaryAccount.setStatus(1);  // Enable the account
-                accountRepository.save(temporaryAccount);  // Save the account to the database
-                temporaryAccount = null;  // Clear temporary account after saving
+            if (account != null && account.getEmail().equals(storedEmail)) {
+                account.setRole(roleRepository.findByRoleName("ROLE_Customer"));
+                account.setStatus(1);  // Enable the account
+                accountRepository.save(account);  // Save the account to the database
+                account = null;  // Clear temporary account after saving
                 return true;
             }
         }
