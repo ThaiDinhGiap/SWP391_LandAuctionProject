@@ -2,57 +2,40 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-
-    <title>Login</title>
+    <title>Register</title>
     <link href="//fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Template CSS -->
-
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <style>
         body {
             text-align: center;
             padding-top: 2rem;
         }
-        .login-container {
+        .register-container {
             margin: 20px;
         }
     </style>
 </head>
 <body>
 
-<div class="login-container">
-    <h1>Login</h1>
+<div class="register-container">
+    <h1>Register</h1>
 
-    <!-- Username/password login form -->
-    <form action="#" th:action="@{/authenticateTheUser}" method="POST">
+    <form action="/register" method="POST">
         <p>
             Username: <input type="text" name="username" required/>
         </p>
         <p>
             Password: <input type="password" name="password" required/>
         </p>
-        <input type="submit" value="Login"/>
+        <p>
+            Email: <input type="email" name="email" required/>
+        </p>
+        <input type="submit" value="Register"/>
     </form>
 
-    <form action="/oauth2/authorization/google" method="GET">
-        <button type="submit" class="login-with-google-btn">
-            Sign in with Google
-        </button>
-
-        <!--register link here -->
-        <p>Don't have an account?  <a th:href="@{/register}" style="font-size: 15px;">Register here</a>
-    </form>
-
-
-
-
+    <!-- Login link -->
+    <p>Already have an account?  <a th:href="@{/showMyLoginPage}" style="font-size: 20px;">Login</a>
 </div>
-
-</body>
-</html>
-</title>
-</head>
-<body>
 
 </body>
 </html>

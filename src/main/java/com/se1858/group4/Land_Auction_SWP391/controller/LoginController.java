@@ -1,9 +1,7 @@
 package com.se1858.group4.Land_Auction_SWP391.controller;
 
-import com.se1858.group4.Land_Auction_SWP391.googleLoginHandler.OAuth2SuccessHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 
 @Controller
 public class LoginController {
@@ -38,9 +36,10 @@ public class LoginController {
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(role));
     }
 
-    @GetMapping("/")
-    public String homepage() {
-        return "homepage/homepage";
+
+    @GetMapping({"/"})
+    public String hompage() {
+        return "homepage";
     }
 
     @GetMapping({"/showMyLoginPage"})
