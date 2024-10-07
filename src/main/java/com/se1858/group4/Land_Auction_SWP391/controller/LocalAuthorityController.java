@@ -5,7 +5,7 @@ import com.se1858.group4.Land_Auction_SWP391.service.LocalAuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +20,17 @@ public class LocalAuthorityController {
         List<Local_authority> authorities = localAuthorityService.getAllLocalAuthorities();
         model.addAttribute("authorities", authorities);
         return "dashboard"; // Tên view
+    }
+
+    @PostMapping("/local-authorities/update")
+    public String updateLocalAuthority(@ModelAttribute Local_authority localAuthority) {
+        localAuthorityService.updateLocalAuthority(localAuthority);
+        return "redirect:/local-authorities";
+    }
+
+    @GetMapping("/local-authorities/delete/{id}")
+    public String deleteLocalAuthority(@PathVariable Long id) {
+        localAuthorityService.deleteLocalAuthority(id);
+        return "redirect:/local-authorities"; 
     }
 }
