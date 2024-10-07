@@ -22,15 +22,4 @@ public class LocalAuthorityController {
         return "dashboard"; // Tên view
     }
 
-    @PostMapping("/local-authorities/update")
-    public String updateLocalAuthority(@ModelAttribute Local_authority localAuthority) {
-        localAuthorityService.updateLocalAuthority(localAuthority);
-        return "redirect:/local-authorities";
-    }
-
-    @GetMapping("/local-authorities/delete/{id}")
-    public String deleteLocalAuthority(@PathVariable Long id) {
-        localAuthorityService.deleteLocalAuthority(id);
-        return "redirect:/local-authorities"; 
-    }
 }
