@@ -15,9 +15,18 @@ public class LocalAuthorityService {
     public LocalAuthorityService(LocalAuthorityRepository localAuthorityRepository) {
         this.localAuthorityRepository = localAuthorityRepository;
     }
+    public List<LocalAuthority> findAll() {
+        return localAuthorityRepository.findAll();
+    }
+
+    public List<LocalAuthority> getAllLocalAuthorities() {
+        return localAuthorityRepository.findAll();
+    }
+
     public List<LocalAuthority> getAllLocalAuthority(){
         return localAuthorityRepository.findAll();
     }
+
     public LocalAuthority getLocalAuthorityById(int id){
         return localAuthorityRepository.findById(id).get();
     }
