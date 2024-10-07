@@ -33,11 +33,27 @@ public class RegisterController {
     }
 
 
+//    @PostMapping("/register")
+//    public String registerUser(@RequestParam String username,
+//                               @RequestParam String password,
+//                               @RequestParam String email) {
+//        accountService.registerUser(username, password, email);
+//        return "redirect:/verify-otp";  // After registration, redirect to OTP verification
+//    }
+
     @PostMapping("/register")
     public String registerUser(@RequestParam String username,
                                @RequestParam String password,
-                               @RequestParam String email) {
-        accountService.registerUser(username, password, email);
+                               @RequestParam String email,
+                               Model model) {
+        // Check if the username already exists
+        if (accountService.checkUsernameExists(username)) {
+            model.addAttribute("errorMessage", "Username already exists. Please choose another one.");
+            return "register";
+        }
+
+        // Register the user if no issues
+        accountService.registerUser(username, password, email, model);
         return "redirect:/verify-otp";  // After registration, redirect to OTP verification
     }
 

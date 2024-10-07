@@ -14,6 +14,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -77,38 +78,49 @@ Account account = new Account();
 
 
 
-    public void registerUser(String username, String password, String email) {
+//    public void registerUser(String username, String password, String email) {
+//
+//        account.setUsername(username);
+//        if (accountRepository.findByUsername(username) != null) {
+//            throw new RuntimeException("Username already exists.");
+//        }
+//        // Encrypt password
+//        account.setPassword(passwordEncoder.encode(password));
+//        account.setEmail(email);
+//        account.setVerify(0);  // Not verified yet
+//        account.setStatus(0);  // Disabled until OTP verification
+//        account.setRegistrationDate(LocalDateTime.now());
+//
+//        // Generate OTP and send to email
+//        storedOtp = generateOTP();
+//        storedEmail = email;
+//        sendOtpEmail(email, storedOtp);
+//    }
 
+
+    public String registerUser(String username, String password, String email, Model model) {
+        if (accountRepository.findByUsername(username) != null) {
+            model.addAttribute("errorMessage", "Username already exists. Please choose another one.");
+            return "register";  // Return the user back to the register page
+        }
+
+        // Continue with user registration
         account.setUsername(username);
-
-        // Encrypt password
         account.setPassword(passwordEncoder.encode(password));
         account.setEmail(email);
-        account.setVerify(0);  // Not verified yet
-        account.setStatus(0);  // Disabled until OTP verification
+        account.setVerify(0);
+        account.setStatus(0);
         account.setRegistrationDate(LocalDateTime.now());
 
-//        // Fetch the existing role from the database
-//        Role role = roleRepository.findByRoleName("ROLE_Customer");
-//        if (role == null) {
-//            throw new RuntimeException("Role not found");
-//        }
-
-        // Assign the existing role to the account (do not persist role again)
-
-
-//        // Temporarily store account info for OTP verification
-//        temporaryAccount.setUsername(account.getUsername());
-//        temporaryAccount.setPassword(account.getPassword());
-//        temporaryAccount.setEmail(account.getEmail());
-//        temporaryAccount.setRole(role);
-//        temporaryAccount.setRegistrationDate(account.getRegistrationDate());
-//        temporaryAccount.setStatus(0);
-
-        // Generate OTP and send to email
         storedOtp = generateOTP();
         storedEmail = email;
         sendOtpEmail(email, storedOtp);
+        return "redirect:/verify-otp";  // Redirect to OTP verification
+    }
+
+
+    public boolean checkUsernameExists(String username) {
+        return accountRepository.findByUsername(username) != null;
     }
 
 

@@ -89,6 +89,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(configurer -> configurer
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/assets_CustomerSide/**","/loginTemplate/**").permitAll()
                         // Allow unrestricted access to the homepage, login page, and error page
                         .requestMatchers("/", "/showMyLoginPage", "/access-denied","/register","/verify-otp","/resend-otp","/otp-success").permitAll()
                         // Define role-based access for other URLs
@@ -104,6 +105,7 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/showMyLoginPage") // Define custom login page
                         .loginProcessingUrl("/authenticateTheUser") // Login form POST URL
+                        .failureUrl("/showMyLoginPage?error=true") // Redirect to login page with error on failure
                         .permitAll()
                         .defaultSuccessUrl("/default", true) // Where to go after successful login
                 )
