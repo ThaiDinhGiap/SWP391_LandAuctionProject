@@ -123,6 +123,9 @@ Account account = new Account();
         return accountRepository.findByUsername(username) != null;
     }
 
+    public boolean checkEmailExists(String email) {
+        return accountRepository.findByEmail(email) != null;
+    }
 
 
     public boolean verifyOtp(String otp) {

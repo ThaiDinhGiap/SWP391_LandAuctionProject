@@ -3,26 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
-    <link rel="stylesheet" href="/registerTemplate/style.css">
+    <link rel="stylesheet" href="/assets_CustomerSide/css/styleRegister.css">
 </head>
 <body>
 <div class="container" id="container">
-    <div class="form-container sign-up-container">
+    <div class="form-container sign-in-container">
         <form action="/register" method="POST">
             <h1>Create Account</h1>
-            <div class="social-container">
-                <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-            <span>or use your email for registration</span>
             <input type="text" name="username" placeholder="Name" required/>
             <input type="email" name="email" placeholder="Email" required/>
             <input type="password" name="password" placeholder="Password" required/>
-            <!-- Display error message if exists -->
-            <div th:if="${errorMessage}" style="color: red;">
-                <p th:text="${errorMessage}"></p>
+
+            <!-- Display error message for username if exists -->
+            <div th:if="${errorUsernameMessage}" style="color: red;">
+                <p th:text="${errorUsernameMessage}"></p>
             </div>
+
+            <!-- Display error message for email if exists -->
+            <div th:if="${errorEmailMessage}" style="color: red;">
+                <p th:text="${errorEmailMessage}"></p>
+            </div>
+
             <button type="submit">Sign Up</button>
         </form>
     </div>

@@ -48,7 +48,13 @@ public class RegisterController {
                                Model model) {
         // Check if the username already exists
         if (accountService.checkUsernameExists(username)) {
-            model.addAttribute("errorMessage", "Username already exists. Please choose another one.");
+            model.addAttribute("errorUsernameMessage", "Username already exists. Please choose another one.");
+            return "register";
+        }
+
+        // Check if the email already exists
+        if (accountService.checkEmailExists(email)) {
+            model.addAttribute("errorEmailMessage", "Email already exists. Please use another one.");
             return "register";
         }
 
@@ -56,6 +62,7 @@ public class RegisterController {
         accountService.registerUser(username, password, email, model);
         return "redirect:/verify-otp";  // After registration, redirect to OTP verification
     }
+
 
 
     @PostMapping("/verify-otp")

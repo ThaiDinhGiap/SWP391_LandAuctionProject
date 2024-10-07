@@ -3,27 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Verify OTP</title>
+    <link rel="stylesheet" href="/assets_CustomerSide/css/styleRegister.css">
 </head>
 <body>
-<h1>OTP Verification</h1>
-<form action="/verify-otp" method="POST">
-    <input type="text" name="otp" placeholder="Enter OTP" required>
-    <button type="submit">Verify</button>
-</form>
+<div class="container" id="container">
+    <div class="form-container sign-in-container">
+        <form action="/verify-otp" method="POST">
+            <h1>OTP Verification</h1>
+            <span style="margin: 10px">Please check your email!</span>
+            <input type="text" name="otp" placeholder="Enter OTP" required/>
 
-<!-- Error Message -->
+            <!-- Success or error messages -->
+            <div th:if="${message}" style="color: green;">
+                <p th:text="${message}"></p>
+            </div>
+            <div th:if="${error}" style="color: red;">
+                <p th:text="${error}"></p>
+            </div>
 
-<div th:if="${message}">
-    <p style="color: green;">[[${message}]]</p>
+            <button type="submit">Verify</button>
+        </form>
+    </div>
+
+    <!-- Resend OTP Button -->
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-right">
+                <h1>Didn't receive OTP?</h1>
+                <form class="otp-resend" action="/resend-otp" method="POST">
+                    <button type="submit">Resend OTP</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
-
-<div th:if="${error}">
-    <p style="color: red;">[[${error}]]</p>
-</div>
-
-<form action="/resend-otp" method="POST">
-    <button type="submit">Resend OTP</button>
-</form>
-
 </body>
 </html>

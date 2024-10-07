@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer> {
     Account findByUsername(String username);
+
+    Account findByEmail(String email);
 //    Account findAccountByAccountId(int accountId);
 //    Account findByEmail(String email);
 //    List<Account> findByStatus(int i);
