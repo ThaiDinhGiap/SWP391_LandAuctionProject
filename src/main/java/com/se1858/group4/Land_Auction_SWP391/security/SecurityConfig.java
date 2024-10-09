@@ -95,7 +95,7 @@ public class SecurityConfig {
                         // Define role-based access for other URLs
                         .requestMatchers("/customer/**").hasRole("Customer")
                         .requestMatchers("/admin/**").hasRole("Admin")
-                        .requestMatchers("/property-agent/**").hasRole("Property_Agent")
+                        .requestMatchers("/property_agent/**").hasRole("Property_Agent")
                         .requestMatchers("/autioneer/**").hasRole("Autioneer")
                         .requestMatchers("/customer_care/**").hasRole("Customer_Care")
                         .requestMatchers("/news_writer/**").hasRole("News_Writer")

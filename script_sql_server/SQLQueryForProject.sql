@@ -278,12 +278,12 @@ INSERT INTO Notification (content, created_date, read_status)
 VALUES (N'Hê sờ lô, hô sờ ly ly!!!', '2024-09-26 07:16:54.468837', 'unread');
 
 INSERT INTO Account (username, password, status, verify, email, avatar_image_id, role_id, registration_date) 
-VALUES ('admin', '{noop}123', 1, 1, 'johndoe@example.com', 1, 2, '2024-09-26 07:16:54.470494'),
-('propertyagent', '{noop}123', 1, 1, 'chickenrice@example.com', 1, 3, '2024-09-26 07:16:54.470494'),
-('auctioneer', '{noop}123', 1, 1, 'bunbohue@example.com', 1, 4, '2024-09-26 07:16:54.470494'),
-('customercare', '{noop}123', 1, 1, 'banhmy@example.com', 1, 5, '2024-09-26 07:16:54.470494'),
-('newswriter', '{noop}123', 1, 1, 'meomeo@example.com', 1, 6, '2024-09-26 07:16:54.470494'),
-('customer', '{noop}123', 1, 1, 'alexpeter@example.com', 1, 1, '2024-09-26 07:16:54.470494');
+VALUES ('admin', '$2a$10$43UPoYJoq5cJT.U6bSrZPOAQ4K.GrN8F5JzhGdBcxy.ZfFpvrsUAi', 1, 1, 'johndoe@example.com', 1, 2, '2024-09-26 07:16:54.470494'),
+('propertyagent', '$2a$10$43UPoYJoq5cJT.U6bSrZPOAQ4K.GrN8F5JzhGdBcxy.ZfFpvrsUAi', 1, 1, 'chickenrice@example.com', 1, 3, '2024-09-26 07:16:54.470494'),
+('auctioneer', '$2a$10$43UPoYJoq5cJT.U6bSrZPOAQ4K.GrN8F5JzhGdBcxy.ZfFpvrsUAi', 1, 1, 'bunbohue@example.com', 1, 4, '2024-09-26 07:16:54.470494'),
+('customercare', '$2a$10$43UPoYJoq5cJT.U6bSrZPOAQ4K.GrN8F5JzhGdBcxy.ZfFpvrsUAi', 1, 1, 'banhmy@example.com', 1, 5, '2024-09-26 07:16:54.470494'),
+('newswriter', '$2a$10$43UPoYJoq5cJT.U6bSrZPOAQ4K.GrN8F5JzhGdBcxy.ZfFpvrsUAi', 1, 1, 'meomeo@example.com', 1, 6, '2024-09-26 07:16:54.470494'),
+('customer', '$2a$10$43UPoYJoq5cJT.U6bSrZPOAQ4K.GrN8F5JzhGdBcxy.ZfFpvrsUAi', 1, 1, 'alexpeter@example.com', 1, 1, '2024-09-26 07:16:54.470494');
 
 INSERT INTO Staff (account_id, full_name, gender, date_of_birth, address, phone_number) 
 VALUES (1, 'John Doe', 'M', '1990-01-01 00:00:00', '123 Main St, Hanoi', '0123456789'),

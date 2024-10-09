@@ -15,7 +15,7 @@ public class LoginController {
             return "redirect:/admin/home";
         }
         if (hasRole("ROLE_Property_Agent")) {
-            return "redirect:/property-agent/home";
+            return "redirect:/property_agent/dashboard";
         }
         if (hasRole("ROLE_Autioneer")) {
             return "redirect:/autioneer/home";
@@ -24,7 +24,7 @@ public class LoginController {
             return "redirect:/customer-care/home";
         }
         if (hasRole("ROLE_News_Writer")) {
-            return "redirect:/news-writer/home";
+            return "redirect:/news_writer/dashboard";
         }
 
 
