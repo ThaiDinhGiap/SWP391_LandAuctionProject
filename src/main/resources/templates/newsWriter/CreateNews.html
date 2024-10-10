@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="76x76" th:href="@{/dashboardStatic/img/apple-icon.png}">
+    <link rel="icon" type="image/png" th:href="@{/dashboardStatic/img/favicon.png}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Tạo bài viết</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+          name='viewport'/>
+    <!--  dashboard template  -->
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <!-- CSS Files -->
+    <!-- CHI SUA CAC DUONG DAN CSS O DUOI DAY -->
+    <link th:href="@{/dashboardStatic/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/dashboardStatic/css/paper-dashboard.css?v=2.0.1}" rel="stylesheet"/>
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link th:href="@{/dashboardStatic/demo/demo.css}" rel="stylesheet"/>
+
+    <!--  them richtext  -->
+    <!-- CSS của Summernote -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" rel="stylesheet">
+    <!-- jQuery (yêu cầu của Summernote) -->
+    <!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+    <script th:src="@{/dashboardStatic/js/core/jquery.min.js}"></script>
+    <!-- JavaScript của Summernote -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js"></script>
+</head>
+<body>
+<div class="wrapper ">
+    <!--  Side navbar: chua lien ket den cac trang tuy chon cua minh  -->
+    <div class="sidebar" data-color="white" data-active-color="danger">
+        <div class="logo">
+            <!--     Đường dẫn đến web chính của dự án     -->
+            <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-mini">
+                <!--     Avatar người dùng ở đây     -->
+                <div class="logo-image-small">
+                    <img th:src="@{/dashboardStatic/img/logo-small.png}">
+                </div>
+                <!-- <p>CT</p> -->
+            </a>
+            <!--     Đường dẫn đến web chính của dự án     -->
+            <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-normal">
+                Bui Minh Chien
+                <!--     Thêm logo dự án ở đây     -->
+                <!--           <div class="logo-image-big">-->
+                <!--            <img src="../assets/img/logo-big.png">-->
+                <!--          </div>-->
+            </a>
+        </div>
+        <div class="sidebar-wrapper">
+            <ul class="nav">
+                <li>
+                    <a th:href="@{/news_writer/dashboard}">
+                        <i class="nc-icon nc-bank"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li class="active ">
+                    <a th:href="@{/news_writer/create_news}">
+                        <i class="nc-icon nc-single-copy-04"></i>
+                        <p>Create news</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/news_writer/list}">
+                        <i class="nc-icon nc-bullet-list-67"></i>
+                        <p>News list</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!--  End side navbar  -->
+    <div class="main-panel"> <!--  Day la phan ben phai cua trang  -->
+        <!-- Top Navbar, SUA TIEU DE TRANG CHO PHU HOP -->
+        <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+            <div class="container-fluid">
+                <span class="navbar-brand">VietLand Auction</span>
+            </div>
+        </nav>
+        <!-- End Top Navbar -->
+        <!-- Noi dung cua trang se nam trong phan content nay -->
+        <div class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-user">
+                        <div class="card-header">
+                            <h5 class="card-title">Mời soạn bài viết</h5>
+                        </div>
+                        <div class="card-body">
+                            <form th:action="@{/news_writer/add}" th:method="post" th:object="${newsDTO}"
+                                  enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="title">Title</label>
+                                            <input type="text" th:field="*{news.title}" id="title"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="content">Content</label>
+                                            <textarea th:field="*{news.content}" id="content"
+                                                      class="form-control"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="images">Choose cover photo</label>
+                                            <input type="file" name="images" id="images" class="form-control"
+                                                   required
+                                                   accept="image/png, image/jpeg, image/jpg, image/gif">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Choose tags for news</label>
+                                            <div class="col-sm-10">
+                                                <div th:each="tag : ${listTag}" >
+                                                    <input type="checkbox" th:id="${'tag' + tag.tagId}" th:value="${tag.tagId}" name="selectedTags" th:title="${tag.tagName}"/>
+                                                    <label th:for="${'tag' + tag.tagId}" th:text="${tag.tagName}"></label><br/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="update ml-auto mr-auto">
+                                        <button type="submit" class="btn btn-primary btn-round">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+<!--                            <span th:if="${param.message}" th:text="${param.message}" class="alert-message"></span>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Het phan noi dung cua trang -->
+    </div>
+</div>
+<!--<div class="col-md-4">-->
+<!--    <button class="btn btn-primary btn-block" onclick="demo.showNotification()">Bottom Right</button>-->
+<!--</div>-->
+
+
+<!---------------------------------------KHONG DUOC SUA------------------------------------------------------>
+<!--   Core JS Files   -->
+<script th:src="@{/dashboardStatic/js/core/popper.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/core/bootstrap.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/plugins/perfect-scrollbar.jquery.min.js}"></script>
+<!-- Chart JS -->
+<script th:src="@{/dashboardStatic/js/plugins/chartjs.min.js}"></script>
+<!--  Notifications Plugin    -->
+<script th:src="@{/dashboardStatic/js/plugins/bootstrap-notify.js}"></script>
+<!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+<script th:src="@{/dashboardStatic/js/paper-dashboard.min.js?v=2.0.1}" type="text/javascript"></script>
+<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
+<script th:src="@{/dashboardStatic/demo/demo.js}"></script>
+
+<script>
+    $(document).ready(function () {
+        <!-- script cho richtext-->
+        $('#content').summernote({
+            height: 300, // Chiều cao của editor
+            tabsize: 2,
+            placeholder: 'Enter content here...',
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'italic', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+    });
+</script>
+<!--Kiểm tra tỷ lệ khung ảnh-->
+<script>
+    document.getElementById('images').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+
+        if (file) {
+            const img = new Image();
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                img.src = e.target.result;
+
+                img.onload = function() {
+                    const width = img.width;
+                    const height = img.height;
+
+                    // Kiểm tra xem ảnh có chiều rộng lớn hơn chiều cao không
+                    if (width < height) {
+                        alert('Image size is incorrect. Please use a rectangular image (width must be equal to or greater than height).');
+                        // Reset input nếu không đúng tỷ lệ
+                        event.target.value = '';
+                    }
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+</body>
+</html>

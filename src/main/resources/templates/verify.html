@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify OTP</title>
+    <link rel="stylesheet" href="/assets_CustomerSide/css/styleRegister.css">
+</head>
+<body>
+<div class="container" id="container">
+    <div class="form-container sign-in-container">
+        <form action="/verify-otp" method="POST">
+            <h1>OTP Verification</h1>
+            <span style="margin: 10px">Please check your email!</span>
+            <input type="text" name="otp" placeholder="Enter OTP" required/>
+
+            <!-- Success or error messages -->
+            <div th:if="${message}" style="color: green;">
+                <p th:text="${message}"></p>
+            </div>
+            <div th:if="${error}" style="color: red;">
+                <p th:text="${error}"></p>
+            </div>
+
+            <button type="submit">Verify</button>
+        </form>
+    </div>
+
+    <!-- Resend OTP Button -->
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-right">
+                <h1>Didn't receive OTP?</h1>
+                <form class="otp-resend" action="/resend-otp" method="POST">
+                    <button type="submit">Resend OTP</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

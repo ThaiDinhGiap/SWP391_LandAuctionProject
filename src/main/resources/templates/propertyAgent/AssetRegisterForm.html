@@ -60,14 +60,14 @@
                 </li>
                 <li class="active ">
                     <a th:href="@{/property_agent/register_form}">
-                        <i class="nc-icon nc-caps-small"></i>
+                        <i class="nc-icon nc-single-copy-04"></i>
                         <p>Register asset for auction</p>
                     </a>
                 </li>
                 <li>
                     <a th:href="@{/property_agent/list_unsuccessful_sale_asset}">
-                        <i class="nc-icon nc-caps-small"></i>
-                        <p>Unsuccessful sale assets</p>
+                        <i class="nc-icon nc-bullet-list-67"></i>
+                        <p>Asset list</p>
                     </a>
                 </li>
             </ul>
@@ -244,7 +244,7 @@
 <script th:src="@{/dashboardStatic/js/paper-dashboard.min.js?v=2.0.1}" type="text/javascript"></script>
 <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
 <script th:src="@{/dashboardStatic/demo/demo.js}"></script>
-
+<!--Dùng cho summernote-->
 <script>
     $(document).ready(function () {
         <!-- script cho richtext-->
@@ -265,6 +265,34 @@
                 ['view', ['fullscreen', 'codeview', 'help']]
             ]
         });
+    });
+</script>
+<!--Kiểm tra tỷ lệ khung ảnh-->
+<script>
+    document.getElementById('images').addEventListener('change', function(event) {
+        const files = event.target.files; // Lấy danh sách các tệp được chọn
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            if (file) {
+                const img = new Image();
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    img.src = e.target.result;
+                    img.onload = function() {
+                        const width = img.width;
+                        const height = img.height;
+                        // Kiểm tra xem ảnh có chiều rộng lớn hơn chiều cao không
+                        if (width < height) {
+                            alert(`Image ${file.name} is incorrect. Please use a rectangular image (width must be equal to or greater than height).`);
+                            // Reset input nếu có ảnh không hợp lệ
+                            event.target.value = '';
+                            return; // Ngừng kiểm tra ảnh còn lại
+                        }
+                    };
+                };
+                reader.readAsDataURL(file);
+            }
+        }
     });
 </script>
 </body>

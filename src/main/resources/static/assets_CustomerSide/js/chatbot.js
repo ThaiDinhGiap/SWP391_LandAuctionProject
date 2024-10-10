@@ -1,15 +1,27 @@
+function initChat(){
+    fetchMainTopics();
+}
+
 document.getElementById("init").addEventListener("click", showChatBot);
 var cbot = document.getElementById("chat-box");
 
 function showChatBot() {
     var chatbox = document.getElementById('chatbox');
-    if (chatbox.style.display === 'none' || chatbox.style.display === '') {
-        chatbox.style.display = 'block';
-        document.getElementById('init').innerText = 'CLOSE CHAT';
-        fetchMainTopics();  // Fetch main topics khi mở chat
+    var initButton = document.getElementById('init');
+
+    // Lấy vị trí của nút init
+    var rect = initButton.getBoundingClientRect();
+    var originX = rect.left + rect.width / 2;
+    var originY = rect.top + rect.height / 2;
+
+    // Tính toán điểm bắt đầu cho transform-origin (theo vị trí của nút init)
+    chatbox.style.transformOrigin = `${originX}px ${originY}px`;
+
+    if (chatbox.classList.contains('show')) {
+        chatbox.classList.remove('show');
     } else {
-        chatbox.style.display = 'none';
-        document.getElementById('init').innerText = 'START CHAT';
+        chatbox.classList.add('show');
+        fetchMainTopics();
     }
 }
 
@@ -57,6 +69,7 @@ function handleOpt() {
     document.querySelectorAll(".opt").forEach(el => el.remove());
 
     // Gửi request tới server để lấy subtopics hoặc câu hỏi
+    // Gửi request tới server để lấy subtopics, câu hỏi, hoặc nhân viên
     fetch(`/api/chatbot/topics/${selectedOptionId}`)
         .then(response => response.json())
         .then(data => {
@@ -64,6 +77,8 @@ function handleOpt() {
                 displayOptions(data.data, "subtopics");
             } else if (data.type === 'questions') {
                 displayQuestionList(data.data);
+            } else if (data.type === 'Direct Support') {  // Trường hợp hiển thị danh sách nhân viên
+                displayStaffList(data.data);
             }
         });
 }
@@ -93,6 +108,73 @@ function displayAnswer(answer, questionElm) {
     answerElm.innerHTML = `<strong>A:</strong> ${answer}`;
     answerElm.setAttribute("class", "msg");
     cbot.insertBefore(answerElm, questionElm.nextSibling);
+    handleScroll();
+}
+
+function displayStaffList(staffList) {
+    staffList.forEach(staff => {
+        var staffElm = document.createElement("span");
+        staffElm.innerHTML = `<strong>Staff:</strong> ${staff.fullName} (${staff.gender}) - ${staff.email}`;
+        staffElm.setAttribute("class", "opt");
+        staffElm.dataset.id = staff.staffId;
+        staffElm.addEventListener("click", function () {
+            confirmConnection(staff);
+        });
+        cbot.appendChild(staffElm);
+        handleScroll();
+    });
+}
+
+function confirmConnection(staff) {
+    var confirmModal = document.getElementById("confirmModal");
+    var confirmMessage = document.getElementById("confirmMessage");
+    var confirmApprove = document.getElementById("confirmApprove");
+    var confirmReject = document.getElementById("confirmReject")
+
+    // Thiết lập tin nhắn xác nhận
+    confirmMessage.innerText = `Do you want to connect with ${staff.fullName}?`;
+
+    // Hiển thị modal
+    confirmModal.style.display = "flex";
+
+    // Xử lý khi người dùng chọn "Approve"
+    confirmApprove.onclick = function() {
+        sendConnectionRequest(staff);
+        confirmModal.style.display = "none";
+    };
+
+    // Xử lý khi người dùng chọn "Reject"
+    confirmReject.onclick = function() {
+        confirmModal.style.display = "none";
+    };
+}
+
+function sendConnectionRequest(staff) {
+    var contactMessage = document.createElement("p");
+    contactMessage.setAttribute("class", "rep");
+    contactMessage.innerHTML = `<strong>Contacting:</strong> ${staff.fullName}`;
+    cbot.appendChild(contactMessage);
+    handleScroll();
+
+    // Gửi yêu cầu đến Staff qua API
+    fetch(`/api/chat/connect/${staff.staffId}?clientId=${clientId}`, { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+            // Xử lý trạng thái pending
+            if (data.status === 'Pending') {
+                displayMessage("Đang chờ phản hồi từ Staff...");
+                handleStaffResponse(clientId);
+            } else if (data.status === 'Rejected'){
+                displayMessage("Staff này đang bận, vui lòng chọn Staff khác.")
+            }
+        });
+}
+
+function displayMessage(message) {
+    var messageElement = document.createElement('p');
+    messageElement.textContent = message;
+    messageElement.setAttribute("class", "msg");
+    cbot.appendChild(messageElement);
     handleScroll();
 }
 
