@@ -9,6 +9,9 @@
     <!-- Google fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
     <!-- Template CSS -->
     <link rel="stylesheet" th:href="@{/assets_CustomerSide/css/style-starter.css}">
 
@@ -106,24 +109,52 @@
             background: #f7f7f7; /* Màu nền nhẹ cho body */
         }
 
-        .msg, .rep {
+        .msg {
             margin: 10px 0;
             padding: 10px;
             border-radius: 10px;
             max-width: 80%;
             display: inline-block;
-        }
-
-        .msg {
             background-color: #e6e6e6;
             text-align: left;
         }
 
         .rep {
-            background-color: #d2f8d2;
-            text-align: right;
-            margin-left: auto;
+            background-color: #007bff; /* Màu nền nhạt dễ chịu */
+            color: white; /* Màu chữ đậm hơn để dễ đọc */
+            text-align: right; /* Căn chữ sang bên phải */
+            margin-left: auto; /* Đẩy phần tử về phía phải */
+            max-width: fit-content; /* Giới hạn chiều rộng tin nhắn */
+            padding: 10px;
+            border-radius: 12px; /* Đường bo góc mềm mại */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm bóng cho tin nhắn */
+            font-family: 'Arial', sans-serif;
+            font-size: 14px; /* Kích thước chữ vừa đủ */
+            margin-bottom: 10px; /* Thêm khoảng cách giữa các tin nhắn */
+            word-wrap: break-word;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
+        .moralButton {
+            border-radius: 5px;
+        }
+
+        /*.rep {*/
+        /*    background-color: #007bff; !* Màu nền xanh đậm *!*/
+        /*    color: white; !* Màu chữ trắng để nổi bật trên nền xanh *!*/
+        /*    text-align: left; !* Căn chữ sang trái *!*/
+        /*    margin-left: auto; !* Đẩy phần tử về phía phải *!*/
+        /*    display: inline-block; !* Hiển thị phần tin nhắn theo nội dung *!*/
+        /*    padding: 10px 15px; !* Điều chỉnh padding cho thoải mái *!*/
+        /*    border-radius: 20px; !* Đường bo góc lớn hơn để mềm mại hơn *!*/
+        /*    max-width: 80%; !* Giới hạn chiều rộng tối đa là 60% *!*/
+        /*    font-family: 'Arial', sans-serif;*/
+        /*    font-size: 14px; !* Kích thước chữ vừa đủ *!*/
+        /*    margin-bottom: 10px; !* Khoảng cách giữa các tin nhắn *!*/
+        /*    word-wrap: break-word; !* Tự động xuống dòng nếu quá dài *!*/
+        /*    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); !* Thêm bóng nhẹ cho tin nhắn *!*/
+        /*}*/
+
 
         .opt {
             padding: 10px 15px;
@@ -143,12 +174,6 @@
         .opt:hover {
             background-color: #3b82f6;
             color: white;
-        }
-
-        .opt.selected {
-            background-color: #11ba11; /* Màu nền xanh nhạt khi chọn */
-            color: #6b6b6b; /* Màu chữ nhạt */
-            border: none; /* Bỏ viền */
         }
 
         /* Footer cho nút và nhập tin nhắn */
@@ -187,6 +212,90 @@
         .chat-footer button:hover {
             background-color: #458b9e;
         }
+
+        /* CSS cho modal */
+        #confirmModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5); /* Nền mờ */
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #confirmModal div {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            text-align: center;
+            width: 350px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Thêm bóng đổ */
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        #confirmModal p {
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Hiệu ứng khi modal xuất hiện */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Sử dụng flexbox để căn chỉnh các nút cùng một hàng */
+        #confirmModal .button-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        /* CSS cho nút bấm */
+        .moralButton {
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100px;
+        }
+
+        .moralButton#confirmApprove {
+            background-color: #17a2b8; /* Màu xanh lá */
+            color: white;
+            margin-right: 10px;
+        }
+
+        .moralButton#confirmApprove:hover {
+            background-color: #17a2b8;
+            transform: scale(1.05);
+        }
+
+        .moralButton#confirmReject {
+            background-color: #6c757d; /* Màu đỏ */
+            color: white;
+        }
+
+        .moralButton#confirmReject:hover {
+            background-color: #6c757d;
+            transform: scale(1.05);
+        }
+
     </style>
 </head>
 
@@ -277,35 +386,50 @@
     </div>
 </section>
 
-<div id="chatbox">
+<div id="chatbot">
+    <div id="chatbox">
 
-    <div class="chat-header">
-        <div class="h-child">
-            <img th:src="@{/assets_CustomerSide/images/chatbot.jpg}" alt="avatar" id="avatar">
+        <div class="chat-header">
+            <div class="h-child">
+                <img th:src="@{/assets_CustomerSide/images/chatbot.jpg}" alt="avatar" id="avatar">
+                <div>
+                    <span class="name">Chatbot</span>
+                </div>
+            </div>
             <div>
-                <span class="name">Chatbot</span>
+                <button class="btn btn-sm btn-light refBtn" onclick="initChat()"><i class="fas fa-sync-alt"></i>
+                </button>
             </div>
         </div>
-        <div>
-            <button class="btn btn-sm btn-light refBtn" onclick="initChat()"><i class="fas fa-sync-alt"></i></button>
+
+        <div class="chat-body" id="chat-box">
+            <!-- Chat content goes here -->
         </div>
+
+        <!-- Thêm phần footer -->
+        <div class="chat-footer">
+            <input type="text" placeholder="Type your message here..." readonly>
+            <button><i class="fas fa-paper-plane"></i></button>
+        </div>
+
     </div>
 
-    <div class="chat-body" id="chat-box">
-        <!-- Chat content goes here -->
-    </div>
+    <button id="init" class="btn btn-primary chat-btn"><i class="fas fa-headset"></i></button>
 
-    <!-- Thêm phần footer -->
-    <div class="chat-footer">
-        <input type="text" placeholder="Type your message here...">
-        <button><i class="fas fa-paper-plane"></i></button>
+    <!-- Modal cho hộp thoại xác nhận -->
+    <div id="confirmModal">
+        <div>
+            <p id="confirmMessage"></p>
+            <button class="moralButton" id="confirmApprove">Approve</button>
+            <button class="moralButton" id="confirmReject">Reject</button>
+        </div>
     </div>
 
 </div>
-
-<button id="init" class="btn btn-primary chat-btn"><i class="fas fa-headset"></i></button>
 <!-- //main-slider -->
-
+<script th:inline="javascript">
+    var clientId = [[${accountId}]];
+</script>
 <!-- Thay đổi tất cả các đường dẫn image và JS để sử dụng đúng cấu trúc thư mục mới -->
 <script th:src="@{/assets_CustomerSide/js/jquery-3.3.1.min.js}"></script>
 <script th:src="@{/assets_CustomerSide/js/theme-change.js}"></script>
@@ -314,5 +438,6 @@
 <script th:src="@{/assets_CustomerSide/js/demo1.js}"></script>
 <script th:src="@{/assets_CustomerSide/js/bootstrap.min.js}"></script>
 <script th:src="@{/assets_CustomerSide/js/chatbot.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/chatWebSocket.js}"></script>
 </body>
 </html>
