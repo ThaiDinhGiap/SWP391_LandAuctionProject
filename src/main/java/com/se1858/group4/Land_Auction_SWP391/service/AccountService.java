@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 @Service
 public class AccountService {
@@ -36,12 +37,11 @@ public class AccountService {
     private BCryptPasswordEncoder passwordEncoder;
 
 
-
-
     private String storedOtp; // for simplicity, store OTP temporarily in memory or use a database.
     private String storedEmail; // Store the email temporarily for verification
-//    private Account temporaryAccount = new Account(); // Temporarily hold account until OTP is verified
-Account account = new Account();
+    //    private Account temporaryAccount = new Account(); // Temporarily hold account until OTP is verified
+    Account account = new Account();
+
     public AccountService() {
 
     }
@@ -75,7 +75,6 @@ Account account = new Account();
 //        sendOtpEmail(email, storedOtp);  // Send OTP email
 //    }
 //
-
 
 
 //    public void registerUser(String username, String password, String email) {
@@ -135,14 +134,13 @@ Account account = new Account();
             if (account != null && account.getEmail().equals(storedEmail)) {
                 account.setRole(roleRepository.findByRoleName("ROLE_Customer"));
                 account.setStatus(1);  // Enable the account
-                accountRepository.save(account);  // Save the account to the database
+                accountRepository.save(account);
                 account = null;  // Clear temporary account after saving
                 return true;
             }
         }
         return false;  // OTP verification failed
     }
-
 
 
     private void sendOtpEmail(String to, String otp) {
@@ -164,7 +162,35 @@ Account account = new Account();
     }
 
 
+    public void processForgotPassword(String email, Model model) {
+        Account account = accountRepository.findByEmail(email);
 
+        if (account == null) {
+            model.addAttribute("errorMessage", "No account found with this email.");
+            return;
+        }
+
+        String newPassword = generateRandomPassword();
+        account.setPassword(passwordEncoder.encode(newPassword));
+        accountRepository.save(account);
+        sendNewPasswordEmail(email, newPassword);
+
+        model.addAttribute("message", "A new password has been sent to your email.");
+    }
+
+    private String generateRandomPassword() {
+        return UUID.randomUUID().toString().substring(0, 8);
+    }
+
+    private void sendNewPasswordEmail(String to, String newPassword) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Your New Password");
+        message.setText("Your new password is: " + newPassword + "\nPlease change it after logging in.");
+        mailSender.send(message);
+    }
+
+//
 //    @Scheduled(cron = "0 0 0 * * ?")  // Runs daily at midnight
 //    public void removeUnverifiedAccounts() {
 //        List<Account> unverifiedAccounts = accountRepository.findByStatus(0);
@@ -172,7 +198,6 @@ Account account = new Account();
 //            accountRepository.delete(account);
 //        }
 //    }
-
 
 
     public AccountService(AccountRepository accountRepository) {
@@ -185,13 +210,12 @@ Account account = new Account();
     }
 
 
-
     public List<Staff> findAllStaffsByRole(String role) {
         List<Account> listAccount = accountRepository.findAll();
         List<Staff> result = null;
-        for(Account account : listAccount) {
-            if(account.getRole().getRoleName().equals(role)) {
-                if(result == null) {
+        for (Account account : listAccount) {
+            if (account.getRole().getRoleName().equals(role)) {
+                if (result == null) {
                     result = new ArrayList<Staff>();
                 }
                 result.add(account.getStaff());

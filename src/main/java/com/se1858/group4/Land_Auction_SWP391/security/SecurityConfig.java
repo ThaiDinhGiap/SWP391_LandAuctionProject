@@ -91,7 +91,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(configurer -> configurer
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/assets_CustomerSide/**").permitAll()
                         // Allow unrestricted access to the homepage, login page, and error page
-                        .requestMatchers("/", "/showMyLoginPage", "/access-denied","/register","/verify-otp","/resend-otp","/otp-success").permitAll()
+                        .requestMatchers("/", "/showMyLoginPage", "/access-denied","/register","/verify-otp","/resend-otp","/otp-success","/forgot-password").permitAll()
                         // Define role-based access for other URLs
                         .requestMatchers("/customer/**").hasRole("Customer")
                         .requestMatchers("/admin/**").hasRole("Admin")
