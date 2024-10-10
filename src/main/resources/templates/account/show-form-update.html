@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Update Status Account</title>
+</head>
+<body>
+
+<div class="container">
+    <h3>Update Status Account</h3>
+    <hr>
+
+    <p class="h4 mb-4">Update Status Account</p>
+
+    <form action="#" th:action="@{/accounts/save}"
+          th:object="${accounts}" method="post">
+        <!-- Add hidden form field to handle the update -->
+        <input type="hidden" th:field="*{accountId}">
+
+        <input type="text" th:field="*{username}"
+               class="form-control mb-4 w-25" placeholder="First Name" readonly>
+        <input type="text" th:field="*{password}"
+               class="form-control mb-4 w-25" placeholder="Last Name" readonly>
+        <input type="text" th:field="*{email}"
+               class="form-control mb-4 w-25" placeholder="Email" readonly>
+        <input type="text" th:field="*{status}"
+               class="form-control mb-4 w-25" placeholder="Status">
+        <input type="text" th:field="*{verify}"
+               class="form-control mb-4 w-25" placeholder="Verify" readonly>
+        <input type="text" th:field="*{role.roleName}"
+               class="form-control mb-4 w-25" placeholder="Role" readonly>
+        <button type="submit" class="btn btn-info col-2">Save</button>
+    </form>
+    <a th:href="@{/accounts/list}">Back to Account List</a>
+</div>
+
+</body>
+</html>
