@@ -1,12 +1,32 @@
 package com.se1858.group4.Land_Auction_SWP391.controller;
 
-import com.se1858.group4.Land_Auction_SWP391.googleLoginHandler.OAuth2SuccessHandler;
+import com.se1858.group4.Land_Auction_SWP391.entity.Account;
+import com.se1858.group4.Land_Auction_SWP391.security.UserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
+@ControllerAdvice
 public class LoginController {
+
+    private final UserDetailsService userDetailsService;
+
+    @Autowired
+    public LoginController(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+    @ModelAttribute("accountId")
+    public void addAccount(Model model) {
+        Account account = userDetailsService.accountAuthenticated();
+        if (account != null) {
+            model.addAttribute("accountId", account.getAccountId());
+        }
+    }
 
     @GetMapping("/default")
     public String defaultAfterLogin() {
@@ -58,5 +78,8 @@ public class LoginController {
         return "dashboardTemplates/dashboard";
     }
 
-
+    @GetMapping("/customer-care/home")
+    public String customerCareHome() {
+        return "customerCare/staff-chat";
+    }
 }

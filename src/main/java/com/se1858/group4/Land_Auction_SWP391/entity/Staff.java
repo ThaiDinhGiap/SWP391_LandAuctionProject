@@ -31,16 +31,20 @@ public class Staff {
     @Column(name = "phone_number", length = 10)
     private String phoneNumber;
 
+    @Column(name = "isAvailable")
+    private boolean isAvailable = true;
+
     public Staff() {
     }
 
-    public Staff(Account account, String fullName, String gender, LocalDateTime dateOfBirth, String address, String phoneNumber) {
+    public Staff(Account account, String fullName, String gender, LocalDateTime dateOfBirth, String address, String phoneNumber, boolean isAvailable) {
         this.account = account;
         this.fullName = fullName;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.isAvailable = isAvailable;
     }
 
     public int getStaffId() {
@@ -97,6 +101,14 @@ public class Staff {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 
     @Override

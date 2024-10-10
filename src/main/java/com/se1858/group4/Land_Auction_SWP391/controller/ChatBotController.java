@@ -20,14 +20,16 @@ import java.util.Optional;
 @RequestMapping("/api/chatbot")
 public class ChatBotController {
 
-    @Autowired
-    private TopicService topicService;
+    private final TopicService topicService;
+    private final QuestionService questionService;
+    private final StaffService staffService;
 
     @Autowired
-    private QuestionService questionService;
-
-    @Autowired
-    private StaffService staffService;
+    public ChatBotController(TopicService topicService, QuestionService questionService, StaffService staffService) {
+        this.topicService = topicService;
+        this.questionService = questionService;
+        this.staffService = staffService;
+    }
 
     @GetMapping("/topics/{parentId}")
     public Map<String, Object> getSubTopicsOrQuestions(@PathVariable int parentId) {
@@ -54,7 +56,6 @@ public class ChatBotController {
                 response.put("data", questions);
             }
         }
-
         return response;
     }
 

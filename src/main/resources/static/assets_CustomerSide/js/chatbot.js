@@ -60,14 +60,6 @@ function handleOpt() {
     var selectedOptionName = this.innerText;
     var type = this.dataset.type;
 
-    // Xóa class selected khỏi tất cả các topic
-    document.querySelectorAll('.opt').forEach(function(el) {
-        el.classList.remove('selected');
-    });
-
-    // Thêm class selected vào topic được chọn
-    this.classList.add('selected');
-
     var replyElm = document.createElement("p");
     replyElm.setAttribute("class", "rep");
     replyElm.innerHTML = selectedOptionName;
@@ -76,6 +68,7 @@ function handleOpt() {
     // Xóa tất cả các options cũ
     document.querySelectorAll(".opt").forEach(el => el.remove());
 
+    // Gửi request tới server để lấy subtopics hoặc câu hỏi
     // Gửi request tới server để lấy subtopics, câu hỏi, hoặc nhân viên
     fetch(`/api/chatbot/topics/${selectedOptionId}`)
         .then(response => response.json())
@@ -84,13 +77,11 @@ function handleOpt() {
                 displayOptions(data.data, "subtopics");
             } else if (data.type === 'questions') {
                 displayQuestionList(data.data);
-            } else if (data.type === 'Direct Support') {
+            } else if (data.type === 'Direct Support') {  // Trường hợp hiển thị danh sách nhân viên
                 displayStaffList(data.data);
             }
         });
 }
-
-
 
 function displayQuestionList(questions) {
     questions.forEach(question => {
@@ -127,22 +118,65 @@ function displayStaffList(staffList) {
         staffElm.setAttribute("class", "opt");
         staffElm.dataset.id = staff.staffId;
         staffElm.addEventListener("click", function () {
-            displayStaffDetails(staff);
+            confirmConnection(staff);
         });
         cbot.appendChild(staffElm);
         handleScroll();
     });
 }
 
-// Hàm để hiển thị chi tiết của nhân viên khi người dùng chọn
-function displayStaffDetails(staff) {
-    var staffDetailElm = document.createElement("p");
-    staffDetailElm.innerHTML = `<strong>Contacting:</strong> ${staff.fullName}`;
-    staffDetailElm.setAttribute("class", "msg");
-    cbot.appendChild(staffDetailElm);
-    handleScroll();
+function confirmConnection(staff) {
+    var confirmModal = document.getElementById("confirmModal");
+    var confirmMessage = document.getElementById("confirmMessage");
+    var confirmApprove = document.getElementById("confirmApprove");
+    var confirmReject = document.getElementById("confirmReject")
+
+    // Thiết lập tin nhắn xác nhận
+    confirmMessage.innerText = `Do you want to connect with ${staff.fullName}?`;
+
+    // Hiển thị modal
+    confirmModal.style.display = "flex";
+
+    // Xử lý khi người dùng chọn "Approve"
+    confirmApprove.onclick = function() {
+        sendConnectionRequest(staff);
+        confirmModal.style.display = "none";
+    };
+
+    // Xử lý khi người dùng chọn "Reject"
+    confirmReject.onclick = function() {
+        confirmModal.style.display = "none";
+    };
 }
 
+function sendConnectionRequest(staff) {
+    var contactMessage = document.createElement("p");
+    contactMessage.setAttribute("class", "rep");
+    contactMessage.innerHTML = `<strong>Contacting:</strong> ${staff.fullName}`;
+    cbot.appendChild(contactMessage);
+    handleScroll();
+
+    // Gửi yêu cầu đến Staff qua API
+    fetch(`/api/chat/connect/${staff.staffId}?clientId=${clientId}`, { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+            // Xử lý trạng thái pending
+            if (data.status === 'Pending') {
+                displayMessage("Đang chờ phản hồi từ Staff...");
+                handleStaffResponse(clientId);
+            } else if (data.status === 'Rejected'){
+                displayMessage("Staff này đang bận, vui lòng chọn Staff khác.")
+            }
+        });
+}
+
+function displayMessage(message) {
+    var messageElement = document.createElement('p');
+    messageElement.textContent = message;
+    messageElement.setAttribute("class", "msg");
+    cbot.appendChild(messageElement);
+    handleScroll();
+}
 
 function handleScroll() {
     var elem = document.getElementById('chat-box');
