@@ -2,6 +2,7 @@ package com.se1858.group4.Land_Auction_SWP391.controller;
 
 import com.se1858.group4.Land_Auction_SWP391.entity.Staff;
 import com.se1858.group4.Land_Auction_SWP391.service.StaffService;
+import com.se1858.group4.Land_Auction_SWP391.websocket.ConnectMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +26,15 @@ public class ChatController {
         boolean staffAvailable = staffService.isStaffAvailable(staffId);
 
         if (staffAvailable) {
-            staffService.setStaffAvailability(staffId, false);
             Staff staff = staffService.findById(staffId);
-            staffService.requestStaffConfirmation(staff.getAccount().getAccountId(), clientId);
+            staffService.setStaffAvailability(staff.getAccount().getAccountId(), false);
+
+            ConnectMessage requestMessage = new ConnectMessage();
+            requestMessage.setClientId(clientId);
+            requestMessage.setStaffId(staff.getAccount().getAccountId());
+            requestMessage.setStatus("Pending");
+
+            staffService.requestStaffConfirmation(requestMessage);
             response.put("status", "Pending");
         } else {
             response.put("status", "Rejected");
