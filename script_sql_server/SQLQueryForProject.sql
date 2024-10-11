@@ -69,7 +69,8 @@ CREATE TABLE Staff (
     gender NVARCHAR(1) CHECK (gender IN ('F', 'M')), 
     date_of_birth datetime2(3), 
     address NVARCHAR(max),                   
-    phone_number VARCHAR(10)
+    phone_number VARCHAR(10),
+    is_available BIT DEFAULT 1
 );
 CREATE TABLE Ban_log (
     log_id INT PRIMARY KEY IDENTITY(1,1),         

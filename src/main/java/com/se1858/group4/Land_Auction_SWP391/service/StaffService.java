@@ -3,6 +3,7 @@ package com.se1858.group4.Land_Auction_SWP391.service;
 import com.se1858.group4.Land_Auction_SWP391.dto.StaffDTO;
 import com.se1858.group4.Land_Auction_SWP391.entity.Staff;
 import com.se1858.group4.Land_Auction_SWP391.repository.StaffRepository;
+import com.se1858.group4.Land_Auction_SWP391.websocket.ConnectMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,14 +59,14 @@ public class StaffService {
 
     // Cập nhật trạng thái của staff
     public void setStaffAvailability(Integer staffId, boolean isAvailable) {
-        Staff staff = staffRepository.findById(staffId).orElseThrow(() -> new IllegalArgumentException("Staff không tồn tại"));
+        Staff staff = staffRepository.findByAccount_AccountId(staffId);
         staff.setAvailable(isAvailable);
         staffRepository.save(staff); // Lưu lại trạng thái của staff trong DB
     }
 
-    public void requestStaffConfirmation(Integer staffId, Integer clientId) {
+    public void requestStaffConfirmation(ConnectMessage requestMessage) {
         // Giả sử chúng ta có WebSocket hoặc hệ thống nhắn tin tới Staff
-        webSocketService.requestConfirmationFromStaff(staffId, clientId);
+        webSocketService.notifyStaff(requestMessage);
     }
 
 }

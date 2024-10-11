@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class WebSocketMessage {
+public class ConnectMessage {
     private String content;
     private String status;
     private Integer staffId;

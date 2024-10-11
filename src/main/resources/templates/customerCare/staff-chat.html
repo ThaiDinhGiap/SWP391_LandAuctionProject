@@ -7,99 +7,79 @@
     <!-- Thêm SockJS và StompJS -->
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+    <link rel="stylesheet" th:href="@{/assets_CustomerSide/css/styleCustomerCare.css}">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            width: 80%;
-            margin: 20px auto;
-            background: white;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        #chatBox {
-            border: 1px solid #ddd;
+        /* CSS cho thanh danh sách nhân viên nằm ngang */
+        .staff-list {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #f0f0f0;
             padding: 10px;
-            height: 300px;
-            overflow-y: auto;
-            margin-bottom: 20px;
+            border-bottom: 2px solid #ccc;
         }
 
-        #messageInput {
-            width: 75%;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            margin-right: 10px;
+        .staff-item {
+            text-align: center;
+            margin: 0 10px;
+            position: relative;
         }
 
-        #sendButton {
-            padding: 10px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        .staff-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
         }
 
-        #sendButton:hover {
-            background-color: #45a049;
-        }
-
-        /* Style cho modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 50%;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
+        .staff-item .staff-name {
+            margin-top: 5px;
+            font-size: 14px;
             font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
+<!-- Thanh danh sách nhân viên -->
+<div class="staff-list">
+    <div class="staff-item">
+        <img src="https://via.placeholder.com/50" alt="Bob">
+        <span class="staff-name">Bob</span>
+    </div>
+    <div class="staff-item">
+        <img src="https://via.placeholder.com/50" alt="Jarry">
+        <span class="staff-name">Jarry</span>
+    </div>
+    <div class="staff-item">
+        <img src="https://via.placeholder.com/50" alt="Jonathan">
+        <span class="staff-name">Jonathan</span>
+    </div>
+    <div class="staff-item">
+        <img src="https://via.placeholder.com/50" alt="Mike">
+        <span class="staff-name">Mike</span>
+    </div>
+    <div class="staff-item">
+        <img src="https://via.placeholder.com/50" alt="Suzanne">
+        <span class="staff-name">Suzanne</span>
+    </div>
+    <div class="staff-item">
+        <img src="https://via.placeholder.com/50" alt="Tom">
+        <span class="staff-name">Tom</span>
+    </div>
+</div>
+
 <div class="container">
     <h1>Staff Chat Interface</h1>
-
     <div id="chatBox">
         <!-- Tin nhắn từ client sẽ hiển thị ở đây -->
     </div>
-
-    <input type="text" id="messageInput" placeholder="Nhập tin nhắn..."/>
-    <button id="sendButton">Gửi</button>
+    <div class="chat-footer">
+        <input id="messageField" type="text" placeholder="Type your message here...">
+        <button onclick="sendButton()"><i class="fas fa-paper-plane"></i></button>
+    </div>
 </div>
 
 <!-- Modal cho xác nhận kết nối -->
