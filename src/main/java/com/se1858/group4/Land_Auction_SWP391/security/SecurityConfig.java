@@ -89,7 +89,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(configurer -> configurer
-                        .requestMatchers("/css/**", "/js/**", "/images/**", "/assets_CustomerSide/**").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**","/assets_CustomerSide/**","/assets_CustomerSide/webfonts").permitAll()
                         // Allow unrestricted access to the homepage, login page, and error page
                         .requestMatchers("/", "/showMyLoginPage", "/access-denied","/register","/verify-otp","/resend-otp","/otp-success","/forgot-password").permitAll()
                         // Define role-based access for other URLs
