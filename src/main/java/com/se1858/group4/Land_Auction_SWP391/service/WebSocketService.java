@@ -6,13 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
 public class WebSocketService {
 
-    private SimpMessagingTemplate messagingTemplate;
-    private FirebaseChatService firebaseChatService;
+    private final SimpMessagingTemplate messagingTemplate;
+    private final FirebaseChatService firebaseChatService;
 
     @Autowired
     public WebSocketService(SimpMessagingTemplate messagingTemplate) {
@@ -39,6 +41,9 @@ public class WebSocketService {
         messagingTemplate.convertAndSend("/topic/chat/" + message.getSessionId(), message);
     }
 
-
+    public void endChatSession(ChatMessage message) {
+        message.setSender("Server");
+        messagingTemplate.convertAndSend("/topic/chat/" + message.getSessionId(), message);
+    }
 }
 

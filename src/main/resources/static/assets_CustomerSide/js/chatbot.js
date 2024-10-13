@@ -2,6 +2,7 @@
 var socket;
 var stompClient;
 var currentSessionId = null;
+let inactivityTimer;
 
 function initChat(){
     fetchMainTopics();
@@ -26,7 +27,16 @@ function showChatBot() {
         chatbox.classList.remove('show');
     } else {
         chatbox.classList.add('show');
-        fetchMainTopics();
+        // Kiểm tra localStorage xem có sessionId không
+        const storedSessionId = localStorage.getItem('currentSessionId');
+        if (storedSessionId) {
+            currentSessionId = storedSessionId;
+            loadChatHistory(currentSessionId); // Khôi phục lại lịch sử chat
+            setupWebSocket(currentSessionId);
+            directMode(); // Chuyển vào direct mode
+        } else {
+            fetchMainTopics(); // Nếu không có sessionId, bắt đầu từ main topics
+        }
     }
 }
 
@@ -39,12 +49,20 @@ function fetchMainTopics() {
         });
 }
 
-function handleChat(message) {
-    var elm = document.createElement("p");
-    elm.innerHTML = message;
-    elm.setAttribute("class", "msg");
-    cbot.appendChild(elm);
-    handleScroll();
+function loadChatHistory(sessionId) {
+    fetch('/api/chat/messages/' + sessionId)
+        .then(response => response.json())
+        .then(messages => {
+            clearChatBox(); // Xóa nội dung cũ
+            messages.forEach(chatMessage => {
+                if (chatMessage.sender === "Client") {
+                    displaySentMessage(chatMessage.content);
+                } else {
+                    displayReceivedMessage(chatMessage.content);
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching chat history:', error));
 }
 
 function displayOptions(options, type) {
@@ -189,6 +207,7 @@ function handleStaffResponse(clientId) {
             var data = JSON.parse(message.body);
             if (data.status === 'Accepted') {
                 currentSessionId = data.content;
+                localStorage.setItem('currentSessionId', currentSessionId);
                 setupWebSocket(currentSessionId); // Khởi tạo WebSocket nếu staff chấp nhận
             } else if (data.status === 'Rejected') {
                 displayMessage("Staff này đang bận, vui lòng chọn Staff khác.");
@@ -202,6 +221,7 @@ function handleStaffResponse(clientId) {
 function setupWebSocket(sessionId) {
     // Đăng ký lắng nghe tin nhắn chat từ staff
     stompClient.subscribe('/topic/chat/' + sessionId, function (message) {
+        resetInactivityTimer();
         var chatMessage = JSON.parse(message.body);
         if (chatMessage.sender === "Client") {
             displaySentMessage(chatMessage.content);
@@ -217,8 +237,13 @@ function setupWebSocket(sessionId) {
 // Hàm ngắt kết nối WebSocket khi staff từ chối hoặc kết thúc chat
 function disconnectWebSocket() {
     if (stompClient !== null) {
+        stompClient.send("/app/chat.cancelSession", {}, JSON.stringify({
+            sender: "Client",
+            content: "End Session",
+            sessionId: currentSessionId // Gửi tin nhắn dựa trên sessionId
+        }));
         stompClient.disconnect();
-        console.log("WebSocket connection closed");
+        localStorage.removeItem('currentSessionId');
         botMode();
     }
 }
@@ -286,6 +311,7 @@ function botMode() {
     document.getElementById('messageField').readOnly = true;
     document.getElementById('resetChat').style.display = 'inline-block';
     document.getElementById('endChat').style.display = 'none';
+    initChat();
 }
 
 function clearChatBox() {
@@ -294,4 +320,23 @@ function clearChatBox() {
         chatBox.removeChild(chatBox.firstChild);
     }
 }
+
+function resetInactivityTimer() {
+    clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(() => {
+        disconnectWebSocket();
+    }, 30 * 60 * 1000); // 30 phút
+}
+
+window.onload = function () {
+    socket = new SockJS('/ws');
+    stompClient = Stomp.over(socket);
+    stompClient.connect();
+}
+
+// Gọi hàm unsubscribe toàn bộ khi staff thoát khỏi giao diện hoặc đăng xuất
+// window.onbeforeunload = function () {
+//     disconnectWebSocket();
+// };
+
 

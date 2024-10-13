@@ -1,11 +1,13 @@
 package com.se1858.group4.Land_Auction_SWP391.service;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.*;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 @Service
 public class FirebaseChatService {
@@ -38,6 +40,34 @@ public class FirebaseChatService {
         sessionData.put("created_at", System.currentTimeMillis());
 
         sessionRef.setValueAsync(sessionData);
+    }
+
+    // Hàm để lấy danh sách tin nhắn của một phiên chat
+    public List<Map<String, Object>> getChatMessages(String sessionId) throws InterruptedException {
+        List<Map<String, Object>> messages = new ArrayList<>();
+        DatabaseReference chatRef = firebaseDatabase.getReference("chats").child(sessionId).child("messages");
+
+        CountDownLatch latch = new CountDownLatch(1);
+
+        chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
+                    Map<String, Object> message = (Map<String, Object>) messageSnapshot.getValue();
+                    messages.add(message);
+                }
+                latch.countDown();  // Giảm count của latch xuống 0
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+                latch.countDown();  // Giảm count của latch xuống 0 để tránh deadlock
+            }
+        });
+
+        latch.await();  // Đợi cho đến khi quá trình lấy dữ liệu hoàn thành
+        return messages;
     }
 }
 
