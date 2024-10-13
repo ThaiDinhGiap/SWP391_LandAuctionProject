@@ -34,4 +34,10 @@ public class WebSocketChatController {
         // Gửi tin nhắn đến topic tương ứng với sessionId
         webSocketService.sendMessageToSession(message);
     }
+
+    @MessageMapping("/chat.cancelSession")
+    public void cancelSession(@Payload ChatMessage message) {
+        // Gửi tin nhắn đến topic tương ứng với sessionId
+        webSocketService.endChatSession(message);
+    }
 }

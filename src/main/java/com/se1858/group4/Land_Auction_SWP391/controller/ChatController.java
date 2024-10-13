@@ -1,6 +1,7 @@
 package com.se1858.group4.Land_Auction_SWP391.controller;
 
 import com.se1858.group4.Land_Auction_SWP391.entity.Staff;
+import com.se1858.group4.Land_Auction_SWP391.service.FirebaseChatService;
 import com.se1858.group4.Land_Auction_SWP391.service.StaffService;
 import com.se1858.group4.Land_Auction_SWP391.websocket.ConnectMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,16 +9,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/chat")
 public class ChatController {
     private final StaffService staffService;
+    private FirebaseChatService firebaseChatService;
 
     @Autowired
-    public ChatController(StaffService staffService) {
+    public ChatController(StaffService staffService, FirebaseChatService firebaseChatService) {
         this.staffService = staffService;
+        this.firebaseChatService = firebaseChatService;
     }
 
     @PostMapping("/connect/{staffId}")
@@ -41,5 +45,10 @@ public class ChatController {
         }
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/messages/{sessionId}")
+    public List<Map<String, Object>> getChatMessages(@PathVariable String sessionId) throws InterruptedException {
+        return firebaseChatService.getChatMessages(sessionId);
     }
 }
