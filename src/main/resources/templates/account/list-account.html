@@ -16,6 +16,7 @@
     <a th:href="@{/accounts/showFormForAdd}" class="btn btn-primary btn-sm mb-3">
         Add New Account
     </a>
+    <a th:href="@{/banLog/list}" class="btn btn-primary btn-sm mb-3 ms-lg-5">BanLog History</a>
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
         <tr>
@@ -37,12 +38,11 @@
             <td th:text="${tempAccount.status}"></td>
             <td th:text="${tempAccount.verify}"></td>
             <td th:text="${tempAccount.email}"></td>
-            <td th:text="${tempAccount.role}"></td>
+            <td th:text="${tempAccount.role.roleName}"></td>
             <td>
                 <a th:href="@{/accounts/showFormForUpdate(accountId=${tempAccount.accountId})}" class="btn btn-info btn-sm">
                     Update
                 </a>
-
             </td>
         </tr>
         </tbody>

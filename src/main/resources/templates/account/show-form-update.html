@@ -33,6 +33,14 @@
         <input type="text" th:field="*{role.roleName}"
                class="form-control mb-4 w-25" placeholder="Role" readonly>
         <button type="submit" class="btn btn-info col-2">Save</button>
+
+        <br><br>
+    </form>
+
+    <form th:action="@{/accounts/ban}" method="post">
+        <input type="hidden" name="accountId" th:value="${accounts.accountId}">
+        <input type="text" name="reason" class="form-control mb-4 w-25" placeholder="Enter ban reason">
+        <button type="submit" class="btn btn-danger col-2">Ban</button>
     </form>
     <a th:href="@{/accounts/list}">Back to Account List</a>
 </div>

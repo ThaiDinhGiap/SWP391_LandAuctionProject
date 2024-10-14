@@ -15,14 +15,18 @@
 
     <p class="h4 mb-4">Add New Account</p>
 
-    <form action="#" th:action="@{/accounts/save}"
+    <form action="#" th:action="@{/accounts/add}"
           th:object="${accounts}" method="post">
-        <!-- Hiển thị thông báo lỗi nếu username đã tồn tại -->
 
+        <!-- Hiển thị thông báo lỗi nếu username đã tồn tại -->
         <div th:if="${errorMessage}" class="alert alert-danger">
             <p th:text="${errorMessage}"></p>
         </div>
 
+        <!-- Hiển thị thông báo lỗi nếu email đã tồn tại -->
+        <div th:if="${errorMessageEmail}" class="alert alert-danger">
+            <p th:text="${errorMessageEmail}"></p>
+        </div>
         <input type="text" th:field="*{username}"
                class="form-control mb-4 w-25" placeholder="User Name" required>
         <input type="text" th:field="*{password}"

@@ -1,6 +1,5 @@
 package com.se1858.group4.Land_Auction_SWP391.service;
 
-import ch.qos.logback.core.model.Model;
 import com.se1858.group4.Land_Auction_SWP391.entity.Account;
 import com.se1858.group4.Land_Auction_SWP391.entity.Customer;
 import com.se1858.group4.Land_Auction_SWP391.entity.Role;
@@ -203,6 +202,20 @@ Account account = new Account();
         return accountRepository.findAll();
     }
 
+    public List<Account> findALlAccountByStatus(String status) {
+        List<Account> listAccount = accountRepository.findAll();
+        List<Account> result = null;
+        for (Account account : listAccount) {
+            if(account.getStatus() == 1){
+                if (result == null) {
+                    result = new ArrayList<Account>();
+                }
+                result.add(account);
+            }
+        }
+        return result;
+    }
+
     public Account save(Account account) {
         // Set current time
         account.setRegistrationDate(LocalDateTime.now());
@@ -236,4 +249,7 @@ Account account = new Account();
         return accountRepository.existsByUsername(username);
     }
 
+    public Account findByUsername(String username) {
+        return accountRepository.findByUsername(username);
+    }
 }

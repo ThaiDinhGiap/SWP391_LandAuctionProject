@@ -13,7 +13,7 @@
 
   <h3>List Ban Log</h3>
   <hr>
-  <a th:href="@{/accounts/banLog}" class="btn btn-primary btn-sm mb-3">
+  <a th:href="@{/banLog/list}" class="btn btn-primary btn-sm mb-3">
     List Ban Log
   </a>
   <table class="table table-bordered table-striped">
@@ -30,8 +30,8 @@
     <tbody>
     <tr th:each="tempBanLog : ${banLogs}">
       <td th:text="${tempBanLog.logId}"></td>
-      <td th:text="${tempBanLog.admin}"></td>
-      <td th:text="${tempBanLog.account}"></td>
+      <td th:text="${tempBanLog.admin.accountId}"></td>
+      <td th:text="${tempBanLog.account.accountId}"></td>
       <td th:text="${tempBanLog.timestamp}"></td>
       <td th:text="${tempBanLog.reason}"></td>
     </tr>

@@ -17,6 +17,7 @@ public class BanLogController {
     public BanLogController(){
     }
 
+    @Autowired
     public BanLogController(BanLogService banLogService) {
         this.banLogService = banLogService;
     }
@@ -25,7 +26,7 @@ public class BanLogController {
     public String listBanLog(Model theModel) {
 
         // get the employees from db
-        List<BanLog> banLogs = banLogService.findAll();
+        List<BanLog> banLogs = banLogService.findAllBanLog();
         // add to the spring model
         theModel.addAttribute("banLogs", banLogs);
         return "account/list-ban-log";
