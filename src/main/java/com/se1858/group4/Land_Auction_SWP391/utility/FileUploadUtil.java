@@ -20,13 +20,14 @@ import java.util.List;
 @Component
 public class FileUploadUtil {
     private AssetService assetService;
+    private String imageUploadDir = "src/main/resources/static/image/";
+    private String documentUploadDir = "src/main/resources/static/document/";
     @Autowired
     public FileUploadUtil(AssetService assetService) {
         this.assetService = assetService;
     }
     //ham upload anh
     public void UploadImagesForAsset(List<MultipartFile> images, Asset asset){
-        String imageUploadDir = "src/main/resources/static/image/";
         //kiem tra xem thu muc da ton tai chua
         File directory = new File(imageUploadDir);
         if (!directory.exists()) {
@@ -67,7 +68,6 @@ public class FileUploadUtil {
         }
     }
     public void UploadImagesForNews(List<MultipartFile> images, News news){
-        String imageUploadDir = "src/main/resources/static/image/";
         //kiem tra xem thu muc da ton tai chua
         File directory = new File(imageUploadDir);
         if (!directory.exists()) {
@@ -108,7 +108,6 @@ public class FileUploadUtil {
     }
     //ham upload folder
     public void UploadDocumentsForAsset(List<MultipartFile> documents, Asset asset){
-        String documentUploadDir = "src/main/resources/static/document/";
         //kiem tra xem thu muc da ton tai chua
         File directory = new File(documentUploadDir);
         if (!directory.exists()) {
@@ -146,6 +145,13 @@ public class FileUploadUtil {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+    public void deleteFile(String fileName) {
+        String filePath="src/main/resources/static"+fileName;
+        File file = new File(filePath);
+        if (file.exists()) {
+            file.delete();
         }
     }
 }

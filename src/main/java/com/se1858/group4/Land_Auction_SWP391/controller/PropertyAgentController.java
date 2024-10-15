@@ -1,10 +1,7 @@
 package com.se1858.group4.Land_Auction_SWP391.controller;
 
 import com.se1858.group4.Land_Auction_SWP391.dto.AssetDTO;
-import com.se1858.group4.Land_Auction_SWP391.entity.Asset;
-import com.se1858.group4.Land_Auction_SWP391.entity.LocalAuthority;
-import com.se1858.group4.Land_Auction_SWP391.entity.Tag;
-import com.se1858.group4.Land_Auction_SWP391.entity.Task;
+import com.se1858.group4.Land_Auction_SWP391.entity.*;
 import com.se1858.group4.Land_Auction_SWP391.service.*;
 import com.se1858.group4.Land_Auction_SWP391.utility.FileUploadUtil;
 import com.se1858.group4.Land_Auction_SWP391.utility.GetSrcInGoogleMapEmbededURLUtil;
