@@ -18,13 +18,13 @@ public class Asset {
     @Column(name = "location", columnDefinition = "NVARCHAR(MAX)", nullable = false)
     private String location;
 
-    @Column(name = "length", precision = 10, scale = 2, nullable = false)
+    @Column(name = "length", precision = 6, scale = 2, nullable = false)
     private BigDecimal length;
 
-    @Column(name = "width", precision = 10, scale = 2, nullable = false)
+    @Column(name = "width", precision = 6, scale = 2, nullable = false)
     private BigDecimal width;
 
-    @Column(name = "area", precision = 10, scale = 2, nullable = false)
+    @Column(name = "area", precision = 12, scale = 4, nullable = false)
     private BigDecimal area;
 
     @Column(name = "description", columnDefinition = "NVARCHAR(MAX)")

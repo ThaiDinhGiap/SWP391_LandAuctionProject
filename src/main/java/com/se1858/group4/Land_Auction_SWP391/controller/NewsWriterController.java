@@ -1,6 +1,7 @@
 package com.se1858.group4.Land_Auction_SWP391.controller;
 
 import com.se1858.group4.Land_Auction_SWP391.dto.NewsDTO;
+import com.se1858.group4.Land_Auction_SWP391.entity.Asset;
 import com.se1858.group4.Land_Auction_SWP391.entity.News;
 import com.se1858.group4.Land_Auction_SWP391.entity.TagForNews;
 import com.se1858.group4.Land_Auction_SWP391.service.NewsService;
@@ -54,10 +55,20 @@ public class NewsWriterController {
         return "redirect:/news_writer/create_news";
     }
 
-    @GetMapping("/list")
+    @GetMapping("/get_all_news_list")
     public String getAllNews(Model model) {
         List<News> list=newsService.getAllNews();
         model.addAttribute("listNews",list);
+        model.addAttribute("pageTitle","View all news");
+        model.addAttribute("deletePermission","false");
+        return "newsWriter/NewsList";
+    }
+    @GetMapping("/get_own_news_list")
+    public String getOwnNews(Model model) {
+        List<News> list=newsService.getAllNews();
+        model.addAttribute("listNews",list);
+        model.addAttribute("pageTitle","View my own news");
+        model.addAttribute("deletePermission","true");
         return "newsWriter/NewsList";
     }
 
@@ -68,9 +79,11 @@ public class NewsWriterController {
         return "newsWriter/NewsDetail";
     }
 
-    @GetMapping("/delete")
+    @GetMapping("/deleteNews")
     public String deleteNews(@RequestParam("newsId") int newsId) {
+        News news=newsService.getNewsById(newsId);
+        uploadFile.deleteFile(news.getCover_photo().getPath());
         newsService.deleteNewsById(newsId);
-        return "redirect:/news_writer/list";
+        return "redirect:/news_writer/get_own_news_list";
     }
 }

@@ -23,9 +23,9 @@ CREATE TABLE Local_authority (
 CREATE TABLE Asset (
     asset_id INT PRIMARY KEY IDENTITY(1,1),
     location NVARCHAR(max) NOT NULL,
-	length DECIMAL(10, 2) NOT NULL,
-	width DECIMAL(10, 2) NOT NULL,
-    area DECIMAL(10, 2) NOT NULL,
+	length DECIMAL(6, 2) NOT NULL,
+	width DECIMAL(6, 2) NOT NULL,
+    area DECIMAL(12, 4) NOT NULL,
     description NVARCHAR(max),
     coordinates_on_map NVARCHAR(max),
     local_authority_id INT FOREIGN KEY REFERENCES Local_authority(local_authority_id),
@@ -228,8 +228,8 @@ INSERT INTO Tag (tag_name, description) VALUES
 ('Rural', 'Rural: Land located in rural areas, usually quiet and far from urban centers'),
 ('Urban', 'Urban: Land located within cities or urban centers');
 INSERT INTO Image (asset_id, path, upload_date) 
-VALUES (null, '/static/image/avatar_default.jpg', '2024-09-26 15:38:54.468'),
-(null, '/static/image/auction_hammer.jpg', '2024-09-26 15:38:54.468');
+VALUES (null, '/image/avatar_default.jpg', '2024-09-26 15:38:54.468'),
+(null, '/image/auction_hammer.jpg', '2024-09-26 15:38:54.468');
 INSERT INTO Topic (topic_name, parent_topic_id) VALUES 
 ('Auction Participation Process', NULL),
 ('Account Registration', 1),
