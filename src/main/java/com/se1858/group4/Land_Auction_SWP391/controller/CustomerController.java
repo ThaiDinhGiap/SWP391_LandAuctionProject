@@ -1,8 +1,10 @@
 package com.se1858.group4.Land_Auction_SWP391.controller;
 
-import com.se1858.group4.Land_Auction_SWP391.entity.Account;
-import com.se1858.group4.Land_Auction_SWP391.entity.Customer;
-import com.se1858.group4.Land_Auction_SWP391.service.AccountService;
+import com.se1858.group4.Land_Auction_SWP391.entity.News;
+import com.se1858.group4.Land_Auction_SWP391.entity.TagForNews;
+import com.se1858.group4.Land_Auction_SWP391.service.NewsService;
+import com.se1858.group4.Land_Auction_SWP391.service.TagForNewsService;
+import com.se1858.group4.Land_Auction_SWP391.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,20 +12,43 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
-
-//    @Autowired
-//    private AccountService accountService;
-//
-//    @GetMapping("/account-info")
-//    public String getAccountInfo(Model model, @RequestParam("accountId") int accountId) {
-//        Account account = accountService.findAccountByAccountId(accountId);
-//        Customer customer = accountService.findCustomerByAccountId(accountId);
-//        model.addAttribute("account", account);
-//        model.addAttribute("customer", customer);
-//        return "account-info";  // Render account-info.html
-//    }
+    private final TagService tagService;
+    private NewsService newsService;
+    private TagForNewsService tagForNewsService;
+    @Autowired
+    public CustomerController(NewsService newsService, TagService tagService, TagForNewsService tagForNewsService) {
+        this.newsService = newsService;
+        this.tagService = tagService;
+        this.tagForNewsService = tagForNewsService;
+    }
+    @GetMapping("/get_all_news")
+    public String getAllNews(Model model) {
+        List<News> newsList=newsService.getAllNews();
+        model.addAttribute("listNews",newsList);
+//        lay ra 3 bai viet moi nhat
+        List<News> top3News=newsService.getTop3LatestNews();
+        model.addAttribute("top3LatestNews",top3News);
+//        lay danh sach cac tag
+        List<TagForNews> tagList=tagForNewsService.getAllTagsForNews();
+        model.addAttribute("listTag",tagList);
+        return "customer/newsList";
+    }
+    @GetMapping("/viewDetail")
+    public String getNewsById(@RequestParam("newsId") int newsId, Model model) {
+        News news=newsService.getNewsById(newsId);
+        model.addAttribute("news",news);
+//        lay ra 3 bai viet moi nhat
+        List<News> top3News=newsService.getTop3LatestNews();
+        model.addAttribute("top3LatestNews",top3News);
+//        lay danh sach cac tag
+        List<TagForNews> tagList=tagForNewsService.getAllTagsForNews();
+        model.addAttribute("listTag",tagList);
+        return "customer/newsDetail";
+    }
 }

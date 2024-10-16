@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NewsService {
@@ -38,5 +39,8 @@ public class NewsService {
     }
     public void deleteNewsById(int id) {
         newsRepository.deleteById(id);
+    }
+    public List<News> getTop3LatestNews(){
+        return newsRepository.findTop3ByOrderByCreatedDateDesc();
     }
 }
