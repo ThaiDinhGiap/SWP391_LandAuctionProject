@@ -76,7 +76,7 @@ public class LoginController {
 
     @GetMapping("/customer/home")
     public String customerHome() {
-        return "customer/homepage_customer";
+        return "homepage/homepage";
     }
 
     @GetMapping("/admin/home")

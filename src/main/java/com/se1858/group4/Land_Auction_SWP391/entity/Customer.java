@@ -24,7 +24,7 @@ public class Customer {
     private String gender;
 
     @Column(name = "date_of_birth")
-    private LocalDateTime dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @Column(name = "address", columnDefinition = "NVARCHAR(MAX)")
     private String address;
@@ -67,7 +67,7 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Account account, String fullName, String gender, String phoneNumber, String address, LocalDateTime dateOfBirth, String citizenIdentification, Image idCardBackImage, Image idCardFrontImage, LocalDate idIssuanceDate, String idIssuancePlace, String taxIdentificationNumber, String bankOwner, String bankName, String bankBranch, String bankAccountNumber) {
+    public Customer(Account account, String fullName, String gender, String phoneNumber, String address, LocalDate dateOfBirth, String citizenIdentification, Image idCardBackImage, Image idCardFrontImage, LocalDate idIssuanceDate, String idIssuancePlace, String taxIdentificationNumber, String bankOwner, String bankName, String bankBranch, String bankAccountNumber) {
         this.account = account;
         this.fullName = fullName;
         this.gender = gender;
@@ -150,11 +150,12 @@ public class Customer {
         this.customerId = customerId;
     }
 
-    public LocalDateTime getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
+
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDateTime dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

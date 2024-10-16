@@ -104,10 +104,22 @@ Author URL: http://w3layouts.com
 
                 <!-- Register and Login Buttons -->
                 <div class="auth-buttons">
-                    <button class="btn btn-login">
-                        <a th:href="@{/showMyLoginPage}" style="font-size: 20px;">Login</a>
-                    </button>
+                    <div th:if="${#authentication.name == 'anonymousUser'}">
+                        <a class="btn btn-login btn-primary" th:href="@{/showMyLoginPage}" style="font-size: 20px">LOG IN</a>
+                    </div>
+                    <div th:if="${#authentication.name != 'anonymousUser'}">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-user"></i>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item" th:href="@{/customer/profile}">Profile</a></li>
+                                <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+
             </div>
 
         </nav>
