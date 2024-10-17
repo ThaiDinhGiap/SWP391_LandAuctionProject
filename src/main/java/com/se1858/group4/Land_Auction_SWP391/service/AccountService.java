@@ -37,70 +37,26 @@ public class AccountService {
     private BCryptPasswordEncoder passwordEncoder;
 
 
-    private String storedOtp; // for simplicity, store OTP temporarily in memory or use a database.
+    private String storedOtp; // store OTP temporarily in memory or use a database.
     private String storedEmail; // Store the email temporarily for verification
-    //    private Account temporaryAccount = new Account(); // Temporarily hold account until OTP is verified
     Account account = new Account();
+
+    public AccountService(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
+
+
 
     public AccountService() {
 
     }
 
-//
-//    public Account findAccountByAccountId(int accountId) {
-//        return accountRepository.findById(accountId).orElse(null);
-//    }
-//
-//    public Customer findCustomerByAccountId(int accountId) {
-//        return customerRepository.findByAccountId(accountId);
-//    }
-
-//    public void registerUser(String username, String password, String email) {
-//        Account account = new Account();
-//        account.setUsername(username);
-//        account.setPassword(passwordEncoder.encode(password));
-//        account.setEmail(email);
-//        account.setVerify(0);  // Not verified yet
-//        account.setStatus(1);  // Disabled until OTP verification
-//        account.setRegistrationDate(LocalDateTime.now());
-//
-//        Role role = roleRepository.findByRoleName("ROLE_Customer");
-//        account.setRole(role);
-//
-//        accountRepository.save(account);  // Save the account with status = 0
-//
-//        storedOtp = generateOTP();  // Generate OTP
-//        storedEmail = email;  // Store email for verification
-//        temporaryAccount = account; // Temporarily store account info
-//        sendOtpEmail(email, storedOtp);  // Send OTP email
-//    }
-//
-
-
-//    public void registerUser(String username, String password, String email) {
-//
-//        account.setUsername(username);
-//        if (accountRepository.findByUsername(username) != null) {
-//            throw new RuntimeException("Username already exists.");
-//        }
-//        // Encrypt password
-//        account.setPassword(passwordEncoder.encode(password));
-//        account.setEmail(email);
-//        account.setVerify(0);  // Not verified yet
-//        account.setStatus(0);  // Disabled until OTP verification
-//        account.setRegistrationDate(LocalDateTime.now());
-//
-//        // Generate OTP and send to email
-//        storedOtp = generateOTP();
-//        storedEmail = email;
-//        sendOtpEmail(email, storedOtp);
-//    }
 
 
     public String registerUser(String username, String password, String email, Model model) {
         if (accountRepository.findByUsername(username) != null) {
             model.addAttribute("errorMessage", "Username already exists. Please choose another one.");
-            return "register";  // Return the user back to the register page
+            return "register";
         }
 
         // Continue with user registration
@@ -190,6 +146,49 @@ public class AccountService {
         mailSender.send(message);
     }
 
+
+    public void updateAccountDetails(Account account) {
+        Account existingAccount = accountRepository.findById(account.getAccountId()).orElse(null);
+        if (existingAccount != null) {
+            existingAccount.setUsername(account.getUsername());
+            existingAccount.setEmail(account.getEmail());
+            accountRepository.save(existingAccount);
+        }
+    }
+
+  public void updateCustomerDetails(Customer customer) {
+        Customer existingCustomer = customerRepository.findById(customer.getCustomerId()).orElse(null);
+        if (existingCustomer != null) {
+
+            //Bank
+            existingCustomer.setBankAccountNumber(existingCustomer.getBankAccountNumber());
+            existingCustomer.setBankBranch(existingCustomer.getBankBranch());
+            existingCustomer.setBankName( existingCustomer.getBankName());
+            existingCustomer.setBankOwner(existingCustomer.getBankOwner());
+            //Personal
+            existingCustomer.setDateOfBirth(existingCustomer.getDateOfBirth());
+            existingCustomer.setGender(existingCustomer.getGender());
+            existingCustomer.setFullName( existingCustomer.getFullName());
+            existingCustomer.setPhoneNumber(existingCustomer.getPhoneNumber());
+            existingCustomer.setAddress(existingCustomer.getAddress());
+            //ID
+            existingCustomer.setCitizenIdentification(existingCustomer.getCitizenIdentification());
+            existingCustomer.setIdCardBackImage(existingCustomer.getIdCardBackImage());
+            existingCustomer.setIdCardFrontImage(existingCustomer.getIdCardFrontImage());
+            existingCustomer.setIdIssuanceDate(existingCustomer.getIdIssuanceDate());
+            existingCustomer.setIdIssuancePlace(existingCustomer.getIdIssuancePlace());
+
+
+            customerRepository.save(existingCustomer);
+        }
+  }
+
+
+
+
+
+
+
 //
 //    @Scheduled(cron = "0 0 0 * * ?")  // Runs daily at midnight
 //    public void removeUnverifiedAccounts() {
@@ -198,11 +197,6 @@ public class AccountService {
 //            accountRepository.delete(account);
 //        }
 //    }
-
-
-    public AccountService(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
-    }
 
 
     public Account findAccountById(int id) {

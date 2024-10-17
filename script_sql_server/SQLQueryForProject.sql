@@ -151,7 +151,7 @@ CREATE TABLE Customer (
     account_id INT FOREIGN KEY REFERENCES Account(account_id),                        
     full_name NVARCHAR(100),             
     gender NVARCHAR(1) CHECK (gender IN ('F', 'M')),                 
-    date_of_birth datetime2(3),                    
+    date_of_birth datetime2(3),
     address NVARCHAR(max),                
     phone_number VARCHAR(10),             
     tax_identification_number VARCHAR(50),        
