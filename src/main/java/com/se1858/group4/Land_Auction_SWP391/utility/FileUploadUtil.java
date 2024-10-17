@@ -1,9 +1,7 @@
 package com.se1858.group4.Land_Auction_SWP391.utility;
 
-import com.se1858.group4.Land_Auction_SWP391.entity.Asset;
-import com.se1858.group4.Land_Auction_SWP391.entity.Document;
-import com.se1858.group4.Land_Auction_SWP391.entity.Image;
-import com.se1858.group4.Land_Auction_SWP391.entity.News;
+import com.se1858.group4.Land_Auction_SWP391.entity.*;
+import com.se1858.group4.Land_Auction_SWP391.repository.CustomerRepository;
 import com.se1858.group4.Land_Auction_SWP391.service.AssetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,11 +20,92 @@ public class FileUploadUtil {
     private AssetService assetService;
     private String imageUploadDir = "src/main/resources/static/image/";
     private String documentUploadDir = "src/main/resources/static/document/";
+
+    private final CustomerRepository customerRepository;
+
     @Autowired
-    public FileUploadUtil(AssetService assetService) {
+    public FileUploadUtil(AssetService assetService, CustomerRepository customerRepository) {
         this.assetService = assetService;
+        this.customerRepository = customerRepository; // Inject customerRepository
     }
-    //ham upload anh
+    //upload image for cutomer have idfront and idback
+
+
+
+
+
+    public void UploadImagesForCustomer(MultipartFile idFrontImage, MultipartFile idBackImage, Customer customer) {
+        // Ensure the directory exists
+        File directory = new File(imageUploadDir);
+        if (!directory.exists()) {
+            directory.mkdirs(); // Create directory if it doesn't exist
+        }
+
+        try {
+            // Handle Front Image
+            if (!idFrontImage.isEmpty()) {
+                String imgNameFront = saveImage(idFrontImage, "Customer_Front");
+                if (imgNameFront != null) {
+                    Image frontImage = new Image();
+                    frontImage.setUploadDate(LocalDateTime.now());
+                    frontImage.setPath("/image/" + imgNameFront);
+                    customer.setIdCardFrontImage(frontImage); // Set the Image object, not a string
+                }
+            }
+
+            // Handle Back Image
+            if (!idBackImage.isEmpty()) {
+                String imgNameBack = saveImage(idBackImage, "Customer_Back");
+                if (imgNameBack != null) {
+                    Image backImage = new Image();
+                    backImage.setUploadDate(LocalDateTime.now());
+                    backImage.setPath("/image/" + imgNameBack);
+                    customer.setIdCardBackImage(backImage); // Set the Image object
+                }
+            }
+
+            // Save the customer entity with updated image objects
+            customerRepository.save(customer);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String saveImage(MultipartFile imageFile, String prefix) throws IOException {
+        String originalFileName = imageFile.getOriginalFilename();
+        if (originalFileName == null) return null;
+
+        // Extract file name and extension
+        String fileName = originalFileName.substring(0, originalFileName.lastIndexOf('.'));
+        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf('.'));
+
+        // Generate unique file name
+        String imgName = prefix + "_" + fileName + fileExtension;
+        Path path = Paths.get(imageUploadDir + imgName);
+        int version = 1;
+
+        while (Files.exists(path)) {
+            imgName = prefix + "_" + fileName + "(" + version + ")" + fileExtension;
+            path = Paths.get(imageUploadDir + imgName);
+            version++;
+        }
+
+        // Save file
+        byte[] bytes = imageFile.getBytes();
+        Files.write(path, bytes);
+
+        return imgName;
+    }
+
+
+
+
+
+
+
+
+
     public void UploadImagesForAsset(List<MultipartFile> images, Asset asset){
         //kiem tra xem thu muc da ton tai chua
         File directory = new File(imageUploadDir);

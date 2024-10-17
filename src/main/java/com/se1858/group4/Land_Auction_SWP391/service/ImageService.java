@@ -13,4 +13,7 @@ public class ImageService {
     public Image findImageById(int id) {
         return imageRepository.findById(id).get();
     }
+    public Image saveImage(Image image) {
+        return imageRepository.save(image);
+    }
 }

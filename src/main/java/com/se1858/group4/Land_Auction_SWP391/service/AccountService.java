@@ -17,10 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class AccountService {
@@ -148,43 +145,44 @@ public class AccountService {
 
 
     public void updateAccountDetails(Account account) {
-        Account existingAccount = accountRepository.findById(account.getAccountId()).orElse(null);
-        if (existingAccount != null) {
+        Optional<Account> existingAccountOpt = accountRepository.findById(account.getAccountId());
+        if (existingAccountOpt.isPresent()) {
+            Account existingAccount = existingAccountOpt.get();
             existingAccount.setUsername(account.getUsername());
             existingAccount.setEmail(account.getEmail());
+            existingAccount.setVerify(0);
             accountRepository.save(existingAccount);
+        } else {
+            throw new NoSuchElementException("Account not found for ID: " + account.getAccountId());
         }
     }
 
-  public void updateCustomerDetails(Customer customer) {
-        Customer existingCustomer = customerRepository.findById(customer.getCustomerId()).orElse(null);
-        if (existingCustomer != null) {
-
-            //Bank
-            existingCustomer.setBankAccountNumber(existingCustomer.getBankAccountNumber());
-            existingCustomer.setBankBranch(existingCustomer.getBankBranch());
-            existingCustomer.setBankName( existingCustomer.getBankName());
-            existingCustomer.setBankOwner(existingCustomer.getBankOwner());
-            //Personal
-            existingCustomer.setDateOfBirth(existingCustomer.getDateOfBirth());
-            existingCustomer.setGender(existingCustomer.getGender());
-            existingCustomer.setFullName( existingCustomer.getFullName());
-            existingCustomer.setPhoneNumber(existingCustomer.getPhoneNumber());
-            existingCustomer.setAddress(existingCustomer.getAddress());
-            //ID
-            existingCustomer.setCitizenIdentification(existingCustomer.getCitizenIdentification());
-            existingCustomer.setIdCardBackImage(existingCustomer.getIdCardBackImage());
-            existingCustomer.setIdCardFrontImage(existingCustomer.getIdCardFrontImage());
-            existingCustomer.setIdIssuanceDate(existingCustomer.getIdIssuanceDate());
-            existingCustomer.setIdIssuancePlace(existingCustomer.getIdIssuancePlace());
-
-
-            customerRepository.save(existingCustomer);
-        }
-  }
-
-
-
+//
+//    public void updateCustomerDetails(Customer customer) {
+//        Customer existingCustomer = customerRepository.findById(customer.getCustomerId()).get();
+//        if (existingCustomer != null) {
+//
+//            //Bank
+//            existingCustomer.setBankAccountNumber(customer.getBankAccountNumber());
+//            existingCustomer.setBankBranch(customer.getBankBranch());
+//            existingCustomer.setBankName( customer.getBankName());
+//            existingCustomer.setBankOwner(customer.getBankOwner());
+//            //Personal
+//            existingCustomer.setDateOfBirth(customer.getDateOfBirth());
+//            existingCustomer.setGender(customer.getGender());
+//            existingCustomer.setFullName( customer.getFullName());
+//            existingCustomer.setPhoneNumber(customer.getPhoneNumber());
+//            existingCustomer.setAddress(customer.getAddress());
+//            //ID
+//            existingCustomer.setCitizenIdentification(customer.getCitizenIdentification());
+//            existingCustomer.setIdCardBackImage(customer.getIdCardBackImage());
+//            existingCustomer.setIdCardFrontImage(customer.getIdCardFrontImage());
+//            existingCustomer.setIdIssuanceDate(customer.getIdIssuanceDate());
+//            existingCustomer.setIdIssuancePlace(customer.getIdIssuancePlace());
+//
+//            customerRepository.save(existingCustomer);
+//        }
+//  }
 
 
 

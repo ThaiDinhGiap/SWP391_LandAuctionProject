@@ -1,8 +1,10 @@
 package com.se1858.group4.Land_Auction_SWP391.entity;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "Customer")
@@ -24,6 +26,7 @@ public class Customer {
     private String gender;
 
     @Column(name = "date_of_birth")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
     @Column(name = "address", columnDefinition = "NVARCHAR(MAX)")
@@ -39,6 +42,7 @@ public class Customer {
     private String citizenIdentification;
 
     @Column(name = "id_issuance_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate idIssuanceDate;
 
     @Column(name = "id_issuance_place", columnDefinition = "NVARCHAR(MAX)")
@@ -64,7 +68,28 @@ public class Customer {
     @Column(name = "bank_owner", length = 255)
     private String bankOwner;
 
+
     public Customer() {
+    }
+
+    public Customer(String bankOwner, String bankBranch, String bankName, String bankAccountNumber, Image idCardBackImage, Image idCardFrontImage, String idIssuancePlace, LocalDate idIssuanceDate, String citizenIdentification, String taxIdentificationNumber, String phoneNumber, String address, LocalDate dateOfBirth, String gender, String fullName, Account account, int customerId) {
+        this.bankOwner = bankOwner;
+        this.bankBranch = bankBranch;
+        this.bankName = bankName;
+        this.bankAccountNumber = bankAccountNumber;
+        this.idCardBackImage = idCardBackImage;
+        this.idCardFrontImage = idCardFrontImage;
+        this.idIssuancePlace = idIssuancePlace;
+        this.idIssuanceDate = idIssuanceDate;
+        this.citizenIdentification = citizenIdentification;
+        this.taxIdentificationNumber = taxIdentificationNumber;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.fullName = fullName;
+        this.account = account;
+        this.customerId = customerId;
     }
 
     public Customer(Account account, String fullName, String gender, String phoneNumber, String address, LocalDate dateOfBirth, String citizenIdentification, Image idCardBackImage, Image idCardFrontImage, LocalDate idIssuanceDate, String idIssuancePlace, String taxIdentificationNumber, String bankOwner, String bankName, String bankBranch, String bankAccountNumber) {
@@ -244,5 +269,19 @@ public class Customer {
                 ", bankBranch='" + bankBranch + '\'' +
                 ", bankOwner='" + bankOwner + '\'' +
                 '}';
+    }
+
+    //add front image
+    public void addFrontImage(Image image) {
+        if (this.idCardFrontImage == null) {
+            this.idCardFrontImage = image;
+        }
+    }
+
+    //add back image
+    public void addBackImage(Image image) {
+        if (this.idCardBackImage == null) {
+            this.idCardBackImage = image;
+        }
     }
 }
