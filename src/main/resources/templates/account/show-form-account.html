@@ -31,14 +31,16 @@
                class="form-control mb-4 w-25" placeholder="User Name" required>
         <input type="text" th:field="*{password}" name="password"
                class="form-control mb-4 w-25" placeholder="Password" required>
-        <input type="text" th:field="*{email}" name="email"
+        <input type="email" th:field="*{email}" name="email"
                class="form-control mb-4 w-25" placeholder="Email" required>
-        <input type="text" th:field="*{status}"
-               class="form-control mb-4 w-25" placeholder="Status" required>
-        <input type="text" th:field="*{verify}"
-               class="form-control mb-4 w-25" placeholder="Verify" required>
-        <input type="text" th:field="*{role}"
-               class="form-control mb-4 w-25" placeholder="Role" required>
+
+        <select th:field="*{role}" id="role" class="form-control mb-4 w-25" required>
+            <option value="2" th:selected="${accounts.role == '2'}">Admin</option>
+            <option value="3" th:selected="${accounts.role == '3'}">Property_Agent</option>
+            <option value="4" th:selected="${accounts.role == '4'}">Auctioneer</option>
+            <option value="5" th:selected="${accounts.role == '5'}">Customer_Care</option>
+            <option value="6" th:selected="${accounts.role == '6'}">News_Writer</option>
+        </select>
 
         <button type="submit" class="btn btn-info col-2">Save</button>
     </form>

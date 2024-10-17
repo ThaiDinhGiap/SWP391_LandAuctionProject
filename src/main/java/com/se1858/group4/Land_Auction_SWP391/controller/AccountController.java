@@ -130,7 +130,7 @@ public class AccountController {
         BanLog banLog = new BanLog(admin, account, reason, LocalDateTime.now());
         banLogService.save(banLog);
 
-        accountService.save(account);
+        accountService.ban(account);
         return "redirect:/accounts/list";
     }
 

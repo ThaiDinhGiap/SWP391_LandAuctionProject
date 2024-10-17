@@ -218,9 +218,17 @@ Account account = new Account();
     }
 
     public Account save(Account account) {
+        account.setStatus(1);
+        account.setVerify(1);
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         // Set current time
         account.setRegistrationDate(LocalDateTime.now());
+        return accountRepository.save(account);
+    }
+
+    public Account ban(Account account) {
+        account.setStatus(0);
+        // Set current time
         return accountRepository.save(account);
     }
 
