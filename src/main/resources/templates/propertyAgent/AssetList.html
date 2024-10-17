@@ -113,7 +113,7 @@
                                     <tbody>
                                     <tr th:each="asset:${listAsset}">
                                         <td th:text="${asset.assetId}"></td>
-                                        <td th:text="${asset.location}"></td>
+                                        <td th:text="${asset.location.length() > 40 ? asset.location.substring(0, 40) + '...' : asset.location}"></td>
                                         <td th:text="${asset.length}"></td>
                                         <td th:text="${asset.width}"></td>
                                         <td th:text="${asset.area}"></td>
