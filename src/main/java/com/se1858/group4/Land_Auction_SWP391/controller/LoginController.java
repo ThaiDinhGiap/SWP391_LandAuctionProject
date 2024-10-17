@@ -59,7 +59,7 @@ public class LoginController {
 
     @GetMapping("/admin/home")
     public String adminHome() {
-        return "dashboardTemplates/dashboard";
+        return "homepage/homepage";
     }
 
 
