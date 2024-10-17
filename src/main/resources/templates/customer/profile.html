@@ -25,12 +25,12 @@
     <!--  Side navbar: chua lien ket den cac trang tuy chon cua minh  -->
     <div class="sidebar" data-color="white" data-active-color="danger">
         <div class="logo">
-            <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-mini">
+            <a th:href="@{/}" class="simple-text logo-mini">
                 <div class="logo-image-small">
                     <img th:src="@{/dashboardStatic/img/logo-small.png}">
                 </div>
             </a>
-            <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-normal">
+            <a th:href="@{/}" class="simple-text logo-normal">
                 VietLand Auction
             </a>
         </div>
@@ -68,8 +68,9 @@
                                 </a>
 
                             </div>
-                            <p class="description text-center">
-                                Verified account
+                            <p class="description text-center" th:object="${customerDTO}">
+                                <span th:if="*{account.verify == 0}">Not verified, please wait until we confirm your information</span>
+                                <span th:if="*{account.verify == 1}">Verified, feel free to explore our website</span>
                             </p>
                         </div>
                         <div class="card-footer">
@@ -85,69 +86,75 @@
                             <h5 class="card-title">Edit Profile</h5>
                         </div>
                         <div class="card-body">
-                            <form>
+
+                            <form th:action="@{/customer/updateProfile}" method="post" th:object="${customerDTO}" enctype="multipart/form-data">
+                                <!-- Account fields -->
                                 <div class="row">
+                                    <input type="hidden" class="form-control" th:field="*{account.accountId}" name="accountId">
                                     <div class="col-md-6 pr-1">
                                         <div class="form-group">
                                             <label>Username</label>
-                                            <input type="text" class="form-control" placeholder="Username" th:value="${account.username}" name="username">
+                                            <input type="text" class="form-control" th:field="*{account.username}" name="username" placeholder="Username">
                                         </div>
                                     </div>
-                                    <div class="col-md-6 px-1">
+                                    <div class="col-md-6 pl-1">
                                         <div class="form-group">
                                             <label>Email address</label>
-                                            <input type="email" class="form-control" placeholder="Email" th:value="${account.email}" name="email">
+                                            <input type="email" class="form-control" th:field="*{account.email}" name="email" placeholder="Email">
                                         </div>
                                     </div>
-
                                 </div>
 
-                                <!-- Additional fields -->
+                                <!-- Customer fields -->
                                 <div class="row">
+                                    <input type="hidden" class="form-control" th:field="*{customer.customerId}" name="customerId">
                                     <div class="col-md-6 pr-1">
                                         <div class="form-group">
                                             <label>Gender</label>
-                                            <select class="form-control">
-                                                <option value="Male">Male</option>
-                                                <option value="Female">Female</option>
-                                                <option value="Other">Other</option>
+                                            <select class="form-control" th:field="*{customer.gender}" name="gender">
+                                                <option value="M">Male</option>
+                                                <option value="F">Female</option>
+                                                <option value="O">Other</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6 pl-1">
                                         <div class="form-group">
                                             <label>Date of Birth</label>
-                                            <input type="date" class="form-control" placeholder="Date of Birth" th:value="${customer.dateOfBirth}" name="dateOfBirth">
+                                            <input type="date" class="form-control" th:field="*{customer.dateOfBirth}" name="dateOfBirth">
+
                                         </div>
                                     </div>
                                 </div>
 
+                                <!-- Additional customer fields -->
                                 <div class="row">
                                     <div class="col-md-6 pr-1">
                                         <div class="form-group">
                                             <label>Phone Number</label>
-                                            <input type="text" class="form-control" placeholder="Phone Number" th:value="${customer.phoneNumber}" name="phoneNumber">
+                                            <input type="text" class="form-control" th:field="*{customer.phoneNumber}" name="phoneNumber" placeholder="Phone Number">
                                         </div>
                                     </div>
                                     <div class="col-md-6 pl-1">
                                         <div class="form-group">
-                                            <label>Tax Identification Number (TIN)</label>
-                                            <input type="text" class="form-control" placeholder="Tax ID" th:value="${customer.taxIdentificationNumber}" name="taxIdentificationNumber">
+                                            <label>Full Name</label>
+                                            <input type="text" class="form-control" th:field="*{customer.fullName}" name="fullName" placeholder="Full Name">
                                         </div>
                                     </div>
                                 </div>
 
+                                <!-- Address, Bank, ID, etc. -->
                                 <div class="row">
                                     <div class="col-md-6 pr-1">
                                         <div class="form-group">
                                             <label>Citizen Identification</label>
-                                            <input type="text" class="form-control" placeholder="Citizen ID" th:value="${customer.citizenIdentification}" name="citizenIdentification">
+                                            <input type="text" class="form-control" th:field="*{customer.citizenIdentification}" name="citizenIdentification" placeholder="Citizen ID">
                                         </div>
                                     </div>
                                     <div class="col-md-6 pl-1">
                                         <div class="form-group">
                                             <label>ID Issuance Date</label>
-                                            <input type="date" class="form-control" placeholder="Issuance Date" th:value="${customer.idIssuanceDate}" name="idIssuanceDate">
+                                            <input type="date" class="form-control" th:field="*{customer.idIssuanceDate}" name="idIssuanceDate">
                                         </div>
                                     </div>
                                 </div>
@@ -156,13 +163,13 @@
                                     <div class="col-md-6 pr-1">
                                         <div class="form-group">
                                             <label>ID Issuance Place</label>
-                                            <input type="text" class="form-control" placeholder="Issuance Place" th:value="${customer.idIssuancePlace}" name="idIssuancePlace">
+                                            <input type="text" class="form-control" th:field="*{customer.idIssuancePlace}" name="idIssuancePlace" placeholder="Issuance Place">
                                         </div>
                                     </div>
                                     <div class="col-md-6 pl-1">
                                         <div class="form-group">
                                             <label>Bank Account Number</label>
-                                            <input type="text" class="form-control" placeholder="Bank Account Number" th:value="${customer.bankAccountNumber}" name="bankAccountNumber">
+                                            <input type="text" class="form-control" th:field="*{customer.bankAccountNumber}" name="bankAccountNumber" placeholder="Bank Account Number">
                                         </div>
                                     </div>
                                 </div>
@@ -171,58 +178,235 @@
                                     <div class="col-md-6 pr-1">
                                         <div class="form-group">
                                             <label>Bank Name</label>
-                                            <input type="text" class="form-control" placeholder="Bank Name" th:value="${customer.bankName}" name="bankName">
+                                            <input type="text" class="form-control" th:field="*{customer.bankName}" name="bankName" placeholder="Bank Name">
                                         </div>
                                     </div>
                                     <div class="col-md-6 pl-1">
                                         <div class="form-group">
                                             <label>Bank Branch</label>
-                                            <input type="text" class="form-control" placeholder="Bank Branch" th:value="${customer.bankBranch}" name="bankBranch">
+                                            <input type="text" class="form-control" th:field="*{customer.bankBranch}" name="bankBranch" placeholder="Bank Branch">
                                         </div>
                                     </div>
                                 </div>
-
 
                                 <div class="row">
                                     <div class="col-md-6 pr-1">
                                         <div class="form-group">
                                             <label>Bank Account Owner</label>
-                                            <input type="text" class="form-control" placeholder="Bank Account Owner" th:value="${customer.bankOwner}" name="bankOwner">
+                                            <input type="text" class="form-control" th:field="*{customer.bankOwner}" name="bankOwner" placeholder="Bank Account Owner">
                                         </div>
                                     </div>
-                                    <div class="col-md-6 px-1">
+                                    <div class="col-md-6 pl-1">
                                         <div class="form-group">
-                                            <label>Address</label>
-                                            <input type="text" class="form-control" placeholder="Home Address" th:value="${customer.address}" name="address">
+                                            <label>Tax Identification Number (TIN)</label>
+                                            <input type="text" class="form-control" th:field="*{customer.taxIdentificationNumber}" name="taxIdentificationNumber" placeholder="Tax ID">
                                         </div>
                                     </div>
                                 </div>
-
 
                                 <div class="row">
-                                <div class="col-md-4 pr-1">
-                                    <div class="form-group">
-                                        <label for="idCardFrontImage">ID Card Front Image</label>
-                                        <button type="button" class="btn btn-info btn-block" onclick="document.getElementById('idCardFrontImage').click();">Upload Front Image</button>
-                                        <input type="file" name="idCardFrontImage" id="idCardFrontImage" class="d-none" accept="image/png, image/jpeg, image/jpg" th:value="${customer.idCardFrontImage}">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Address</label>
+                                            <input type="text" class="form-control" th:field="*{customer.address}" name="address" placeholder="Home Address">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <div class="form-group">
-                                        <label for="idCardBackImage">ID Card Back Image</label>
-                                        <button type="button" class="btn btn-info btn-block" onclick="document.getElementById('idCardBackImage').click();">Upload Back Image</button>
-                                        <input type="file" name="idCardBackImage" id="idCardBackImage" class="d-none" accept="image/png, image/jpeg, image/jpg" th:value="${customer.idCardBackImage}">
-                                    </div>
-                                </div>
                                 </div>
 
+                                <!-- ID Card images -->
+                                <div class="row">
+                                    <div class="col-md-6 pr-1">
+                                        <div>
+                                            <label for="idCardFrontImage">ID Card Front Image</label>
+<!--                                    <div class="form-group">-->
+<!--                                                <button type="button" class="btn btn-info btn-block" onclick="document.getElementById('idCardFrontImage').click();">Upload Front Image</button>-->
+                                        <input type="file" name="idCardFrontImage" id="idCardFrontImage"  class="form-control" accept="image/png, image/jpeg, image/jpg">
+                                          </div>
+
+                                    </div>
+                                    <div class="col-md-6 pl-1">
+<!--                                        <div class="form-group">-->
+                                        <div>
+<!--                                            <button type="button" class="btn btn-info btn-block" onclick="document.getElementById('idCardFrontImage').click();">Upload Front Image</button>-->
+                                            <label for="idCardBackImage">ID Card Back Image</label>
+                                            <input type="file" name="idCardBackImage"  id="idCardBackImage" class="form-control" accept="image/png, image/jpeg, image/jpg">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Submit button -->
                                 <div class="row">
                                     <div class="update ml-auto mr-auto">
                                         <button type="submit" class="btn btn-primary btn-round">Update Profile</button>
                                     </div>
                                 </div>
-
                             </form>
+
+
+
+
+
+
+
+
+
+
+
+                            <!--                            <form th:action="@{/customer/updateProfile}" method="post" enctype="multipart/form-data">-->
+<!--                                &lt;!&ndash; Account fields &ndash;&gt;-->
+<!--                                <div class="row" th:object="${account}">-->
+<!--                                    <input type="hidden" class="form-control" th:field="*{accountId}" name="accountId">-->
+<!--                                    <div class="col-md-6 pr-1">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label>Username</label>-->
+<!--                                            <input type="text" class="form-control" th:field="*{username}" name="username" placeholder="Username">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-md-6 pl-1">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label>Email address</label>-->
+<!--                                            <input type="email" class="form-control" th:field="*{email}" name="email" placeholder="Email">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+<!--                                &lt;!&ndash; Customer fields &ndash;&gt;-->
+<!--                                <div class="row" th:object="${customer}">-->
+<!--                                    <input type="hidden" class="form-control" th:field="*{customerId}" name="customerId">-->
+<!--                                    <div class="col-md-6 pr-1">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label>Gender</label>-->
+<!--                                            <select class="form-control" th:field="*{gender}" name="gender">-->
+<!--                                                <option value="M">Male</option>-->
+<!--                                                <option value="F">Female</option>-->
+<!--                                                <option value="O">Other</option>-->
+<!--                                            </select>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+
+<!--                                    <div class="col-md-6 pl-1">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label>Date of Birth</label>-->
+<!--                                            <input type="date" class="form-control" th:field="*{dateOfBirth}" name="dateOfBirth">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+<!--                                &lt;!&ndash; Additional customer fields &ndash;&gt;-->
+<!--                                <div class="row" >-->
+<!--                                    <div class="col-md-6 pr-1">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label>Phone Number</label>-->
+<!--                                            <input type="text" class="form-control" th:field="*{customer.phoneNumber}" name="phoneNumber" placeholder="Phone Number">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-md-6 pl-1">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label>Full Name</label>-->
+<!--                                            <input type="text" class="form-control" th:field="*{customer.fullName}" name="address" placeholder="Full Name">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    </div>-->
+<!--                              -->
+
+<!--                                &lt;!&ndash; Address, Bank, ID, etc. &ndash;&gt;-->
+<!--                                <div class="row">-->
+<!--                                    <div class="col-md-6 pr-1">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label>Citizen Identification</label>-->
+<!--                                            <input type="text" class="form-control" th:field="*{customer.citizenIdentification}" name="citizenIdentification" placeholder="Citizen ID">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-md-6 pl-1">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label>ID Issuance Date</label>-->
+<!--                                            <input type="date" class="form-control" th:field="*{customer.idIssuanceDate}" name="idIssuanceDate">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+<!--                                <div class="row">-->
+<!--                                    <div class="col-md-6 pr-1">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label>ID Issuance Place</label>-->
+<!--                                            <input type="text" class="form-control" th:field="*{customer.idIssuancePlace}" name="idIssuancePlace" placeholder="Issuance Place">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-md-6 pl-1">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label>Bank Account Number</label>-->
+<!--                                            <input type="text" class="form-control" th:field="*{customer.bankAccountNumber}" name="bankAccountNumber" placeholder="Bank Account Number">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+<!--                                <div class="row">-->
+<!--                                    <div class="col-md-6 pr-1">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label>Bank Name</label>-->
+<!--                                            <input type="text" class="form-control" th:field="*{customer.bankName}" name="bankName" placeholder="Bank Name">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-md-6 pl-1">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label>Bank Branch</label>-->
+<!--                                            <input type="text" class="form-control" th:field="*{customer.bankBranch}" name="bankBranch" placeholder="Bank Branch">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+<!--                                <div class="row">-->
+<!--                                    <div class="col-md-6 pr-1">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label>Bank Account Owner</label>-->
+<!--                                            <input type="text" class="form-control" th:field="*{customer.bankOwner}" name="bankOwner" placeholder="Bank Account Owner">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-md-6 pl-1">-->
+<!--                                    <div class="form-group">-->
+<!--                                        <label>Tax Identification Number (TIN)</label>-->
+<!--                                        <input type="text" class="form-control" th:field="*{customer.taxIdentificationNumber}" name="taxIdentificationNumber" placeholder="Tax ID">-->
+<!--                                    </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+<!--                                <div class="row" >-->
+<!--                                    <div class="col-md-12">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label>Address</label>-->
+<!--                                            <input type="text" class="form-control" th:field="*{customer.address}" name="address" placeholder="Home Address">-->
+<!--                                        </div>-->
+<!--                                </div>-->
+<!--                                </div>-->
+<!--                                 ID Card images-->
+<!--                                    <div class="row" th:object="${customer}">-->
+<!--                                        <div class="col-md-6 pr-1">-->
+<!--                                            <div class="form-group">-->
+<!--                                                <label for="idCardFrontImage">ID Card Front Image</label>-->
+<!--                                                <button type="button" class="btn btn-info btn-block" onclick="document.getElementById('idCardFrontImage').click();">Upload Front Image</button>-->
+<!--                                                <input type="file" name="idCardFrontImage" id="idCardFrontImage" class="d-none" accept="image/png, image/jpeg, image/jpg" th:value="${customer.idCardFrontImage}">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="col-md-6 pl-1">-->
+<!--                                            <div class="form-group">-->
+<!--                                                <label for="idCardBackImage">ID Card Back Image</label>-->
+<!--                                                <button type="button" class="btn btn-info btn-block" onclick="document.getElementById('idCardBackImage').click();">Upload Back Image</button>-->
+<!--                                                <input type="file" name="idCardBackImage" id="idCardBackImage" class="d-none" accept="image/png, image/jpeg, image/jpg" th:value="${customer.idCardBackImage}">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+
+<!--                                &lt;!&ndash; Submit button &ndash;&gt;-->
+<!--                                <div class="row">-->
+<!--                                    <div class="update ml-auto mr-auto">-->
+<!--                                        <button type="submit" class="btn btn-primary btn-round">Update Profile</button>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+<!--                            </form>-->
+
+
+
                         </div>
                     </div>
                 </div>
