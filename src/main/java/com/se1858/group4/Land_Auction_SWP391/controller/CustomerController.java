@@ -23,14 +23,20 @@ public class CustomerController {
     private AssetService assetService;
     private TagService tagService;
     private AuctionService auctionService;
+    private UserDetailsService userDetailsService;
+    private AccountService accountService;
+
     @Autowired
     public CustomerController(NewsService newsService, TagForNewsService tagForNewsService,
-                              AssetService assetService, TagService tagService, AuctionService auctionService) {
+                              AssetService assetService, TagService tagService, AuctionService auctionService,
+                              UserDetailsService userDetailsService, AccountService accountService) {
         this.newsService = newsService;
         this.tagForNewsService = tagForNewsService;
         this.assetService = assetService;
         this.tagService = tagService;
         this.auctionService = auctionService;
+        this.userDetailsService = userDetailsService;
+        this.accountService = accountService;
     }
     @GetMapping("/get_all_asset")
     public String getAllAsset(Model model) {
@@ -87,10 +93,6 @@ public class CustomerController {
         model.addAttribute("auction",auction);
         return "customer/auctionDetail";
     }
-    @Autowired
-    private UserDetailsService userDetailsService;
-    @Autowired
-    private AccountService accountService;
 
     @GetMapping("/profile")
     public String showProfile(Model model) {
