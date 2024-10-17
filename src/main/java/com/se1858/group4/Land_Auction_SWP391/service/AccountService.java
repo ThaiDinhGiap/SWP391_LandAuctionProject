@@ -121,6 +121,7 @@ Account account = new Account();
     }
 
 
+
     public boolean checkUsernameExists(String username) {
         return accountRepository.findByUsername(username) != null;
     }
@@ -217,6 +218,7 @@ Account account = new Account();
     }
 
     public Account save(Account account) {
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
         // Set current time
         account.setRegistrationDate(LocalDateTime.now());
         return accountRepository.save(account);

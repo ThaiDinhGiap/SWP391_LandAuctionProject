@@ -27,11 +27,11 @@
         <div th:if="${errorMessageEmail}" class="alert alert-danger">
             <p th:text="${errorMessageEmail}"></p>
         </div>
-        <input type="text" th:field="*{username}"
+        <input type="text" th:field="*{username}" name="username"
                class="form-control mb-4 w-25" placeholder="User Name" required>
-        <input type="text" th:field="*{password}"
+        <input type="text" th:field="*{password}" name="password"
                class="form-control mb-4 w-25" placeholder="Password" required>
-        <input type="text" th:field="*{email}"
+        <input type="text" th:field="*{email}" name="email"
                class="form-control mb-4 w-25" placeholder="Email" required>
         <input type="text" th:field="*{status}"
                class="form-control mb-4 w-25" placeholder="Status" required>
