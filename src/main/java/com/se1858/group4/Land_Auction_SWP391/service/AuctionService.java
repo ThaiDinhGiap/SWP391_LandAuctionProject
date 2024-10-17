@@ -7,6 +7,7 @@ import com.se1858.group4.Land_Auction_SWP391.repository.AuctionSessionRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,5 +33,9 @@ public class AuctionService {
         } else {
             throw new IllegalArgumentException("Auction session with ID " + auctionId + " not found.");
         }
+    }
+
+    public List<AuctionSession> getAllAutcion(){
+        return auctionSessionRepository.findAll();
     }
 }

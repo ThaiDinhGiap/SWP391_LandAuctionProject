@@ -288,7 +288,7 @@ Author URL: http://w3layouts.com
                 <!--/w3l-blopagew3-left-->
                 <div class="col-lg-8 blopagew3-left">
                     <div class="row">
-                        <div class="col-md-6 item" th:each="news : ${listNews}" style="margin-top: 20px;">
+                        <div class="col-md-6 item" th:each="news : ${listNews}" style="margin-bottom: 20px;">
                             <div class="card">
                                 <div class="card-header p-0 position-relative">
                                     <a th:href="@{/customer/viewNewsDetail(newsId=${news.newsId})}" class="zoom d-block">

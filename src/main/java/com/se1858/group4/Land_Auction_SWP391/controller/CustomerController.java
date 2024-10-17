@@ -1,13 +1,7 @@
 package com.se1858.group4.Land_Auction_SWP391.controller;
 
-import com.se1858.group4.Land_Auction_SWP391.entity.Asset;
-import com.se1858.group4.Land_Auction_SWP391.entity.News;
-import com.se1858.group4.Land_Auction_SWP391.entity.Tag;
-import com.se1858.group4.Land_Auction_SWP391.entity.TagForNews;
-import com.se1858.group4.Land_Auction_SWP391.service.AssetService;
-import com.se1858.group4.Land_Auction_SWP391.service.NewsService;
-import com.se1858.group4.Land_Auction_SWP391.service.TagForNewsService;
-import com.se1858.group4.Land_Auction_SWP391.service.TagService;
+import com.se1858.group4.Land_Auction_SWP391.entity.*;
+import com.se1858.group4.Land_Auction_SWP391.service.*;
 import com.se1858.group4.Land_Auction_SWP391.utility.GetSrcInGoogleMapEmbededURLUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,12 +20,15 @@ public class CustomerController {
     private TagForNewsService tagForNewsService;
     private AssetService assetService;
     private TagService tagService;
+    private AuctionService auctionService;
     @Autowired
-    public CustomerController(NewsService newsService, TagForNewsService tagForNewsService, AssetService assetService, TagService tagService) {
+    public CustomerController(NewsService newsService, TagForNewsService tagForNewsService,
+                              AssetService assetService, TagService tagService, AuctionService auctionService) {
         this.newsService = newsService;
         this.tagForNewsService = tagForNewsService;
         this.assetService = assetService;
         this.tagService = tagService;
+        this.auctionService = auctionService;
     }
     @GetMapping("/get_all_asset")
     public String getAllAsset(Model model) {
@@ -41,6 +38,12 @@ public class CustomerController {
         List<Tag> tagList=tagService.getAllTag();
         model.addAttribute("listTag",tagList);
         return "customer/assetList";
+    }
+    @GetMapping("/get_all_auction")
+    public String getAllAuction(Model model) {
+        List<AuctionSession> auctionList=auctionService.getAllAutcion();
+        model.addAttribute("listAuction",auctionList);
+        return "customer/auctionList";
     }
     @GetMapping("/get_all_news")
     public String getAllNews(Model model) {
@@ -73,5 +76,13 @@ public class CustomerController {
         model.addAttribute("embedUrl", embedUrl);
         model.addAttribute("asset",asset);
         return "customer/assetDetail";
+    }
+    @GetMapping("/viewAuctionDetail")
+    public String getAuctionById(@RequestParam("auctionId") int auctionId, Model model) {
+        AuctionSession auction=auctionService.getAuctionSessionById(auctionId);
+        String embedUrl = GetSrcInGoogleMapEmbededURLUtil.extractSrcFromIframe(auction.getAsset().getCoordinatesOnMap());
+        model.addAttribute("embedUrl", embedUrl);
+        model.addAttribute("auction",auction);
+        return "customer/auctionDetail";
     }
 }
