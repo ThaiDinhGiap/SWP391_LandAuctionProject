@@ -24,5 +24,16 @@ public class TopicService {
     public Optional<Topic> getTopicById(int topicId) {
         return topicRepository.findById(topicId);
     }
+
+    public boolean updateTopicName(int topicId, String newTopicName) {
+        Optional<Topic> topicOptional = topicRepository.findById(topicId);
+        if (topicOptional.isPresent()) {
+            Topic topic = topicOptional.get();
+            topic.setTopicName(newTopicName);
+            topicRepository.save(topic);
+            return true;
+        }
+        return false;
+    }
 }
 

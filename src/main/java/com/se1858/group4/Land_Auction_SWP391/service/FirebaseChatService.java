@@ -14,8 +14,8 @@ public class FirebaseChatService {
 
     private final FirebaseDatabase firebaseDatabase;
 
-    public FirebaseChatService() {
-        this.firebaseDatabase = FirebaseDatabase.getInstance();
+    public FirebaseChatService(FirebaseDatabase firebaseDatabase) {
+        this.firebaseDatabase = firebaseDatabase;
     }
 
     public void saveChatMessage(String sessionId, String sender, String content) {
@@ -69,5 +69,37 @@ public class FirebaseChatService {
         latch.await();  // Đợi cho đến khi quá trình lấy dữ liệu hoàn thành
         return messages;
     }
+
+    public List<Map<String, Object>> getChatSessionsByStaffId(Integer staffId) throws InterruptedException {
+        List<Map<String, Object>> sessions = new ArrayList<>();
+        DatabaseReference chatRef = firebaseDatabase.getReference("chats");
+
+        CountDownLatch latch = new CountDownLatch(1);
+
+        chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot sessionSnapshot : dataSnapshot.getChildren()) {
+                    Map<String, Object> sessionData = (Map<String, Object>) sessionSnapshot.getValue();
+                    if (sessionData != null && sessionData.get("staffId") != null && sessionData.get("staffId").toString().equals(staffId.toString())) {
+                        sessionData.put("sessionId", sessionSnapshot.getKey());
+                        sessions.add(sessionData);
+                    }
+                }
+                latch.countDown();  // Giảm count của latch xuống 0
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+                latch.countDown();  // Để tránh deadlock
+            }
+        });
+
+        latch.await();  // Đợi cho đến khi quá trình lấy dữ liệu hoàn thành
+        return sessions;
+    }
+
+
 }
 
