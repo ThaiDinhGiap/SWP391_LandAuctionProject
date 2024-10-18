@@ -80,6 +80,69 @@
                         </div>
                     </div>
                 </div>
+
+
+
+
+
+                <!--button tham gia dau gia nam ơ day-->
+                <div class="sidebar-sticky" th:if="${auction.status == 'Upcoming'}">
+                    <div class="sidebar-sticky-fix">
+                        <button class="btn btn-style btn-primary register-btn"
+                                style="width: 100%; margin-bottom: 20px;"
+                                data-bs-toggle="modal" data-bs-target="#register_validate_form">Register
+                            auction
+                        </button>
+                    </div>
+                </div>
+                <!-- Modal hien thi form xac nhan dang ky-->
+                <div class="modal fade" id="register_validate_form" tabindex="-1"
+                     aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Registration
+                                    confirmation</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+
+                            <!-- Form bổ sung -->
+                            <form th:action="@{/customer/registerAuction}" th:method="POST">
+                                <div class="modal-body">
+                                    <h4 style="color: #f9351b">Online Auction Rules</h4>
+                                    <br>
+                                    <ul>
+                                        <li style="font-style: italic;">1. Comply with the laws on asset auctions.</li>
+                                        <li style="font-style: italic;">2. Ensure the confidentiality of access accounts, auction participant information, and other information as required by law.</li>
+                                        <li style="font-style: italic;">3. Ensure objectivity, transparency, safety, and cybersecurity.</li>
+                                        <li style="font-style: italic;">4. Protect the lawful rights and interests of asset owners, auction participants, and related individuals or organizations.</li>
+                                    </ul>
+                                    <!--Agreement Confirmation-->
+                                    <div class="form-check">
+                                        <input type="hidden" name="auctionId" th:value="${auction.auctionId}">
+                                        <input class="form-check-input" type="radio" id="agreeCheckbox" style="margin-right: 10px;" name="validate" value="agree">
+                                        <label for="agreeCheckbox" style="color: #f9351b">I fully agree with the above rules</label>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
                 <div class="col-md-8">
                     <div class="card card-user">
                         <div class="card-header">
