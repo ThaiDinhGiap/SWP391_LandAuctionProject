@@ -165,12 +165,21 @@ public class CustomerController {
         model.addAttribute("embedUrl", embedUrl);
         model.addAttribute("auction", auction);
         //check xem nguoi dung da validate tai khoan chua
-        //kiem tra xem nguoi dung da tick het chua
-        if (validate != null) {
-            //tao ma QR chuyen tien coc
-            qrCode.setAmount(auction.getDeposit() + auction.getRegisterFee() + "");
-            qrCode.setDescription("User id 10 " + "transfer deposit, fee");
-            model.addAttribute("qrCode", qrCode);
+        Account this_user = userDetailsService.accountAuthenticated();
+        if(this_user.getVerify()==1){
+            //kiem tra xem nguoi dung da tick het chua
+            if (validate != null) {
+                //tao ma QR chuyen tien coc
+                qrCode.setAmount(auction.getDeposit() + auction.getRegisterFee() + "");
+                qrCode.setDescription("User id 10 " + "transfer deposit, fee");
+                model.addAttribute("qrCode", qrCode);
+                //cap nhat trang thai vao database
+//                AuctionRegister register = new AuctionRegister(auction,this_user);
+            }
+        }
+        else{
+            //gui thong bao tai khoan chua validate
+            model.addAttribute("validateAccount", "false");
         }
         return "customer/auctionDetail";
     }
