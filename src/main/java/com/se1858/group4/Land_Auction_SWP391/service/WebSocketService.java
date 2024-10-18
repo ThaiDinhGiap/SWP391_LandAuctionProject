@@ -17,9 +17,9 @@ public class WebSocketService {
     private final FirebaseChatService firebaseChatService;
 
     @Autowired
-    public WebSocketService(SimpMessagingTemplate messagingTemplate) {
+    public WebSocketService(SimpMessagingTemplate messagingTemplate, FirebaseChatService firebaseChatService) {
         this.messagingTemplate = messagingTemplate;
-        this.firebaseChatService = new FirebaseChatService();
+        this.firebaseChatService = firebaseChatService;
     }
 
     public void notifyStaff(ConnectMessage requestMessage) {

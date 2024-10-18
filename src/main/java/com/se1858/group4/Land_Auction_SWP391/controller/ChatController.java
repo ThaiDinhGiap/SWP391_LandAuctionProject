@@ -51,4 +51,10 @@ public class ChatController {
     public List<Map<String, Object>> getChatMessages(@PathVariable String sessionId) throws InterruptedException {
         return firebaseChatService.getChatMessages(sessionId);
     }
+
+    @GetMapping("/history/{staffId}")
+    public List<Map<String, Object>> getAllChatHistoryByStaffId(@PathVariable Integer staffId) throws InterruptedException {
+        return firebaseChatService.getChatSessionsByStaffId(staffId);
+    }
+
 }

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -6,7 +6,7 @@
     <link rel="apple-touch-icon" sizes="76x76" th:href="@{/dashboardStatic/img/apple-icon.png}">
     <link rel="icon" type="image/png" th:href="@{/dashboardStatic/img/favicon.png}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>VietLand Auction - Staff Chat Interface</title>
+    <title>History Chat</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
           name='viewport'/>
     <!-- Fonts and icons -->
@@ -38,7 +38,7 @@
         </div>
         <div class="sidebar-wrapper">
             <ul class="nav">
-                <li class="active">
+                <li>
                     <a th:href="@{/customercare/dashboard}">
                         <i class="nc-icon nc-bank"></i>
                         <p>Dashboard</p>
@@ -56,7 +56,7 @@
                         <p>Direct Chat</p>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a th:href="@{/customercare/history-chat}">
                         <i class="nc-icon nc-tile-56"></i>
                         <p>History Chat</p>
@@ -78,8 +78,31 @@
         </div>
     </div>
     <!-- End side navbar -->
+
+    <div class="main-panel">
+        <!-- Content of the page -->
+        <div class="content" style="margin-top: 20px">
+            <!-- Phần giao diện chat -->
+            <div class="container chat-container">
+                <!-- Thanh dọc chứa danh sách sessionId -->
+                <div class="session-list">
+                    <!-- Các session sẽ được hiển thị ở đây -->
+                </div>
+
+                <div id="chatHistoryBox">
+                    <!-- Tin nhắn lịch sử sẽ hiển thị ở đây -->
+                </div>
+            </div>
+        </div>
+        <!-- End Content -->
+    </div>
+
+
 </div>
 
+<script th:inline="javascript">
+    var staffId = [[${accountId}]];
+</script>
 <!-- Core JS Files -->
 <script th:src="@{/dashboardStatic/js/core/jquery.min.js}"></script>
 
@@ -89,6 +112,7 @@
 <!-- Notifications Plugin -->
 <script th:src="@{/dashboardStatic/js/plugins/bootstrap-notify.js}"></script>
 <script th:src="@{/dashboardStatic/js/paper-dashboard.min.js?v=2.0.1}" type="text/javascript"></script>
+<script th:src="@{/dashboardStatic/js/customercare/history.js}"></script>
 </body>
 
 </html>
