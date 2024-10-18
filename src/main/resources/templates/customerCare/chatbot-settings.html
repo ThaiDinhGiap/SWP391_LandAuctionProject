@@ -6,7 +6,7 @@
     <link rel="apple-touch-icon" sizes="76x76" th:href="@{/dashboardStatic/img/apple-icon.png}">
     <link rel="icon" type="image/png" th:href="@{/dashboardStatic/img/favicon.png}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>VietLand Auction - Staff Chat Interface</title>
+    <title>Chatbot Settings</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
           name='viewport'/>
     <!-- Fonts and icons -->
@@ -38,7 +38,7 @@
         </div>
         <div class="sidebar-wrapper">
             <ul class="nav">
-                <li class="active">
+                <li>
                     <a th:href="@{/customercare/dashboard}">
                         <i class="nc-icon nc-bank"></i>
                         <p>Dashboard</p>
@@ -62,7 +62,7 @@
                         <p>History Chat</p>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a th:href="@{/customercare/chatbot-settings}">
                         <i class="nc-icon nc-settings-gear-65"></i>
                         <p>Chatbot Settings</p>
@@ -78,6 +78,45 @@
         </div>
     </div>
     <!-- End side navbar -->
+
+    <div class="main-panel">
+        <div class="chatbot-settings-container">
+            <div class="table-header">
+                <h2>Main Topics</h2>
+            </div>
+            <table id="mainTopicsTable">
+                <thead class="text-primary">
+                <tr>
+                    <th>TOPIC ID</th>
+                    <th>TOPIC NAME</th>
+                    <th>ACTIONS</th>
+                </tr>
+                </thead>
+                <tbody id="mainTopics">
+                <!-- Danh sách main topics sẻ được load ở đây -->
+                </tbody>
+            </table>
+
+            <div id="details" style="display: none;">
+                <h2>Details</h2>
+                <table id="detailsTable">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                    </tr>
+                    </thead>
+                    <tbody id="subTopicsOrQuestions">
+                    <!-- Subtopic hoặc câu hỏi sẻ được load ở đây -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
 </div>
 
 <!-- Core JS Files -->
@@ -89,6 +128,7 @@
 <!-- Notifications Plugin -->
 <script th:src="@{/dashboardStatic/js/plugins/bootstrap-notify.js}"></script>
 <script th:src="@{/dashboardStatic/js/paper-dashboard.min.js?v=2.0.1}" type="text/javascript"></script>
+<script th:src="@{/dashboardStatic/js/customercare/chatbotSettings.js}"></script>
 </body>
 
 </html>
