@@ -376,7 +376,8 @@ Author URL: http://w3layouts.com
                     <!--xem tai lieu-->
                     <div class="row">
                         <div class="col-md-3 mb-3">
-                            <button class="btn btn-toggle" id="view_description" style="width: 100%;">Description</button>
+                            <button class="btn btn-toggle" id="view_description" style="width: 100%;">Description
+                            </button>
                         </div>
                         <div class="col-md-3 mb-3">
                             <button class="btn btn-toggle" id="view_document" style="width: 100%;">Document</button>
@@ -398,24 +399,30 @@ Author URL: http://w3layouts.com
                             </div>
                         </div>
                     </div>
-<!--                    <div class="single-post-content sidebar-widget" id="auction_rule">-->
-<!--                        <div th:each="document : ${auction.asset.getDocuments()}" class="row">-->
-<!--                            <div class="col-md-12">-->
-<!--                                <a th:href="@{''+${document.path}}" target="_blank"-->
-<!--                                   style="cursor: pointer;">-->
-<!--                                    Asset Document-->
-<!--                                </a>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <!--                    <div class="single-post-content sidebar-widget" id="auction_rule">-->
+                    <!--                        <div th:each="document : ${auction.asset.getDocuments()}" class="row">-->
+                    <!--                            <div class="col-md-12">-->
+                    <!--                                <a th:href="@{''+${document.path}}" target="_blank"-->
+                    <!--                                   style="cursor: pointer;">-->
+                    <!--                                    Asset Document-->
+                    <!--                                </a>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
                     <div class="single-post-content sidebar-widget" id="auction_rule">
                         <h4 style="font-weight: bold;">Nguyên tắc đấu giá trực tuyến</h4>
                         <br>
                         <ul>
                             <li style="font-style: italic;">1. Tuân thủ quy định của pháp luật về đấu giá tài sản.</li>
-                            <li style="font-style: italic;">2. Bảo mật về tài khoản truy cập, thông tin về người tham gia đấu giá và các thông tin khác theo quy định của pháp luật.</li>
-                            <li style="font-style: italic;">3. Bảo đảm tính khách quan, minh bạch, an toàn, an ninh mạng.</li>
-                            <li style="font-style: italic;">4. Bảo vệ quyền và lợi ích hợp pháp của người có tài sản, người tham gia đấu giá và cá nhân, tổ chức có liên quan.</li>
+                            <li style="font-style: italic;">2. Bảo mật về tài khoản truy cập, thông tin về người tham
+                                gia đấu giá và các thông tin khác theo quy định của pháp luật.
+                            </li>
+                            <li style="font-style: italic;">3. Bảo đảm tính khách quan, minh bạch, an toàn, an ninh
+                                mạng.
+                            </li>
+                            <li style="font-style: italic;">4. Bảo vệ quyền và lợi ích hợp pháp của người có tài sản,
+                                người tham gia đấu giá và cá nhân, tổ chức có liên quan.
+                            </li>
                         </ul>
                     </div>
 
@@ -425,6 +432,104 @@ Author URL: http://w3layouts.com
                 <div class="sidebar-side col-lg-5 col-md-12 col-sm-12 mt-lg-0 mt-5">
                     <aside class="sidebar ps-lg-4">
                         <div class="sidebar-blog-category">
+
+
+                            <!--button tham gia dau gia nam ơ day-->
+                            <div class="sidebar-sticky" th:if="${auction.status == 'Upcoming'}">
+                                <div class="sidebar-sticky-fix">
+                                    <button class="btn btn-style btn-primary register-btn"
+                                            style="width: 100%; margin-bottom: 20px;"
+                                            data-bs-toggle="modal" data-bs-target="#register_validate_form">Register
+                                        auction
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Modal hien thi form xac nhan dang ky-->
+                            <div class="modal fade" id="register_validate_form" tabindex="-1"
+                                 aria-labelledby="exampleModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Registration
+                                                confirmation</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+
+                                        <!-- Form bổ sung -->
+                                        <form th:action="@{/customer/registerAuction}" th:method="POST">
+                                            <div class="modal-body">
+                                                <h4 style="color: #f9351b">Online Auction Rules</h4>
+                                                <br>
+                                                <ul>
+                                                    <li style="font-style: italic;">1. Comply with the laws on asset auctions.</li>
+                                                    <li style="font-style: italic;">2. Ensure the confidentiality of access accounts, auction participant information, and other information as required by law.</li>
+                                                    <li style="font-style: italic;">3. Ensure objectivity, transparency, safety, and cybersecurity.</li>
+                                                    <li style="font-style: italic;">4. Protect the lawful rights and interests of asset owners, auction participants, and related individuals or organizations.</li>
+                                                </ul>
+                                                <!--Agreement Confirmation-->
+                                                <div class="form-check">
+                                                    <input type="hidden" name="auctionId" th:value="${auction.auctionId}">
+                                                    <input class="form-check-input" type="radio" id="agreeCheckbox" style="margin-right: 10px;" name="validate" value="agree">
+                                                    <label for="agreeCheckbox" style="color: #f9351b">I fully agree with the above rules</label>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Kiểm tra nếu qrcode khác null -->
+                            <div th:if="${qrCode != null}">
+                                <script>
+                                    // Sử dụng JavaScript để kích hoạt modal khi trang được tải
+                                    document.addEventListener("DOMContentLoaded", function () {
+                                        var myModal = new bootstrap.Modal(document.getElementById('transfer_deposit_fee'));
+                                        myModal.show();
+                                    });
+                                </script>
+                            </div>
+                            <!-- Modal hien thi ma QR-->
+                            <div class="modal fade" id="transfer_deposit_fee" tabindex="-1"
+                                 aria-labelledby="exampleModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Transfer deposit and register fee</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <form th:action="@{/customer/transferDepositAndFee}" th:method="POST">
+                                            <div class="modal-body">
+                                                <img th:if="${qrCode != null}" th:src="${qrCode.getQrUrl()}" alt="QR code" style="width:100%;">
+                                                <!--xac nhan yeu cau-->
+                                                <div class="form-check">
+                                                    <input type="hidden" name="auctionId"
+                                                           th:value="${auction.auctionId}">
+                                                    <input class="form-check-input" type="radio" id="transfer"
+                                                           style="margin-right: 10px;" name="validate" value="agree">
+                                                    <label for="transfer">
+                                                        Confirm the transfer
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                    Close
+                                                </button>
+                                                <button type="submit" class="btn btn-primary">Save</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <!--thong tin tai san-->
                             <div class="sidebar-widget popular-posts">
                                 <div class="sidebar-title">
@@ -503,6 +608,20 @@ Author URL: http://w3layouts.com
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
+                                            <label>Deposit: </label>
+                                            <span th:text="${auction.deposit != null ? auction.deposit : 'null'}"
+                                                  style="color: #f9351b; font-weight: bold;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>Register fee: </label>
+                                            <span th:text="${auction.registerFee != null ? auction.registerFee : 'null'}"
+                                                  style="color: #f9351b; font-weight: bold;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
                                             <label>Start time: </label>
                                             <span th:text="${auction.startTime}"
                                                   style="color: #f9351b; font-weight: bold"></span>
@@ -524,24 +643,58 @@ Author URL: http://w3layouts.com
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <label>Asset tags: </label>
-                                            <span th:each="tag, iterStat : ${auction.asset.getTags()}"
-                                                  th:text="${tag.tagName} + (${iterStat.last} ? '' : ', ')"
+                                            <label>Starting price: </label>
+                                            <span th:text="${auction.startingPrice != null ? auction.startingPrice : 'null'}"
                                                   style="color: #f9351b; font-weight: bold;"></span>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <label>Status: </label>
-                                            <span th:text="${auction.asset.assetStatus}"
-                                                  style="color: #f9351b; font-weight: bold"></span>
+                                            <label>Starting price per unit: </label>
+                                            <span th:text="${auction.startingPricePerUnit != null ? auction.startingPricePerUnit : 'null'}"
+                                                  style="color: #f9351b; font-weight: bold;"></span>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <label>Upload date: </label>
-                                            <span th:text="${auction.asset.createdDate}"
-                                                  style="color: #f9351b; font-weight: bold"></span>
+                                            <label>Dealt price: </label>
+                                            <span th:text="${auction.dealedPrice != null ? auction.dealedPrice : 'null'}"
+                                                  style="color: #f9351b; font-weight: bold;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>Dealt price per unit: </label>
+                                            <span th:text="${auction.dealedPricePerUnit != null ? auction.dealedPricePerUnit : 'null'}"
+                                                  style="color: #f9351b; font-weight: bold;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>Minimum bid increment: </label>
+                                            <span th:text="${auction.minimumBidIncrement != null ? auction.minimumBidIncrement : 'null'}"
+                                                  style="color: #f9351b; font-weight: bold;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>Extra time number: </label>
+                                            <span th:text="${auction.extraTimeUnit != null ? auction.extraTimeUnit : 'null'}"
+                                                  style="color: #f9351b; font-weight: bold;"></span>
+                                            <span style="color: #f9351b; font-weight: bold;"> seconds</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>Status: </label>
+                                            <span th:text="${auction.status != null ? auction.status : 'null'}"
+                                                  style="color: #f9351b; font-weight: bold;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>Link asset: </label>
+                                            <a th:href="@{/customer/viewAssetDetail(assetId=${auction.asset.assetId})}">here</a>
                                         </div>
                                     </div>
                                 </article>
@@ -800,7 +953,7 @@ Author URL: http://w3layouts.com
     const auctionRule = document.getElementById('auction_rule');
 
     // Mặc định khi tải trang, chỉ hiển thị asset_description và active button
-    window.onload = function() {
+    window.onload = function () {
         assetDescription.style.display = 'block';  // Hiển thị khối mô tả
         assetDocument.style.display = 'none';  // Ẩn khối tài liệu
         auctionRule.style.display = 'none';  // Ẩn khối mô tả
@@ -808,7 +961,7 @@ Author URL: http://w3layouts.com
     };
 
     // Khi nhấn vào nút "Description"
-    descriptionButton.addEventListener('click', function() {
+    descriptionButton.addEventListener('click', function () {
         assetDescription.style.display = 'block';  // Hiển thị khối mô tả
         assetDocument.style.display = 'none';  // Ẩn khối tài liệu
         auctionRule.style.display = 'none';  // Ẩn khối mô tả
@@ -820,7 +973,7 @@ Author URL: http://w3layouts.com
     });
 
     // Khi nhấn vào nút "Document"
-    documentButton.addEventListener('click', function() {
+    documentButton.addEventListener('click', function () {
         assetDocument.style.display = 'block';  // Hiển thị khối tài liệu
         assetDescription.style.display = 'none';  // Ẩn khối mô tả
         auctionRule.style.display = 'none';  // Ẩn khối mô tả
@@ -832,7 +985,7 @@ Author URL: http://w3layouts.com
     });
 
     // Khi nhấn vào nút "Rule"
-    ruleButton.addEventListener('click', function() {
+    ruleButton.addEventListener('click', function () {
         auctionRule.style.display = 'block';  // Hiển thị khối tài liệu
         assetDescription.style.display = 'none'; // Ẩn khối mô tả
         assetDocument.style.display = 'none'; // Ẩn khối mô tả
@@ -843,7 +996,19 @@ Author URL: http://w3layouts.com
         documentButton.classList.remove('active');
     });
 </script>
+/* Đổi màu chữ nút đăng ký tham gia đấu giá khi di chuột đến */
+<style>
+    /* Màu chữ mặc định của nút là trắng */
+    .register-btn {
+        color: white;
+        transition: color 0.3s ease;
+    }
 
+    /* Khi di chuột qua nút, màu chữ đổi thành đen */
+    .register-btn:hover {
+        color: black;
+    }
+</style>
 
 </body>
 
