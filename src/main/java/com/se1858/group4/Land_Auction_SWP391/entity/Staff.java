@@ -31,7 +31,7 @@ public class Staff {
     @Column(name = "phone_number", length = 10)
     private String phoneNumber;
 
-    @Column(name = "isAvailable")
+    @Column(name = "is_available")
     private boolean isAvailable = true;
 
     public Staff() {

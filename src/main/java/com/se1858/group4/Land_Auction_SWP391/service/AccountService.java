@@ -1,10 +1,8 @@
 package com.se1858.group4.Land_Auction_SWP391.service;
 
-import com.se1858.group4.Land_Auction_SWP391.entity.Account;
-import com.se1858.group4.Land_Auction_SWP391.entity.Customer;
-import com.se1858.group4.Land_Auction_SWP391.entity.Role;
-import com.se1858.group4.Land_Auction_SWP391.entity.Staff;
+import com.se1858.group4.Land_Auction_SWP391.entity.*;
 import com.se1858.group4.Land_Auction_SWP391.repository.AccountRepository;
+import com.se1858.group4.Land_Auction_SWP391.repository.BanLogRepository;
 import com.se1858.group4.Land_Auction_SWP391.repository.CustomerRepository;
 import com.se1858.group4.Land_Auction_SWP391.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +30,8 @@ public class AccountService {
     private CustomerRepository customerRepository;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private BanLogRepository banLogRepository;
 
 
     private String storedOtp; // store OTP temporarily in memory or use a database.
@@ -40,6 +40,7 @@ public class AccountService {
 
     public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
+        
     }
 
 
@@ -214,5 +215,68 @@ public class AccountService {
             }
         }
         return result;
+    }
+    public List<Account> findAllAccount() {
+        return accountRepository.findAll();
+    }
+
+    public List<Account> findALlAccountByStatus(String status) {
+        List<Account> listAccount = accountRepository.findAll();
+        List<Account> result = null;
+        for (Account account : listAccount) {
+            if(account.getStatus() == 1){
+                if (result == null) {
+                    result = new ArrayList<Account>();
+                }
+                result.add(account);
+            }
+        }
+        return result;
+    }
+
+    public Account save(Account account) {
+        account.setStatus(1);
+        account.setVerify(1);
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
+        // Set current time
+        account.setRegistrationDate(LocalDateTime.now());
+        return accountRepository.save(account);
+    }
+
+    public Account ban(Account account) {
+        account.setStatus(0);
+        // Set current time
+        return accountRepository.save(account);
+    }
+
+    public void update(Account adminId, Account accountId, String reason) {
+        Account existingAccount = accountRepository.findById(accountId.getAccountId()).
+                orElseThrow(() -> new IllegalArgumentException("Account not found"));
+
+        List<String> changedFields = new ArrayList<>();
+        if (existingAccount.getStatus() == (accountId.getStatus())) {
+            changedFields.add("status");
+        }
+        // Cập nhật account
+        accountRepository.save(accountId);
+
+        // Ghi log nếu có thay đổi
+        if (!changedFields.isEmpty()) {
+            BanLog log = new BanLog();
+            log.setAdmin(adminId);
+            log.setAccount(accountId);
+            log.setTimestamp(LocalDateTime.now());
+            log.setReason(reason);
+
+            banLogRepository.save(log);
+        }
+    }
+
+    public boolean existsByUsername(String username) {
+        return accountRepository.existsByUsername(username);
+    }
+
+    public Account findByUsername(String username) {
+        return accountRepository.findByUsername(username);
     }
 }

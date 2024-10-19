@@ -1,8 +1,10 @@
 package com.se1858.group4.Land_Auction_SWP391.controller;
 
+
 import com.se1858.group4.Land_Auction_SWP391.dto.CustomerDTO;
 import com.se1858.group4.Land_Auction_SWP391.entity.Account;
 import com.se1858.group4.Land_Auction_SWP391.entity.Customer;
+import com.se1858.group4.Land_Auction_SWP391.entity.Image;
 import com.se1858.group4.Land_Auction_SWP391.security.UserDetailsService;
 import com.se1858.group4.Land_Auction_SWP391.service.AccountService;
 import com.se1858.group4.Land_Auction_SWP391.entity.*;
@@ -12,7 +14,7 @@ import com.se1858.group4.Land_Auction_SWP391.service.CustomerService;
 import com.se1858.group4.Land_Auction_SWP391.service.ImageService;
 import com.se1858.group4.Land_Auction_SWP391.utility.FileUploadUtil;
 import com.se1858.group4.Land_Auction_SWP391.utility.QrCode;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +22,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+
 
 
 @Controller
@@ -39,7 +48,7 @@ public class CustomerController {
     private QrCode qrCode;
     private AuctionRegisterService auctionRegisterService;
 
-    @Autowired
+
     public CustomerController(NewsService newsService, TagForNewsService tagForNewsService,
                               AssetService assetService, TagService tagService, AuctionService auctionService,
                               UserDetailsService userDetailsService, AccountService accountService,
@@ -59,6 +68,7 @@ public class CustomerController {
         this.auctionRegisterService = auctionRegisterService;
     }
 
+
     @GetMapping("/get_all_asset")
     public String getAllAsset(Model model) {
         List<Asset> newsList = assetService.getAllAssetWithStatus("Waiting for Auction Scheduling");
@@ -69,12 +79,16 @@ public class CustomerController {
         return "customer/assetList";
     }
 
+
+
+
     @GetMapping("/get_all_auction")
     public String getAllAuction(Model model) {
         List<AuctionSession> auctionList = auctionService.getAllAutcion();
         model.addAttribute("listAuction", auctionList);
         return "customer/auctionList";
     }
+
 
     @GetMapping("/get_all_news")
     public String getAllNews(Model model) {
@@ -89,6 +103,36 @@ public class CustomerController {
         return "customer/newsList";
     }
 
+
+    @GetMapping("/filter_assets")
+    public String filterAssets(
+            @RequestParam(required = false) List<Integer> tagIds,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
+            Model model) {
+
+
+        List<Asset> filteredAssets = assetService.filterAssets(tagIds, keyword, fromDate, toDate);
+        model.addAttribute("listAsset", filteredAssets);
+        return "customer/assetList :: assetListFragment";
+    }
+
+
+    @GetMapping("/filter_auctions")
+    public String filterAuctions(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
+            Model model) {
+
+
+        List<AuctionSession> filteredAuctions = auctionService.filterAuctionSessions(keyword, fromDate, toDate);
+        model.addAttribute("listAuction", filteredAuctions);
+        return "customer/auctionList :: auctionListFragment";
+    }
+
+
     @GetMapping("/viewNewsDetail")
     public String getNewsById(@RequestParam("newsId") int newsId, Model model) {
         News news = newsService.getNewsById(newsId);
@@ -101,6 +145,7 @@ public class CustomerController {
         model.addAttribute("listTag", tagList);
         return "customer/newsDetail";
     }
+
 
     @GetMapping("/viewAssetDetail")
     public String getAssetById(@RequestParam("assetId") int assetId, Model model) {
@@ -123,6 +168,7 @@ public class CustomerController {
         return "/customer/profile";
     }
 
+
     @PostMapping("/updateProfile")
     public String updateProfile(
             @ModelAttribute("customerDTO") CustomerDTO customerDTO,
@@ -132,11 +178,13 @@ public class CustomerController {
         Customer customer = customerDTO.getCustomer();
         Account account = customerDTO.getAccount();
 
+
         // Check if account and customer are not null
         if (account != null && customer != null) {
             // Update account and customer details
             accountService.updateAccountDetails(account);
             customerService.updateCustomerDetails(customer);
+
 
             // Handle file uploads
             if (!idCardFrontImage.isEmpty() || !idCardBackImage.isEmpty()) {
