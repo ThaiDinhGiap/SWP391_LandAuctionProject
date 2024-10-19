@@ -224,6 +224,7 @@ Author URL: http://w3layouts.com
             border: none; /* Bỏ viền cho ảnh phụ */
         }
     </style>
+    <!--  CSS cho nut tuy chon  -->
     <style>
         /* Nút mặc định */
         .btn-toggle {
@@ -410,18 +411,22 @@ Author URL: http://w3layouts.com
                     <!--                        </div>-->
                     <!--                    </div>-->
                     <div class="single-post-content sidebar-widget" id="auction_rule">
-                        <h4 style="font-weight: bold;">Nguyên tắc đấu giá trực tuyến</h4>
+                        <h4 style="font-weight: bold;">Online Auction Rules</h4>
                         <br>
                         <ul>
-                            <li style="font-style: italic;">1. Tuân thủ quy định của pháp luật về đấu giá tài sản.</li>
-                            <li style="font-style: italic;">2. Bảo mật về tài khoản truy cập, thông tin về người tham
-                                gia đấu giá và các thông tin khác theo quy định của pháp luật.
+                            <li style="font-style: italic;">1. Comply with the laws on asset
+                                auctions.
                             </li>
-                            <li style="font-style: italic;">3. Bảo đảm tính khách quan, minh bạch, an toàn, an ninh
-                                mạng.
+                            <li style="font-style: italic;">2. Ensure the confidentiality of
+                                access accounts, auction participant information, and other
+                                information as required by law.
                             </li>
-                            <li style="font-style: italic;">4. Bảo vệ quyền và lợi ích hợp pháp của người có tài sản,
-                                người tham gia đấu giá và cá nhân, tổ chức có liên quan.
+                            <li style="font-style: italic;">3. Ensure objectivity, transparency,
+                                safety, and cybersecurity.
+                            </li>
+                            <li style="font-style: italic;">4. Protect the lawful rights and
+                                interests of asset owners, auction participants, and related
+                                individuals or organizations.
                             </li>
                         </ul>
                     </div>
@@ -435,7 +440,7 @@ Author URL: http://w3layouts.com
 
 
                             <!--button tham gia dau gia nam ơ day-->
-                            <div class="sidebar-sticky" th:if="${auction.status == 'Upcoming'}">
+                            <div class="sidebar-sticky" th:if="${auction.status == 'Upcoming'} and ${auction_register == null}">
                                 <div class="sidebar-sticky-fix">
                                     <button class="btn btn-style btn-primary register-btn"
                                             style="width: 100%; margin-bottom: 20px;"
@@ -463,35 +468,49 @@ Author URL: http://w3layouts.com
                                                 <h4 style="color: #f9351b">Online Auction Rules</h4>
                                                 <br>
                                                 <ul>
-                                                    <li style="font-style: italic;">1. Comply with the laws on asset auctions.</li>
-                                                    <li style="font-style: italic;">2. Ensure the confidentiality of access accounts, auction participant information, and other information as required by law.</li>
-                                                    <li style="font-style: italic;">3. Ensure objectivity, transparency, safety, and cybersecurity.</li>
-                                                    <li style="font-style: italic;">4. Protect the lawful rights and interests of asset owners, auction participants, and related individuals or organizations.</li>
+                                                    <li style="font-style: italic;">1. Comply with the laws on asset
+                                                        auctions.
+                                                    </li>
+                                                    <li style="font-style: italic;">2. Ensure the confidentiality of
+                                                        access accounts, auction participant information, and other
+                                                        information as required by law.
+                                                    </li>
+                                                    <li style="font-style: italic;">3. Ensure objectivity, transparency,
+                                                        safety, and cybersecurity.
+                                                    </li>
+                                                    <li style="font-style: italic;">4. Protect the lawful rights and
+                                                        interests of asset owners, auction participants, and related
+                                                        individuals or organizations.
+                                                    </li>
                                                 </ul>
                                                 <!--Agreement Confirmation-->
                                                 <div class="form-check">
                                                     <input type="hidden" name="auctionId" th:value="${auction.auctionId}">
-                                                    <input class="form-check-input" type="radio" id="agreeCheckbox" style="margin-right: 10px;" name="validate" value="agree">
-                                                    <label for="agreeCheckbox" style="color: #f9351b">I fully agree with the above rules</label>
+                                                    <input class="form-check-input" type="radio" id="agreeCheckbox"
+                                                           style="margin-right: 10px;" name="validate" value="agree">
+                                                    <label for="agreeCheckbox" style="color: #f9351b">I fully agree with
+                                                        the above rules</label>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                    Close
+                                                </button>
                                                 <button type="submit" class="btn btn-primary">Save</button>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Kiểm tra nếu qrcode khác null -->
-                            <div th:if="${qrCode != null}">
-                                <script>
-                                    // Sử dụng JavaScript để kích hoạt modal khi trang được tải
-                                    document.addEventListener("DOMContentLoaded", function () {
-                                        var myModal = new bootstrap.Modal(document.getElementById('transfer_deposit_fee'));
-                                        myModal.show();
-                                    });
-                                </script>
+                            <!--button tham gia dau gia nam o day-->
+                            <div class="sidebar-sticky" th:if="${auction.status == 'Upcoming'} and ${auction_register != null} and ${auction_register.getRegisterStatus() == 'chua chuyen tien'}">
+                                <div class="sidebar-sticky-fix">
+                                    <button class="btn btn-style btn-primary register-btn"
+                                            style="width: 100%; margin-bottom: 20px;"
+                                            data-bs-toggle="modal" data-bs-target="#transfer_deposit_fee">
+                                        Transfer deposit and register fee
+                                    </button>
+                                </div>
                             </div>
                             <!-- Modal hien thi ma QR-->
                             <div class="modal fade" id="transfer_deposit_fee" tabindex="-1"
@@ -506,14 +525,19 @@ Author URL: http://w3layouts.com
                                         </div>
                                         <form th:action="@{/customer/transferDepositAndFee}" th:method="POST">
                                             <div class="modal-body">
-                                                <img th:if="${qrCode != null}" th:src="${qrCode.getQrUrl()}" alt="QR code" style="width:100%;">
+                                                <div style="text-align: center; width: 100%;">
+                                                    <span style="font-style: italic; color: #f9351b;">Please do not change the transfer content</span>
+                                                </div>
+
+                                                <img th:if="${qrCode != null}" th:src="${qrCode.getQrUrl()}"
+                                                     alt="QR code" style="width:100%;">
                                                 <!--xac nhan yeu cau-->
                                                 <div class="form-check">
-                                                    <input type="hidden" name="auctionId"
-                                                           th:value="${auction.auctionId}">
-                                                    <input class="form-check-input" type="radio" id="transfer"
-                                                           style="margin-right: 10px;" name="validate" value="agree">
-                                                    <label for="transfer">
+                                                    <input type="hidden" name="auctionId" th:value="${auction.auctionId}">
+                                                    <input type="hidden" name="auctionRegisterId" th:if="${auction_register != null}" th:value="${auction_register.getRegisterId()}">
+                                                    <input class="form-check-input" type="radio" id="transferInput"
+                                                           style="margin-right: 10px;" name="transfer" value="done">
+                                                    <label for="transferInput">
                                                         Confirm the transfer
                                                     </label>
                                                 </div>
@@ -525,6 +549,33 @@ Author URL: http://w3layouts.com
                                                 <button type="submit" class="btn btn-primary">Save</button>
                                             </div>
                                         </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Kiểm tra nếu qrcode khác null -->
+                            <div th:if="${error != null}">
+                                <script>
+                                    // Sử dụng JavaScript để kích hoạt modal khi trang được tải
+                                    document.addEventListener("DOMContentLoaded", function () {
+                                        var myModal = new bootstrap.Modal(document.getElementById('inform_error'));
+                                        myModal.show();
+                                    });
+                                </script>
+                            </div>
+                            <!-- Modal hien thi thong bao-->
+                            <div class="modal fade" id="inform_error" tabindex="-1"
+                                 aria-labelledby="exampleModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Notification</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <span th:if="${error != null}" th:text="${error}" style="color: #f9351b; font-style: italic;"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -996,7 +1047,7 @@ Author URL: http://w3layouts.com
         documentButton.classList.remove('active');
     });
 </script>
-/* Đổi màu chữ nút đăng ký tham gia đấu giá khi di chuột đến */
+<!-- Đổi màu chữ nút đăng ký tham gia đấu giá khi di chuột đến -->
 <style>
     /* Màu chữ mặc định của nút là trắng */
     .register-btn {
