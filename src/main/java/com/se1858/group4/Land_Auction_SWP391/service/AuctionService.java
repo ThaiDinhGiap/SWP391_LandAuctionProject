@@ -17,15 +17,13 @@ import java.util.Optional;
 
 @Service
 public class AuctionService {
-
-
-    @Autowired
     private AuctionRegisterRepository auctionRegisterRepository;
-
-
-    @Autowired
     private AuctionSessionRepository auctionSessionRepository;
 
+    public AuctionService(AuctionRegisterRepository auctionRegisterRepository, AuctionSessionRepository auctionSessionRepository) {
+        this.auctionRegisterRepository = auctionRegisterRepository;
+        this.auctionSessionRepository = auctionSessionRepository;
+    }
 
     // Kiểm tra xem người dùng có được phép truy cập vào phiên đấu giá hay không
     public boolean isUserAllowedToAccessAuction(int auctionId, int accountId) {
@@ -57,6 +55,10 @@ public class AuctionService {
 
 
         return auctionSessionRepository.filterAuctionSessions(keyword, fromDateTime, toDateTime);
+    }
+
+    public AuctionSession createAuctionSession(AuctionSession auctionSession) {
+        return auctionSessionRepository.save(auctionSession);
     }
 }
 

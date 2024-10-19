@@ -373,135 +373,88 @@
               <h5 class="card-title">Please enter the auction session information</h5>
             </div>
             <div class="card-body">
-              <form th:action="@{/property_agent/register}" th:method="post" th:object="${assetDTO}"
+              <form th:action="@{/auctioneer/createAuction}" th:method="post" th:object="${auctionDTO}"
                     enctype="multipart/form-data">
                 <div class="row">
                   <div class="col-md-12">
                     <div class="form-group">
-                      <label for="location">Location</label>
-                      <input type="text" th:field="*{asset.location}" id="location"
+                      <label for="auctionName">Auction name</label>
+                      <input type="text" th:field="*{auctionSession.auctionName}" id="auctionName" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 pr-1">
+                    <div class="form-group">
+                      <label for="startingPrice">Starting price</label>
+                      <input type="text" th:field="*{auctionSession.startingPrice}" id="startingPrice"
+                             class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-md-6 px-1">
+                    <div class="form-group">
+                      <label for="minimumbidincrement">Minimum bid increment</label>
+                      <input type="text" th:field="*{auctionSession.minimumBidIncrement}" id="minimumbidincrement"
                              class="form-control">
                     </div>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-4 pr-1">
+                  <div class="col-md-6 pr-1">
                     <div class="form-group">
-                      <label for="length">Length (m)</label>
-                      <input type="text" th:field="*{asset.length}" id="length"
-                             class="form-control">
+                      <label for="deposit">Deposit</label>
+                      <input type="text" th:field="*{auctionSession.deposit}" id="deposit" class="form-control">
                     </div>
                   </div>
-                  <div class="col-md-4 px-1">
+                  <div class="col-md-6 px-1">
                     <div class="form-group">
-                      <label for="width">Width (m)</label>
-                      <input type="text" th:field="*{asset.width}" id="width"
-                             class="form-control">
-                    </div>
-                  </div>
-                  <div class="col-md-4 pl-1">
-                    <div class="form-group">
-                      <label for="area">Area <span>(m<sup>2</sup>)</span></label>
-                      <input type="text" th:field="*{asset.area}" id="area" class="form-control">
+                      <label for="registerfee">Register fee</label>
+                      <input type="text" th:field="*{auctionSession.registerFee}" id="registerfee" class="form-control">
                     </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-md-12">
                     <div class="form-group">
-                      <label for="description">Description</label>
-                      <textarea th:field="*{asset.description}" id="description"
-                                class="form-control"></textarea>
+                      <label for="extratimeunit">Extra time unit (second)</label>
+                      <input type="text" th:field="*{auctionSession.extraTimeUnit}" id="extratimeunit" class="form-control">
                     </div>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-12">
+                  <div class="col-md-6 pr-1">
                     <div class="form-group">
-                      <label for="coordinatesOnMap">Coordinates on map</label>
-                      <input type="text" th:field="*{asset.coordinatesOnMap}"
-                             id="coordinatesOnMap"
-                             class="form-control">
+                      <label for="starttime">Start time</label>
+                      <input type="datetime-local" th:field="*{auctionSession.startTime}" id="starttime" class="form-control">
                     </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-12">
+                  <div class="col-md-6 px-1">
                     <div class="form-group">
-                      <label>Choose tags</label>
-                      <div class="col-sm-10">
-                        <div class="row">
-                          <div th:each="tag : ${listTag}" class="col-md-3">
-                            <input type="checkbox" th:id="${'tag' + tag.tagId}"
-                                   th:value="${tag.tagId}"
-                                   name="selectedTags"
-                                   th:title="${tag.description}"/>
-                            <label th:for="${'tag' + tag.tagId}"
-                                   th:text="${tag.tagName}"></label><br/>
-                          </div>
-                        </div>
-                      </div>
+                      <label for="expectedendtime">Expected end time</label>
+                      <input type="datetime-local" th:field="*{auctionSession.expectedEndTime}" id="expectedendtime" class="form-control">
                     </div>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-6 pr-1">
                     <div class="form-group">
-                      <label for="authority">Choose local authority</label>
-                      <select id="authority" name="authorityId" class="form-control">
-                        <option value="">-- Select Local Authority --</option>
-                        <option th:each="authority : ${listLocalAuthority}"
-                                th:value="${authority.localAuthorityId}"
-                                th:text="${authority.localAuthorityName}">
-                        </option>
-                      </select>
+                      <label for="registrationopendate">Registration open date</label>
+                      <input type="datetime-local" th:field="*{auctionSession.registrationOpenDate}" id="registrationopendate" class="form-control">
                     </div>
                   </div>
-                </div>
-
-
-
-                <div class="row">
-                  <div class="col-md-6">
-                    <div>
-                      <label for="images">Choose images</label>
-                      <input type="file" name="images" id="images" class="form-control" multiple
-                             required
-                             accept="image/png, image/jpeg, image/jpg, image/gif">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div>
-                      <label for="documents">Choose documents</label>
-                      <input type="file" name="documents" id="documents" class="form-control"
-                             multiple
-                             required>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-6 px-1">
                     <div class="form-group">
-                      <label for="auctioneer">Select auctioneer</label>
-                      <select id="auctioneer" name="auctioneerAccountId" class="form-control">
-                        <option value="">-- Select Auctioneer --</option>
-                        <option th:each="auctioneer : ${listAuctioneer}"
-                                th:value="${auctioneer.account.getAccountId()}"
-                                th:text="${auctioneer.fullName}">
-                        </option>
-                      </select>
+                      <label for="registrationclosedate">Registration close date</label>
+                      <input type="datetime-local" th:field="*{auctionSession.registrationCloseDate}" id="registrationclosedate" class="form-control">
                     </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="update ml-auto mr-auto">
-                    <button type="submit" class="btn btn-primary btn-round">Save</button>
+                    <button type="submit" class="btn btn-primary btn-round">Create</button>
                   </div>
                 </div>
               </form>
-              <!--                            <span th:if="${param.message}" th:text="${param.message}" class="alert-message"></span>-->
             </div>
           </div>
         </div>
