@@ -13,14 +13,17 @@ import com.se1858.group4.Land_Auction_SWP391.service.CustomerService;
 import com.se1858.group4.Land_Auction_SWP391.service.ImageService;
 import com.se1858.group4.Land_Auction_SWP391.utility.FileUploadUtil;
 import com.se1858.group4.Land_Auction_SWP391.utility.QrCode;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Controller
@@ -66,6 +69,7 @@ public class CustomerController {
         return "customer/assetList";
     }
 
+
     @GetMapping("/get_all_auction")
     public String getAllAuction(Model model) {
         List<AuctionSession> auctionList = auctionService.getAllAutcion();
@@ -84,6 +88,31 @@ public class CustomerController {
         List<TagForNews> tagList = tagForNewsService.getAllTagsForNews();
         model.addAttribute("listTag", tagList);
         return "customer/newsList";
+    }
+
+    @GetMapping("/filter_assets")
+    public String filterAssets(
+            @RequestParam(required = false) List<Integer> tagIds,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
+            Model model) {
+
+        List<Asset> filteredAssets = assetService.filterAssets(tagIds, keyword, fromDate, toDate);
+        model.addAttribute("listAsset", filteredAssets);
+        return "customer/assetList :: assetListFragment";
+    }
+
+    @GetMapping("/filter_auctions")
+    public String filterAuctions(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
+            Model model) {
+
+        List<AuctionSession> filteredAuctions = auctionService.filterAuctionSessions(keyword, fromDate, toDate);
+        model.addAttribute("listAuction", filteredAuctions);
+        return "customer/auctionList :: auctionListFragment";
     }
 
     @GetMapping("/viewNewsDetail")

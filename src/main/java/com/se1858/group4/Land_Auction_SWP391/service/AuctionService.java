@@ -7,6 +7,8 @@ import com.se1858.group4.Land_Auction_SWP391.repository.AuctionSessionRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,5 +39,12 @@ public class AuctionService {
 
     public List<AuctionSession> getAllAutcion(){
         return auctionSessionRepository.findAll();
+    }
+
+    public List<AuctionSession> filterAuctionSessions(String keyword, LocalDate fromDate, LocalDate toDate) {
+        LocalDateTime fromDateTime = (fromDate != null) ? fromDate.atStartOfDay() : null;
+        LocalDateTime toDateTime = (toDate != null) ? toDate.atTime(23, 59, 59) : null;
+
+        return auctionSessionRepository.filterAuctionSessions(keyword, fromDateTime, toDateTime);
     }
 }

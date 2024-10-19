@@ -287,35 +287,40 @@ Author URL: http://w3layouts.com
             <div class="row justify-content-center">
                 <!--/w3l-blopagew3-left-->
                 <div class="col-lg-8 blopagew3-left">
-                    <div class="row">
-                        <div class="col-md-6 item" th:each="asset : ${listAsset}" style="margin-bottom: 20px;">
-                            <div class="card">
-                                <div class="card-header p-0 position-relative">
-                                    <a th:href="@{/customer/viewAssetDetail(assetId=${asset.assetId})}" class="zoom d-block">
-                                        <img class="card-img-bottom d-block" th:src="${asset.images.get(0).path}"
-                                             alt="Cover photo" style="height: 250px; width: 100%;">
-                                    </a>
-                                </div>
-                                <div class="card-body blog-details">
-                                    <a th:href="@{/customer/viewAssetDetail(assetId=${asset.assetId})}" class="blog-desc"
-                                       th:text="${asset.location.length() > 40 ? asset.location.substring(0, 40) + '...' : asset.location}"></a>
-                                </div>
-                                <div class="card-footer">
-                                    <div>
+                    <div th:fragment="assetListFragment">
+                        <div class="row" id="assetListContainer">
+                            <div class="col-md-6 item" th:each="asset : ${listAsset}" style="margin-bottom: 20px;">
+                                <!-- Nội dung của mỗi asset -->
+                                <div class="card">
+                                    <div class="card-header p-0 position-relative">
+                                        <a th:href="@{/customer/viewAssetDetail(assetId=${asset.assetId})}"
+                                           class="zoom d-block">
+                                            <img class="card-img-bottom d-block" th:if="${asset.images.size() > 0}"
+                                                 th:src="${asset.images.get(0).path}"
+                                                 alt="Cover photo" style="height: 250px; width: 100%;">
+                                        </a>
+                                    </div>
+                                    <div class="card-body blog-details">
+                                        <a th:href="@{/customer/viewAssetDetail(assetId=${asset.assetId})}"
+                                           class="blog-desc"
+                                           th:text="${asset.location.length() > 40 ? asset.location.substring(0, 40) + '...' : asset.location}"></a>
+                                    </div>
+                                    <div class="card-footer">
                                         <div>
-                                            <span class="meta-value">Length (m): </span>
-                                            <span th:text="${asset.length}" style="font-weight: bold;"></span>
-                                            <span class="meta-value">Width (m): </span>
-                                            <span th:text="${asset.width}" style="font-weight: bold;"></span>
-                                        </div>
-                                        <div>
-                                            <span class="meta-value">Area (m<sup>2</sup>): </span>
-                                            <span th:text="${asset.area}" style="font-weight: bold;"></span>
-                                        </div>
-
-                                        <div class="date">
-                                            <span>Upload date:</span>
-                                            <span th:text="${asset.createdDate}"></span>
+                                            <div>
+                                                <span class="meta-value">Length (m): </span>
+                                                <span th:text="${asset.length}" style="font-weight: bold;"></span>
+                                                <span class="meta-value">Width (m): </span>
+                                                <span th:text="${asset.width}" style="font-weight: bold;"></span>
+                                            </div>
+                                            <div>
+                                                <span class="meta-value">Area (m<sup>2</sup>): </span>
+                                                <span th:text="${asset.area}" style="font-weight: bold;"></span>
+                                            </div>
+                                            <div class="date">
+                                                <span>Upload date:</span>
+                                                <span th:text="${asset.createdDate}"></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -323,6 +328,7 @@ Author URL: http://w3layouts.com
                         </div>
                     </div>
                 </div>
+
                 <!--//w3l-blopagew3-left-->
                 <!--/w3l-blopagew3-right-->
                 <div class="sidebar-side col-lg-4 col-md-12 col-sm-12 mt-lg-0 mt-5">
@@ -333,11 +339,45 @@ Author URL: http://w3layouts.com
                             <div class="sidebar-sticky">
                                 <div class="sidebar-sticky-fix">
                                     <!-- Tags Widget-->
+
+                                    <div class="sidebar-widget search-widget mb-4">
+                                        <div class="sidebar-title">
+                                            <h4>Search</h4>
+                                        </div>
+                                        <form id="searchForm" action="#" method="get">
+                                            <div class="form-group mb-3">
+                                                <input type="text" class="form-control" placeholder="Enter key..." name="keyword">
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6">
+                                                    <label for="fromDate">From</label>
+                                                    <div class="input-group">
+                                                        <input type="date" id="fromDate" name="fromDate" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label for="toDate">To</label>
+                                                    <div class="input-group">
+                                                        <input type="date" id="toDate" name="toDate" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-primary btn-block" onclick="applyFilters()">Search</button>
+                                            <button type="button" class="btn btn-primary btn-block" onclick="clearSearchFilters()">Clear</button>
+                                        </form>
+                                    </div>
                                     <div class="sidebar-widget popular-tags">
                                         <div class="sidebar-title">
                                             <h4>Tags</h4>
                                         </div>
-                                        <a href="filter tag o day" th:each="tag : ${listTag}" th:text="${tag.tagName}"></a>
+                                        <form id="tagFilterForm" action="#" method="get">
+                                            <div class="form-check" th:each="tag : ${listTag}">
+                                                <input class="form-check-input" type="checkbox" name="tagIds" th:value="${tag.tagId}" th:id="${tag.tagId}">
+                                                <label th:for="${tag.tagId}" th:text="${tag.tagName}"></label><br>
+                                            </div>
+                                            <button class="btn btn-primary" type="button" onclick="applyFilters()">Filter</button>
+                                            <button type="button" class="btn btn-primary" onclick="clearTagFilters()">Clear</button>
+                                        </form>
                                     </div>
 
                                 </div>
@@ -548,64 +588,14 @@ Author URL: http://w3layouts.com
         })
     });
 
-    function updateClock() {
-        var now = new Date();
-
-        // Lấy giờ, phút, giây với định dạng 2 chữ số
-        var hours = now.getHours().toString().padStart(2, '0');
-        var minutes = now.getMinutes().toString().padStart(2, '0');
-        var seconds = now.getSeconds().toString().padStart(2, '0');
-
-        // Lấy ngày với định dạng tiếng Anh
-        var day = now.toLocaleDateString('en-US', {weekday: 'long'});
-        var date = now.toLocaleDateString('en-US'); // Hiển thị ngày tháng năm theo định dạng US (MM/DD/YYYY)
-
-        // Hiển thị thời gian vào phần tử HTML
-        document.getElementById('time').innerText = `${hours}:${minutes}:${seconds}`;
-        document.getElementById('date').innerText = `${day}, ${date}`;
-    }
-
-    // Cập nhật thời gian mỗi giây
-    setInterval(updateClock, 1000);
-    updateClock();
-
 </script>
 <!-- //disable body scroll which navbar is in active -->
 <!-- //bootstrap -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script th:src="@{/assets_CustomerSide/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/assets.js}"></script>
 
 
-<!--<script>(function () {-->
-<!--    function c() {-->
-<!--        var b = a.contentDocument || a.contentWindow.document;-->
-<!--        if (b) {-->
-<!--            var d = b.createElement('script');-->
-<!--            d.innerHTML = "window.__CF$cv$params={r:'8d39758f3c7ea8bb',t:'MTcyOTA5NjQ5Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";-->
-<!--            b.getElementsByTagName('head')[0].appendChild(d)-->
-<!--        }-->
-<!--    }-->
-
-<!--    if (document.body) {-->
-<!--        var a = document.createElement('iframe');-->
-<!--        a.height = 1;-->
-<!--        a.width = 1;-->
-<!--        a.style.position = 'absolute';-->
-<!--        a.style.top = 0;-->
-<!--        a.style.left = 0;-->
-<!--        a.style.border = 'none';-->
-<!--        a.style.visibility = 'hidden';-->
-<!--        document.body.appendChild(a);-->
-<!--        if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else {-->
-<!--            var e = document.onreadystatechange || function () {-->
-<!--            };-->
-<!--            document.onreadystatechange = function (b) {-->
-<!--                e(b);-->
-<!--                'loading' !== document.readyState && (document.onreadystatechange = e, c())-->
-<!--            }-->
-<!--        }-->
-<!--    }-->
-<!--})();-->
-<!--</script>-->
 </body>
 
 </html>

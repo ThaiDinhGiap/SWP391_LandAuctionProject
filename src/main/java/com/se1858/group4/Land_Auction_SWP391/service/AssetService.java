@@ -1,22 +1,26 @@
 package com.se1858.group4.Land_Auction_SWP391.service;
 
 import com.se1858.group4.Land_Auction_SWP391.entity.Asset;
+import com.se1858.group4.Land_Auction_SWP391.entity.Tag;
 import com.se1858.group4.Land_Auction_SWP391.repository.AssetRepository;
+import com.se1858.group4.Land_Auction_SWP391.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AssetService {
     private AssetRepository assetRepository;
+    private TagRepository tagRepository;
+
     @Autowired
-    public AssetService(AssetRepository assetRepository) {
+    public AssetService(AssetRepository assetRepository, TagRepository tagRepository) {
         this.assetRepository = assetRepository;
+        this.tagRepository = tagRepository;
     }
     public Asset registerAsset(Asset asset) {
         asset.setAssetStatus("Waiting for Auction Scheduling");
@@ -53,5 +57,22 @@ public class AssetService {
             asset.setAssetStatus("Canceled");
         }
         return updateAsset(asset);
+    }
+
+    public List<Asset> getAssetsByTagIds(List<Integer> tagIds) {
+        List<Tag> tags = tagRepository.findAllById(tagIds);
+        Set<Asset> filteredAssets = new HashSet<>(tags.get(0).getAssets());
+        for (Tag tag : tags) {
+            filteredAssets.retainAll(tag.getAssets());
+        }
+        return new ArrayList<>(filteredAssets);
+    }
+
+    public List<Asset> filterAssets(List<Integer> tagIds, String keyword, LocalDate fromDate, LocalDate toDate) {
+        LocalDateTime fromDateTime = (fromDate != null) ? fromDate.atStartOfDay() : null;
+        LocalDateTime toDateTime = (toDate != null) ? toDate.atTime(23, 59, 59) : null;
+
+        System.out.println(assetRepository.filterAssets(tagIds, keyword, fromDateTime, toDateTime).toArray().length);
+        return assetRepository.filterAssets(tagIds, keyword, fromDateTime, toDateTime);
     }
 }
