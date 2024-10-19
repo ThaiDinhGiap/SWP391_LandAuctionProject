@@ -4,7 +4,6 @@ function applyAuctionSearch() {
     const fromDate = $('#fromDate').val();
     const toDate = $('#toDate').val();
 
-
     // Gửi yêu cầu AJAX để lấy danh sách phiên đấu giá đã lọc
     $.ajax({
         url: '/customer/filter_auctions', // URL của controller xử lý lọc và tìm kiếm
@@ -24,12 +23,8 @@ function applyAuctionSearch() {
     });
 }
 
-
 function clearSearchAuctionsFilters() {
     // Xóa giá trị trong form tìm kiếm
     document.getElementById("searchForm").reset();
     applyAuctionSearch();
 }
-
-
-
