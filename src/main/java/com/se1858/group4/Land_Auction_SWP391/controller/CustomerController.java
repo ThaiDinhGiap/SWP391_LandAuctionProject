@@ -3,7 +3,6 @@ package com.se1858.group4.Land_Auction_SWP391.controller;
 import com.se1858.group4.Land_Auction_SWP391.dto.CustomerDTO;
 import com.se1858.group4.Land_Auction_SWP391.entity.Account;
 import com.se1858.group4.Land_Auction_SWP391.entity.Customer;
-import com.se1858.group4.Land_Auction_SWP391.entity.Image;
 import com.se1858.group4.Land_Auction_SWP391.security.UserDetailsService;
 import com.se1858.group4.Land_Auction_SWP391.service.AccountService;
 import com.se1858.group4.Land_Auction_SWP391.entity.*;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -37,12 +37,14 @@ public class CustomerController {
     private FileUploadUtil uploadFile;
     private CustomerService customerService;
     private QrCode qrCode;
+    private AuctionRegisterService auctionRegisterService;
 
+    @Autowired
     public CustomerController(NewsService newsService, TagForNewsService tagForNewsService,
                               AssetService assetService, TagService tagService, AuctionService auctionService,
                               UserDetailsService userDetailsService, AccountService accountService,
                               ImageService imageService, FileUploadUtil uploadFile,
-                              CustomerService customerService, QrCode qrCode) {
+                              CustomerService customerService, QrCode qrCode, AuctionRegisterService auctionRegisterService) {
         this.newsService = newsService;
         this.tagForNewsService = tagForNewsService;
         this.assetService = assetService;
@@ -54,6 +56,7 @@ public class CustomerController {
         this.uploadFile = uploadFile;
         this.customerService = customerService;
         this.qrCode = qrCode;
+        this.auctionRegisterService = auctionRegisterService;
     }
 
     @GetMapping("/get_all_asset")
@@ -108,15 +111,6 @@ public class CustomerController {
         return "customer/assetDetail";
     }
 
-    @GetMapping("/viewAuctionDetail")
-    public String getAuctionById(@RequestParam("auctionId") int auctionId, Model model) {
-        AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
-        String embedUrl = GetSrcInGoogleMapEmbededURLUtil.extractSrcFromIframe(auction.getAsset().getCoordinatesOnMap());
-        model.addAttribute("embedUrl", embedUrl);
-        model.addAttribute("auction", auction);
-        return "customer/auctionDetail";
-    }
-
     @GetMapping("/profile")
     public String showProfile(Model model) {
         Account account = userDetailsService.accountAuthenticated();
@@ -156,38 +150,65 @@ public class CustomerController {
         return "redirect:/customer/profile";
     }
 
-    @PostMapping("/registerAuction")
-    public String registerAuction(@RequestParam("validate") String validate,
-                                  @RequestParam("auctionId") int auctionId, Model model) {
-
+    @GetMapping("/viewAuctionDetail")
+    public String getAuctionById(@RequestParam(value = "error", required = false) String error, @RequestParam("auctionId") int auctionId, Model model) {
         AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
         String embedUrl = GetSrcInGoogleMapEmbededURLUtil.extractSrcFromIframe(auction.getAsset().getCoordinatesOnMap());
         model.addAttribute("embedUrl", embedUrl);
         model.addAttribute("auction", auction);
+        qrCode.setAmount(auction.getDeposit() + auction.getRegisterFee() + "");
+        qrCode.setDescription("User id 10 " + "transfer deposit, fee");
+        model.addAttribute("qrCode", qrCode);
+        //lay ra nguoi dang ky
+        Account this_user = userDetailsService.accountAuthenticated();
+        AuctionRegister register = auctionRegisterService.getAuctionRegister(auctionId,this_user.getAccountId());
+        if(register != null){
+            model.addAttribute("auction_register", register);
+        }
+        if(error!=null){
+            model.addAttribute("error", error);
+        }
+        return "customer/auctionDetail";
+    }
+
+    @PostMapping("/registerAuction")
+    public String registerAuction(@RequestParam(value = "validate", required = false) String validate,
+                                  @RequestParam("auctionId") int auctionId, RedirectAttributes redirectAttributes) {
+        AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
         //check xem nguoi dung da validate tai khoan chua
         Account this_user = userDetailsService.accountAuthenticated();
         if(this_user.getVerify()==1){
             //kiem tra xem nguoi dung da tick het chua
             if (validate != null) {
-                //tao ma QR chuyen tien coc
-                qrCode.setAmount(auction.getDeposit() + auction.getRegisterFee() + "");
-                qrCode.setDescription("User id 10 " + "transfer deposit, fee");
-                model.addAttribute("qrCode", qrCode);
                 //cap nhat trang thai vao database
-//                AuctionRegister register = new AuctionRegister(auction,this_user);
+                AuctionRegister register = new AuctionRegister(auction,this_user,"chua chuyen tien",null,null,null, LocalDateTime.now());
+                auctionRegisterService.createAuctionRegister(register);
+                redirectAttributes.addFlashAttribute("error", "Registration successful, please transfer the deposit and register fee");
             }
         }
         else{
             //gui thong bao tai khoan chua validate
-            model.addAttribute("validateAccount", "false");
+            redirectAttributes.addFlashAttribute("error", "Please complete your personal information before registering for the auction");
         }
-        return "customer/auctionDetail";
+        return "redirect:/customer/viewAuctionDetail?auctionId=" + auctionId;
     }
 
     @PostMapping("/transferDepositAndFee")
-    public String transferDepositAndFee() {
-
-        return "customer/auctionDetail";
+    public String transferDepositAndFee(@RequestParam(value = "transfer", required = false) String transfer,
+                                        @RequestParam("auctionId") int auctionId,
+                                        @RequestParam("auctionRegisterId") int auctionRegisterId, RedirectAttributes redirectAttributes) {
+        AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
+        //check xem nguoi dung da chuyen tien chua
+        if(transfer != null){
+            AuctionRegister auctionRegister=auctionRegisterService.getAuctionRegisterById(auctionRegisterId);
+            auctionRegister.setRegisterStatus("dang cho xac nhan chuyen tien");
+            auctionRegisterService.updateRegisterStatus(auctionRegister);
+            redirectAttributes.addFlashAttribute("error", "Please wait while we confirm the transaction, the result will be sent to you via notification");
+        }
+        else{
+            redirectAttributes.addFlashAttribute("error", "Please make sure to transfer the deposit and register fee before the auction registration deadline");
+        }
+        return "redirect:/customer/viewAuctionDetail?auctionId=" + auctionId;
     }
 
 }
