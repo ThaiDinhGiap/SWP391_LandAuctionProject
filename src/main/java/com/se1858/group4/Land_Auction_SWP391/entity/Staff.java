@@ -1,6 +1,7 @@
 package com.se1858.group4.Land_Auction_SWP391.entity;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -23,6 +24,7 @@ public class Staff {
     private String gender;
 
     @Column(name = "date_of_birth")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime dateOfBirth;
 
     @Column(name = "address")
