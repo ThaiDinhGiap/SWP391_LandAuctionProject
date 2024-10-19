@@ -13,11 +13,15 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.se1858.group4.Land_Auction_SWP391.entity.BanLog;
+import com.se1858.group4.Land_Auction_SWP391.repository.BanLogRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @Service
 public class AccountService {
@@ -32,28 +36,74 @@ public class AccountService {
     private CustomerRepository customerRepository;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private BanLogRepository banLogRepository;
 
 
-    private String storedOtp; // store OTP temporarily in memory or use a database.
+    private String storedOtp; // for simplicity, store OTP temporarily in memory or use a database.
     private String storedEmail; // Store the email temporarily for verification
-    Account account = new Account();
-
-    public AccountService(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
-    }
-
-
-
+//    private Account temporaryAccount = new Account(); // Temporarily hold account until OTP is verified
+Account account = new Account();
     public AccountService() {
 
     }
 
+//
+//    public Account findAccountByAccountId(int accountId) {
+//        return accountRepository.findById(accountId).orElse(null);
+//    }
+//
+//    public Customer findCustomerByAccountId(int accountId) {
+//        return customerRepository.findByAccountId(accountId);
+//    }
+
+//    public void registerUser(String username, String password, String email) {
+//        Account account = new Account();
+//        account.setUsername(username);
+//        account.setPassword(passwordEncoder.encode(password));
+//        account.setEmail(email);
+//        account.setVerify(0);  // Not verified yet
+//        account.setStatus(1);  // Disabled until OTP verification
+//        account.setRegistrationDate(LocalDateTime.now());
+//
+//        Role role = roleRepository.findByRoleName("ROLE_Customer");
+//        account.setRole(role);
+//
+//        accountRepository.save(account);  // Save the account with status = 0
+//
+//        storedOtp = generateOTP();  // Generate OTP
+//        storedEmail = email;  // Store email for verification
+//        temporaryAccount = account; // Temporarily store account info
+//        sendOtpEmail(email, storedOtp);  // Send OTP email
+//    }
+//
+
+
+
+//    public void registerUser(String username, String password, String email) {
+//
+//        account.setUsername(username);
+//        if (accountRepository.findByUsername(username) != null) {
+//            throw new RuntimeException("Username already exists.");
+//        }
+//        // Encrypt password
+//        account.setPassword(passwordEncoder.encode(password));
+//        account.setEmail(email);
+//        account.setVerify(0);  // Not verified yet
+//        account.setStatus(0);  // Disabled until OTP verification
+//        account.setRegistrationDate(LocalDateTime.now());
+//
+//        // Generate OTP and send to email
+//        storedOtp = generateOTP();
+//        storedEmail = email;
+//        sendOtpEmail(email, storedOtp);
+//    }
 
 
     public String registerUser(String username, String password, String email, Model model) {
         if (accountRepository.findByUsername(username) != null) {
             model.addAttribute("errorMessage", "Username already exists. Please choose another one.");
-            return "register";
+            return "register";  // Return the user back to the register page
         }
 
         // Continue with user registration
@@ -69,6 +119,7 @@ public class AccountService {
         sendOtpEmail(email, storedOtp);
         return "redirect:/verify-otp";  // Redirect to OTP verification
     }
+
 
 
     public boolean checkUsernameExists(String username) {
@@ -87,13 +138,14 @@ public class AccountService {
             if (account != null && account.getEmail().equals(storedEmail)) {
                 account.setRole(roleRepository.findByRoleName("ROLE_Customer"));
                 account.setStatus(1);  // Enable the account
-                accountRepository.save(account);
+                accountRepository.save(account);  // Save the account to the database
                 account = null;  // Clear temporary account after saving
                 return true;
             }
         }
         return false;  // OTP verification failed
     }
+
 
 
     private void sendOtpEmail(String to, String otp) {
@@ -115,79 +167,7 @@ public class AccountService {
     }
 
 
-    public void processForgotPassword(String email, Model model) {
-        Account account = accountRepository.findByEmail(email);
 
-        if (account == null) {
-            model.addAttribute("errorMessage", "No account found with this email.");
-            return;
-        }
-
-        String newPassword = generateRandomPassword();
-        account.setPassword(passwordEncoder.encode(newPassword));
-        accountRepository.save(account);
-        sendNewPasswordEmail(email, newPassword);
-
-        model.addAttribute("message", "A new password has been sent to your email.");
-    }
-
-    private String generateRandomPassword() {
-        return UUID.randomUUID().toString().substring(0, 8);
-    }
-
-    private void sendNewPasswordEmail(String to, String newPassword) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);
-        message.setSubject("Your New Password");
-        message.setText("Your new password is: " + newPassword + "\nPlease change it after logging in.");
-        mailSender.send(message);
-    }
-
-
-    public void updateAccountDetails(Account account) {
-        Optional<Account> existingAccountOpt = accountRepository.findById(account.getAccountId());
-        if (existingAccountOpt.isPresent()) {
-            Account existingAccount = existingAccountOpt.get();
-            existingAccount.setUsername(account.getUsername());
-            existingAccount.setEmail(account.getEmail());
-            existingAccount.setVerify(0);
-            accountRepository.save(existingAccount);
-        } else {
-            throw new NoSuchElementException("Account not found for ID: " + account.getAccountId());
-        }
-    }
-
-//
-//    public void updateCustomerDetails(Customer customer) {
-//        Customer existingCustomer = customerRepository.findById(customer.getCustomerId()).get();
-//        if (existingCustomer != null) {
-//
-//            //Bank
-//            existingCustomer.setBankAccountNumber(customer.getBankAccountNumber());
-//            existingCustomer.setBankBranch(customer.getBankBranch());
-//            existingCustomer.setBankName( customer.getBankName());
-//            existingCustomer.setBankOwner(customer.getBankOwner());
-//            //Personal
-//            existingCustomer.setDateOfBirth(customer.getDateOfBirth());
-//            existingCustomer.setGender(customer.getGender());
-//            existingCustomer.setFullName( customer.getFullName());
-//            existingCustomer.setPhoneNumber(customer.getPhoneNumber());
-//            existingCustomer.setAddress(customer.getAddress());
-//            //ID
-//            existingCustomer.setCitizenIdentification(customer.getCitizenIdentification());
-//            existingCustomer.setIdCardBackImage(customer.getIdCardBackImage());
-//            existingCustomer.setIdCardFrontImage(customer.getIdCardFrontImage());
-//            existingCustomer.setIdIssuanceDate(customer.getIdIssuanceDate());
-//            existingCustomer.setIdIssuancePlace(customer.getIdIssuancePlace());
-//
-//            customerRepository.save(existingCustomer);
-//        }
-//  }
-
-
-
-
-//
 //    @Scheduled(cron = "0 0 0 * * ?")  // Runs daily at midnight
 //    public void removeUnverifiedAccounts() {
 //        List<Account> unverifiedAccounts = accountRepository.findByStatus(0);
@@ -197,10 +177,13 @@ public class AccountService {
 //    }
 
 
+    public AccountService(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
+
     public Account findAccountById(int id) {
         return accountRepository.findById(id).get();
     }
-
 
     public List<Staff> findAllStaffsByRole(String role) {
         List<Account> listAccount = accountRepository.findAll();
@@ -214,5 +197,69 @@ public class AccountService {
             }
         }
         return result;
+    }
+
+    public List<Account> findAllAccount() {
+        return accountRepository.findAll();
+    }
+
+    public List<Account> findALlAccountByStatus(String status) {
+        List<Account> listAccount = accountRepository.findAll();
+        List<Account> result = null;
+        for (Account account : listAccount) {
+            if(account.getStatus() == 1){
+                if (result == null) {
+                    result = new ArrayList<Account>();
+                }
+                result.add(account);
+            }
+        }
+        return result;
+    }
+
+    public Account save(Account account) {
+        account.setStatus(1);
+        account.setVerify(1);
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
+        // Set current time
+        account.setRegistrationDate(LocalDateTime.now());
+        return accountRepository.save(account);
+    }
+
+    public Account ban(Account account) {
+        account.setStatus(0);
+        // Set current time
+        return accountRepository.save(account);
+    }
+
+    public void update(Account adminId, Account accountId, String reason) {
+        Account existingAccount = accountRepository.findById(accountId.getAccountId()).
+                orElseThrow(() -> new IllegalArgumentException("Account not found"));
+
+        List<String> changedFields = new ArrayList<>();
+        if (existingAccount.getStatus() == (accountId.getStatus())) {
+            changedFields.add("status");
+        }
+        // Cập nhật account
+        accountRepository.save(accountId);
+
+        // Ghi log nếu có thay đổi
+        if (!changedFields.isEmpty()) {
+            BanLog log = new BanLog();
+            log.setAdmin(adminId);
+            log.setAccount(accountId);
+            log.setTimestamp(LocalDateTime.now());
+            log.setReason(reason);
+
+            banLogRepository.save(log);
+        }
+    }
+
+    public boolean existsByUsername(String username) {
+        return accountRepository.existsByUsername(username);
+    }
+
+    public Account findByUsername(String username) {
+        return accountRepository.findByUsername(username);
     }
 }
