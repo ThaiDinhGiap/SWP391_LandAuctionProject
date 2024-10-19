@@ -2,6 +2,7 @@ package com.se1858.group4.Land_Auction_SWP391.controller;
 
 import com.se1858.group4.Land_Auction_SWP391.dto.AssetDTO;
 import com.se1858.group4.Land_Auction_SWP391.entity.*;
+import com.se1858.group4.Land_Auction_SWP391.security.UserDetailsService;
 import com.se1858.group4.Land_Auction_SWP391.service.*;
 import com.se1858.group4.Land_Auction_SWP391.utility.FileUploadUtil;
 import com.se1858.group4.Land_Auction_SWP391.utility.GetSrcInGoogleMapEmbededURLUtil;
@@ -22,15 +23,17 @@ public class PropertyAgentController {
     private LocalAuthorityService localAuthorityService;
     private AccountService accountService;
     private TaskService taskService;
+    private UserDetailsService userDetailsService;
     public PropertyAgentController(AssetService assetService, FileUploadUtil uploadFile, TagService tagService,
                                    LocalAuthorityService localAuthorityService, AccountService accountService,
-                                   TaskService taskService) {
+                                   TaskService taskService, UserDetailsService userDetailsService) {
         this.assetService = assetService;
         this.uploadFile = uploadFile;
         this.tagService = tagService;
         this.localAuthorityService = localAuthorityService;
         this.accountService = accountService;
         this.taskService = taskService;
+        this.userDetailsService = userDetailsService;
     }
     @GetMapping("/dashboard")
     public String dashboard() {
@@ -74,9 +77,10 @@ public class PropertyAgentController {
         }
         else asset.setLocalAuthority(null);
         //luu tai san vao database
+        Account this_property_agent=userDetailsService.accountAuthenticated();
         assetService.registerAsset(asset);
         Task task=new Task();
-        task.setPropertyAgent(accountService.findAccountById(3)); //mac dinh la bun bo hue
+        task.setPropertyAgent(this_property_agent); //mac dinh la bun bo hue
         task.setAuctioneer(accountService.findAccountById(auctioneerAccountId));
         task.setAsset(asset);
         taskService.save(task);

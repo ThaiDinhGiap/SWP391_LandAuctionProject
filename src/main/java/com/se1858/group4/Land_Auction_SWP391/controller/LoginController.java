@@ -39,8 +39,8 @@ public class LoginController {
         if (hasRole("ROLE_Property_Agent")) {
             return "redirect:/property_agent/dashboard";
         }
-        if (hasRole("ROLE_Autioneer")) {
-            return "redirect:/autioneer/home";
+        if (hasRole("ROLE_Auctioneer")) {
+            return "redirect:/auctioneer/dashboard";
         }
         if (hasRole("ROLE_Customer_Care")) {
             return "redirect:/customer-care/home";

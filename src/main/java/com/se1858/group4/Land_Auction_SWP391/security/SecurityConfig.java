@@ -96,7 +96,7 @@ public class SecurityConfig {
                         .requestMatchers("/customer/**").hasRole("Customer")
                         .requestMatchers("/admin/**").hasRole("Admin")
                         .requestMatchers("/property_agent/**").hasRole("Property_Agent")
-                        .requestMatchers("/autioneer/**").hasRole("Autioneer")
+                        .requestMatchers("/auctioneer/**").hasRole("Auctioneer")
                         .requestMatchers("/customer_care/**").hasRole("Customer_Care")
                         .requestMatchers("/news_writer/**").hasRole("News_Writer")
                         // Any other request should be authenticated

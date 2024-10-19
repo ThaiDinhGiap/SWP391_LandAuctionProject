@@ -5,6 +5,7 @@ import com.se1858.group4.Land_Auction_SWP391.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class TaskService {
@@ -20,5 +21,9 @@ public class TaskService {
         task.setFinishedDate(null);
         task.setStatus("In progress");
         return taskRepository.save(task);
+    }
+    public List<Task> getAllTasksByAuctioneerId(int auctioneerId, String status) {
+        List<Task> list = taskRepository.findByAuctioneer_AccountIdAndStatus(auctioneerId, status);
+        return list;
     }
 }
