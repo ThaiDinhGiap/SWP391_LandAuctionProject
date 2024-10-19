@@ -329,7 +329,7 @@ Author URL: http://w3layouts.com
                   <div class="card-header p-0 position-relative">
                     <a th:href="@{/customer/viewAuctionDetail(auctionId=${auction.auctionId})}"
                        class="zoom d-block">
-                      <img class="card-img-bottom d-block"
+                      <img class="card-img-bottom d-block" th:if="${auction != null and auction.asset != null}"
                            th:src="${auction.asset.images.get(0).path}"
                            alt="Cover photo" style="height: 250px; width: 100%;">
                     </a>
