@@ -361,7 +361,7 @@ Author URL: http://w3layouts.com
                     <!--xem anh-->
                     <div id="image-gallery">
                         <div class="main-image">
-                            <img th:src="@{${auction.asset.getImages().get(0).path}}" alt="Main Asset Image"
+                            <img th:if="${auction != null and auction.asset != null}" th:src="@{${auction.asset.getImages().get(0).path}}" alt="Main Asset Image"
                                  class="img-fluid"/>
                         </div>
                         <div class="thumbnail-images row">
@@ -701,22 +701,8 @@ Author URL: http://w3layouts.com
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <label>Starting price per unit: </label>
-                                            <span th:text="${auction.startingPricePerUnit != null ? auction.startingPricePerUnit : 'null'}"
-                                                  style="color: #f9351b; font-weight: bold;"></span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
                                             <label>Dealt price: </label>
                                             <span th:text="${auction.dealedPrice != null ? auction.dealedPrice : 'null'}"
-                                                  style="color: #f9351b; font-weight: bold;"></span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <label>Dealt price per unit: </label>
-                                            <span th:text="${auction.dealedPricePerUnit != null ? auction.dealedPricePerUnit : 'null'}"
                                                   style="color: #f9351b; font-weight: bold;"></span>
                                         </div>
                                     </div>

@@ -128,7 +128,7 @@
           </a>
         </li>
         <li>
-          <a th:href="@{/auctioneer/get_all_news_list}">
+          <a th:href="@{/auctioneer/get_auction_list}">
             <i class="nc-icon nc-bullet-list-67"></i>
             <p>Auction session list</p>
           </a>
@@ -328,12 +328,14 @@
 <!--        <div th:utext="${auction.asset.description}"></div>-->
 <!--      </div>-->
       <div class="row" id="asset_description">
-        <div class="card col-md-12">
-          <div class="card-header">
-            <h4 class="card-title">Asset description</h4>
-          </div>
-          <div class="card-body">
-            <div th:utext="${asset.description}"></div>
+        <div class="col-md-12">
+          <div class="card card-user">
+            <div class="card-header">
+              <h4 class="card-title">Asset description</h4>
+            </div>
+            <div class="card-body">
+              <div th:utext="${asset.description}"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -348,19 +350,21 @@
 <!--        </div>-->
 <!--      </div>-->
       <div class="row" id="asset_map">
-        <div class="card col-md-12">
-          <div class="card-body">
-            <div>
-              <h4 class="card-title">Google map</h4>
-              <iframe
-                      th:src="${embedUrl}"
-                      width=100%
-                      height="400"
-                      style="border:0;"
-                      allowfullscreen=""
-                      loading="lazy"
-                      referrerpolicy="no-referrer-when-downgrade">
-              </iframe>
+        <div class="col-md-12">
+          <div class="card card-user">
+            <div class="card-body">
+              <div>
+                <h4 class="card-title">Google map</h4>
+                <iframe
+                        th:src="${embedUrl}"
+                        width=100%
+                        height="400"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+              </div>
             </div>
           </div>
         </div>
@@ -375,6 +379,8 @@
             <div class="card-body">
               <form th:action="@{/auctioneer/createAuction}" th:method="post" th:object="${auctionDTO}"
                     enctype="multipart/form-data">
+                <input type="hidden" th:field="*{assetId}" th:value="${auctionDTO.assetId}">
+                <input type="hidden" th:field="*{taskId}" th:value="${auctionDTO.taskId}">
                 <div class="row">
                   <div class="col-md-12">
                     <div class="form-group">
@@ -513,6 +519,27 @@
     // Đổi trạng thái active của các nút
     mapButton.classList.add('changeColor');
     descriptionButton.classList.remove('changeColor');
+  });
+</script>
+<!--check xem thứ tự thời gian của các trường đã hợp lý chưa-->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form'); // Chọn form của bạn
+
+    form.addEventListener('submit', function(event) {
+      // Lấy giá trị từ các trường input
+      const startTime = new Date(document.getElementById('starttime').value);
+      const expectedEndTime = new Date(document.getElementById('expectedendtime').value);
+      const registrationOpenDate = new Date(document.getElementById('registrationopendate').value);
+      const registrationCloseDate = new Date(document.getElementById('registrationclosedate').value);
+
+      // Kiểm tra điều kiện thứ tự thời gian
+      if (startTime >= expectedEndTime || expectedEndTime >= registrationOpenDate || registrationOpenDate >= registrationCloseDate) {
+        // Nếu điều kiện không thỏa mãn, ngăn không cho submit form
+        event.preventDefault();
+        alert('Please ensure that the dates follow the correct order: Start time < Expected end time < Registration open date < Registration close date.');
+      }
+    });
   });
 </script>
 </body>

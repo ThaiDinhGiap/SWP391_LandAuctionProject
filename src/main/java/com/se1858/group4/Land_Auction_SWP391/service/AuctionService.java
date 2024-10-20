@@ -1,6 +1,7 @@
 package com.se1858.group4.Land_Auction_SWP391.service;
 
 
+import com.se1858.group4.Land_Auction_SWP391.dto.AuctionSessionDTO;
 import com.se1858.group4.Land_Auction_SWP391.entity.AuctionRegister;
 import com.se1858.group4.Land_Auction_SWP391.entity.AuctionSession;
 import com.se1858.group4.Land_Auction_SWP391.repository.AuctionRegisterRepository;
@@ -34,12 +35,10 @@ public class AuctionService {
 
     public AuctionSession getAuctionSessionById(int auctionId) {
         Optional<AuctionSession> auctionSessionOptional = auctionSessionRepository.findById(auctionId);
-
-
         if (auctionSessionOptional.isPresent()) {
             return auctionSessionOptional.get();
         } else {
-            throw new IllegalArgumentException("Auction session with ID " + auctionId + " not found.");
+            return null;
         }
     }
 
@@ -59,6 +58,37 @@ public class AuctionService {
 
     public AuctionSession createAuctionSession(AuctionSession auctionSession) {
         return auctionSessionRepository.save(auctionSession);
+    }
+
+    public List<AuctionSession> getAllAuctionSessionsByAuctioneerId(int auctioneerId) {
+        List<AuctionSession> list=auctionSessionRepository.findByAuctioneerId(auctioneerId);
+        if(list.isEmpty()){
+            return null;
+        }
+        else return list;
+    }
+
+    public void cancelAuction(int auctionId){
+        AuctionSession auctionSession = getAuctionSessionById(auctionId);
+        if(auctionSession != null){
+            auctionSession.setStatus("Cancelled");
+        }
+    }
+
+    public AuctionSession updateAuctionSession(AuctionSessionDTO auctionSessionDTO) {
+        AuctionSession newAuctionSession=auctionSessionDTO.getAuctionSession();
+        AuctionSession existingAuctionSession=getAuctionSessionById(newAuctionSession.getAuctionId());
+        existingAuctionSession.setAuctionName(newAuctionSession.getAuctionName());
+        existingAuctionSession.setStartTime(newAuctionSession.getStartTime());
+        existingAuctionSession.setExpectedEndTime(newAuctionSession.getExpectedEndTime());
+        existingAuctionSession.setStartingPrice(newAuctionSession.getStartingPrice());
+        existingAuctionSession.setMinimumBidIncrement(newAuctionSession.getMinimumBidIncrement());
+        existingAuctionSession.setRegistrationOpenDate(newAuctionSession.getRegistrationOpenDate());
+        existingAuctionSession.setRegistrationCloseDate(newAuctionSession.getRegistrationCloseDate());
+        existingAuctionSession.setExtraTimeUnit(newAuctionSession.getExtraTimeUnit());
+        existingAuctionSession.setDeposit(newAuctionSession.getDeposit());
+        existingAuctionSession.setRegisterFee(newAuctionSession.getRegisterFee());
+        return auctionSessionRepository.save(existingAuctionSession);
     }
 }
 

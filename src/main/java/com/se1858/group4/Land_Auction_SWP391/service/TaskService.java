@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -25,5 +26,19 @@ public class TaskService {
     public List<Task> getAllTasksByAuctioneerId(int auctioneerId, String status) {
         List<Task> list = taskRepository.findByAuctioneer_AccountIdAndStatus(auctioneerId, status);
         return list;
+    }
+    public void changeTaskStatus(int taskId, String status) {
+        Task task = findTaskById(taskId);
+        if(task!=null) {
+            task.setStatus(status);
+            taskRepository.save(task);
+        }
+    }
+    public Task findTaskById(int taskId) {
+        Optional<Task> task = taskRepository.findById(taskId);
+        if(task.isPresent()) {
+            return task.get();
+        }
+        else return null;
     }
 }

@@ -22,6 +22,8 @@ public interface AuctionSessionRepository extends JpaRepository<AuctionSession, 
             @Param("keyword") String keyword,
             @Param("fromDate") LocalDateTime fromDate,
             @Param("toDate") LocalDateTime toDate);
+    @Query("SELECT a FROM AuctionSession a WHERE a.auctioneer.accountId = :auctioneerId")
+    List<AuctionSession> findByAuctioneerId(@Param("auctioneerId") int auctioneerId);
 }
 
 

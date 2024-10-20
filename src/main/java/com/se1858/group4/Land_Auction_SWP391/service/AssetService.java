@@ -32,7 +32,11 @@ public class AssetService {
         return assetRepository.save(asset);
     }
     public Asset getAssetById(int id) {
-        return assetRepository.findById(id).get();
+        Optional<Asset> asset = assetRepository.findById(id);
+        if (asset.isPresent()) {
+            return asset.get();
+        }
+        return null;
     }
     public Asset updateAsset(Asset newAsset) {
         Asset existingAsset = getAssetById(newAsset.getAssetId());

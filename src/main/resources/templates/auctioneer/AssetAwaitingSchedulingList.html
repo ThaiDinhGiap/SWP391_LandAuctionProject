@@ -61,7 +61,7 @@
           </a>
         </li>
         <li>
-          <a th:href="@{/auctioneer/get_all_news_list}">
+          <a th:href="@{/auctioneer/get_auction_list}">
             <i class="nc-icon nc-bullet-list-67"></i>
             <p>Auction session list</p>
           </a>
@@ -117,7 +117,7 @@
                     <td th:text="${task.asset.createdDate}"></td>
                     <td th:text="${task.propertyAgent.staff.fullName}"></td>
                     <td class="text-right">
-                      <a th:href="@{/auctioneer/viewAssetDetail(assetId=${task.asset.getAssetId()})}"
+                      <a th:href="@{/auctioneer/viewAssetDetail(taskId=${task.taskId})}"
                          class="btn btn-sm">
                         <i class="bi bi-eye-fill"></i>
                       </a>
