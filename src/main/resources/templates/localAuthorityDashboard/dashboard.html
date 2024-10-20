@@ -6,7 +6,7 @@
   <link rel="icon" type="image/png" th:href="@{/dashboardStatic/img/favicon.png}">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Dashboard
+    Paper Dashboard 2 by Creative Tim
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -18,6 +18,35 @@
   <link th:href="@{/dashboardStatic/css/paper-dashboard.css?v=2.0.1}" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link th:href="@{/dashboardStatic/demo/demo.css}" rel="stylesheet" />
+  <style>
+    /* Table styling */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    table thead {
+      background-color: #e74c3c;
+      color: white;
+    }
+    table thead th {
+      padding: 15px;
+      text-align: left;
+    }
+    table tbody tr {
+      border-bottom: 1px solid #e0e0e0;
+    }
+    table tbody tr:hover {
+      background-color: #f5f5f5;
+    }
+    table tbody td {
+      padding: 15px;
+      text-align: left;
+      color: #333;
+    }
+  </style>
 </head>
 <!---------------------------------------THÔNG TIN VỀ DASHBOARD------------------------------------------------------>
 <!--
@@ -40,7 +69,7 @@
         </a>
         <!--     Đường dẫn đến web chính của dự án     -->
         <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-normal">
-          Bui Minh Chien
+          VietLand Auction
           <!--     Thêm logo dự án ở đây     -->
 <!--           <div class="logo-image-big">-->
 <!--            <img src="../assets/img/logo-big.png">-->
@@ -49,28 +78,60 @@
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-            <li>
-                <a th:href="@{/property_agent/profile}">
-                <i class="nc-icon nc-single-02"></i>
-                <p>Profile</p>
-                </a>
-            </li>
           <li class="active ">
-            <a th:href="@{/property_agent/dashboard}">
+            <a th:href="@{/LocalAuthority}">
               <i class="nc-icon nc-bank"></i>
               <p>Dashboard</p>
             </a>
           </li>
+          <!--Đường dẫn tùy chọn, chỉ cần copy thẻ li và sửa đường dẫn + tên-->
+          <!--Muốn đổi icon thì vào dashboardTemplates/icon.html mà lấy nhé-->
+<!--          <li>-->
+<!--            <a th:href="@{/staff/icons}">-->
+<!--              <i class="nc-icon nc-diamond"></i>-->
+<!--              <p>Đây là đường dẫn</p>-->
+<!--            </a>-->
+<!--          </li>-->
           <li>
-            <a th:href="@{/property_agent/register_form}">
-              <i class="nc-icon nc-single-copy-04"></i>
-              <p>Register asset for auction</p>
+            <a th:href="@{/AddLocalAuthority}">
+              <i class="nc-icon nc-diamond"></i>
+              <p>Icons</p>
             </a>
           </li>
           <li>
-            <a th:href="@{/property_agent/list_unsuccessful_sale_asset}">
-              <i class="nc-icon nc-bullet-list-67"></i>
-              <p>Asset list</p>
+            <a th:href="@{/staff/map}">
+              <i class="nc-icon nc-pin-3"></i>
+              <p>Maps</p>
+            </a>
+          </li>
+          <li>
+            <a th:href="@{/staff/notifications}">
+              <i class="nc-icon nc-bell-55"></i>
+              <p>Notifications</p>
+            </a>
+          </li>
+          <li>
+            <a th:href="@{/staff/user}">
+              <i class="nc-icon nc-single-02"></i>
+              <p>User Profile</p>
+            </a>
+          </li>
+          <li>
+            <a th:href="@{/staff/tables}">
+              <i class="nc-icon nc-tile-56"></i>
+              <p>Table List</p>
+            </a>
+          </li>
+          <li>
+            <a th:href="@{/staff/typography}">
+              <i class="nc-icon nc-caps-small"></i>
+              <p>Typography</p>
+            </a>
+          </li>
+          <li>
+            <a th:href="@{/staff/upgrade}">
+              <i class="nc-icon nc-spaceship"></i>
+              <p>Upgrade to PRO</p>
             </a>
           </li>
         </ul>
@@ -81,13 +142,51 @@
       <!-- Top Navbar, SUA TIEU DE TRANG CHO PHU HOP -->
       <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
         <div class="container-fluid">
-            <span class="navbar-brand">VietLand Auction</span>
+            <span class="navbar-brand">Paper Dashboard 2</span>
         </div>
       </nav>
       <!-- End Top Navbar -->
       <!-- Noi dung cua trang se nam trong phan content nay -->
-      <div class="content">
+      <div style="margin-top: 66px">
+        <table>
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Authority Name</th>
+            <th>Contact Person</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Creation Date</th>
+            <th>Actions</th> <!-- Cột mới cho nút Update -->
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="authority : ${localAuthorityList}">
+            <td th:text="${authority.localAuthorityId}"></td>
+            <td th:text="${authority.localAuthorityName}"></td>
+            <td th:text="${authority.contactPerson}"></td>
+            <td th:text="${authority.phoneNumber}"></td>
+            <td th:text="${authority.email}"></td>
+            <td th:text="${authority.localAuthorityAddress}"></td>
+            <td th:text="${authority.createdDate}"></td>
+            <!-- Nút Update trong cột mới -->
+            <td>
+              <button type="button"
+                      th:onclick="'window.location.href=\'/UpdateLocalAuthority/' + ' ' + ${authority.localAuthorityId} + '\';'"
+                      style="padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 5px;">
+                Update
+              </button>
+            </td>
 
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top: 20px; text-align: center;">
+        <button type="button" onclick="window.location.href='/AddLocalAuthority'" style="padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 5px;">
+          Add New Authority
+        </button>
       </div>
       <!-- Het phan noi dung cua trang -->
     </div>

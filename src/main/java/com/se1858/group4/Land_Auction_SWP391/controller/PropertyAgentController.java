@@ -1,10 +1,13 @@
 package com.se1858.group4.Land_Auction_SWP391.controller;
 
 import com.se1858.group4.Land_Auction_SWP391.dto.AssetDTO;
+import com.se1858.group4.Land_Auction_SWP391.dto.StaffDTO;
 import com.se1858.group4.Land_Auction_SWP391.entity.*;
+import com.se1858.group4.Land_Auction_SWP391.security.UserDetailsService;
 import com.se1858.group4.Land_Auction_SWP391.service.*;
 import com.se1858.group4.Land_Auction_SWP391.utility.FileUploadUtil;
 import com.se1858.group4.Land_Auction_SWP391.utility.GetSrcInGoogleMapEmbededURLUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +25,9 @@ public class PropertyAgentController {
     private LocalAuthorityService localAuthorityService;
     private AccountService accountService;
     private TaskService taskService;
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     public PropertyAgentController(AssetService assetService, FileUploadUtil uploadFile, TagService tagService,
                                    LocalAuthorityService localAuthorityService, AccountService accountService,
                                    TaskService taskService) {
@@ -112,4 +118,18 @@ public class PropertyAgentController {
         model.addAttribute("asset",asset);
         return "propertyAgent/AssetDetail";
     }
+
+    @GetMapping("/profile")
+    public String profile(Model model) {
+        Account account = userDetailsService.accountAuthenticated();
+        if (account != null) {
+            StaffDTO staffDTO = new StaffDTO();
+            staffDTO.setAccount(account);
+            staffDTO.setStaff(account.getStaff());
+            model.addAttribute("staffDTO", staffDTO);
+        }
+        return "propertyAgent/profile";
+    }
+
+
 }
