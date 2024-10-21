@@ -76,10 +76,13 @@
                             </tr>
                             </thead>
                             <tbody id="biddingHistory">
-                            <tr th:each="bid : ${bidList}">
+                            <tr th:if="${#lists.size(bidList) > 0}" th:each="bid : ${bidList}">
                                 <td th:text="${bid.auctionRegister.buyer.username == accountCustomer.username ? 'Your bid' : bid.auctionRegister.nickName}"></td>
-                                <td th:text="${bid.bidAmount} + ₫"></td>
+                                <td th:text="${bid.bidAmount} + ' ₫'"></td>
                                 <td th:text="${#temporals.format(bid.timeCreateBid, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                            </tr>
+                            <tr th:if="${#lists.size(bidList) == 0}">
+                                <td colspan="3">No bids available.</td>
                             </tr>
                             </tbody>
                         </table>
