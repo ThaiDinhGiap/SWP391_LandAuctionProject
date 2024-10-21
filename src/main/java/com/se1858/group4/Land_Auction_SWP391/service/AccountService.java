@@ -6,10 +6,8 @@ import com.se1858.group4.Land_Auction_SWP391.repository.BanLogRepository;
 import com.se1858.group4.Land_Auction_SWP391.repository.CustomerRepository;
 import com.se1858.group4.Land_Auction_SWP391.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -279,4 +277,24 @@ public class AccountService {
     public Account findByUsername(String username) {
         return accountRepository.findByUsername(username);
     }
+
+
+    public void changePassword(String username, String oldPassword, String newPassword) {
+        Account account = accountRepository.findByUsername(username);
+
+        if (account == null) {
+            throw new NoSuchElementException("User not found.");
+        }
+
+        // Validate the old password
+        if (!passwordEncoder.matches(oldPassword, account.getPassword())) {
+            throw new IllegalArgumentException("Old password is incorrect.");
+        }
+
+        // Encode and set the new password
+        account.setPassword(passwordEncoder.encode(newPassword));
+        accountRepository.save(account);
+    }
+
+
 }
