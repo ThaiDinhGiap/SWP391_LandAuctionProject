@@ -61,6 +61,7 @@ public class CustomerController {
         this.uploadFile = uploadFile;
         this.customerService = customerService;
         this.qrCode = qrCode;
+        this.auctionRegisterService = auctionRegisterService;
     }
 
     @GetMapping("/get_all_asset")
@@ -141,17 +142,6 @@ public class CustomerController {
         return "customer/assetDetail";
     }
 
-
-    @GetMapping("/viewAuctionDetail")
-    public String getAuctionById(@RequestParam("auctionId") int auctionId, Model model) {
-        AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
-        String embedUrl = GetSrcInGoogleMapEmbededURLUtil.extractSrcFromIframe(auction.getAsset().getCoordinatesOnMap());
-        model.addAttribute("embedUrl", embedUrl);
-        model.addAttribute("auction", auction);
-        return "customer/auctionDetail";
-    }
-
-
     @GetMapping("/profile")
     public String showProfile(Model model) {
         Account account = userDetailsService.accountAuthenticated();
@@ -163,7 +153,6 @@ public class CustomerController {
         }
         return "/customer/profile";
     }
-
 
     @PostMapping("/updateProfile")
     public String updateProfile(
