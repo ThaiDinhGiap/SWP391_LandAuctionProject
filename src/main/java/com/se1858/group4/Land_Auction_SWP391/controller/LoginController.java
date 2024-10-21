@@ -61,7 +61,7 @@ public class LoginController {
 
     @GetMapping({"/"})
     public String hompage() {
-        return "customer/homepage";
+        return "homepage/homepage";
     }
 
     @GetMapping({"/showMyLoginPage"})
@@ -81,11 +81,11 @@ public class LoginController {
 
     @GetMapping("/admin/home")
     public String adminHome() {
-        return "dashboardTemplates/dashboard";
+        return "homepage/homepage";
     }
 
     @GetMapping("/customer-care/home")
     public String customerCareHome() {
-        return "customerCare/staff-chat";
+        return "customerCare/dashboard";
     }
 }

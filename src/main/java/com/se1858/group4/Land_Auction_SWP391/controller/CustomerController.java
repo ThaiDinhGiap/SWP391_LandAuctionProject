@@ -1,6 +1,5 @@
 package com.se1858.group4.Land_Auction_SWP391.controller;
 
-
 import com.se1858.group4.Land_Auction_SWP391.dto.CustomerDTO;
 import com.se1858.group4.Land_Auction_SWP391.entity.Account;
 import com.se1858.group4.Land_Auction_SWP391.entity.Customer;
@@ -30,8 +29,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
-
-
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
@@ -47,7 +44,6 @@ public class CustomerController {
     private CustomerService customerService;
     private QrCode qrCode;
     private AuctionRegisterService auctionRegisterService;
-
 
     public CustomerController(NewsService newsService, TagForNewsService tagForNewsService,
                               AssetService assetService, TagService tagService, AuctionService auctionService,
@@ -65,9 +61,7 @@ public class CustomerController {
         this.uploadFile = uploadFile;
         this.customerService = customerService;
         this.qrCode = qrCode;
-        this.auctionRegisterService = auctionRegisterService;
     }
-
 
     @GetMapping("/get_all_asset")
     public String getAllAsset(Model model) {
@@ -80,15 +74,12 @@ public class CustomerController {
     }
 
 
-
-
     @GetMapping("/get_all_auction")
     public String getAllAuction(Model model) {
         List<AuctionSession> auctionList = auctionService.getAllAutcion();
         model.addAttribute("listAuction", auctionList);
         return "customer/auctionList";
     }
-
 
     @GetMapping("/get_all_news")
     public String getAllNews(Model model) {
@@ -103,7 +94,6 @@ public class CustomerController {
         return "customer/newsList";
     }
 
-
     @GetMapping("/filter_assets")
     public String filterAssets(
             @RequestParam(required = false) List<Integer> tagIds,
@@ -112,12 +102,10 @@ public class CustomerController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
             Model model) {
 
-
         List<Asset> filteredAssets = assetService.filterAssets(tagIds, keyword, fromDate, toDate);
         model.addAttribute("listAsset", filteredAssets);
         return "customer/assetList :: assetListFragment";
     }
-
 
     @GetMapping("/filter_auctions")
     public String filterAuctions(
@@ -126,12 +114,10 @@ public class CustomerController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
             Model model) {
 
-
         List<AuctionSession> filteredAuctions = auctionService.filterAuctionSessions(keyword, fromDate, toDate);
         model.addAttribute("listAuction", filteredAuctions);
         return "customer/auctionList :: auctionListFragment";
     }
-
 
     @GetMapping("/viewNewsDetail")
     public String getNewsById(@RequestParam("newsId") int newsId, Model model) {
@@ -146,7 +132,6 @@ public class CustomerController {
         return "customer/newsDetail";
     }
 
-
     @GetMapping("/viewAssetDetail")
     public String getAssetById(@RequestParam("assetId") int assetId, Model model) {
         Asset asset = assetService.getAssetById(assetId);
@@ -155,6 +140,17 @@ public class CustomerController {
         model.addAttribute("asset", asset);
         return "customer/assetDetail";
     }
+
+
+    @GetMapping("/viewAuctionDetail")
+    public String getAuctionById(@RequestParam("auctionId") int auctionId, Model model) {
+        AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
+        String embedUrl = GetSrcInGoogleMapEmbededURLUtil.extractSrcFromIframe(auction.getAsset().getCoordinatesOnMap());
+        model.addAttribute("embedUrl", embedUrl);
+        model.addAttribute("auction", auction);
+        return "customer/auctionDetail";
+    }
+
 
     @GetMapping("/profile")
     public String showProfile(Model model) {
