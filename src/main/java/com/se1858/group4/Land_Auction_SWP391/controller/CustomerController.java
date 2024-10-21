@@ -3,7 +3,6 @@ package com.se1858.group4.Land_Auction_SWP391.controller;
 import com.se1858.group4.Land_Auction_SWP391.dto.CustomerDTO;
 import com.se1858.group4.Land_Auction_SWP391.entity.Account;
 import com.se1858.group4.Land_Auction_SWP391.entity.Customer;
-import com.se1858.group4.Land_Auction_SWP391.entity.Image;
 import com.se1858.group4.Land_Auction_SWP391.security.UserDetailsService;
 import com.se1858.group4.Land_Auction_SWP391.service.AccountService;
 import com.se1858.group4.Land_Auction_SWP391.entity.*;
@@ -14,6 +13,8 @@ import com.se1858.group4.Land_Auction_SWP391.service.ImageService;
 import com.se1858.group4.Land_Auction_SWP391.utility.FileUploadUtil;
 import com.se1858.group4.Land_Auction_SWP391.utility.QrCode;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +23,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 
+import java.security.Principal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+
+
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -243,6 +247,30 @@ public class CustomerController {
         }
         return "redirect:/customer/viewAuctionDetail?auctionId=" + auctionId;
     }
+
+    @GetMapping("/change-password")
+    public String showChangePasswordForm() {
+        return "customer/change-password";
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<String> changePassword(
+            @RequestParam String oldPassword,
+            @RequestParam String newPassword,
+            Principal principal) {
+
+        String username = principal.getName();
+
+        try {
+            accountService.changePassword(username, oldPassword, newPassword);
+            return ResponseEntity.ok("Password changed successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+        }
+    }
+
 
 }
 

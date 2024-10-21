@@ -147,6 +147,20 @@ public class Account {
     }
 
 
+public Account(String username, int status, int verify, Staff staff, Role role, LocalDateTime registrationDate, String password, List<Notification> notifications, String email, Image avatar_image) {
+        this.username = username;
+        this.status = status;
+        this.verify = verify;
+        this.staff = staff;
+        this.role = role;
+        this.registrationDate = registrationDate;
+        this.password = password;
+        this.notifications = notifications;
+        this.email = email;
+        this.avatar_image = avatar_image;
+    }
+
+
 
     public int getAccountId() {
         return accountId;
