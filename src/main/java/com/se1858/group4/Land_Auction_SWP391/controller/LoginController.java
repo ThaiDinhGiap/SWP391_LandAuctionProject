@@ -86,6 +86,6 @@ public class LoginController {
 
     @GetMapping("/customer-care/home")
     public String customerCareHome() {
-        return "customerCare/staff-chat";
+        return "customerCare/dashboard";
     }
 }

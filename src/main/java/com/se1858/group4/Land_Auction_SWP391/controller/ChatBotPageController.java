@@ -22,7 +22,7 @@ public class ChatBotPageController {
 
     @GetMapping("/chatbothome")
     public String chatbotHomePage() {
-        return "chatBotPage"; // Trả về tên file HTML chatbot.html
+        return "customer/chatBotPage"; // Trả về tên file HTML chatbot.html
     }
 
     @GetMapping("/care")
