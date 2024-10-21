@@ -279,6 +279,10 @@
                     <button class="btn btn-toggle" id="view_auction_info" style="width: 100%;">Auction information
                     </button>
                 </div>
+                <div class="col-md-3 mb-3">
+                    <button class="btn btn-toggle" id="view_register" style="width: 100%;">Register list
+                    </button>
+                </div>
             </div>
             <!--      <div class="single-post-content sidebar-widget" id="asset_description">-->
             <!--        <div th:utext="${auction.asset.description}"></div>-->
@@ -291,6 +295,18 @@
                         </div>
                         <div class="card-body">
                             <div th:utext="${auction.asset.description}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="register_list">
+                <div class="col-md-12">
+                    <div class="card card-user">
+                        <div class="card-header">
+                            <h4 class="card-title">Register list</h4>
+                        </div>
+                        <div class="card-body">
+                            <a th:href="@{/auctioneer/viewRegisterList(auctionId=${auction.auctionId})}">View register list here</a>
                         </div>
                     </div>
                 </div>
@@ -504,13 +520,16 @@
     // Lấy các phần tử DOM
     const descriptionButton = document.getElementById('view_description');
     const auctionInfoButton = document.getElementById('view_auction_info');
+    const registerListButton = document.getElementById('view_register');
     const assetDescription = document.getElementById('asset_description');
     const auctionInfo = document.getElementById('auction_info');
+    const registerList = document.getElementById('register_list');
 
     // Mặc định khi tải trang, chỉ hiển thị asset_description và active button
     window.onload = function () {
         assetDescription.style.display = 'block';  // Hiển thị khối mô tả
         auctionInfo.style.display = 'none';  // Ẩn khối tài liệu
+        registerList.style.display = 'none';
         descriptionButton.classList.add('changeColor');  // Đặt nút "Description" là active
     };
 
@@ -518,20 +537,36 @@
     descriptionButton.addEventListener('click', function () {
         assetDescription.style.display = 'block';  // Hiển thị khối mô tả
         auctionInfo.style.display = 'none';  // Ẩn khối tài liệu
+        registerList.style.display = 'none';
 
         // Đổi trạng thái active của các nút
         descriptionButton.classList.add('changeColor');
         auctionInfoButton.classList.remove('changeColor');
+        registerListButton.classList.remove('changeColor');
     });
 
     // Khi nhấn vào nút "Map"
     auctionInfoButton.addEventListener('click', function () {
         auctionInfo.style.display = 'block';  // Hiển thị khối tài liệu
         assetDescription.style.display = 'none';  // Ẩn khối mô tả
+        registerList.style.display = 'none';
 
         // Đổi trạng thái active của các nút
         auctionInfoButton.classList.add('changeColor');
         descriptionButton.classList.remove('changeColor');
+        registerListButton.classList.remove('changeColor');
+    });
+
+    // Khi nhấn vào nút "Map"
+    registerListButton.addEventListener('click', function () {
+        registerList.style.display = 'block';  // Hiển thị khối tài liệu
+        assetDescription.style.display = 'none';  // Ẩn khối mô tả
+        auctionInfo.style.display = 'none';
+
+        // Đổi trạng thái active của các nút
+        registerListButton.classList.add('changeColor');
+        descriptionButton.classList.remove('changeColor');
+        auctionInfoButton.classList.remove('changeColor');
     });
 </script>
 <!--check xem thứ tự thời gian của các trường đã hợp lý chưa-->
@@ -547,10 +582,10 @@
             const registrationCloseDate = new Date(document.getElementById('registrationclosedate').value);
 
             // Kiểm tra điều kiện thứ tự thời gian
-            if (startTime >= registrationOpenDate || registrationOpenDate >= registrationCloseDate || registrationCloseDate >= expectedEndTime) {
+            if (registrationOpenDate >= registrationCloseDate || registrationCloseDate >= startTime || startTime >= expectedEndTime) {
                 // Nếu điều kiện không thỏa mãn, ngăn không cho submit form
                 event.preventDefault();
-                alert('Please ensure that the dates follow the correct order: Start time < Registration open date < Registration close date < Expected end time.');
+                alert('Please ensure that the dates follow the correct order: Registration open date < Registration close date < Start time < Expected end time');
             }
         });
     });

@@ -225,18 +225,20 @@ public class CustomerController {
         AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
         //check xem nguoi dung da validate tai khoan chua
         Account this_user = userDetailsService.accountAuthenticated();
-        if(this_user.getVerify()==1){
-            //kiem tra xem nguoi dung da tick het chua
-            if (validate != null) {
-                //cap nhat trang thai vao database
-                AuctionRegister register = new AuctionRegister(auction,this_user,"chua chuyen tien",null,null,null, LocalDateTime.now());
-                auctionRegisterService.createAuctionRegister(register);
-                redirectAttributes.addFlashAttribute("error", "Registration successful, please transfer the deposit and register fee");
+        if(LocalDateTime.now().isAfter(auction.getRegistrationOpenDate()) && LocalDateTime.now().isBefore(auction.getRegistrationCloseDate())){
+            if(this_user.getVerify()==1){
+                //kiem tra xem nguoi dung da tick het chua
+                if (validate != null) {
+                    //cap nhat trang thai vao database
+                    AuctionRegister register = new AuctionRegister(auction,this_user,"chua chuyen tien",null,null,null, LocalDateTime.now());
+                    auctionRegisterService.createAuctionRegister(register);
+                    redirectAttributes.addFlashAttribute("error", "Registration successful, please transfer the deposit and register fee");
+                }
             }
-        }
-        else{
-            //gui thong bao tai khoan chua validate
-            redirectAttributes.addFlashAttribute("error", "Please complete your personal information before registering for the auction");
+            else{
+                //gui thong bao tai khoan chua validate
+                redirectAttributes.addFlashAttribute("error", "Please complete your personal information before registering for the auction");
+            }
         }
         return "redirect:/customer/viewAuctionDetail?auctionId=" + auctionId;
     }
@@ -246,15 +248,17 @@ public class CustomerController {
                                         @RequestParam("auctionId") int auctionId,
                                         @RequestParam("auctionRegisterId") int auctionRegisterId, RedirectAttributes redirectAttributes) {
         AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
-        //check xem nguoi dung da chuyen tien chua
-        if(transfer != null){
-            AuctionRegister auctionRegister=auctionRegisterService.getAuctionRegisterById(auctionRegisterId);
-            auctionRegister.setRegisterStatus("dang cho xac nhan chuyen tien");
-            auctionRegisterService.updateRegisterStatus(auctionRegister);
-            redirectAttributes.addFlashAttribute("error", "Please wait while we confirm the transaction, the result will be sent to you via notification");
-        }
-        else{
-            redirectAttributes.addFlashAttribute("error", "Please make sure to transfer the deposit and register fee before the auction registration deadline");
+        if(LocalDateTime.now().isAfter(auction.getRegistrationOpenDate()) && LocalDateTime.now().isBefore(auction.getRegistrationCloseDate())){
+            //check xem nguoi dung da chuyen tien chua
+            if(transfer != null){
+                AuctionRegister auctionRegister=auctionRegisterService.getAuctionRegisterById(auctionRegisterId);
+                auctionRegister.setRegisterStatus("dang cho xac nhan chuyen tien");
+                auctionRegisterService.updateRegisterStatus(auctionRegister);
+                redirectAttributes.addFlashAttribute("error", "Please wait while we confirm the transaction, the result will be sent to you via notification");
+            }
+            else{
+                redirectAttributes.addFlashAttribute("error", "Please make sure to transfer the deposit and register fee before the auction registration deadline");
+            }
         }
         return "redirect:/customer/viewAuctionDetail?auctionId=" + auctionId;
     }

@@ -5,6 +5,7 @@ import com.se1858.group4.Land_Auction_SWP391.repository.AuctionRegisterRepositor
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,13 +30,24 @@ public class AuctionRegisterService {
         else return null;
     }
     public AuctionRegister createAuctionRegister(AuctionRegister auctionRegister) {
-        return registerRepository.save(auctionRegister);
+        AuctionRegister register = registerRepository.save(auctionRegister);
+        register.setNickName("Anonymous"+register.getRegisterId());
+        return registerRepository.save(register);
     }
     public AuctionRegister updateRegisterStatus(AuctionRegister auctionRegister) {
         AuctionRegister existingAuctionRegister = getAuctionRegister(auctionRegister.getAuction().getAuctionId(),auctionRegister.getBuyer().getAccountId());
         if(existingAuctionRegister!=null) {
             existingAuctionRegister.setRegisterStatus(auctionRegister.getRegisterStatus());
+            existingAuctionRegister.setPurchaseStatus(auctionRegister.getPurchaseStatus());
+            existingAuctionRegister.setDepositStatus(auctionRegister.getDepositStatus());
             return registerRepository.save(existingAuctionRegister);
+        }
+        else return null;
+    }
+    public List<AuctionRegister> getAllAuctionRegistersByAuctionId(int auctionId) {
+        List<AuctionRegister> registerList = registerRepository.findByAuction_AuctionId(auctionId);
+        if(registerList!=null){
+            return registerList;
         }
         else return null;
     }
