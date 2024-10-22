@@ -187,6 +187,18 @@ public class CustomerController {
         return "redirect:/customer/profile";
     }
 
+    @PostMapping("/uploadAvatar")
+    public String uploadAvatar(@RequestParam("avatar") MultipartFile avatar, Model model) {
+        Account account = userDetailsService.accountAuthenticated();
+        if (account != null) {
+            if (!avatar.isEmpty()) {
+                uploadFile.UploadAvatar(avatar, account);
+            }
+        }
+        return "redirect:/customer/profile";
+    }
+
+
     @GetMapping("/viewAuctionDetail")
     public String getAuctionById(@RequestParam(value = "error", required = false) String error, @RequestParam("auctionId") int auctionId, Model model) {
         AuctionSession auction = auctionService.getAuctionSessionById(auctionId);

@@ -314,15 +314,20 @@ Author URL: http://w3layouts.com
         <div class="content">
             <div class="row">
                 <div class="col-md-4">
-                    <div class=" card-user">
+                    <div class="card-user">
                         <div style="justify-content: center; align-content: center; text-align: center">
-                            <div th:object="${customerDTO}">
-                                <a href="#">
-                                    <img th:src="*{account.avatar_image.getPath()}" alt="Avatar Image" width="300" height="300" >
+                            <form th:action="@{/customer/uploadAvatar}" method="post" enctype="multipart/form-data">
+                                <div th:object="${customerDTO}">
+                                    <a href="#">
+                                        <img th:src="*{account.avatar_image.path}" alt="Avatar Image" width="300" height="300">
+                                    </a>
+                                    <!-- Input field to choose an avatar image -->
+                                    <input type="file"  name="avatar" id="avatar" class="form-control" accept="image/png, image/jpeg, image/jpg" required>
+                                </div>
+                                <!-- Submit button to upload the image -->
+                                <button type="submit" class="btn btn-primary mt-3">Upload Avatar</button>
+                            </form>
 
-                                </a>
-
-                            </div>
                         </div>
 
                         <div class="card-footer">
@@ -336,6 +341,7 @@ Author URL: http://w3layouts.com
                         </div>
                     </div>
                 </div>
+
 
 
 
