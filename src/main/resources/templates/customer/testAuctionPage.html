@@ -17,6 +17,7 @@ Author URL: http://w3layouts.com
 
     <script th:src="@{/assets_CustomerSide/js/monetization.js}" type="text/javascript"></script>
     <link rel="stylesheet" th:href="@{/assets_CustomerSide/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets_CustomerSide/css/style-starter.css}">
     <!-- New toolbar-->
     <style>
         * {
@@ -401,16 +402,6 @@ Author URL: http://w3layouts.com
                             </div>
                         </div>
                     </div>
-                    <!--                    <div class="single-post-content sidebar-widget" id="auction_rule">-->
-                    <!--                        <div th:each="document : ${auction.asset.getDocuments()}" class="row">-->
-                    <!--                            <div class="col-md-12">-->
-                    <!--                                <a th:href="@{''+${document.path}}" target="_blank"-->
-                    <!--                                   style="cursor: pointer;">-->
-                    <!--                                    Asset Document-->
-                    <!--                                </a>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
                     <div class="single-post-content sidebar-widget" id="auction_rule">
                         <h4 style="font-weight: bold;">Online Auction Rules</h4>
                         <br>
@@ -588,7 +579,96 @@ Author URL: http://w3layouts.com
                                 </div>
                             </div>
 
+                            <!-- Bidding -->
+                            <div class="sidebar-widget popular-posts">
+                                <section class="w3l-grids-3 py-5" id="about">
+                                    <div class="container py-md-5 py-3">
+                                        <div class="row bottom-ab-grids">
+                                            <div class="w3l-video-left col-lg-6" id="video">
+                                                <div class="w3l-index5">
+                                                    <div class="position-relative mt-4">
+                                                        <a href="#small-dialog"
+                                                           class="popup-with-zoom-anim play-view text-center position-absolute">
+                            <span class="video-play-icon">
+                                <span class="fa fa-play"></span>
+                            </span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="w3ab-left-top col-lg-6 mt-lg-0 mt-5 ps-lg-5" id="bid-page">
+                                                <!-- Notification for user status -->
+                                                <div class="alert alert-warning text-center" role="alert"
+                                                     id="userStatusMessage" hidden>
+                                                </div>
 
+                                                <!-- Current Bid Information -->
+                                                <div class="current-bid-info text-center mb-3">
+                                                    <h5 id="currentBidName"
+                                                        th:text="${bidList[0].auctionRegister.buyer.username == accountCustomer.username ? 'Current Bid (with you)' : 'Current Bid (not with you)'}"></h5>
+                                                    <h2 id="currentBid" style="color: #d81b60; font-size: 36px;"
+                                                        th:text="${auctionSession.currentHighestPrice} + ₫"></h2>
+                                                </div>
+
+                                                <!-- Bid Input Section -->
+                                                <div class="bid-input d-flex justify-content-center align-items-center mb-3">
+                                                    <button class="btn btn-danger" id="decreaseBid">-</button>
+                                                    <input type="text" class="form-control text-center mx-2"
+                                                           id="bidAmount"
+                                                           placeholder="Enter your bid" style="width: 150px;"
+                                                           th:value="${auctionSession.currentHighestPrice + auctionSession.minimumBidIncrement}">
+                                                    <button class="btn btn-danger" id="increaseBid">+</button>
+                                                </div>
+
+                                                <!-- Place Bid Button -->
+                                                <div class="text-center mb-3">
+                                                    <button class="btn btn-primary btn-lg" id="placeBidButton">Place
+                                                        Bid
+                                                    </button>
+                                                </div>
+
+                                                <div class="auction-timing mt-4">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>
+                                                            <strong>Time Left:</strong>
+                                                            <span id="timeLeft"
+                                                                  style="color: red;">Calculating...</span>
+                                                        </div>
+                                                        <div>
+                                                            <strong>Scheduled End Date:</strong>
+                                                            <span th:text="${#temporals.format(auctionSession.expectedEndTime, 'yyyy-MM-dd HH:mm:ss')}"
+                                                                  style="color: green;"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Bidding History -->
+                                                <div class="bidding-history mt-4">
+                                                    <h5>Bidding History</h5>
+                                                    <div style="max-height: 200px; overflow-y: auto;">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>User</th>
+                                                                <th>Amount</th>
+                                                                <th>Date</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody id="biddingHistory">
+                                                            <tr th:each="bid : ${bidList}">
+                                                                <td th:text="${bid.auctionRegister.buyer.username == accountCustomer.username ? 'Your bid' : bid.auctionRegister.nickName}"></td>
+                                                                <td th:text="${bid.bidAmount} + ₫"></td>
+                                                                <td th:text="${#temporals.format(bid.timeCreateBid, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
                             <!--thong tin tai san-->
                             <div class="sidebar-widget popular-posts">
                                 <div class="sidebar-title">
@@ -923,7 +1003,15 @@ Author URL: http://w3layouts.com
 <script th:src="@{/assets_CustomerSide/js/classie.js}"></script>
 <script th:src="@{/assets_CustomerSide/js/demo1.js}"></script>
 <!--//search-->
-
+<!-- Variable JS -->
+<script th:inline="javascript">
+    var username = /*[[${accountCustomer.username}]]*/ "defaultUser";
+    var auctionId = /*[[${auctionSession.auctionId}]]*/ 0;
+    var endTime = /*[[${auctionSession.expectedEndTime}]]*/ 0;
+    var minimumBidIncrement = /*[[${auctionSession.minimumBidIncrement }]]*/ 0;
+    var currentHighestPrice = /*[[${auctionSession.currentHighestPrice }]]*/ 0;
+</script>
+<!-- /Variable JS -->
 <!-- MENU-JS -->
 <script>
     $(window).on("scroll", function () {
@@ -987,6 +1075,9 @@ Author URL: http://w3layouts.com
 <!-- //disable body scroll which navbar is in active -->
 <!-- //bootstrap -->
 <script th:src="@{/assets_CustomerSide/js/bootstrap.min.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script th:src="@{/assets_CustomerSide/js/bid.js}"></script>
 <!-- script de hien thi tuy chon description va document -->
 <script>
     // Lấy các phần tử DOM
