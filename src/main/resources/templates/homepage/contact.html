@@ -17,6 +17,36 @@ Author URL: http://w3layouts.com
     <link rel="stylesheet" th:href="@{/assets_CustomerSide/css/style-starter.css}">
 
     <style>
+        .btn {
+            padding: 10px 20px;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+
+            cursor: pointer;
+        }
+
+        .btn-login {
+            background-color: #fb4a33;
+            color: white;
+        }
+
+        #clock-container {
+            display: flex;
+            flex-direction: column;
+            text-align: left; /* Căn phải */
+            margin-right: 30px; /* Khoảng cách phải */
+            color: white;
+            line-height: 0.4;
+        }
+
+        #time {
+            font-size: 25px;
+        }
+
+        #date {
+            font-size: 15px;
+        }
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
@@ -384,6 +414,35 @@ Author URL: http://w3layouts.com
             }
         });
     });
+
+</script>
+<script>
+    $(function() {
+        $('.navbar-toggler').click(function() {
+            $('body').toggleClass('noscroll');
+        })
+    });
+
+    function updateClock() {
+        var now = new Date();
+
+        // Lấy giờ, phút, giây với định dạng 2 chữ số
+        var hours = now.getHours().toString().padStart(2, '0');
+        var minutes = now.getMinutes().toString().padStart(2, '0');
+        var seconds = now.getSeconds().toString().padStart(2, '0');
+
+        // Lấy ngày với định dạng tiếng Anh
+        var day = now.toLocaleDateString('en-US', { weekday: 'long' });
+        var date = now.toLocaleDateString('en-US'); // Hiển thị ngày tháng năm theo định dạng US (MM/DD/YYYY)
+
+        // Hiển thị thời gian vào phần tử HTML
+        document.getElementById('time').innerText = `${hours}:${minutes}:${seconds}`;
+        document.getElementById('date').innerText = `${day}, ${date}`;
+    }
+
+    // Cập nhật thời gian mỗi giây
+    setInterval(updateClock, 1000);
+    updateClock();
 
 </script>
 

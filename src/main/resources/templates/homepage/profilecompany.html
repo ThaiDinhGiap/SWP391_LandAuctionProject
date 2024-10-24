@@ -295,13 +295,13 @@ Author URL: http://w3layouts.com
                         <a class="nav-link" href="index.html" style="font-size: 20px;">Properties</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="about.html" style="font-size: 20px;">Auction</a>
+                        <a class="nav-link" th:href="@{/about}"  style="font-size: 20px;">About us</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="services.html" style="font-size: 20px;">News</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.html" style="font-size: 20px;">About us</a>
+                        <a class="nav-link" th:href="@{/contact}"  style="font-size: 20px;">Contact</a>
                     </li>
                 </ul>
 
@@ -723,6 +723,35 @@ Author URL: http://w3layouts.com
             }
         });
     });
+
+</script>
+<script>
+    $(function() {
+        $('.navbar-toggler').click(function() {
+            $('body').toggleClass('noscroll');
+        })
+    });
+
+    function updateClock() {
+        var now = new Date();
+
+        // Lấy giờ, phút, giây với định dạng 2 chữ số
+        var hours = now.getHours().toString().padStart(2, '0');
+        var minutes = now.getMinutes().toString().padStart(2, '0');
+        var seconds = now.getSeconds().toString().padStart(2, '0');
+
+        // Lấy ngày với định dạng tiếng Anh
+        var day = now.toLocaleDateString('en-US', { weekday: 'long' });
+        var date = now.toLocaleDateString('en-US'); // Hiển thị ngày tháng năm theo định dạng US (MM/DD/YYYY)
+
+        // Hiển thị thời gian vào phần tử HTML
+        document.getElementById('time').innerText = `${hours}:${minutes}:${seconds}`;
+        document.getElementById('date').innerText = `${day}, ${date}`;
+    }
+
+    // Cập nhật thời gian mỗi giây
+    setInterval(updateClock, 1000);
+    updateClock();
 
 </script>
 
