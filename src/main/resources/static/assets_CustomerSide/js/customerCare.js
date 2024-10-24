@@ -155,6 +155,14 @@ function unsubscribeFromTopic(sessionId) {
     if (clientItem) {
         clientList.removeChild(clientItem);
     }
+
+    if (subscriptions.size === 0) {
+        currentSessionId = null;
+    }
+
+    const clients = JSON.parse(localStorage.getItem('clientList')) || [];
+    const updatedClients = clients.filter(client => client.sessionId !== sessionId);
+    localStorage.setItem('clientList', JSON.stringify(updatedClients));
 }
 
 // Hiển thị tin nhắn lên giao diện
