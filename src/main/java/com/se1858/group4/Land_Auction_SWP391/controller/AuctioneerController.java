@@ -3,10 +3,7 @@ package com.se1858.group4.Land_Auction_SWP391.controller;
 import com.se1858.group4.Land_Auction_SWP391.dto.AuctionSessionDTO;
 import com.se1858.group4.Land_Auction_SWP391.entity.*;
 import com.se1858.group4.Land_Auction_SWP391.security.UserDetailsService;
-import com.se1858.group4.Land_Auction_SWP391.service.AssetService;
-import com.se1858.group4.Land_Auction_SWP391.service.AuctionChangeLogService;
-import com.se1858.group4.Land_Auction_SWP391.service.AuctionService;
-import com.se1858.group4.Land_Auction_SWP391.service.TaskService;
+import com.se1858.group4.Land_Auction_SWP391.service.*;
 import com.se1858.group4.Land_Auction_SWP391.utility.GetSrcInGoogleMapEmbededURLUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,15 +21,18 @@ public class AuctioneerController {
     private AssetService assetService;
     private AuctionService auctionService;
     private AuctionChangeLogService auctionChangeLogService;
+    private AuctionRegisterService auctionRegisterService;
 
     public AuctioneerController(TaskService taskService, UserDetailsService userDetailsService,
                                 AssetService assetService, AuctionService auctionService,
-                                AuctionChangeLogService auctionChangeLogService) {
+                                AuctionChangeLogService auctionChangeLogService,
+                                AuctionRegisterService auctionRegisterService) {
         this.taskService = taskService;
         this.userDetailsService = userDetailsService;
         this.assetService = assetService;
         this.auctionService = auctionService;
         this.auctionChangeLogService = auctionChangeLogService;
+        this.auctionRegisterService = auctionRegisterService;
     }
 
     @GetMapping("/dashboard")
@@ -156,5 +156,33 @@ public class AuctioneerController {
         auctionService.cancelAuction(auctionId);
         auctionChangeLogService.createAuctionChange("Cancelled auction information", reason, auctionId);
         return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + auctionId;
+    }
+    @GetMapping("/viewRegisterList")
+    public String getRegisterList(@RequestParam("auctionId") int auctionId, Model model) {
+        List<AuctionRegister> registerList = auctionRegisterService.getAllAuctionRegistersByAuctionId(auctionId);
+        model.addAttribute("registerList", registerList);
+        return "auctioneer/RegisterList";
+    }
+    @GetMapping("/viewRegisterDetail")
+    public String getRegisterDetail(@RequestParam("registerId") int registerId, Model model) {
+        AuctionRegister register = auctionRegisterService.getAuctionRegisterById(registerId);
+        model.addAttribute("register", register);
+        return "auctioneer/RegisterDetail";
+    }
+    @PostMapping("/updateRegister")
+    public String updateRegister(@RequestParam("registerId") int registerId, @RequestParam("register_status") String register_status,
+                                @RequestParam("purchase_status") String purchase_status, @RequestParam("deposit_status") String deposit_status) {
+        AuctionRegister register = auctionRegisterService.getAuctionRegisterById(registerId);
+        if(register_status!=null) {
+            register.setRegisterStatus(register_status);
+        }
+        if(purchase_status!=null) {
+            register.setPurchaseStatus(purchase_status);
+        }
+        if(deposit_status!=null) {
+            register.setDepositStatus(deposit_status);
+        }
+        auctionRegisterService.updateRegisterStatus(register);
+        return "redirect:/auctioneer/viewRegisterDetail?registerId=" + registerId;
     }
 }

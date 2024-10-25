@@ -361,7 +361,8 @@ Author URL: http://w3layouts.com
                     <!--xem anh-->
                     <div id="image-gallery">
                         <div class="main-image">
-                            <img th:if="${auction != null and auction.asset != null}" th:src="@{${auction.asset.getImages().get(0).path}}" alt="Main Asset Image"
+                            <img th:if="${auction != null and auction.asset != null}"
+                                 th:src="@{${auction.asset.getImages().get(0).path}}" alt="Main Asset Image"
                                  class="img-fluid"/>
                         </div>
                         <div class="thumbnail-images row">
@@ -438,9 +439,22 @@ Author URL: http://w3layouts.com
                     <aside class="sidebar ps-lg-4">
                         <div class="sidebar-blog-category">
 
-
-                            <!--button tham gia dau gia nam ơ day-->
-                            <div class="sidebar-sticky" th:if="${auction.status == 'Upcoming'} and ${auction_register == null}">
+                            <!--button tham gia phien dau gia nam ơ day-->
+                            <div class="sidebar-sticky" th:if="${T(java.time.LocalDateTime).now().isAfter(auction.startTime)
+                            and (auction.actualEndTime != null ? T(java.time.LocalDateTime).now().isBefore(auction.actualEndTime) : true)}">
+                                <div class="sidebar-sticky-fix">
+                                    <a href="">
+                                        <button class="btn btn-style btn-primary register-btn"
+                                                style="width: 100%; margin-bottom: 20px;">
+                                            Join auction
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                            <!--button dang ky tham gia dau gia nam ơ day-->
+                            <div class="sidebar-sticky" th:if="${auction.status == 'Upcoming'} and ${auction_register == null}
+                            and ${T(java.time.LocalDateTime).now().isAfter(auction.registrationOpenDate)}
+                            and ${T(java.time.LocalDateTime).now().isBefore(auction.registrationCloseDate)}">
                                 <div class="sidebar-sticky-fix">
                                     <button class="btn btn-style btn-primary register-btn"
                                             style="width: 100%; margin-bottom: 20px;"
@@ -485,7 +499,8 @@ Author URL: http://w3layouts.com
                                                 </ul>
                                                 <!--Agreement Confirmation-->
                                                 <div class="form-check">
-                                                    <input type="hidden" name="auctionId" th:value="${auction.auctionId}">
+                                                    <input type="hidden" name="auctionId"
+                                                           th:value="${auction.auctionId}">
                                                     <input class="form-check-input" type="radio" id="agreeCheckbox"
                                                            style="margin-right: 10px;" name="validate" value="agree">
                                                     <label for="agreeCheckbox" style="color: #f9351b">I fully agree with
@@ -503,7 +518,10 @@ Author URL: http://w3layouts.com
                                 </div>
                             </div>
                             <!--button tham gia dau gia nam o day-->
-                            <div class="sidebar-sticky" th:if="${auction.status == 'Upcoming'} and ${auction_register != null} and ${auction_register.getRegisterStatus() == 'chua chuyen tien'}">
+                            <div class="sidebar-sticky" th:if="${auction.status == 'Upcoming'} and ${auction_register != null}
+                            and ${auction_register.getRegisterStatus() == 'chua chuyen tien'}
+                            and ${T(java.time.LocalDateTime).now().isAfter(auction.registrationOpenDate)}
+                            and ${T(java.time.LocalDateTime).now().isBefore(auction.registrationCloseDate)}">
                                 <div class="sidebar-sticky-fix">
                                     <button class="btn btn-style btn-primary register-btn"
                                             style="width: 100%; margin-bottom: 20px;"
@@ -533,8 +551,11 @@ Author URL: http://w3layouts.com
                                                      alt="QR code" style="width:100%;">
                                                 <!--xac nhan yeu cau-->
                                                 <div class="form-check">
-                                                    <input type="hidden" name="auctionId" th:value="${auction.auctionId}">
-                                                    <input type="hidden" name="auctionRegisterId" th:if="${auction_register != null}" th:value="${auction_register.getRegisterId()}">
+                                                    <input type="hidden" name="auctionId"
+                                                           th:value="${auction.auctionId}">
+                                                    <input type="hidden" name="auctionRegisterId"
+                                                           th:if="${auction_register != null}"
+                                                           th:value="${auction_register.getRegisterId()}">
                                                     <input class="form-check-input" type="radio" id="transferInput"
                                                            style="margin-right: 10px;" name="transfer" value="done">
                                                     <label for="transferInput">
@@ -574,7 +595,8 @@ Author URL: http://w3layouts.com
                                                     aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <span th:if="${error != null}" th:text="${error}" style="color: #f9351b; font-style: italic;"></span>
+                                            <span th:if="${error != null}" th:text="${error}"
+                                                  style="color: #f9351b; font-style: italic;"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -669,6 +691,20 @@ Author URL: http://w3layouts.com
                                             <label>Register fee: </label>
                                             <span th:text="${auction.registerFee != null ? auction.registerFee : 'null'}"
                                                   style="color: #f9351b; font-weight: bold;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>Registration open date: </label>
+                                            <span th:text="${auction.registrationOpenDate != null ? auction.registrationOpenDate : 'null'}"
+                                                  style="color: #f9351b; font-weight: bold"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>Registration close date: </label>
+                                            <span th:text="${auction.registrationCloseDate != null ? auction.registrationCloseDate : 'null'}"
+                                                  style="color: #f9351b; font-weight: bold"></span>
                                         </div>
                                     </div>
                                     <div class="row">

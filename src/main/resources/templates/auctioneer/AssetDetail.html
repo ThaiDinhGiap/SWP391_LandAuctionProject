@@ -534,10 +534,10 @@
       const registrationCloseDate = new Date(document.getElementById('registrationclosedate').value);
 
       // Kiểm tra điều kiện thứ tự thời gian
-      if (startTime >= expectedEndTime || expectedEndTime >= registrationOpenDate || registrationOpenDate >= registrationCloseDate) {
+      if (registrationOpenDate >= registrationCloseDate || registrationCloseDate >= startTime || startTime >= expectedEndTime) {
         // Nếu điều kiện không thỏa mãn, ngăn không cho submit form
         event.preventDefault();
-        alert('Please ensure that the dates follow the correct order: Start time < Expected end time < Registration open date < Registration close date.');
+        alert('Please ensure that the dates follow the correct order: Registration open date < Registration close date < Start time < Expected end time');
       }
     });
   });
