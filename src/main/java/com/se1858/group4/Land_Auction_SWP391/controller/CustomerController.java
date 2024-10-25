@@ -25,6 +25,7 @@ import java.time.LocalDateTime;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -48,12 +49,14 @@ public class CustomerController {
     private CustomerService customerService;
     private QrCode qrCode;
     private AuctionRegisterService auctionRegisterService;
+    private NotificationService notificationService;
 
     public CustomerController(NewsService newsService, TagForNewsService tagForNewsService,
                               AssetService assetService, TagService tagService, AuctionService auctionService,
                               UserDetailsService userDetailsService, AccountService accountService,
                               ImageService imageService, FileUploadUtil uploadFile,
-                              CustomerService customerService, QrCode qrCode, AuctionRegisterService auctionRegisterService) {
+                              CustomerService customerService, QrCode qrCode, AuctionRegisterService auctionRegisterService,
+                              NotificationService notificationService) {
         this.newsService = newsService;
         this.tagForNewsService = tagForNewsService;
         this.assetService = assetService;
@@ -66,6 +69,7 @@ public class CustomerController {
         this.customerService = customerService;
         this.qrCode = qrCode;
         this.auctionRegisterService = auctionRegisterService;
+        this.notificationService = notificationService;
     }
 
     @GetMapping("/get_all_asset")
@@ -224,23 +228,37 @@ public class CustomerController {
     public String registerAuction(@RequestParam(value = "validate", required = false) String validate,
                                   @RequestParam("auctionId") int auctionId, RedirectAttributes redirectAttributes) {
         AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
-        //check xem nguoi dung da validate tai khoan chua
         Account this_user = userDetailsService.accountAuthenticated();
-        if(this_user.getVerify()==1){
-            //kiem tra xem nguoi dung da tick het chua
+
+        // Kiểm tra tài khoản đã xác thực chưa
+        if (this_user.getVerify() == 1) {
             if (validate != null) {
-                //cap nhat trang thai vao database
-                AuctionRegister register = new AuctionRegister(auction,this_user,"chua chuyen tien",null,null,null, LocalDateTime.now());
+                // Cập nhật trạng thái đăng ký vào database
+                AuctionRegister register = new AuctionRegister(auction, this_user, "chua chuyen tien", null, null, null, LocalDateTime.now());
                 auctionRegisterService.createAuctionRegister(register);
+
+                // Tạo thông báo sau khi đăng ký thành công
+                Notification notification = new Notification();
+                notification.setContent("You have registered to participate in the auction, please transfer money to complete the procedure.");
+                notification.setCreatedDate(LocalDateTime.now());
+                notification.setReadStatus("unread"); // Trạng thái chưa đọc
+
+                // Lưu thông báo vào cơ sở dữ liệu và gửi SSE cho client
+                notification.addAccount(this_user);
+                this_user.addNotification(notification);
+                notificationService.saveNotification(notification);
+                notificationService.sendNotification(notification); // Gửi SSE tới client
+
                 redirectAttributes.addFlashAttribute("error", "Registration successful, please transfer the deposit and register fee");
             }
-        }
-        else{
-            //gui thong bao tai khoan chua validate
+        } else {
+            // Tài khoản chưa xác thực
             redirectAttributes.addFlashAttribute("error", "Please complete your personal information before registering for the auction");
         }
+
         return "redirect:/customer/viewAuctionDetail?auctionId=" + auctionId;
     }
+
 
     @PostMapping("/transferDepositAndFee")
     public String transferDepositAndFee(@RequestParam(value = "transfer", required = false) String transfer,

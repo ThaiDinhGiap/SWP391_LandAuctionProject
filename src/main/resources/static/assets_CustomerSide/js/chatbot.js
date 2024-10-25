@@ -328,11 +328,11 @@ function resetInactivityTimer() {
     }, 30 * 60 * 1000); // 30 phút
 }
 
-window.onload = function () {
-    socket = new SockJS('/ws');
-    stompClient = Stomp.over(socket);
-    stompClient.connect();
-}
+// window.onload = function () {
+//     socket = new SockJS('/ws');
+//     stompClient = Stomp.over(socket);
+//     stompClient.connect();
+// }
 
 // Gọi hàm unsubscribe toàn bộ khi staff thoát khỏi giao diện hoặc đăng xuất
 // window.onbeforeunload = function () {
