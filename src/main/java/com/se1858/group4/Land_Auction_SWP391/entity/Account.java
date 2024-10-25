@@ -1,8 +1,10 @@
 package com.se1858.group4.Land_Auction_SWP391.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -318,5 +320,11 @@ public Account(String username, int status, int verify, Staff staff, Role role, 
                 ", role=" + role +
                 ", registrationDate=" + registrationDate +
                 '}';
+    }
+    public void addNotification(Notification notification) {
+         if (this.notifications == null) {
+             this.notifications = new ArrayList<>();
+         }
+         this.notifications.add(notification);
     }
 }

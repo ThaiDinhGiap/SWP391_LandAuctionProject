@@ -60,7 +60,7 @@ public class LoginController {
 
 
     @GetMapping({"/"})
-    public String homepage() {
+    public String hompage() {
         return "customer/homepage";
     }
 

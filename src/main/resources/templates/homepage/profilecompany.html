@@ -1,0 +1,762 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+-->
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>RealHouzing - Real Estate Category Bootstrap Responsive Template | Home :: W3layouts</title>
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Template CSS -->
+    <link rel="stylesheet" th:href="@{/assets_CustomerSide/css/style-starter.css}">
+
+    <style>
+        .btn {
+            padding: 10px 20px;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+
+            cursor: pointer;
+        }
+
+        .btn-login {
+            background-color: #fb4a33;
+            color: white;
+        }
+
+        #clock-container {
+            display: flex;
+            flex-direction: column;
+            text-align: left; /* Căn phải */
+            margin-right: 30px; /* Khoảng cách phải */
+            color: white;
+            line-height: 0.4;
+        }
+
+        #time {
+            font-size: 25px;
+        }
+
+        #date {
+            font-size: 15px;
+        }
+        .s1 {
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .s11 {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .s2 {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+        }
+
+        .s22 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .quote-box {
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 5px;
+            margin-right: 20px;
+            max-width: 600px;
+        }
+
+        .quote-box i {
+            font-size: 24px;
+            color: #ccc;
+        }
+
+        .quote-box p {
+            font-size: 18px;
+            color: #333;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        .author-box {
+            text-align: center;
+        }
+
+        .author-box img {
+            border-radius: 5px;
+            width: 150px;
+            height: auto;
+        }
+
+        .author-box .name {
+            font-size: 18px;
+            color: #b5651d;
+            margin-top: 10px;
+        }
+
+        .author-box .title {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .s3 {
+            font-family: Arial, sans-serif;
+            background-color: #d6c1ab;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .s33 {
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 40px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 120px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item .number {
+            font-size: 36px;
+            color: #b71c1c;
+            margin-bottom: 10px;
+        }
+
+        .stat-item .description {
+            font-size: 16px;
+            color: #333;
+        }
+        .s4 {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+        .s44 {
+            width: 80%;
+            margin: 0 auto;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .content {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        .image-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .caption {
+            font-size: 14px;
+            color: #888;
+        }
+        .milestone-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 5px solid #b5651d;
+        }
+
+        .card-text {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .card-date {
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            text-align: center;
+            padding: 10px;
+            width: 80px;
+        }
+
+        .card-date .month {
+            font-size: 14px;
+            font-weight: bold;
+            color: #b8860b;
+        }
+
+        .card-date .day {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .card-date .year {
+            font-size: 14px;
+            font-weight: normal;
+            color: #999;
+        }
+        .milestones-section h2 {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            color: #b5651d;
+        }
+        hr {
+            border: none; /* Xóa đường viền mặc định */
+            height: 3px;  /* Độ dày của gạch ngang */
+            background-color: black; /* Màu đen */
+            margin: 20px 0; /* Khoảng cách trên dưới */
+        }
+    </style>
+</head>
+
+<body>
+<!--/Header-->
+<header id="site-header" class="fixed-top">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light stroke py-lg-0">
+            <h1><a class="navbar-brand" href="index.html">
+                Viet<span class="sub-color">Land</span>
+            </a></h1>
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon fa icon-expand fa-bars"></span>
+                <span class="navbar-toggler-icon fa icon-close fa-times"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarScroll">
+                <ul class="navbar-nav mx-lg-auto my-2 my-lg-0 navbar-nav-scroll">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" style="font-size: 20px;">Properties</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/about}"  style="font-size: 20px;">About us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="services.html" style="font-size: 20px;">News</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/contact}"  style="font-size: 20px;">Contact</a>
+                    </li>
+                </ul>
+
+                <div class="navbar-nav" id="clock-container">
+                    <span class="nav-link" id="time"></span>
+                    <span class="nav-link" id="date"></span>
+                </div>
+
+                <!--/search-->
+                <button id="trigger-overlay" class="searchw3-icon me-xl-4 me-lg-3" type="button"><i class="fas fa-search"></i></button>
+                <!-- open/close -->
+                <div class="overlay overlay-slidedown">
+                    <button type="button" class="overlay-close"><i class="fas fa-times"></i></button>
+                    <nav class="w3l-formhny">
+                        <h5 class="mb-3">Search here</h5>
+                        <form action="#" method="GET" class="d-sm-flex search-header">
+                            <input class="form-control me-2" type="search" placeholder="Search here..." aria-label="Search" required>
+                            <button class="btn btn-style btn-primary" type="submit">Search</button>
+                        </form>
+                    </nav>
+                </div>
+                <!--//search-->
+
+                <!-- Register and Login Buttons -->
+                <div class="auth-buttons">
+                    <button class="btn btn-login">
+                        <a th:href="@{/showMyLoginPage}" style="font-size: 20px;">Login</a>
+                    </button>
+                </div>
+            </div>
+
+        </nav>
+    </div>
+</header>
+<!--//Header-->
+<!--/Banner-Start-->
+<!-- main-slider -->
+<img style="width: 1513px;height: 400px" src="https://cafefcdn.com/thumb_w/640/203337114487263232/2022/7/21/photo1658416728503-16584167286012036024982.jpg"/>
+<!-- //main-slider -->
+<!--/bottom-3-grids-->
+
+<!--//bottom-3-grids-->
+
+<!--/properties-->
+<div>
+    <div class="s1">
+        <div class="s11">
+            <h1>Lời Giới Thiệu</h1>
+            <p>Website VietLand xin gửi lời chào trân trọng tới Quý Khách hàng.</p>
+            <p>Trong xu thế phát triển mạnh mẽ của lĩnh vực “Bán đấu giá”, VietLand đã được thành lập với sự hỗ trợ của một Hội đồng cố vấn gồm các chuyên gia đấu giá và luật sư dày dạn kinh nghiệm. Được điều hành bởi đội ngũ đấu giá viên chuyên nghiệp của Bộ Tư pháp, chúng tôi tự hào là một trong 18 đơn vị bán đấu giá chuyên nghiệp tại thành phố Hà Nội, được Sở Tư pháp Thành phố Hà Nội ghi nhận trong báo cáo số 35/BC-STP, ngày 15 tháng 8 năm 2011. Chúng tôi cũng là đơn vị duy nhất được Chủ tịch Ủy ban Nhân dân Thành phố Hà Nội trao tặng bằng khen vì “đã có thành tích trong hoạt động bổ trợ Tư pháp năm 2014” vào ngày 19/03/2015.</p>
+            <p>Website VietLand là thành viên trong Lạc Việt Group, sở hữu hệ thống Văn phòng Công chứng và Công ty Luật với chuyên môn cao. Điều này mang lại sự hỗ trợ hiệu quả cho hoạt động bán đấu giá tài sản của chúng tôi. VietLand cam kết cung cấp cho Quý Khách hàng dịch vụ chất lượng tốt nhất và hiệu quả nhất.</p>
+            <p>Chúng tôi biết Quý Khách hàng đang có nhu cầu tư vấn và tổ chức bán đấu giá tài sản. Do đó, chúng tôi xin gửi Hồ sơ đề xuất giới thiệu về năng lực của Website VietLand, với mong muốn được chọn là tổ chức bán đấu giá tài sản cho Quý Khách hàng.</p>
+            <p>Với phương châm “Đem lại hiệu quả kinh tế vượt trội”, chúng tôi hy vọng sẽ làm hài lòng Quý Khách hàng và mong muốn được đồng hành cùng Quý Khách trong suốt quá trình hoạt động và phát triển.</p>
+
+        </div>
+    </div>
+    <div class="s2">
+        <div class="s22">
+            <div class="quote-box">
+                <i class="fas fa-quote-left">
+                </i>
+                <p>
+                    “Chúng tôi muốn đi trước, đón đầu để đến khi thế giới nhìn vào, họ cũng thấy, ở Việt Nam có những
+                    nhà bán đấu giá có uy tín, họ cũng sẽ gửi tài sản về đây nhờ mình bán, hoặc mời mình ra nước ngoài
+                    hợp tác. Con đường còn rất dài, chúng tôi mới chỉ như một đứa bé đang chập chững tập đi.
+                </p>
+                <p>
+                    Chỉ mong VietLand sẽ là con tàu dẫn đầu, sau này càng nhiều tàu đi càng đông vui, cùng đến đích, tàu
+                    đi trước cản sóng cho tàu đi sau, vượt sóng lớn an toàn”
+                </p>
+            </div>
+            <div class="author-box">
+                <img alt="Portrait of a woman in a black lace dress" height="150"
+                     src="https://storage.googleapis.com/a1aa/image/87FuZIIdzUp8MVnqzmY7h6BVeXq6LEJrCZdrUw0Q3bNIur0JA.jpg"
+                     width="150" />
+                <div class="name">
+                    Bà Bùi Minh Chiến
+                </div>
+                <div class="title">
+                    Tổng Giám đốc
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="s3">
+        <div class="s33">
+            <div class="title">
+                NHỮNG CON SỐ NỔI BẬT
+            </div>
+            <div class="stats">
+                <div class="stat-item">
+                    <img alt="Icon representing auctioneers" height="50"
+                         src="https://storage.googleapis.com/a1aa/image/ptvs0X6j79qYDJYaDx1fdV5YBmQn1U7fOI6A0Lo3QtEamXpTA.jpg"
+                         width="50" />
+                    <div class="number">
+                        50+
+                    </div>
+                    <div class="description">
+                        Nhà đấu giá
+                        <br />
+                        đối tác của Lạc Việt
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <img alt="Icon representing asset value" height="50"
+                         src="https://storage.googleapis.com/a1aa/image/7yw3v3BwospgARU3e8ukwmfxjdQwkAZAGdKL6mtyciiXmXpTA.jpg"
+                         width="50" />
+                    <div class="number">
+                        2.076 tỷ+
+                    </div>
+                    <div class="description">
+                        Giá trị
+                        <br />
+                        tài sản đã bán
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <img alt="Icon representing successful auctions" height="50"
+                         src="https://storage.googleapis.com/a1aa/image/YQzWMgZiXwYALtepGWtY33pJCtLtu0fnH3HKICpRWa7VmXpTA.jpg"
+                         width="50" />
+                    <div class="number">
+                        344+
+                    </div>
+                    <div class="description">
+                        Tài sản
+                        <br />
+                        đã đấu giá thành công
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <img alt="Icon representing auction events" height="50"
+                         src="https://storage.googleapis.com/a1aa/image/jBPG183f6KRqGipu9wYLIRaswWhfq1Yxe9YoDaeUqY0gZeKdC.jpg"
+                         width="50" />
+                    <div class="number">
+                        290+
+                    </div>
+                    <div class="description">
+                        Cuộc đấu giá
+                        <br />
+                        đã diễn ra
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="s4">
+        <div class="s44">
+            <div class="title">
+                SỨ MỆNH
+            </div>
+            <div class="content" style="width: 50%; margin-left: 300px">
+                Sứ mệnh của chúng tôi là xây dựng lên một cộng đồng đấu giá chuyên nghiệp và bền vững ở Việt Nam. Đấu giá Lạc Việt tự hào là đơn vị đi đầu về chuyển đổi số trong lĩnh vực đấu giá tại Việt Nam, tạo ra trải nghiệm đấu giá kết hợp Online - Offline thuận tiện, đơn giản hơn bao giờ hết.
+            </div>
+            <div class="image-container">
+                <img alt="Quang cảnh buổi đấu giá tác phẩm nghệ thuật đầu tiên tại Việt Nam ngày 28/05/2016" height="400" src="https://static.kinhtedothi.vn/w900/images/upload/2023/03/27/fe9f6de0-359a-4191-b452-abac1e4abeda.png" width="800"/>
+            </div>
+            <div class="caption">
+                Quang cảnh buổi đấu giá tác phẩm nghệ thuật đầu tiên tại Việt Nam ngày 28/05/2016
+            </div>
+        </div>
+    </div>
+    <div style="padding: 0 100px" class="milestones-section">
+        <h2>NHỮNG CỘT MỐC QUAN TRỌNG</h2>
+        <h3 style="text-align: center">2022</h3>
+        <div class="milestone-card">
+            <div class="card-text">
+                <p>Đấu giá Lạc Việt đã tổ chức phiên đấu giá trực tuyến các tác phẩm mỹ thuật đầu tiên tại Việt Nam với chủ đề “Trở về”. Việc đấu giá được triển khai trên hệ thống đấu giá trực tuyến kết hợp với việc theo dõi buổi livestream trên nền tảng Youtube và Facebook. Buổi đấu giá đã thu về tín hiệu tích cực với sự quan tâm của đông đảo các khách hàng, góp phần thúc đẩy cho sự phát triển của nền mỹ thuật Việt Nam.</p>
+            </div>
+            <div class="card-date">
+                <div class="month">Tháng 9</div>
+                <div class="day">04</div>
+                <div class="year">Năm 2024</div>
+            </div>
+        </div>
+        <div class="milestone-card">
+            <div class="card-text">
+                <p>Từ năm 2020 đến năm 2022, Đấu giá Lạc Việt đã tổ chức thành công hơn 300 cuộc đấu giá, với tổng số tiền bán thành tài sản đấu giá lên tới hơn 1900 tỷ</p>
+            </div>
+        </div>
+        <hr/>
+        <h3 style="text-align: center">2020</h3>
+        <div class="milestone-card">
+            <div class="card-text">
+                <p>Lạc Việt tổ chức thành công phiên đấu giá trực tuyến tài sản công đầu tiên tại Việt Nam, tuân thủ đầy đủ các quy định của luật Đấu giá tài sản 2016 và Nghị định 62/2017/NĐ-CP về thi hành luật đấu giá tài sản.</p>
+            </div>
+            <div class="card-date">
+                <div class="month">Tháng 7</div>
+                <div class="day">17</div>
+                <div class="year">Năm 2020</div>
+            </div>
+        </div>
+        <div class="milestone-card">
+            <div class="card-text">
+                <p>Đấu giá Lạc Việt được Sở Tư pháp Hà Nội phê duyệt tổ chức đấu giá tài sản đủ điều kiện thực hiện hình thức đấu giá trực tuyến.</p>
+            </div>
+            <div class="card-date">
+                <div class="month">Tháng 6</div>
+                <div class="day">05</div>
+                <div class="year">Năm 2020</div>
+            </div>
+        </div>
+        <hr>
+        <h3 style="text-align: center">2016</h3>
+        <div class="milestone-card">
+            <div class="card-text">
+                <p>Đấu giá Lạc Việt được tổ chức Kỷ lục Việt Nam xác lập kỷ lục là “đơn vị tổ chức phiên đấu giá tác phẩm nghệ thuật đầu tiên tại Việt Nam”</p>
+                <img src="https://lacvietauction.vn/auctionart/upload/image/timestamp-image1.png"/>
+            </div>
+            <div class="card-date">
+                <div class="month">Tháng 8</div>
+                <div class="day">26</div>
+                <div class="year">Năm 2016</div>
+            </div>
+        </div>
+        <div class="milestone-card">
+            <div class="card-text">
+                <p> Đấu giá Lạc Việt tổ chức phiên đấu giá tác phẩm nghệ thuật đầu tiên tại Việt Nam</p>
+                <img src="https://lacvietauction.vn/auctionart/upload/image/timestamp-image2.png"/>
+                <img src="https://lacvietauction.vn/auctionart/upload/image/timestamp-image3.png"/>
+            </div>
+            <div class="card-date">
+                <div class="month">Tháng 6</div>
+                <div class="day">14</div>
+                <div class="year">Năm 2016</div>
+            </div>
+        </div>
+        <div class="milestone-card">
+            <div class="card-text">
+                <p>Đấu giá Lạc Việt được Chủ tịch Ủy ban nhân dân Thành phố Hà Nội tặng bằng khen vì “Đã có thành tích trong hoạt động bổ trợ Tư pháp năm 2015”</p>
+                <img src="https://lacvietauction.vn/auctionart/upload/image/timestamp-image4.png"/>
+            </div>
+            <div class="card-date">
+                <div class="month">Tháng 2</div>
+                <div class="day">20</div>
+                <div class="year">Năm 2016</div>
+            </div>
+        </div>
+        <hr>
+        <h3 style="text-align: center">2015</h3>
+        <div class="milestone-card">
+            <div class="card-text">
+                <p>Đấu giá Lạc Việt được Chủ tịch Ủy ban nhân dân Thành phố Hà Nội tặng bằng khen vì “đã có thành tích trong hoạt động bổ trợ Tư pháp năm 2014”</p>
+                <img src="https://lacvietauction.vn/auctionart/upload/image/timestamp-image5.png"/>
+            </div>
+            <div class="card-date">
+                <div class="month">Tháng 10</div>
+                <div class="day">18</div>
+                <div class="year">Năm 2015</div>
+            </div>
+        </div>
+        <hr>
+        <h3 style="text-align: center">2011</h3>
+        <div class="milestone-card">
+            <div class="card-text">
+                <p>Tiền thân của Công ty đấu giá hợp danh Lạc Việt - Công ty Cổ phần Bán đấu giá Lạc Việt được thành lập bởi bà Đỗ Thị Hồng Hạnh – Th.s Luật Quốc Tế, Đấu giá viên, và ông Đoàn Xuyên Sơn - Luật sư, giám đốc Công ty TNHH Luật Khánh Việt.</p>
+            </div>
+            <div class="card-date">
+                <div class="month">Tháng 7</div>
+                <div class="day">25</div>
+                <div class="year">Năm 2011</div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--//properties-->
+<!--/w3l-blog-->
+
+<!--//w3l-blog-->
+<!--/footer-9-->
+<footer class="w3l-footer9">
+    <section class="footer-inner-main py-5">
+        <div class="container py-md-4">
+            <div class="right-side">
+                <div class="row footer-hny-grids sub-columns">
+                    <div class="col-lg-3 sub-one-left">
+                        <h6>About </h6>
+                        <p class="footer-phny pe-lg-5">VietLand Auction is a leading online platform for real estate auctions, offering a transparent and efficient way to buy and sell properties.</p>
+                        <div class="columns-2 mt-4 pt-lg-2">
+                            <ul class="social">
+                                <li><a href="#facebook"><span class="fab fa-facebook-f"></span></a>
+                                </li>
+                                <li><a href="#linkedin"><span class="fab fa-linkedin-in"></span></a>
+                                </li>
+                                <li><a href="#twitter"><span class="fab fa-twitter"></span></a>
+                                </li>
+                                <li><a href="#google"><span class="fab fa-google-plus-g"></span></a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 sub-two-right">
+                        <h6>Company</h6>
+                        <ul>
+
+                            <li><a href="#why"><i class="fas fa-angle-right"></i> Why Us</a>
+                            </li>
+                            <li><a href="#licence"><i class="fas fa-angle-right"></i>Our Agents
+                            </a>
+                            </li>
+                            <li><a href="#log"><i class="fas fa-angle-right"></i>Our Offers
+                            </a></li>
+
+                            <li><a href="#career"><i class="fas fa-angle-right"></i> Careers</a></li>
+
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 sub-two-right">
+                        <h6>Services</h6>
+                        <ul>
+                            <li><a href="#processing"><i class="fas fa-angle-right"></i> Buy Properties</a>
+                            </li>
+                            <li><a href="#research"><i class="fas fa-angle-right"></i> Sell Properties</a>
+                            </li>
+                            <li><a href="#metal"><i class="fas fa-angle-right"></i> Rent Properties</a>
+                            </li>
+                            <li><a href="#metal"><i class="fas fa-angle-right"></i> Property Search</a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 sub-two-right">
+                        <h6>Explore</h6>
+                        <ul>
+                            <li><a href="#processing"><i class="fas fa-angle-right"></i> Homes for Rent</a>
+                            </li>
+                            <li><a href="#research"><i class="fas fa-angle-right"></i> Apartments for Rent</a>
+                            </li>
+                            <li><a href="#metal"><i class="fas fa-angle-right"></i> Homes for Sale</a>
+                            </li>
+                            <li><a href="#metal"><i class="fas fa-angle-right"></i> Apartments for Sale</a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 sub-one-left ps-lg-5">
+                        <h6>Stay Update!</h6>
+                        <p class="w3f-para mb-4">Subscribe to our newsletter to receive our weekly feed.</p>
+                        <div class="w3l-subscribe-content align-self mt-lg-0 mt-5">
+                            <form action="#" method="post" class="subscribe-wthree">
+                                <div class="flex-wrap subscribe-wthree-field">
+                                    <input class="form-control" type="email" placeholder="Email" name="email" required="">
+                                    <button class="btn btn-style btn-primary" type="submit">Subscribe</button>
+                                </div>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Js scripts -->
+    <!-- move top -->
+    <button onclick="topFunction()" id="movetop" title="Go to top">
+        <span class="fas fa-level-up-alt" aria-hidden="true"></span>
+    </button>
+    <script>
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {
+            scrollFunction()
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("movetop").style.display = "block";
+            } else {
+                document.getElementById("movetop").style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+
+    </script>
+    <!-- //move top -->
+</footer>
+<!--//footer-9 -->
+
+<!-- Template JavaScript -->
+<script th:src="@{/assets_CustomerSide/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/theme-change.js}"></script>
+
+<!--/search-->
+<script th:src="@{/assets_CustomerSide/js/modernizr.custom.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/classie.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/demo1.js}"></script>
+<!--//search-->
+<!-- MENU-JS -->
+<script>
+    $(window).on("scroll", function() {
+        var scroll = $(window).scrollTop();
+
+        if (scroll >= 80) {
+            $("#site-header").addClass("nav-fixed");
+        } else {
+            $("#site-header").removeClass("nav-fixed");
+        }
+    });
+
+    //Main navigation Active Class Add Remove
+    $(".navbar-toggler").on("click", function() {
+        $("header").toggleClass("active");
+    });
+    $(document).on("ready", function() {
+        if ($(window).width() > 991) {
+            $("header").removeClass("active");
+        }
+        $(window).on("resize", function() {
+            if ($(window).width() > 991) {
+                $("header").removeClass("active");
+            }
+        });
+    });
+
+</script>
+<script>
+    $(function() {
+        $('.navbar-toggler').click(function() {
+            $('body').toggleClass('noscroll');
+        })
+    });
+
+    function updateClock() {
+        var now = new Date();
+
+        // Lấy giờ, phút, giây với định dạng 2 chữ số
+        var hours = now.getHours().toString().padStart(2, '0');
+        var minutes = now.getMinutes().toString().padStart(2, '0');
+        var seconds = now.getSeconds().toString().padStart(2, '0');
+
+        // Lấy ngày với định dạng tiếng Anh
+        var day = now.toLocaleDateString('en-US', { weekday: 'long' });
+        var date = now.toLocaleDateString('en-US'); // Hiển thị ngày tháng năm theo định dạng US (MM/DD/YYYY)
+
+        // Hiển thị thời gian vào phần tử HTML
+        document.getElementById('time').innerText = `${hours}:${minutes}:${seconds}`;
+        document.getElementById('date').innerText = `${day}, ${date}`;
+    }
+
+    // Cập nhật thời gian mỗi giây
+    setInterval(updateClock, 1000);
+    updateClock();
+
+</script>
+
+<script th:src="@{/assets_CustomerSide/js/bootstrap.min.js}"></script>
+
+</body>
+
+</html>
