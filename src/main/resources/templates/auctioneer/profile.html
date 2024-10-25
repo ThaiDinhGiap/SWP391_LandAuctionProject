@@ -14,86 +14,67 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <!-- CSS Files -->
-    <!-- CHI SUA CAC DUONG DAN CSS O DUOI DAY -->
     <link th:href="@{/dashboardStatic/css/bootstrap.min.css}" rel="stylesheet"/>
     <link th:href="@{/dashboardStatic/css/paper-dashboard.css?v=2.0.1}" rel="stylesheet"/>
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link th:href="@{/dashboardStatic/demo/demo.css}" rel="stylesheet"/>
 </head>
-<!---------------------------------------THÔNG TIN VỀ DASHBOARD------------------------------------------------------>
-<!--
- - Phan dashboardStatic khong duoc sua
- - Phan dashboardTemplates moi nguoi cop ra rieng cho tung role, de y sua cac the th: cho phu hop, co gi thac mac cu hoi Bui Minh Chien
--->
-<!--------------------------------------------------------------------------------------------->
 <body class="">
 <div class="wrapper ">
-    <!--  Side navbar: chua lien ket den cac trang tuy chon cua minh  -->
     <div class="sidebar" data-color="white" data-active-color="danger">
         <div class="logo">
-            <!--     Đường dẫn đến web chính của dự án     -->
             <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-mini">
-                <!--     Avatar người dùng ở đây     -->
                 <div class="logo-image-small">
                     <img th:src="@{/dashboardStatic/img/logo-small.png}">
                 </div>
-                <!-- <p>CT</p> -->
             </a>
-            <!--     Đường dẫn đến web chính của dự án     -->
             <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-normal">
                 Bui Minh Chien
-                <!--     Thêm logo dự án ở đây     -->
-                <!--           <div class="logo-image-big">-->
-                <!--            <img src="../assets/img/logo-big.png">-->
-                <!--          </div>-->
             </a>
         </div>
         <div class="sidebar-wrapper">
             <ul class="nav">
                 <li class="active">
-                    <a th:href="@{/property_agent/profile}">
+                    <a th:href="@{/auctioneer/profile}">
                         <i class="nc-icon nc-single-02"></i>
-                        <p>Profile</p>
+                        <p>User Profile</p>
                     </a>
                 </li>
                 <li>
-
-                    <a th:href="@{/property_agent/dashboard}">
+                    <a th:href="@{/auctioneer/dashboard}">
                         <i class="nc-icon nc-bank"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/property_agent/create_news}">
+                    <a th:href="@{/auctioneer/awaiting_list}">
                         <i class="nc-icon nc-single-copy-04"></i>
-                        <p>Create news</p>
+                        <p>Asset awaiting scheduling list</p>
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/property_agent/get_all_news_list}">
+                    <a th:href="@{/auctioneer/get_auction_list}">
                         <i class="nc-icon nc-bullet-list-67"></i>
-                        <p>News list</p>
+                        <p>Auction session list</p>
                     </a>
                 </li>
             </ul>
         </div>
     </div>
-    <!--  End side navbar  -->
-    <div class="main-panel"> <!--  Day la phan ben phai cua trang  -->
-        <!-- Top Navbar, SUA TIEU DE TRANG CHO PHU HOP -->
+    <div class="main-panel">
+        <!-- Top Navbar -->
         <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
             <div class="container-fluid">
                 <span class="navbar-brand">VietLand Auction</span>
             </div>
         </nav>
-        <!-- End Top Navbar -->
-        <!-- Noi dung cua trang se nam trong phan content nay -->
+        <!-- Content -->
         <div class="content">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-user">
                         <div class="card-header">
-                            <h5 class="card-title">Property Agent information</h5>
+                            <h5 class="card-title">Autioneer information</h5>
                         </div>
                         <!-- Account fields and avatar -->
                         <div class="card-body">
@@ -182,6 +163,7 @@
     </div>
 </div>
 
+
 <!---------------------------------------KHONG DUOC SUA------------------------------------------------------>
 <!--   Core JS Files   -->
 <script th:src="@{/dashboardStatic/js/core/jquery.min.js}"></script>
@@ -198,10 +180,8 @@
 <script th:src="@{/dashboardStatic/demo/demo.js}"></script>
 <script>
     $(document).ready(function () {
-        // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
         demo.initChartsPages();
     });
 </script>
 </body>
-
 </html>
