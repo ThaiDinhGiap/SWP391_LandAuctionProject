@@ -319,13 +319,13 @@ Author URL: http://w3layouts.com
                             <form th:action="@{/customer/uploadAvatar}" method="post" enctype="multipart/form-data">
                                 <div th:object="${customerDTO}">
                                     <a href="#">
-                                        <img th:src="*{account.avatar_image.path}" alt="Avatar Image" width="300" height="300">
+                                        <img th:src="*{account.avatar_image.path}" class="img-fluid rounded-circle" alt="Avatar Image" style="margin-bottom: 15px" width="300" height="300">
                                     </a>
                                     <!-- Input field to choose an avatar image -->
                                     <input type="file"  name="avatar" id="avatar" class="form-control" accept="image/png, image/jpeg, image/jpg" required>
                                 </div>
                                 <!-- Submit button to upload the image -->
-                                <button type="submit" class="btn btn-primary mt-3">Upload Avatar</button>
+                                <button type="submit"  style="margin: 10px" class="btn btn-primary mt-3">Upload Avatar</button>
                             </form>
 
                         </div>
