@@ -76,7 +76,7 @@ public class NewsWriterController {
             tag.addNews(news);
         }
         newsService.save(news);
-        redirectAttributes.addAttribute("message", "The article was created successfully");
+        redirectAttributes.addAttribute("message", "The news was created successfully");
         return "redirect:/news_writer/create_news";
     }
 
@@ -107,9 +107,12 @@ public class NewsWriterController {
 
     @GetMapping("/deleteNews")
     public String deleteNews(@RequestParam("newsId") int newsId) {
+        Account account = userDetailsService.accountAuthenticated();
         News news = newsService.getNewsById(newsId);
-        uploadFile.deleteFile(news.getCover_photo().getPath());
-        newsService.deleteNewsById(newsId);
+        if(news.getStaff().getAccountId()==account.getAccountId()) {
+            uploadFile.deleteFile(news.getCover_photo().getPath());
+            newsService.deleteNewsById(newsId);
+        }
         return "redirect:/news_writer/get_own_news_list";
     }
 }

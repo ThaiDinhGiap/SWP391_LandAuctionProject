@@ -51,7 +51,7 @@ public class StaffService {
     // Phương thức kiểm tra trạng thái của staff
     public boolean isStaffAvailable(Integer staffId) {
         // Lấy thông tin staff từ database
-        Staff staff = staffRepository.findById(staffId).orElseThrow(() -> new IllegalArgumentException("Staff không tồn tại"));
+        Staff staff = staffRepository.findById(staffId).orElseThrow(() -> new IllegalArgumentException("Staff not found"));
 
         // Trả về trạng thái của staff
         return staff.isAvailable();

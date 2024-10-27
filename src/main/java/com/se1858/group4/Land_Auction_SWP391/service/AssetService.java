@@ -59,10 +59,17 @@ public class AssetService {
         }
         return result;
     }
+    public List<Asset> getAllAsset() {
+        List<Asset> list=assetRepository.findAll();
+        if(list.size()>0){
+            return list;
+        }
+        return null;
+    }
     public Asset cancelAssetById(int id) {
         Asset asset = assetRepository.findById(id).get();
         if(asset!=null){
-            asset.setAssetStatus("Canceled");
+            asset.setAssetStatus("Cancelled");
         }
         return updateAsset(asset);
     }

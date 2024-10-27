@@ -105,6 +105,14 @@ public class PropertyAgentController {
         model.addAttribute("deletePermission","true");
         return "propertyAgent/AssetList";
     }
+    @GetMapping("/get_all_asset")
+    public String listAllAsset(Model model) {
+        List<Asset> list=assetService.getAllAsset();
+        model.addAttribute("listAsset",list);
+        model.addAttribute("pageTitle","Asset list");
+        model.addAttribute("deletePermission","false");
+        return "propertyAgent/AssetList";
+    }
     @GetMapping("/cancelAsset")
     public String cancelAsset(@RequestParam("assetId") int assetId) {
         assetService.cancelAssetById(assetId);

@@ -230,7 +230,7 @@ public class CustomerController {
                 //kiem tra xem nguoi dung da tick het chua
                 if (validate != null) {
                     //cap nhat trang thai vao database
-                    AuctionRegister register = new AuctionRegister(auction,this_user,"chua chuyen tien",null,null,null, LocalDateTime.now());
+                    AuctionRegister register = new AuctionRegister(auction,this_user,"Waiting for payment",null,null,null, LocalDateTime.now());
                     auctionRegisterService.createAuctionRegister(register);
                     redirectAttributes.addFlashAttribute("error", "Registration successful, please transfer the deposit and register fee");
                 }
@@ -252,7 +252,7 @@ public class CustomerController {
             //check xem nguoi dung da chuyen tien chua
             if(transfer != null){
                 AuctionRegister auctionRegister=auctionRegisterService.getAuctionRegisterById(auctionRegisterId);
-                auctionRegister.setRegisterStatus("dang cho xac nhan chuyen tien");
+                auctionRegister.setRegisterStatus("Waiting for confirmation");
                 auctionRegisterService.updateRegisterStatus(auctionRegister);
                 redirectAttributes.addFlashAttribute("error", "Please wait while we confirm the transaction, the result will be sent to you via notification");
             }

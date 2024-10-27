@@ -17,7 +17,7 @@ public class TaskService {
         this.accountService = accountService;
     }
     public Task save(Task task) {
-        task.setContentTask("Giao viec quan ly phien dau gia cho tai san co id la: "+task.getAsset().getAssetId());
+        task.setContentTask("Assign scheduling task for the asset with id: "+task.getAsset().getAssetId());
         task.setCreatedDate(LocalDateTime.now());
         task.setFinishedDate(null);
         task.setStatus("In progress");
