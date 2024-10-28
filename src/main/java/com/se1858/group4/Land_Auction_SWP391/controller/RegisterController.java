@@ -69,11 +69,11 @@ public class RegisterController {
     @PostMapping("/verify-otp")
     public String verifyOtp(@RequestParam String otp, Model model) {
         if (accountService.verifyOtp(otp)) {
-            model.addAttribute("message", "OTP is correct. You can now log in.");
-            return "redirect:/otp-success";
+            model.addAttribute("message", "OTP is correct! You can now log in.");
+            return "verify";
         } else {
             model.addAttribute("error", "Invalid OTP. Please try again.");
-            return "redirect:/verify-otp";
+            return "verify";
         }
     }
 

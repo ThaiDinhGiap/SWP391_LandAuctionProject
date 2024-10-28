@@ -8,7 +8,7 @@
 <body>
 <div class="container" id="container">
     <div class="form-container sign-in-container">
-        <form action="/verify-otp" method="POST">
+        <form th:action="@{/verify-otp}" th:method="POST">
             <h1>OTP Verification</h1>
             <span style="margin: 10px">Please check your email!</span>
             <input type="text" name="otp" placeholder="Enter OTP" required/>

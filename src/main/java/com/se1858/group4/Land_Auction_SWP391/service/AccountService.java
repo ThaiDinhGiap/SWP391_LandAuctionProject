@@ -63,9 +63,7 @@ public class AccountService {
         account.setEmail(email);
         account.setVerify(0);
         account.setStatus(0);
-        account.setAvatar_image(imageService.getDefaultAvatar());
         account.setRegistrationDate(LocalDateTime.now());
-
         storedOtp = generateOTP();
         storedEmail = email;
         sendOtpEmail(email, storedOtp);
@@ -85,11 +83,15 @@ public class AccountService {
     public boolean verifyOtp(String otp) {
 
         if (otp.equals(storedOtp)) {
-            System.out.println("Hi");
             if (account != null && account.getEmail().equals(storedEmail)) {
                 account.setRole(roleRepository.findByRoleName("ROLE_Customer"));
                 account.setStatus(1);  // Enable the account
+                account.setAvatar_image(imageService.getDefaultAvatar());
+                Customer customer = new Customer();
+                account.setCustomer(customer);
                 accountRepository.save(account);
+                customer.setAccount(account);
+                customerRepository.save(customer);
                 account = null;  // Clear temporary account after saving
                 return true;
             }
