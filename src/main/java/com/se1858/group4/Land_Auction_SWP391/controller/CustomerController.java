@@ -278,10 +278,7 @@ public class CustomerController {
         return "redirect:/customer/viewAuctionDetail?auctionId=" + auctionId;
     }
 
-    @GetMapping("/change-password")
-    public String showChangePasswordForm() {
-        return "customer/change-password";
-    }
+
 
     @PostMapping("/change-password")
     public ResponseEntity<String> changePassword(

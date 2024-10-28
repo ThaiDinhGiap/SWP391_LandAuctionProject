@@ -35,6 +35,8 @@ public class AccountService {
     private String storedOtp; // store OTP temporarily in memory or use a database.
     private String storedEmail; // Store the email temporarily for verification
     Account account = new Account();
+    @Autowired
+    private ImageService imageService;
 
     public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
@@ -61,6 +63,7 @@ public class AccountService {
         account.setEmail(email);
         account.setVerify(0);
         account.setStatus(0);
+        account.setAvatar_image(imageService.getDefaultAvatar());
         account.setRegistrationDate(LocalDateTime.now());
 
         storedOtp = generateOTP();

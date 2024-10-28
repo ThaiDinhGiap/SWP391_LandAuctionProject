@@ -61,7 +61,7 @@ public class LoginController {
 
     @GetMapping({"/"})
     public String hompage() {
-        return "customer/homepage";
+        return "homepage/homepage";
     }
 
     @GetMapping({"/showMyLoginPage"})
