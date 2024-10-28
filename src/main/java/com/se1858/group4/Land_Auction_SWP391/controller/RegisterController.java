@@ -27,10 +27,10 @@ public class RegisterController {
 
 
 
-    @GetMapping("/otp-success")
- public String showOtpSuccessPage() {
-        return "otp-success";
-    }
+//    @GetMapping("/otp-success")
+// public String showOtpSuccessPage() {
+//        return "otp-success";
+//    }
 
 
 
