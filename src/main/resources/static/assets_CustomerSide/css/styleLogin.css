@@ -250,3 +250,21 @@ footer a {
     color: #3c97bf;
     text-decoration: none;
 }
+
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    font-size: 14px; /* Adjust as needed */
+}
+
+.remember-me input[type="checkbox"] {
+    margin-right: 5px; /* Space between checkbox and label */
+    transform: scale(1.2); /* Optional: make checkbox slightly larger if desired */
+}
+
+.remember-me label {
+    white-space: nowrap; /* Prevents label from wrapping */
+    margin: 0;
+}
