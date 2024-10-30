@@ -71,7 +71,7 @@ public class AuctionService {
     public void cancelAuction(int auctionId){
         AuctionSession auctionSession = getAuctionSessionById(auctionId);
         if(auctionSession != null){
-            auctionSession.setStatus("Cancelled");
+            auctionSession.setStatus("Ending");
         }
     }
 

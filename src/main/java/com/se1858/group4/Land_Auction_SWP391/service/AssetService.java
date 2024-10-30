@@ -23,7 +23,7 @@ public class AssetService {
         this.tagRepository = tagRepository;
     }
     public Asset registerAsset(Asset asset) {
-        asset.setAssetStatus("Waiting for Auction Scheduling");
+        asset.setAssetStatus("Waiting for auction scheduling");
         asset.setCreatedDate(LocalDateTime.now());
         return assetRepository.save(asset);
     }
@@ -65,7 +65,7 @@ public class AssetService {
     public Asset cancelAssetById(int id) {
         Asset asset = assetRepository.findById(id).get();
         if(asset!=null){
-            asset.setAssetStatus("Cancelled");
+            asset.setAssetStatus("Cancelled registration");
         }
         return updateAsset(asset);
     }

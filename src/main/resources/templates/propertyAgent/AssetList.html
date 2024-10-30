@@ -6,7 +6,7 @@
     <link rel="icon" type="image/png" th:href="@{/dashboardStatic/img/favicon.png}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>
-        Unsuccessful sale assets
+        Asset list
     </title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
           name='viewport'/>
@@ -90,15 +90,27 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-<!--                            <a th:href="@{/property_agent/list_unsuccessful_sale_asset}"-->
-<!--                               class="btn btn-sm">-->
-<!--                                Unsuccessful sale assets-->
-<!--                            </a>-->
-<!--                            <a th:href="@{/property_agent/get_all_verified_asset}"-->
-<!--                               class="btn btn-sm">-->
-<!--                                All verified assets-->
-<!--                            </a>-->
-                            <h4 class="card-title" th:text="${pageTitle}"></h4>
+                            <a th:href="@{/property_agent/get_all_asset(status='All')}"
+                               class="btn btn-sm">
+                                All asset
+                            </a>
+                            <a th:href="@{/property_agent/get_all_asset(status='Waiting for auction scheduling')}"
+                               class="btn btn-sm">
+                                Waiting for auction scheduling
+                            </a>
+                            <a th:href="@{/property_agent/get_all_asset(status='Ongoing')}"
+                               class="btn btn-sm">
+                                Ongoing
+                            </a>
+                            <a th:href="@{/property_agent/get_all_asset(status='Successfully sold')}"
+                               class="btn btn-sm">
+                                Successfully sold
+                            </a>
+                            <a th:href="@{/property_agent/get_all_asset(status='Failed sold')}"
+                               class="btn btn-sm">
+                                Failed sold
+                            </a>
+                            <h4 class="card-title" th:text="'Asset status: '+${pageTitle}"></h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -131,11 +143,11 @@
                                                class="btn btn-sm">
                                                 <i class="bi bi-eye-fill"></i>
                                             </a>
-                                            <a  th:if="${deletePermission == 'true'}"
-                                                    th:href="@{/property_agent/cancelAsset(assetId=${asset.getAssetId()})}"
-                                               class="btn btn-sm" onclick="return confirmDelete();">
-                                                <i class="bi bi-trash3-fill"></i>
-                                            </a>
+<!--                                            <a  th:if="${deletePermission == 'true'}"-->
+<!--                                                    th:href="@{/property_agent/cancelAsset(assetId=${asset.getAssetId()})}"-->
+<!--                                               class="btn btn-sm" onclick="return confirmDelete();">-->
+<!--                                                <i class="bi bi-trash3-fill"></i>-->
+<!--                                            </a>-->
                                         </td>
                                     </tr>
                                     </tbody>
@@ -164,11 +176,11 @@
 <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
 <script th:src="@{/dashboardStatic/demo/demo.js}"></script>
 <!--Confirm xoa asset voi nguoi dung-->
-<script>
-    function confirmDelete() {
-        return confirm("Are you sure you want to delete this asset?");
-    }
-</script>
+<!--<script>-->
+<!--    function confirmDelete() {-->
+<!--        return confirm("Are you sure you want to delete this asset?");-->
+<!--    }-->
+<!--</script>-->
 </body>
 
 </html>

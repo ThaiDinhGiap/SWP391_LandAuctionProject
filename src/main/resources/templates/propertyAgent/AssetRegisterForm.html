@@ -111,7 +111,7 @@
                                         <div class="form-group">
                                             <label for="location">Location</label>
                                             <input type="text" th:field="*{asset.location}" id="location"
-                                                   class="form-control">
+                                                   required class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -119,21 +119,22 @@
                                     <div class="col-md-4 pr-1">
                                         <div class="form-group">
                                             <label for="length">Length (m)</label>
-                                            <input type="text" th:field="*{asset.length}" id="length"
-                                                   class="form-control">
+                                            <input type="number" th:field="*{asset.length}" id="length" class="form-control"
+                                                   required step="0.01" min="0.01" max="9999.99" placeholder="#.##">
                                         </div>
                                     </div>
                                     <div class="col-md-4 px-1">
                                         <div class="form-group">
                                             <label for="width">Width (m)</label>
-                                            <input type="text" th:field="*{asset.width}" id="width"
-                                                   class="form-control">
+                                            <input type="number" th:field="*{asset.width}" id="width" class="form-control"
+                                                   required step="0.01" min="0.01" max="9999.99" placeholder="#.##">
                                         </div>
                                     </div>
                                     <div class="col-md-4 pl-1">
                                         <div class="form-group">
                                             <label for="area">Area <span>(m<sup>2</sup>)</span></label>
-                                            <input type="text" th:field="*{asset.area}" id="area" class="form-control">
+                                            <input type="number" th:field="*{asset.area}" id="area" class="form-control"
+                                                   required step="0.0001" min="0.0001" max="99999999.9999" placeholder="#.####">
                                         </div>
                                     </div>
                                 </div>
@@ -189,9 +190,20 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="auctioneer">Select auctioneer</label>
+                                            <select id="auctioneer" name="auctioneerAccountId" class="form-control">
+                                                <option value="">-- Select Auctioneer --</option>
+                                                <option th:each="auctioneer : ${listAuctioneer}"
+                                                        th:value="${auctioneer.account.getAccountId()}"
+                                                        th:text="${auctioneer.fullName}">
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div>
@@ -212,27 +224,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="auctioneer">Select auctioneer</label>
-                                            <select id="auctioneer" name="auctioneerAccountId" class="form-control">
-                                                <option value="">-- Select Auctioneer --</option>
-                                                <option th:each="auctioneer : ${listAuctioneer}"
-                                                        th:value="${auctioneer.account.getAccountId()}"
-                                                        th:text="${auctioneer.fullName}">
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="update ml-auto mr-auto">
+                                <div class="row form-group" style="display: flex; flex-direction: column; margin-top: 10px;">
+                                    <p class="ml-auto mr-auto row" th:if="${param.message}" th:text="${param.message}"></p>
+                                    <div class="update ml-auto mr-auto row">
                                         <button type="submit" class="btn btn-primary btn-round">Save</button>
                                     </div>
                                 </div>
                             </form>
-<!--                            <span th:if="${param.message}" th:text="${param.message}" class="alert-message"></span>-->
                         </div>
                     </div>
                 </div>

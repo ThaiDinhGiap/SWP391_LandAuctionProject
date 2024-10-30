@@ -111,43 +111,7 @@
                                         <div class="form-group">
                                             <label for="title">Auction name</label>
                                             <input type="text" th:field="*{auctionSession.auctionName}" id="title"
-                                                   class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="start_time">Start time</label>
-                                            <input type="datetime-local" th:value="${formattedStartTime}"
-                                                   id="start_time" name="start_time"
-                                                   class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="expected_end_time">Expected end time</label>
-                                            <input type="datetime-local" th:value="${formattedExpectedEndTime}"
-                                                   id="expected_end_time" name="expected_end_time"
-                                                   class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="starting_price">Starting price</label>
-                                            <input type="text" th:field="*{auctionSession.startingPrice}"
-                                                   id="starting_price"
-                                                   class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="minimum_bid_increment">Minimum bid increment</label>
-                                            <input type="text" th:field="*{auctionSession.minimumBidIncrement}"
-                                                   id="minimum_bid_increment"
-                                                   class="form-control">
+                                                   class="form-control" required>
                                         </div>
                                     </div>
                                 </div>
@@ -157,7 +121,7 @@
                                             <label for="registration_open_date">Registration open date</label>
                                             <input type="datetime-local" th:value="${formattedRegistrationOpenDate}"
                                                    id="registration_open_date" name="registration_open_date"
-                                                   class="form-control">
+                                                   class="form-control" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -165,7 +129,43 @@
                                             <label for="registration_close_date">Registration close date</label>
                                             <input type="datetime-local" th:value="${formattedRegistrationCloseDate}"
                                                    id="registration_close_date" name="registration_close_date"
-                                                   class="form-control">
+                                                   class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="start_time">Start time</label>
+                                            <input type="datetime-local" th:value="${formattedStartTime}"
+                                                   id="start_time" name="start_time"
+                                                   class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="expected_end_time">Expected end time</label>
+                                            <input type="datetime-local" th:value="${formattedExpectedEndTime}"
+                                                   id="expected_end_time" name="expected_end_time"
+                                                   class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="starting_price">Starting price</label>
+                                            <input type="number" min="1" th:field="*{auctionSession.startingPrice}"
+                                                   id="starting_price"
+                                                   class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="minimum_bid_increment">Minimum bid increment</label>
+                                            <input type="number" min="1" th:field="*{auctionSession.minimumBidIncrement}"
+                                                   id="minimum_bid_increment"
+                                                   class="form-control" required>
                                         </div>
                                     </div>
                                 </div>
@@ -173,9 +173,9 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="extra_time">Extra time number (second)</label>
-                                            <input type="text" th:field="*{auctionSession.extraTimeUnit}"
+                                            <input type="number" min="1" th:field="*{auctionSession.extraTimeUnit}"
                                                    id="extra_time"
-                                                   class="form-control">
+                                                   class="form-control" required>
                                         </div>
                                     </div>
                                 </div>
@@ -183,16 +183,16 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="deposit">Deposit</label>
-                                            <input type="text" th:field="*{auctionSession.deposit}" id="deposit"
-                                                   class="form-control">
+                                            <input type="number" min="1" th:field="*{auctionSession.deposit}" id="deposit"
+                                                   class="form-control" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="register_fee">Register fee</label>
-                                            <input type="text" th:field="*{auctionSession.registerFee}"
+                                            <input type="number" min="1" th:field="*{auctionSession.registerFee}"
                                                    id="register_fee"
-                                                   class="form-control">
+                                                   class="form-control" required>
                                         </div>
                                     </div>
                                 </div>

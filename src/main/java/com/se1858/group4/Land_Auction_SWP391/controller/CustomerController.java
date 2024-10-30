@@ -31,12 +31,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-
-
 
 @Controller
 @RequestMapping("/customer")
@@ -48,7 +44,6 @@ public class CustomerController {
     private AuctionService auctionService;
     private UserDetailsService userDetailsService;
     private AccountService accountService;
-    private ImageService imageService;
     private FileUploadUtil uploadFile;
     private CustomerService customerService;
     private QrCode qrCode;
@@ -58,7 +53,7 @@ public class CustomerController {
     public CustomerController(NewsService newsService, TagForNewsService tagForNewsService,
                               AssetService assetService, TagService tagService, AuctionService auctionService,
                               UserDetailsService userDetailsService, AccountService accountService,
-                              ImageService imageService, FileUploadUtil uploadFile,
+                              FileUploadUtil uploadFile,
                               CustomerService customerService, QrCode qrCode, AuctionRegisterService auctionRegisterService,
                               NotificationService notificationService) {
         this.newsService = newsService;
@@ -68,14 +63,12 @@ public class CustomerController {
         this.auctionService = auctionService;
         this.userDetailsService = userDetailsService;
         this.accountService = accountService;
-        this.imageService = imageService;
         this.uploadFile = uploadFile;
         this.customerService = customerService;
         this.qrCode = qrCode;
         this.auctionRegisterService = auctionRegisterService;
         this.notificationService = notificationService;
     }
-
 
     @GetMapping("/get_all_asset")
     public String getAllAsset(Model model) {
@@ -87,16 +80,12 @@ public class CustomerController {
         return "customer/assetList";
     }
 
-
-
-
     @GetMapping("/get_all_auction")
     public String getAllAuction(Model model) {
         List<AuctionSession> auctionList = auctionService.getAllAutcion();
         model.addAttribute("listAuction", auctionList);
         return "customer/auctionList";
     }
-
 
     @GetMapping("/get_all_news")
     public String getAllNews(Model model) {
@@ -111,7 +100,6 @@ public class CustomerController {
         return "customer/newsList";
     }
 
-
     @GetMapping("/filter_assets")
     public String filterAssets(
             @RequestParam(required = false) List<Integer> tagIds,
@@ -119,13 +107,10 @@ public class CustomerController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
             Model model) {
-
-
         List<Asset> filteredAssets = assetService.filterAssets(tagIds, keyword, fromDate, toDate);
         model.addAttribute("listAsset", filteredAssets);
         return "customer/assetList :: assetListFragment";
     }
-
 
     @GetMapping("/filter_auctions")
     public String filterAuctions(
@@ -133,8 +118,6 @@ public class CustomerController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
             Model model) {
-
-
         List<AuctionSession> filteredAuctions = auctionService.filterAuctionSessions(keyword, fromDate, toDate);
         model.addAttribute("listAuction", filteredAuctions);
         return "customer/auctionList :: auctionListFragment";
@@ -221,7 +204,7 @@ public class CustomerController {
         model.addAttribute("embedUrl", embedUrl);
         model.addAttribute("auction", auction);
         qrCode.setAmount(auction.getDeposit() + auction.getRegisterFee() + "");
-        qrCode.setDescription("User id "+ this_user.getAccountId() + " transfer deposit, fee");
+        qrCode.setDescription("UserId "+ this_user.getAccountId() + " deposit fee AuctionId "+auction.getAuctionId());
         model.addAttribute("qrCode", qrCode);
         AuctionRegister register = auctionRegisterService.getAuctionRegister(auctionId,this_user.getAccountId());
         if(register != null){
@@ -244,7 +227,7 @@ public class CustomerController {
         if (this_user.getVerify() == 1) {
             if (validate != null) {
                 // Cập nhật trạng thái đăng ký vào database
-                AuctionRegister register = new AuctionRegister(auction, this_user, "chua chuyen tien", null, null, null, LocalDateTime.now());
+                AuctionRegister register = new AuctionRegister(auction, this_user, "Waiting for payment", null, null, null, LocalDateTime.now());
                 auctionRegisterService.createAuctionRegister(register);
 
                 // Tạo thông báo sau khi đăng ký thành công

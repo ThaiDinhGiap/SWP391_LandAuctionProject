@@ -40,8 +40,15 @@ public class NewsService {
     public List<News> getAllNews(){
         return newsRepository.findAll();
     }
+    public List<News> getAllNewsByAuthorId(int authorId){
+        return newsRepository.findByStaff_AccountId(authorId);
+    }
     public News getNewsById(int id) {
-        return newsRepository.findById(id).get();
+        Optional<News> news = newsRepository.findById(id);
+        if(news.isPresent()){
+            return news.get();
+        }
+        else return null;
     }
     public void deleteNewsById(int id) {
         newsRepository.deleteById(id);

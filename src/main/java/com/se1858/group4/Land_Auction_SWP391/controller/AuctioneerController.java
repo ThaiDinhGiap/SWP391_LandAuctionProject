@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.BufferedWriter;
 import java.time.LocalDateTime;
@@ -61,14 +62,20 @@ public class AuctioneerController {
     @GetMapping("/awaiting_list")
     public String getAssetAwaitingSchedulingList(Model model) {
         Account auctioneer = userDetailsService.accountAuthenticated();
-        List<Task> listTask = taskService.getAllTasksByAuctioneerId(auctioneer.getAccountId(),"In progress");
+        List<Task> listTask = taskService.getAllTasksByAuctioneerId(auctioneer.getAccountId(), "In progress");
         model.addAttribute("listTask", listTask);
         return "auctioneer/AssetAwaitingSchedulingList";
     }
 
     @GetMapping("/viewAssetDetail")
     public String getAssetById(@RequestParam("taskId") int taskId, Model model) {
+        if (taskId <= 0) {
+            return "redirect:/auctioneer/awaiting_list";
+        }
         Task task = taskService.findTaskById(taskId);
+        if (task == null) {
+            return "redirect:/auctioneer/awaiting_list";
+        }
         Account auctioneer = userDetailsService.accountAuthenticated();
         if (task != null && task.getAuctioneer().getAccountId() == auctioneer.getAccountId()) {
             Asset asset = task.getAsset();
@@ -87,7 +94,13 @@ public class AuctioneerController {
     @GetMapping("/viewAuctionDetail")
     public String getAuctionById(@RequestParam("auctionId") int auctionId, Model model) {
         Account auctioneer = userDetailsService.accountAuthenticated();
+        if (auctionId <= 0) {
+            return "redirect:/auctioneer/get_auction_list";
+        }
         AuctionSession auctionSession = auctionService.getAuctionSessionById(auctionId);
+        if (auctionSession == null) {
+            return "redirect:/auctioneer/get_auction_list";
+        }
         if (auctionSession != null && auctionSession.getAuctioneer().getAccountId() == auctioneer.getAccountId()) {
             List<AuctionChangeLog> listAuctionChangeLog = auctionChangeLogService.getAllAuctionChangeLog(auctionId);
             model.addAttribute("listAuctionChangeLog", listAuctionChangeLog);
@@ -96,43 +109,8 @@ public class AuctioneerController {
         } else return "redirect:auctioneer/get_auction_list";
     }
 
-    @GetMapping("/cancelAuctionRequest")
-    public String getCancelAuctionForm(@RequestParam("auctionId") int auctionId, Model model) {
-        Account auctioneer = userDetailsService.accountAuthenticated();
-        AuctionSession auctionSession = auctionService.getAuctionSessionById(auctionId);
-        if (auctionSession != null && auctionSession.getAuctioneer().getAccountId() == auctioneer.getAccountId()) {
-            if (!auctionSession.getStatus().equals("Cancelled")) {
-                model.addAttribute("auctionId", auctionId);
-                return "auctioneer/CancelAuction";
-            } else return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + auctionId;
-        } else return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + auctionId;
-    }
-
-    @GetMapping("/updateAuctionRequest")
-    public String getUpdateAuctionForm(@RequestParam("auctionId") int auctionId, Model model) {
-        Account auctioneer = userDetailsService.accountAuthenticated();
-        AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
-        if (auction != null && auction.getAuctioneer().getAccountId() == auctioneer.getAccountId()) {
-            if (auction.getStatus().equals("Upcoming") && LocalDateTime.now().isBefore(auction.getRegistrationOpenDate())) {
-                AuctionSessionDTO auctionDTO = new AuctionSessionDTO();
-                auctionDTO.setAuctionSession(auction);
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-                String formattedStartTime = auction.getStartTime().format(formatter);
-                String formattedExpectedEndTime = auction.getExpectedEndTime().format(formatter);
-                String formattedRegistrationOpenDate = auction.getRegistrationOpenDate().format(formatter);
-                String formattedRegistrationCloseDate = auction.getRegistrationCloseDate().format(formatter);
-                model.addAttribute("auctionDTO", auctionDTO);
-                model.addAttribute("formattedStartTime", formattedStartTime);
-                model.addAttribute("formattedExpectedEndTime", formattedExpectedEndTime);
-                model.addAttribute("formattedRegistrationOpenDate", formattedRegistrationOpenDate);
-                model.addAttribute("formattedRegistrationCloseDate", formattedRegistrationCloseDate);
-                return "auctioneer/UpdateAuction";
-            } else return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + auctionId;
-        } else return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + auctionId;
-    }
-
     @PostMapping("/createAuction")
-    public String createAuction(@ModelAttribute("auctionDTO") AuctionSessionDTO auctionDTO) {
+    public String createAuction(@ModelAttribute("auctionDTO") AuctionSessionDTO auctionDTO, RedirectAttributes redirectAttributes) {
         //lay ra auctioneer hien tai
         Account auctioneer = userDetailsService.accountAuthenticated();
         AuctionSession newAuctionSession = new AuctionSession();
@@ -151,9 +129,58 @@ public class AuctioneerController {
         newAuctionSession.setAuctioneer(auctioneer);
         Asset asset = assetService.getAssetById(auctionDTO.getAssetId());
         newAuctionSession.setAsset(asset);
+        asset.setAssetStatus("Ongoing");
         auctionService.createAuctionSession(newAuctionSession);
         taskService.changeTaskStatus(auctionDTO.getTaskId(), "Done");
-        return "redirect:/auctioneer/dashboard";
+        redirectAttributes.addAttribute("message", "Successful auction scheduling");
+        return "redirect:/auctioneer/viewAssetDetail?taskId=" + auctionDTO.getTaskId();
+    }
+
+    @GetMapping("/cancelAuctionRequest")
+    public String getCancelAuctionForm(@RequestParam("auctionId") int auctionId, Model model) {
+        Account auctioneer = userDetailsService.accountAuthenticated();
+        if (auctionId <= 0) {
+            return "redirect:/auctioneer/get_auction_list";
+        }
+        AuctionSession auctionSession = auctionService.getAuctionSessionById(auctionId);
+        if (auctionSession == null) {
+            return "redirect:/auctioneer/get_auction_list";
+        }
+        if (auctionSession != null && auctionSession.getAuctioneer().getAccountId() == auctioneer.getAccountId()) {
+            if (!auctionSession.getStatus().equals("Ending")) {
+                model.addAttribute("auctionId", auctionId);
+                return "auctioneer/CancelAuction";
+            } else return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + auctionId;
+        } else return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + auctionId;
+    }
+
+    @GetMapping("/updateAuctionRequest")
+    public String getUpdateAuctionForm(@RequestParam("auctionId") int auctionId, Model model) {
+        Account auctioneer = userDetailsService.accountAuthenticated();
+        if (auctionId <= 0) {
+            return "redirect:/auctioneer/get_auction_list";
+        }
+        AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
+        if (auction == null) {
+            return "redirect:/auctioneer/get_auction_list";
+        }
+        if (auction != null && auction.getAuctioneer().getAccountId() == auctioneer.getAccountId()) {
+            if (auction.getStatus().equals("Upcoming") && LocalDateTime.now().isBefore(auction.getRegistrationOpenDate())) {
+                AuctionSessionDTO auctionDTO = new AuctionSessionDTO();
+                auctionDTO.setAuctionSession(auction);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+                String formattedStartTime = auction.getStartTime().format(formatter);
+                String formattedExpectedEndTime = auction.getExpectedEndTime().format(formatter);
+                String formattedRegistrationOpenDate = auction.getRegistrationOpenDate().format(formatter);
+                String formattedRegistrationCloseDate = auction.getRegistrationCloseDate().format(formatter);
+                model.addAttribute("auctionDTO", auctionDTO);
+                model.addAttribute("formattedStartTime", formattedStartTime);
+                model.addAttribute("formattedExpectedEndTime", formattedExpectedEndTime);
+                model.addAttribute("formattedRegistrationOpenDate", formattedRegistrationOpenDate);
+                model.addAttribute("formattedRegistrationCloseDate", formattedRegistrationCloseDate);
+                return "auctioneer/UpdateAuction";
+            } else return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + auctionId;
+        } else return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + auctionId;
     }
 
     @PostMapping("/updateAuction")
@@ -178,13 +205,19 @@ public class AuctioneerController {
     @PostMapping("/cancelAuction")
     public String cancelAuction(@RequestParam("auctionId") int auctionId, @RequestParam("reason") String reason) {
         Account auctioneer = userDetailsService.accountAuthenticated();
+        if (auctionId <= 0) {
+            return "redirect:/auctioneer/get_auction_list";
+        }
         AuctionSession auctionSession = auctionService.getAuctionSessionById(auctionId);
+        if (auctionSession == null) {
+            return "redirect:/auctioneer/get_auction_list";
+        }
         if (auctionSession != null && auctionSession.getAuctioneer().getAccountId() == auctioneer.getAccountId()) {
             auctionService.cancelAuction(auctionId);
             Asset asset = auctionSession.getAsset();
-            asset.setAssetStatus("Not sold");
+            asset.setAssetStatus("Failed sold");
             assetService.updateAsset(asset);
-            auctionChangeLogService.createAuctionChange("Cancelled auction information", reason, auctionId);
+            auctionChangeLogService.createAuctionChange("Cancelled auction session", reason, auctionId);
         }
         return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + auctionId;
     }
@@ -192,7 +225,13 @@ public class AuctioneerController {
     @GetMapping("/viewRegisterList")
     public String getRegisterList(@RequestParam("auctionId") int auctionId, Model model) {
         Account auctioneer = userDetailsService.accountAuthenticated();
+        if (auctionId <= 0) {
+            return "redirect:/auctioneer/get_auction_list";
+        }
         AuctionSession auctionSession = auctionService.getAuctionSessionById(auctionId);
+        if (auctionSession == null) {
+            return "redirect:/auctioneer/get_auction_list";
+        }
         if (auctionSession != null && auctionSession.getAuctioneer().getAccountId() == auctioneer.getAccountId()) {
             List<AuctionRegister> registerList = auctionRegisterService.getAllAuctionRegistersByAuctionId(auctionId);
             model.addAttribute("registerList", registerList);
@@ -203,17 +242,30 @@ public class AuctioneerController {
     @GetMapping("/viewRegisterDetail")
     public String getRegisterDetail(@RequestParam("registerId") int registerId, Model model) {
         Account auctioneer = userDetailsService.accountAuthenticated();
+        if (registerId <= 0) {
+            return "redirect:/auctioneer/get_auction_list";
+        }
         AuctionRegister register = auctionRegisterService.getAuctionRegisterById(registerId);
+        if (register == null) {
+            return "redirect:/auctioneer/get_auction_list";
+        }
         if (register != null && register.getAuction().getAuctioneer().getAccountId() == auctioneer.getAccountId()) {
             model.addAttribute("register", register);
             return "auctioneer/RegisterDetail";
-        } else return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + register.getAuction().getAuctioneer().getAccountId();
+        } else
+            return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + register.getAuction().getAuctioneer().getAccountId();
     }
 
     @PostMapping("/updateRegister")
     public String updateRegister(@RequestParam("registerId") int registerId, @RequestParam("register_status") String register_status,
                                  @RequestParam("purchase_status") String purchase_status, @RequestParam("deposit_status") String deposit_status) {
+        if (registerId <= 0) {
+            return "redirect:/auctioneer/get_auction_list";
+        }
         AuctionRegister register = auctionRegisterService.getAuctionRegisterById(registerId);
+        if (register == null) {
+            return "redirect:/auctioneer/get_auction_list";
+        }
         Account auctioneer = userDetailsService.accountAuthenticated();
         if (register != null && register.getAuction().getAuctioneer().getAccountId() == auctioneer.getAccountId()) {
             if (register_status != null) {
@@ -227,10 +279,9 @@ public class AuctioneerController {
             }
             auctionRegisterService.updateRegisterStatus(register);
             return "redirect:/auctioneer/viewRegisterDetail?registerId=" + registerId;
-        }
-        else return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + register.getAuction().getAuctioneer().getAccountId();
+        } else
+            return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + register.getAuction().getAuctioneer().getAccountId();
     }
-
 
     @GetMapping("/profile")
     public String profile(Model model) {
@@ -243,10 +294,11 @@ public class AuctioneerController {
         }
         return "auctioneer/profile";
     }
+
     @PostMapping("/uploadAvatar")
     public String uploadAvatar(@RequestParam("avatar") MultipartFile avatar, Model model) {
         Account account = userDetailsService.accountAuthenticated();
-        if (account != null&&avatar!=null) {
+        if (account != null && avatar != null) {
             uploadFile.UploadAvatar(avatar, account);
         }
         return "redirect:/auctioneer/profile";

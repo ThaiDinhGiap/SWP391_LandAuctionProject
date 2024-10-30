@@ -463,7 +463,7 @@
                                             Update auction information
                                         </button>
                                     </a>
-                                    <a th:if="${auction.status!='Cancelled'}" th:href="@{/auctioneer/cancelAuctionRequest(auctionId=${auction.auctionId})}">
+                                    <a th:if="${auction.status!='Ending'}" th:href="@{/auctioneer/cancelAuctionRequest(auctionId=${auction.auctionId})}">
                                         <button type="button" class="btn btn-danger btn-round">
                                             Cancel auction
                                         </button>

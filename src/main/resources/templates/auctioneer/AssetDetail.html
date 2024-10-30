@@ -397,7 +397,7 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label for="auctionName">Auction name</label>
-                      <input type="text" th:field="*{auctionSession.auctionName}" id="auctionName" class="form-control">
+                      <input type="text" th:field="*{auctionSession.auctionName}" id="auctionName" class="form-control" required>
                     </div>
                   </div>
                 </div>
@@ -405,15 +405,15 @@
                   <div class="col-md-6 pr-1">
                     <div class="form-group">
                       <label for="startingPrice">Starting price</label>
-                      <input type="text" th:field="*{auctionSession.startingPrice}" id="startingPrice"
-                             class="form-control">
+                      <input type="number" min="1" th:field="*{auctionSession.startingPrice}" id="startingPrice"
+                             class="form-control" required>
                     </div>
                   </div>
                   <div class="col-md-6 px-1">
                     <div class="form-group">
                       <label for="minimumbidincrement">Minimum bid increment</label>
-                      <input type="text" th:field="*{auctionSession.minimumBidIncrement}" id="minimumbidincrement"
-                             class="form-control">
+                      <input type="number" min="1" th:field="*{auctionSession.minimumBidIncrement}" id="minimumbidincrement"
+                             class="form-control" required>
                     </div>
                   </div>
                 </div>
@@ -421,13 +421,13 @@
                   <div class="col-md-6 pr-1">
                     <div class="form-group">
                       <label for="deposit">Deposit</label>
-                      <input type="text" th:field="*{auctionSession.deposit}" id="deposit" class="form-control">
+                      <input type="number" min="1" th:field="*{auctionSession.deposit}" id="deposit" class="form-control" required>
                     </div>
                   </div>
                   <div class="col-md-6 px-1">
                     <div class="form-group">
                       <label for="registerfee">Register fee</label>
-                      <input type="text" th:field="*{auctionSession.registerFee}" id="registerfee" class="form-control">
+                      <input type="number" min="1" th:field="*{auctionSession.registerFee}" id="registerfee" class="form-control" required>
                     </div>
                   </div>
                 </div>
@@ -435,21 +435,7 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label for="extratimeunit">Extra time unit (second)</label>
-                      <input type="text" th:field="*{auctionSession.extraTimeUnit}" id="extratimeunit" class="form-control">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6 pr-1">
-                    <div class="form-group">
-                      <label for="starttime">Start time</label>
-                      <input type="datetime-local" th:field="*{auctionSession.startTime}" id="starttime" class="form-control">
-                    </div>
-                  </div>
-                  <div class="col-md-6 px-1">
-                    <div class="form-group">
-                      <label for="expectedendtime">Expected end time</label>
-                      <input type="datetime-local" th:field="*{auctionSession.expectedEndTime}" id="expectedendtime" class="form-control">
+                      <input type="number" min="1" th:field="*{auctionSession.extraTimeUnit}" id="extratimeunit" class="form-control" required>
                     </div>
                   </div>
                 </div>
@@ -457,18 +443,33 @@
                   <div class="col-md-6 pr-1">
                     <div class="form-group">
                       <label for="registrationopendate">Registration open date</label>
-                      <input type="datetime-local" th:field="*{auctionSession.registrationOpenDate}" id="registrationopendate" class="form-control">
+                      <input type="datetime-local" th:field="*{auctionSession.registrationOpenDate}" id="registrationopendate" class="form-control" required>
                     </div>
                   </div>
                   <div class="col-md-6 px-1">
                     <div class="form-group">
                       <label for="registrationclosedate">Registration close date</label>
-                      <input type="datetime-local" th:field="*{auctionSession.registrationCloseDate}" id="registrationclosedate" class="form-control">
+                      <input type="datetime-local" th:field="*{auctionSession.registrationCloseDate}" id="registrationclosedate" class="form-control" required>
                     </div>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="update ml-auto mr-auto">
+                  <div class="col-md-6 pr-1">
+                    <div class="form-group">
+                      <label for="starttime">Start time</label>
+                      <input type="datetime-local" th:field="*{auctionSession.startTime}" id="starttime" class="form-control" required>
+                    </div>
+                  </div>
+                  <div class="col-md-6 px-1">
+                    <div class="form-group">
+                      <label for="expectedendtime">Expected end time</label>
+                      <input type="datetime-local" th:field="*{auctionSession.expectedEndTime}" id="expectedendtime" class="form-control" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="row form-group" style="display: flex; flex-direction: column">
+                  <p class="ml-auto mr-auto row" th:if="${param.message}" th:text="${param.message}"></p>
+                  <div class="update ml-auto mr-auto row">
                     <button type="submit" class="btn btn-primary btn-round">Create</button>
                   </div>
                 </div>
