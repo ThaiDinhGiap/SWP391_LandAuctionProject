@@ -3,16 +3,20 @@ package com.se1858.group4.Land_Auction_SWP391.controller;
 import com.se1858.group4.Land_Auction_SWP391.dto.StaffDTO;
 import com.se1858.group4.Land_Auction_SWP391.entity.Account;
 import com.se1858.group4.Land_Auction_SWP391.security.UserDetailsService;
+import com.se1858.group4.Land_Auction_SWP391.utility.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/customercare")
 public class CustomerCareController {
-
+    private FileUploadUtil uploadFile;
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -42,5 +46,13 @@ public class CustomerCareController {
                 model.addAttribute("staffDTO", staffDTO);
             }
         return "customerCare/profile";
+    }
+    @PostMapping("/uploadAvatar")
+    public String uploadAvatar(@RequestParam("avatar") MultipartFile avatar, Model model) {
+        Account account = userDetailsService.accountAuthenticated();
+        if (account != null&&avatar!=null) {
+            uploadFile.UploadAvatar(avatar, account);
+        }
+        return "redirect:/customercare/profile";
     }
 }

@@ -16,4 +16,8 @@ public class ImageService {
     public Image saveImage(Image image) {
         return imageRepository.save(image);
     }
+
+    public Image getDefaultAvatar() {
+        return imageRepository.findById(1).get();
+    }
 }

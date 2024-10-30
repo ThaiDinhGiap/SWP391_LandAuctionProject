@@ -205,10 +205,8 @@ public class CustomerController {
     @PostMapping("/uploadAvatar")
     public String uploadAvatar(@RequestParam("avatar") MultipartFile avatar, Model model) {
         Account account = userDetailsService.accountAuthenticated();
-        if (account != null) {
-            if (!avatar.isEmpty()) {
+        if (account != null&&avatar!=null) {
                 uploadFile.UploadAvatar(avatar, account);
-            }
         }
         return "redirect:/customer/profile";
     }
@@ -306,10 +304,7 @@ public class CustomerController {
         return "redirect:/customer/viewAuctionDetail?auctionId=" + auctionId;
     }
 
-    @GetMapping("/change-password")
-    public String showChangePasswordForm() {
-        return "customer/change-password";
-    }
+
 
     @PostMapping("/change-password")
     public ResponseEntity<String> changePassword(

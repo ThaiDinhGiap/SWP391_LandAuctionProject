@@ -35,6 +35,8 @@ public class AccountService {
     private String storedOtp; // store OTP temporarily in memory or use a database.
     private String storedEmail; // Store the email temporarily for verification
     Account account = new Account();
+    @Autowired
+    private ImageService imageService;
 
     public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
@@ -62,7 +64,6 @@ public class AccountService {
         account.setVerify(0);
         account.setStatus(0);
         account.setRegistrationDate(LocalDateTime.now());
-
         storedOtp = generateOTP();
         storedEmail = email;
         sendOtpEmail(email, storedOtp);
@@ -82,11 +83,15 @@ public class AccountService {
     public boolean verifyOtp(String otp) {
 
         if (otp.equals(storedOtp)) {
-            System.out.println("Hi");
             if (account != null && account.getEmail().equals(storedEmail)) {
                 account.setRole(roleRepository.findByRoleName("ROLE_Customer"));
                 account.setStatus(1);  // Enable the account
+                account.setAvatar_image(imageService.getDefaultAvatar());
+                Customer customer = new Customer();
+                account.setCustomer(customer);
                 accountRepository.save(account);
+                customer.setAccount(account);
+                customerRepository.save(customer);
                 account = null;  // Clear temporary account after saving
                 return true;
             }
