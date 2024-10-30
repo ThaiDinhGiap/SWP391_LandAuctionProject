@@ -200,15 +200,15 @@ public class CustomerController {
 
     @GetMapping("/viewAuctionDetail")
     public String getAuctionById(@RequestParam(value = "error", required = false) String error, @RequestParam("auctionId") int auctionId, Model model) {
+        //lay ra nguoi dang ky
+        Account this_user = userDetailsService.accountAuthenticated();
         AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
         String embedUrl = GetSrcInGoogleMapEmbededURLUtil.extractSrcFromIframe(auction.getAsset().getCoordinatesOnMap());
         model.addAttribute("embedUrl", embedUrl);
         model.addAttribute("auction", auction);
         qrCode.setAmount(auction.getDeposit() + auction.getRegisterFee() + "");
-        qrCode.setDescription("User id 10 " + "transfer deposit, fee");
+        qrCode.setDescription("User id "+ this_user.getAccountId() + " transfer deposit, fee");
         model.addAttribute("qrCode", qrCode);
-        //lay ra nguoi dang ky
-        Account this_user = userDetailsService.accountAuthenticated();
         AuctionRegister register = auctionRegisterService.getAuctionRegister(auctionId,this_user.getAccountId());
         if(register != null){
             model.addAttribute("auction_register", register);
