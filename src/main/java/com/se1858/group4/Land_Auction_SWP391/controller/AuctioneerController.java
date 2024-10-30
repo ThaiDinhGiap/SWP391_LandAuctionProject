@@ -1,6 +1,7 @@
 package com.se1858.group4.Land_Auction_SWP391.controller;
 
 import com.se1858.group4.Land_Auction_SWP391.dto.AuctionSessionDTO;
+import com.se1858.group4.Land_Auction_SWP391.dto.StaffDTO;
 import com.se1858.group4.Land_Auction_SWP391.entity.*;
 import com.se1858.group4.Land_Auction_SWP391.security.UserDetailsService;
 import com.se1858.group4.Land_Auction_SWP391.service.*;
@@ -220,5 +221,18 @@ public class AuctioneerController {
             return "redirect:/auctioneer/viewRegisterDetail?registerId=" + registerId;
         }
         else return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + register.getAuction().getAuctioneer().getAccountId();
+    }
+
+
+    @GetMapping("/profile")
+    public String profile(Model model) {
+        Account account = userDetailsService.accountAuthenticated();
+        if (account != null) {
+            StaffDTO staffDTO = new StaffDTO();
+            staffDTO.setAccount(account);
+            staffDTO.setStaff(account.getStaff());
+            model.addAttribute("staffDTO", staffDTO);
+        }
+        return "auctioneer/profile";
     }
 }

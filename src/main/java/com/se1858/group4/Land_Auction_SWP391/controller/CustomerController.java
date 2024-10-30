@@ -15,6 +15,8 @@ import com.se1858.group4.Land_Auction_SWP391.service.ImageService;
 import com.se1858.group4.Land_Auction_SWP391.utility.FileUploadUtil;
 import com.se1858.group4.Land_Auction_SWP391.utility.QrCode;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +25,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 
+import java.security.Principal;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
+
+
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -47,13 +53,14 @@ public class CustomerController {
     private CustomerService customerService;
     private QrCode qrCode;
     private AuctionRegisterService auctionRegisterService;
-
+    private NotificationService notificationService;
 
     public CustomerController(NewsService newsService, TagForNewsService tagForNewsService,
                               AssetService assetService, TagService tagService, AuctionService auctionService,
                               UserDetailsService userDetailsService, AccountService accountService,
                               ImageService imageService, FileUploadUtil uploadFile,
-                              CustomerService customerService, QrCode qrCode, AuctionRegisterService auctionRegisterService) {
+                              CustomerService customerService, QrCode qrCode, AuctionRegisterService auctionRegisterService,
+                              NotificationService notificationService) {
         this.newsService = newsService;
         this.tagForNewsService = tagForNewsService;
         this.assetService = assetService;
@@ -66,6 +73,7 @@ public class CustomerController {
         this.customerService = customerService;
         this.qrCode = qrCode;
         this.auctionRegisterService = auctionRegisterService;
+        this.notificationService = notificationService;
     }
 
 
@@ -177,15 +185,11 @@ public class CustomerController {
         // Extract customer and account from DTO
         Customer customer = customerDTO.getCustomer();
         Account account = customerDTO.getAccount();
-
-
         // Check if account and customer are not null
         if (account != null && customer != null) {
             // Update account and customer details
             accountService.updateAccountDetails(account);
             customerService.updateCustomerDetails(customer);
-
-
             // Handle file uploads
             if (!idCardFrontImage.isEmpty() || !idCardBackImage.isEmpty()) {
                 uploadFile.UploadImagesForCustomer(idCardFrontImage, idCardBackImage, customer);
@@ -197,6 +201,18 @@ public class CustomerController {
         }
         return "redirect:/customer/profile";
     }
+
+    @PostMapping("/uploadAvatar")
+    public String uploadAvatar(@RequestParam("avatar") MultipartFile avatar, Model model) {
+        Account account = userDetailsService.accountAuthenticated();
+        if (account != null) {
+            if (!avatar.isEmpty()) {
+                uploadFile.UploadAvatar(avatar, account);
+            }
+        }
+        return "redirect:/customer/profile";
+    }
+
 
     @GetMapping("/viewAuctionDetail")
     public String getAuctionById(@RequestParam(value = "error", required = false) String error, @RequestParam("auctionId") int auctionId, Model model) {
@@ -225,6 +241,31 @@ public class CustomerController {
         AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
         //check xem nguoi dung da validate tai khoan chua
         Account this_user = userDetailsService.accountAuthenticated();
+
+        // Kiểm tra tài khoản đã xác thực chưa
+        if (this_user.getVerify() == 1) {
+            if (validate != null) {
+                // Cập nhật trạng thái đăng ký vào database
+                AuctionRegister register = new AuctionRegister(auction, this_user, "chua chuyen tien", null, null, null, LocalDateTime.now());
+                auctionRegisterService.createAuctionRegister(register);
+
+                // Tạo thông báo sau khi đăng ký thành công
+                Notification notification = new Notification();
+                notification.setContent("You have registered to participate in the auction, please transfer money to complete the procedure.");
+                notification.setCreatedDate(LocalDateTime.now());
+                notification.setReadStatus("unread"); // Trạng thái chưa đọc
+
+                // Lưu thông báo vào cơ sở dữ liệu và gửi SSE cho client
+                notification.addAccount(this_user);
+                this_user.addNotification(notification);
+                notificationService.saveNotification(notification);
+                notificationService.sendNotification(notification); // Gửi SSE tới client
+
+                redirectAttributes.addFlashAttribute("error", "Registration successful, please transfer the deposit and register fee");
+            }
+        } else {
+            // Tài khoản chưa xác thực
+            redirectAttributes.addFlashAttribute("error", "Please complete your personal information before registering for the auction");
         if(LocalDateTime.now().isAfter(auction.getRegistrationOpenDate()) && LocalDateTime.now().isBefore(auction.getRegistrationCloseDate())){
             if(this_user.getVerify()==1){
                 //kiem tra xem nguoi dung da tick het chua
@@ -239,9 +280,11 @@ public class CustomerController {
                 //gui thong bao tai khoan chua validate
                 redirectAttributes.addFlashAttribute("error", "Please complete your personal information before registering for the auction");
             }
-        }
+        }}
+
         return "redirect:/customer/viewAuctionDetail?auctionId=" + auctionId;
     }
+
 
     @PostMapping("/transferDepositAndFee")
     public String transferDepositAndFee(@RequestParam(value = "transfer", required = false) String transfer,
@@ -262,6 +305,30 @@ public class CustomerController {
         }
         return "redirect:/customer/viewAuctionDetail?auctionId=" + auctionId;
     }
+
+    @GetMapping("/change-password")
+    public String showChangePasswordForm() {
+        return "customer/change-password";
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<String> changePassword(
+            @RequestParam String oldPassword,
+            @RequestParam String newPassword,
+            Principal principal) {
+
+        String username = principal.getName();
+
+        try {
+            accountService.changePassword(username, oldPassword, newPassword);
+            return ResponseEntity.ok("Password changed successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+        }
+    }
+
 
 }
 

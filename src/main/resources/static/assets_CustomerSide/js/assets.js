@@ -4,13 +4,11 @@ function applyFilters() {
     const fromDate = $('#fromDate').val();
     const toDate = $('#toDate').val();
 
-
     // Lấy giá trị từ form lọc tag
     const selectedTags = [];
     $('#tagFilterForm input[name="tagIds"]:checked').each(function () {
         selectedTags.push($(this).val());
     });
-
 
     // Gửi yêu cầu AJAX để lấy danh sách tài sản đã lọc
     $.ajax({
@@ -32,19 +30,14 @@ function applyFilters() {
     });
 }
 
-
 function clearSearchFilters() {
     // Xóa giá trị trong form tìm kiếm
     document.getElementById("searchForm").reset();
     applyFilters();
 }
 
-
 function clearTagFilters() {
     // Xóa giá trị trong form tag
     document.getElementById("tagFilterForm").reset();
     applyFilters();
 }
-
-
-

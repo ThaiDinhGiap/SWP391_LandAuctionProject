@@ -1,6 +1,7 @@
 package com.se1858.group4.Land_Auction_SWP391.utility;
 
 import com.se1858.group4.Land_Auction_SWP391.entity.*;
+import com.se1858.group4.Land_Auction_SWP391.repository.AccountRepository;
 import com.se1858.group4.Land_Auction_SWP391.repository.CustomerRepository;
 import com.se1858.group4.Land_Auction_SWP391.service.AssetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +21,16 @@ public class FileUploadUtil {
     private AssetService assetService;
     private String imageUploadDir = "src/main/resources/static/image/";
     private String documentUploadDir = "src/main/resources/static/document/";
-
+    private final AccountRepository accountRepository;
     private final CustomerRepository customerRepository;
 
     @Autowired
-    public FileUploadUtil(AssetService assetService, CustomerRepository customerRepository) {
+    public FileUploadUtil(AssetService assetService, CustomerRepository customerRepository , AccountRepository accountRepository) {
         this.assetService = assetService;
         this.customerRepository = customerRepository; // Inject customerRepository
+        this.accountRepository = accountRepository;
     }
     //upload image for cutomer have idfront and idback
-
-
-
 
 
     public void UploadImagesForCustomer(MultipartFile idFrontImage, MultipartFile idBackImage, Customer customer) {
@@ -99,14 +98,7 @@ public class FileUploadUtil {
     }
 
 
-
-
-
-
-
-
-
-    public void UploadImagesForAsset(List<MultipartFile> images, Asset asset){
+    public void UploadImagesForAsset(List<MultipartFile> images, Asset asset) {
         //kiem tra xem thu muc da ton tai chua
         File directory = new File(imageUploadDir);
         if (!directory.exists()) {
@@ -146,7 +138,8 @@ public class FileUploadUtil {
             }
         }
     }
-    public void UploadImagesForNews(List<MultipartFile> images, News news){
+
+    public void UploadImagesForNews(List<MultipartFile> images, News news) {
         //kiem tra xem thu muc da ton tai chua
         File directory = new File(imageUploadDir);
         if (!directory.exists()) {
@@ -185,8 +178,9 @@ public class FileUploadUtil {
             }
         }
     }
+
     //ham upload folder
-    public void UploadDocumentsForAsset(List<MultipartFile> documents, Asset asset){
+    public void UploadDocumentsForAsset(List<MultipartFile> documents, Asset asset) {
         //kiem tra xem thu muc da ton tai chua
         File directory = new File(documentUploadDir);
         if (!directory.exists()) {
@@ -226,11 +220,39 @@ public class FileUploadUtil {
             }
         }
     }
+
     public void deleteFile(String fileName) {
-        String filePath="src/main/resources/static"+fileName;
+        String filePath = "src/main/resources/static" + fileName;
         File file = new File(filePath);
         if (file.exists()) {
             file.delete();
+        }
+    }
+
+    public void UploadAvatar(MultipartFile avatar, Account account) {
+        // Ensure the directory exists
+        File directory = new File(imageUploadDir);
+        if (!directory.exists()) {
+            directory.mkdirs(); // Create directory if it doesn't exist
+        }
+
+        try {
+            // Handle Avatar Image
+            if (!avatar.isEmpty()) {
+                String imgName = saveImage(avatar, "Avatar");
+                if (imgName != null) {
+                    Image avatarImage = new Image();
+                    avatarImage.setUploadDate(LocalDateTime.now());
+                    avatarImage.setPath("/image/" + imgName);
+                    account.setAvatar_image(avatarImage); // Set the Image object, not a string
+                }
+            }
+
+            // Save the account entity with updated image objects
+            accountRepository.save(account);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
