@@ -107,9 +107,20 @@
                                 <!-- Avatar column -->
                                 <div class="col-md-4">
                                     <div th:object="${staffDTO}">
-                                        <a href="#">
-                                            <img th:src="*{account.avatar_image.getPath()}" alt="Avatar Image" class="img-fluid rounded-circle" width="300" height="300">
-                                        </a>
+                                        <div style="justify-content: center; align-content: center; text-align: center">
+                                            <form th:action="@{/property_agent/uploadAvatar}" method="post" enctype="multipart/form-data">
+
+                                                <a href="#">
+                                                    <img th:src="*{account.avatar_image.getPath()}" alt="Avatar Image" style="margin: 5px" class="img-fluid rounded-circle" width="300" height="300">
+                                                </a>
+                                                <!-- Input field to choose an avatar image -->
+                                                <input type="file"  name="avatar" id="avatar" class="form-control" accept="image/png, image/jpeg, image/jpg" required>
+
+                                                <!-- Submit button to upload the image -->
+                                                <button type="submit"  style="margin: 10px" class="btn btn-primary mt-3">Upload Avatar</button>
+                                            </form>
+
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- Fields column -->
@@ -177,15 +188,16 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- Change Password Button -->
+                                    <div class="col-md-12 text-center">
+                                        <!-- Button to trigger Change Password modal -->
+                                        <button type="button" class="btn btn-secondary btn-round" style="color: white" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                                            Change Password
+                                        </button>
+                                    </div>
+
                                 </div>
                                 <!-- End fields column -->
-                                <!-- Change Password Button -->
-                                <div class="col-md-12 text-center">
-                                    <!-- Button to trigger Change Password modal -->
-                                    <button type="button" class="btn btn-secondary btn-round" style="color: white" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
-                                        Change Password
-                                    </button>
-                                </div>
 
                                 <!-- Change Password Modal -->
                                 <div class="row modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">

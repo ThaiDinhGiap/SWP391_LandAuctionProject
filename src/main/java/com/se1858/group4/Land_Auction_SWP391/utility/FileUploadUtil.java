@@ -4,6 +4,7 @@ import com.se1858.group4.Land_Auction_SWP391.entity.*;
 import com.se1858.group4.Land_Auction_SWP391.repository.AccountRepository;
 import com.se1858.group4.Land_Auction_SWP391.repository.CustomerRepository;
 import com.se1858.group4.Land_Auction_SWP391.service.AssetService;
+import com.se1858.group4.Land_Auction_SWP391.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +24,8 @@ public class FileUploadUtil {
     private String documentUploadDir = "src/main/resources/static/document/";
     private final AccountRepository accountRepository;
     private final CustomerRepository customerRepository;
+    @Autowired
+    ImageService imageService;
 
     @Autowired
     public FileUploadUtil(AssetService assetService, CustomerRepository customerRepository , AccountRepository accountRepository) {
@@ -256,7 +259,8 @@ public class FileUploadUtil {
             // Handle Avatar Image
             if (!avatar.isEmpty()) {
                 // Delete the old avatar image if it exists
-                if (account.getAvatar_image() != null && account.getAvatar_image().getPath() != null) {
+                if (account.getAvatar_image() != null && account.getAvatar_image().getPath() != null
+                        && account.getAvatar_image().getPath() != imageService.getDefaultAvatar().getPath()) {
                     String oldImagePath = "src/main/resources/static" + account.getAvatar_image().getPath();
                     File oldImageFile = new File(oldImagePath);
                     if (oldImageFile.exists()) {

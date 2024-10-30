@@ -194,10 +194,8 @@ public class CustomerController {
     @PostMapping("/uploadAvatar")
     public String uploadAvatar(@RequestParam("avatar") MultipartFile avatar, Model model) {
         Account account = userDetailsService.accountAuthenticated();
-        if (account != null) {
-            if (!avatar.isEmpty()) {
+        if (account != null&&avatar!=null) {
                 uploadFile.UploadAvatar(avatar, account);
-            }
         }
         return "redirect:/customer/profile";
     }

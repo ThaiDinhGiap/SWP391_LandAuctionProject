@@ -58,6 +58,14 @@ public class RegisterController {
             model.addAttribute("errorEmailMessage", "Email already exists. Please use another one.");
             return "register";
         }
+        if(username.length() < 6){
+            model.addAttribute("errorUsernameMessage", "Username must be at least 6 character.");
+            return "register";
+        }
+        if(password.length() < 6){
+            model.addAttribute("errorPasswordMessage", "Password must be at least 6 character.");
+            return "register";
+        }
 
         // Register the user if no issues
         accountService.registerUser(username, password, email, model);

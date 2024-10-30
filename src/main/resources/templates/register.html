@@ -14,7 +14,7 @@
             <input type="email" name="email" placeholder="Email" required/>
             <input type="password" name="password" placeholder="Password" required/>
 
-            <!-- Display error message for username if exists -->
+            <!-- Display error message for username if exists and less than 6 character -->
             <div th:if="${errorUsernameMessage}" style="color: red;">
                 <p th:text="${errorUsernameMessage}"></p>
             </div>
@@ -23,7 +23,10 @@
             <div th:if="${errorEmailMessage}" style="color: red;">
                 <p th:text="${errorEmailMessage}"></p>
             </div>
-
+            <!-- Display error message for password if less than 6 character -->
+             <div th:if="${errorPasswordMessage}" style="color: red;">
+                <p th:text="${errorPasswordMessage}"></p>
+            </div>
             <button type="submit">Sign Up</button>
         </form>
     </div>

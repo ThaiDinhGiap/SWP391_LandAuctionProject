@@ -112,4 +112,12 @@ public class NewsWriterController {
         newsService.deleteNewsById(newsId);
         return "redirect:/news_writer/get_own_news_list";
     }
+    @PostMapping("/uploadAvatar")
+    public String uploadAvatar(@RequestParam("avatar") MultipartFile avatar, Model model) {
+        Account account = userDetailsService.accountAuthenticated();
+        if (account != null&&avatar!=null) {
+            uploadFile.UploadAvatar(avatar, account);
+        }
+        return "redirect:/news_writer/profile";
+    }
 }

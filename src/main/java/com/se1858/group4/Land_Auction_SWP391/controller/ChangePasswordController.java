@@ -4,10 +4,8 @@ import com.se1858.group4.Land_Auction_SWP391.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +34,11 @@ public class ChangePasswordController {
             response.put("message", "New password and confirm password do not match.");
             return response;
         }
+        if (newPassword.length() < 8) {
+            response.put("status", "error");
+            response.put("message", "Password must be at least 8 characters long.");
+            return response;
+        }
 
         String username = principal.getName();
 
@@ -45,11 +48,12 @@ public class ChangePasswordController {
             response.put("message", "Password changed successfully.");
         } catch (IllegalArgumentException e) {
             response.put("status", "error");
-            response.put("message", e.getMessage());
+            response.put("message", "Old password is incorrect.");
         } catch (NoSuchElementException e) {
             response.put("status", "error");
             response.put("message", "User not found.");
         }
+
 
         return response;
     }

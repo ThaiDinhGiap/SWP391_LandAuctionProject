@@ -8,10 +8,12 @@ import com.se1858.group4.Land_Auction_SWP391.service.AssetService;
 import com.se1858.group4.Land_Auction_SWP391.service.AuctionChangeLogService;
 import com.se1858.group4.Land_Auction_SWP391.service.AuctionService;
 import com.se1858.group4.Land_Auction_SWP391.service.TaskService;
+import com.se1858.group4.Land_Auction_SWP391.utility.FileUploadUtil;
 import com.se1858.group4.Land_Auction_SWP391.utility.GetSrcInGoogleMapEmbededURLUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,11 +22,13 @@ import java.util.List;
 @Controller
 @RequestMapping("/auctioneer")
 public class AuctioneerController {
+    private FileUploadUtil uploadFile;
     private TaskService taskService;
     private UserDetailsService userDetailsService;
     private AssetService assetService;
     private AuctionService auctionService;
     private AuctionChangeLogService auctionChangeLogService;
+
 
     public AuctioneerController(TaskService taskService, UserDetailsService userDetailsService,
                                 AssetService assetService, AuctionService auctionService,
@@ -170,5 +174,13 @@ public class AuctioneerController {
             model.addAttribute("staffDTO", staffDTO);
         }
         return "auctioneer/profile";
+    }
+    @PostMapping("/uploadAvatar")
+    public String uploadAvatar(@RequestParam("avatar") MultipartFile avatar, Model model) {
+        Account account = userDetailsService.accountAuthenticated();
+        if (account != null&&avatar!=null) {
+            uploadFile.UploadAvatar(avatar, account);
+        }
+        return "redirect:/auctioneer/profile";
     }
 }
