@@ -6,6 +6,9 @@ import com.se1858.group4.Land_Auction_SWP391.repository.BanLogRepository;
 import com.se1858.group4.Land_Auction_SWP391.repository.CustomerRepository;
 import com.se1858.group4.Land_Auction_SWP391.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -214,6 +217,19 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
+    public Page<Account> findPaginatedWithFilters(int page, int size, Integer status, Integer verify) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        if (status != null && verify != null) {
+            return accountRepository.findByStatusAndVerify(status, verify, pageable);
+        } else if (status != null) {
+            return accountRepository.findByStatus(status, pageable);
+        } else if (verify != null) {
+            return accountRepository.findByVerify(verify, pageable);
+        } else {
+            return accountRepository.findAll(pageable);
+        }
+    }
+
     public List<Account> findALlAccountByStatus(String status) {
         List<Account> listAccount = accountRepository.findAll();
         List<Account> result = null;
@@ -228,7 +244,7 @@ public class AccountService {
         return result;
     }
 
-    public Account save(Account account) {
+    public Account add(Account account) {
         account.setStatus(1);
         account.setVerify(1);
         account.setPassword(passwordEncoder.encode(account.getPassword()));
@@ -237,34 +253,39 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
+    public Account save(Account account) {
+        return accountRepository.save(account);
+    }
+
     public Account ban(Account account) {
-        account.setStatus(0);
         // Set current time
         return accountRepository.save(account);
     }
 
-    public void update(Account adminId, Account accountId, String reason) {
-        Account existingAccount = accountRepository.findById(accountId.getAccountId()).
-                orElseThrow(() -> new IllegalArgumentException("Account not found"));
 
-        List<String> changedFields = new ArrayList<>();
-        if (existingAccount.getStatus() == (accountId.getStatus())) {
-            changedFields.add("status");
-        }
-        // Cập nhật account
-        accountRepository.save(accountId);
 
-        // Ghi log nếu có thay đổi
-        if (!changedFields.isEmpty()) {
-            BanLog log = new BanLog();
-            log.setAdmin(adminId);
-            log.setAccount(accountId);
-            log.setTimestamp(LocalDateTime.now());
-            log.setReason(reason);
-
-            banLogRepository.save(log);
-        }
-    }
+//    public void update(Account adminId, Account accountId, String reason) {
+//        Account existingAccount = accountRepository.findById(accountId.getAccountId()).
+//                orElseThrow(() -> new IllegalArgumentException("Account not found"));
+//
+//        List<String> changedFields = new ArrayList<>();
+//        if (existingAccount.getStatus() == (accountId.getStatus())) {
+//            changedFields.add("status");
+//        }
+//        // Cập nhật account
+//        accountRepository.save(accountId);
+//
+//        // Ghi log nếu có thay đổi
+//        if (!changedFields.isEmpty()) {
+//            BanLog log = new BanLog();
+//            log.setAdmin(adminId);
+//            log.setAccount(accountId);
+//            log.setTimestamp(LocalDateTime.now());
+//            log.setReason(reason);
+//
+//            banLogRepository.save(log);
+//        }
+//    }
 
     public boolean existsByUsername(String username) {
         return accountRepository.existsByUsername(username);
@@ -291,4 +312,5 @@ public class AccountService {
         account.setPassword(passwordEncoder.encode(newPassword));
         accountRepository.save(account);
     }
+
 }
