@@ -2,10 +2,12 @@ package com.se1858.group4.Land_Auction_SWP391.controller;
 
 import com.se1858.group4.Land_Auction_SWP391.entity.Account;
 import com.se1858.group4.Land_Auction_SWP391.entity.BanLog;
+import com.se1858.group4.Land_Auction_SWP391.entity.Role;
 import com.se1858.group4.Land_Auction_SWP391.service.AccountService;
 import com.se1858.group4.Land_Auction_SWP391.service.BanLogService;
 import com.se1858.group4.Land_Auction_SWP391.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -31,27 +33,35 @@ public class AccountController {
     }
 
 
-    // add mapping for "/list"
 
-    @GetMapping("/list")
-    public String listAccount(Model theModel) {
-
-        // get the employees from db
-        List<Account> accounts = accountService.findAllAccount();
-        // add to the spring model
-        theModel.addAttribute("accounts", accounts);
-        return "account/list-account";
-    }
 
 //    @GetMapping("/list")
 //    public String listAccount(Model theModel) {
 //
 //        // get the employees from db
-//        List<Account> accounts = accountService.findALlAccountByStatus("1");
+//        List<Account> accounts = accountService.findAllAccount();
 //        // add to the spring model
 //        theModel.addAttribute("accounts", accounts);
 //        return "account/list-account";
 //    }
+
+    @GetMapping("/list")
+    public String listAccount(@RequestParam(value = "page", defaultValue = "1") int page,
+                              @RequestParam(value = "size", defaultValue = "5") int size,
+                              @RequestParam(value = "status", required = false) Integer status,
+                              @RequestParam(value = "verify", required = false) Integer verify,
+                              Model theModel) {
+
+        Page<Account> accountPage = accountService.findPaginatedWithFilters(page, size, status, verify);
+        theModel.addAttribute("accounts", accountPage.getContent());
+        theModel.addAttribute("currentPage", page);
+        theModel.addAttribute("totalPages", accountPage.getTotalPages());
+        theModel.addAttribute("totalItems", accountPage.getTotalElements());
+        theModel.addAttribute("statusFilter", status);
+        theModel.addAttribute("verifyFilter", verify);
+        return "account/list-account";
+    }
+
 
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(@ModelAttribute("accounts") Account account, Model theModel ) {
@@ -70,14 +80,6 @@ public class AccountController {
         // send over our form
         return "account/show-form-update";
     }
-
-//    @PutMapping("/update")
-//    public ResponseEntity<?> updateAccount(@RequestBody Account updatedAccount, @RequestParam Account adminId, @RequestParam String reason) {
-//        accountService.update(updatedAccount, adminId, reason);
-//        return ResponseEntity.ok("Account updated and changes logged.");
-//    }
-
-
 
     @PostMapping("/save")
     public String saveAccount(@ModelAttribute("accounts") Account account, Model theModel) {
@@ -103,7 +105,7 @@ public class AccountController {
         }
         // save the employee
         account.setRegistrationDate(LocalDateTime.now());
-        accountService.save(account);
+        accountService.add(account);
         //use a redirect to prevent duplicate submisstion
         return "redirect:list";
     }
@@ -130,12 +132,44 @@ public class AccountController {
         BanLog banLog = new BanLog(admin, account, reason, LocalDateTime.now());
         banLogService.save(banLog);
 
-        accountService.ban(account);
+        accountService.save(account);
         return "redirect:/accounts/list";
     }
 
+    @PostMapping("/unBan")
+    public String unBanAccount(@RequestParam("accountId") int accountId, @RequestParam("reason") String reason) {
+        Account account = accountService.findAccountById(accountId);
+        // Cập nhật status thành 0 (bị ban)
+        account.setStatus(1);
 
+        // Lấy thông tin admin hiện tại từ SecurityContext
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        // Lấy đối tượng UserDetails từ Authentication
+        User userDetails = (User) authentication.getPrincipal();
+
+        // Lấy tên người dùng từ UserDetails
+        String username = userDetails.getUsername();
+
+        // Tìm Account của admin bằng username
+        Account admin = accountService.findByUsername(username);
+
+        // Lưu log vào bảng BanLog
+        BanLog banLog = new BanLog(admin, account, reason, LocalDateTime.now());
+        banLogService.save(banLog);
+
+        accountService.save(account);
+        return "redirect:/accounts/list";
+    }
+
+    @PostMapping("/verify")
+    public String verifyAccount(@RequestParam("accountId") int accountId) {
+        Account account = accountService.findAccountById(accountId);
+        // Cập nhật status thành 0 (bị ban)
+        account.setVerify(1);
+        accountService.save(account);
+        return "redirect:/accounts/list";
+    }
 
 
 
