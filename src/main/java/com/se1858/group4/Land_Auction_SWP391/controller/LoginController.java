@@ -59,6 +59,9 @@ public class LoginController {
         if (hasRole("ROLE_News_Writer")) {
             return "redirect:/news_writer/dashboard";
         }
+        if (hasRole("ROLE_LocalAuthority")) {
+            return "redirect:/LocalAuthority";
+        }
 
 
         return "redirect:/";
