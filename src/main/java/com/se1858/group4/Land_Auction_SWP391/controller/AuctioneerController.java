@@ -3,6 +3,7 @@ package com.se1858.group4.Land_Auction_SWP391.controller;
 import com.se1858.group4.Land_Auction_SWP391.dto.AuctionSessionDTO;
 import com.se1858.group4.Land_Auction_SWP391.dto.StaffDTO;
 import com.se1858.group4.Land_Auction_SWP391.entity.*;
+import com.se1858.group4.Land_Auction_SWP391.repository.AccountRepository;
 import com.se1858.group4.Land_Auction_SWP391.security.UserDetailsService;
 import com.se1858.group4.Land_Auction_SWP391.service.*;
 import com.se1858.group4.Land_Auction_SWP391.service.AssetService;
@@ -32,18 +33,23 @@ public class AuctioneerController {
     private AuctionService auctionService;
     private AuctionChangeLogService auctionChangeLogService;
     private AuctionRegisterService auctionRegisterService;
-
+    private NotificationService notificationService;
+    private AccountRepository accountRepository;
 
     public AuctioneerController(TaskService taskService, UserDetailsService userDetailsService,
                                 AssetService assetService, AuctionService auctionService,
                                 AuctionChangeLogService auctionChangeLogService,
-                                AuctionRegisterService auctionRegisterService) {
+                                AuctionRegisterService auctionRegisterService,
+                                NotificationService notificationService,
+                                AccountRepository accountRepository) {
         this.taskService = taskService;
         this.userDetailsService = userDetailsService;
         this.assetService = assetService;
         this.auctionService = auctionService;
         this.auctionChangeLogService = auctionChangeLogService;
         this.auctionRegisterService = auctionRegisterService;
+        this.notificationService = notificationService;
+        this.accountRepository = accountRepository;
     }
 
     @GetMapping("/dashboard")
@@ -269,7 +275,23 @@ public class AuctioneerController {
         Account auctioneer = userDetailsService.accountAuthenticated();
         if (register != null && register.getAuction().getAuctioneer().getAccountId() == auctioneer.getAccountId()) {
             if (register_status != null) {
-                register.setRegisterStatus(register_status);
+                Notification notification = new Notification();
+                notification.setContent("The auction " + register.getAuction().getAuctionName() + " has ended.");
+                notification.setCreatedDate(LocalDateTime.now());
+                notification.setReadStatus("unread");
+
+                if ("Winner".equals(register.getResult())) {
+                    notification.setContent("Congratulations! You are the winner of the auction " + register.getAuction().getAuctionName() + ". We will send contract for you as soon as by email. Please check carefully!");
+                }
+
+                Account buyer = accountRepository.findById(register.getBuyer().getAccountId())
+                        .orElseThrow(() -> new RuntimeException("Account not found"));
+
+                notification.addAccount(buyer);
+                notificationService.saveNotification(notification);
+                buyer.addNotification(notification);
+                accountRepository.save(buyer);
+                notificationService.sendNotification(notification);
             }
             if (purchase_status != null) {
                 register.setPurchaseStatus(purchase_status);

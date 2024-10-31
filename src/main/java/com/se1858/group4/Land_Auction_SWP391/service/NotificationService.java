@@ -65,6 +65,7 @@ public class NotificationService {
         NotificationDTO notificationDTO = convertToDTO(notification);
 
         notification.getAccounts().forEach(account -> {
+            subscriptionNotificationService.sendWebPushNotification(notificationDTO, account.getAccountId());
             SseEmitter emitter = emitters.get(account.getAccountId());
             if (emitter != null) {
                 try {

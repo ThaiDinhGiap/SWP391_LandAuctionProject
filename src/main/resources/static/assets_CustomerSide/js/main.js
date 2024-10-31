@@ -3,6 +3,13 @@ if ('serviceWorker' in navigator) {
         .then(async registration => {
             console.log('Service Worker registered with scope:', registration.scope);
 
+            // Kiểm tra xem đã có Subscription tồn tại chưa
+            const existingSubscription = await registration.pushManager.getSubscription();
+            if (existingSubscription) {
+                console.log("Existing Subscription found:", existingSubscription);
+                return; // Dừng lại nếu đã có Subscription
+            }
+
             // Gọi API để lấy VAPID Public Key
             const vapidPublicKey = await fetch('/api/config')
                 .then(response => response.json())

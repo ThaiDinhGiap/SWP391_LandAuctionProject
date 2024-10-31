@@ -8,8 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.security.KeyFactory;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Security;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
@@ -37,10 +39,15 @@ public class WebPushConfig {
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicKeyBytes);
         PublicKey publicKey = keyFactory.generatePublic(keySpec);
         System.out.println(publicKey);
+
+        byte[] privateKeyBytes = Base64.getUrlDecoder().decode(vapidPrivateKey);
+        PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(privateKeyBytes);
+        PrivateKey privateKey = keyFactory.generatePrivate(privateKeySpec);
+
         // Create PushService instance
         PushService pushService = new PushService()
                 .setPublicKey(publicKey)
-                .setPrivateKey(vapidPrivateKey);
+                .setPrivateKey(privateKey);
 
         pushService.setSubject("mailto:giaptdhe186094@fpt.edu.vn"); // Thay bằng email của bạn hoặc thông tin liên hệ khác
         return pushService;
