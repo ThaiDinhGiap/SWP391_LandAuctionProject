@@ -13,9 +13,6 @@
 
   <h3>List Ban Log</h3>
   <hr>
-  <a th:href="@{/banLog/list}" class="btn btn-primary btn-sm mb-3">
-    List Ban Log
-  </a>
   <table class="table table-bordered table-striped">
     <thead class="table-dark">
     <tr>
@@ -37,7 +34,9 @@
     </tr>
     </tbody>
   </table>
-  <a th:href="@{/accounts/list}">Back to Account List</a>
+  <div class="pt-2">
+  <a class="btn btn-outline-info" th:href="@{/accounts/list}">Back to Account List</a>
+  </div>
 </div>
 
 </body>
