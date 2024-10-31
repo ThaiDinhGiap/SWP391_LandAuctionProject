@@ -52,7 +52,7 @@ public class AuctionRegisterService {
         else return null;
     }
     public List<AuctionRegister> getAllAuctionRegistersByAccountId(int accountId) {
-        List<AuctionRegister> registerList = registerRepository.findByBuyer_AccountId(accountId);
+        List<AuctionRegister> registerList = registerRepository.findByBuyer_AccountIdOrderByRegistrationTimeDesc(accountId);
         if(registerList!=null){
             return registerList;
         }

@@ -191,8 +191,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="content">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-user">
@@ -208,7 +206,8 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Registration time</label>
-                                            <input type="text" class="form-control" th:field="${register.registrationTime}"
+                                            <input type="text" class="form-control"
+                                                   th:field="${register.registrationTime}"
                                                    readonly>
                                         </div>
                                     </div>
@@ -240,7 +239,8 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Email</label>
-                                            <input type="text" class="form-control" th:field="${register.buyer.email}" readonly>
+                                            <input type="text" class="form-control" th:field="${register.buyer.email}"
+                                                   readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -285,13 +285,15 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Auction result</label>
-                                            <input type="text" class="form-control" th:field="${register.result}" readonly>
+                                            <input type="text" class="form-control" th:field="${register.result}"
+                                                   readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Rank</label>
-                                            <input type="text" class="form-control" th:field="${register.rank}" readonly>
+                                            <input type="text" class="form-control" th:field="${register.rank}"
+                                                   readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -299,22 +301,64 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Register status</label>
-                                            <input type="text" class="form-control" th:value="${register.registerStatus}"
-                                                   name="register_status">
+                                            <!--                                            <input type="text" class="form-control" th:value="${register.registerStatus}"-->
+                                            <!--                                                   name="register_status">-->
+                                            <!-- Trường ẩn chứa giá trị của select khi disabled -->
+                                            <input type="hidden" name="register_status"
+                                                   th:value="${register.registerStatus}"
+                                                   th:if="${register.auction.status != 'Upcoming'}"/>
+                                            <select name="register_status" class="form-control"
+                                                    th:attr="disabled=${register.auction.status != 'Upcoming' ? 'disabled' : null}">
+                                                <option value="Waiting for payment"
+                                                        th:selected="${register.registerStatus == 'Waiting for payment'}">
+                                                    Waiting for payment
+                                                </option>
+                                                <option value="Waiting for confirmation"
+                                                        th:selected="${register.registerStatus == 'Waiting for confirmation'}">
+                                                    Waiting for confirmation
+                                                </option>
+                                                <option value="Confirmed"
+                                                        th:selected="${register.registerStatus == 'Confirmed'}">
+                                                    Confirmed
+                                                </option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Purchase status</label>
-                                            <input type="text" class="form-control" th:value="${register.purchaseStatus}"
-                                                   name="purchase_status">
+                                            <!--                                            <input type="text" class="form-control" th:value="${register.purchaseStatus}"-->
+                                            <!--                                                   name="purchase_status">-->
+                                            <select name="purchase_status" class="form-control">
+                                                <option value=""></option>
+                                                <option value="Not eligible to purchase"
+                                                        th:selected="${register.purchaseStatus == 'Not eligible to purchase'}">
+                                                    Not eligible to purchase
+                                                </option>
+                                                <option value="Eligible to purchase"
+                                                        th:selected="${register.purchaseStatus == 'Eligible to purchase'}">
+                                                    Eligible to purchase
+                                                </option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Deposit status</label>
-                                            <input type="text" class="form-control" th:value="${register.depositStatus}"
-                                                   name="deposit_status">
+                                            <!--                                            <input type="text" class="form-control" th:value="${register.depositStatus}"-->
+                                            <!--                                                   name="deposit_status">-->
+                                            <select name="deposit_status" class="form-control">
+                                                <option value=""></option>
+                                                <option value="Locked"
+                                                        th:selected="${register.depositStatus == 'Locked'}">Locked
+                                                </option>
+                                                <option value="Forfeited"
+                                                        th:selected="${register.depositStatus == 'Forfeited'}">Forfeited
+                                                </option>
+                                                <option value="Unlock"
+                                                        th:selected="${register.depositStatus == 'Unlock'}">Unlock
+                                                </option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -339,27 +383,26 @@
     </div>
 </div>
 
-
-<!---------------------------------------KHONG DUOC SUA------------------------------------------------------>
-<!--   Core JS Files   -->
-<script th:src="@{/dashboardStatic/js/core/jquery.min.js}"></script>
-<script th:src="@{/dashboardStatic/js/core/popper.min.js}"></script>
-<script th:src="@{/dashboardStatic/js/core/bootstrap.min.js}"></script>
-<script th:src="@{/dashboardStatic/js/plugins/perfect-scrollbar.jquery.min.js}"></script>
-<!-- Chart JS -->
-<script th:src="@{/dashboardStatic/js/plugins/chartjs.min.js}"></script>
-<!--  Notifications Plugin    -->
-<script th:src="@{/dashboardStatic/js/plugins/bootstrap-notify.js}"></script>
-<!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
-<script th:src="@{/dashboardStatic/js/paper-dashboard.min.js?v=2.0.1}" type="text/javascript"></script>
-<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-<script th:src="@{/dashboardStatic/demo/demo.js}"></script>
-<script>
-    $(document).ready(function () {
-        // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
-        demo.initChartsPages();
-    });
-</script>
+    <!---------------------------------------KHONG DUOC SUA------------------------------------------------------>
+    <!--   Core JS Files   -->
+    <script th:src="@{/dashboardStatic/js/core/jquery.min.js}"></script>
+    <script th:src="@{/dashboardStatic/js/core/popper.min.js}"></script>
+    <script th:src="@{/dashboardStatic/js/core/bootstrap.min.js}"></script>
+    <script th:src="@{/dashboardStatic/js/plugins/perfect-scrollbar.jquery.min.js}"></script>
+    <!-- Chart JS -->
+    <script th:src="@{/dashboardStatic/js/plugins/chartjs.min.js}"></script>
+    <!--  Notifications Plugin    -->
+    <script th:src="@{/dashboardStatic/js/plugins/bootstrap-notify.js}"></script>
+    <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+    <script th:src="@{/dashboardStatic/js/paper-dashboard.min.js?v=2.0.1}" type="text/javascript"></script>
+    <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
+    <script th:src="@{/dashboardStatic/demo/demo.js}"></script>
+    <script>
+        $(document).ready(function () {
+            // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
+            demo.initChartsPages();
+        });
+    </script>
 </body>
 
 </html>

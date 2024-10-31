@@ -271,12 +271,12 @@ public class AuctioneerController {
             if (register_status != null) {
                 register.setRegisterStatus(register_status);
             }
-            if (purchase_status != null) {
-                register.setPurchaseStatus(purchase_status);
-            }
-            if (deposit_status != null) {
-                register.setDepositStatus(deposit_status);
-            }
+            if (purchase_status.isEmpty()) {
+                register.setPurchaseStatus(null);
+            } else register.setPurchaseStatus(purchase_status);
+            if (deposit_status.isEmpty()) {
+                register.setDepositStatus(null);
+            } else register.setDepositStatus(deposit_status);
             auctionRegisterService.updateRegisterStatus(register);
             return "redirect:/auctioneer/viewRegisterDetail?registerId=" + registerId;
         } else
