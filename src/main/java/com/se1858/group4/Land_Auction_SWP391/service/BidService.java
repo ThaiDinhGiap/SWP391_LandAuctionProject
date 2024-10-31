@@ -20,24 +20,19 @@ import java.util.Optional;
 @Service
 public class BidService {
 
-    @Autowired
     private BidRepository bidRepository;
-
-    @Autowired
     private AuctionRegisterRepository auctionRegisterRepository;
-
-    @Autowired
     private AuctionSessionRepository auctionSessionRepository;
-
-    @Autowired
     private AccountRepository accountRepository;
 
-    /**
-     * Handle the logic for placing a bid and return the response information
-     *
-     * @param bidRequestDTO the bid information sent from the client
-     * @return BidResponseDTO the response information about the processed bid
-     */
+    @Autowired
+    public BidService(BidRepository bidRepository, AuctionRegisterRepository auctionRegisterRepository, AuctionSessionRepository auctionSessionRepository, AccountRepository accountRepository) {
+        this.bidRepository = bidRepository;
+        this.auctionRegisterRepository = auctionRegisterRepository;
+        this.auctionSessionRepository = auctionSessionRepository;
+        this.accountRepository = accountRepository;
+    }
+
     @Transactional
     public BidResponseDTO placeBid(BidRequestDTO bidRequestDTO) {
 

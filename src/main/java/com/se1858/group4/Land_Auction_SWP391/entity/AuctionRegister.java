@@ -43,8 +43,11 @@ public class AuctionRegister {
     @Column(name = "registration_time")
     private LocalDateTime registrationTime;
 
+    @Column(name = "max_bid_amount")
+    private Long maxBidAmount;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "auctionRegister",
-            cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     private List<Bid> bids;
 
     public AuctionRegister() {
@@ -61,7 +64,22 @@ public class AuctionRegister {
 		this.registrationTime = registrationTime;
 	}
 
-	public AuctionSession getAuction() {
+    public AuctionRegister(int registerId, AuctionSession auction, Account buyer, String result, Integer rank, String registerStatus, String purchaseStatus, String depositStatus, String nickName, LocalDateTime registrationTime, Long maxBidAmount, List<Bid> bids) {
+        this.registerId = registerId;
+        this.auction = auction;
+        this.buyer = buyer;
+        this.result = result;
+        this.rank = rank;
+        this.registerStatus = registerStatus;
+        this.purchaseStatus = purchaseStatus;
+        this.depositStatus = depositStatus;
+        this.nickName = nickName;
+        this.registrationTime = registrationTime;
+        this.maxBidAmount = maxBidAmount;
+        this.bids = bids;
+    }
+
+    public AuctionSession getAuction() {
         return auction;
     }
 
@@ -149,7 +167,11 @@ public class AuctionRegister {
 		this.registerId = registerId;
 	}
 
-	@Override
+    public Long getMaxBidAmount() { return maxBidAmount;}
+
+    public void setMaxBidAmount(Long maxBidAmount) { this.maxBidAmount = maxBidAmount;}
+
+    @Override
 	public String toString() {
 		return "Auction_register [registerId=" + registerId + ", auction=" + auction + ", buyer=" + buyer
 				+ ", registerStatus=" + registerStatus + ", purchaseStatus=" + purchaseStatus + ", depositStatus="

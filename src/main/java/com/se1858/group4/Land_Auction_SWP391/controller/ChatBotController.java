@@ -77,6 +77,12 @@ public class ChatBotController {
         }
     }
 
+    @DeleteMapping("/topics/delete/{topicId}")
+    public ResponseEntity<String> deleteTopic(@PathVariable int topicId) {
+        topicService.deleteTopic(topicId);
+        return  ResponseEntity.ok("Topic deleted successfully");
+    }
+
     @GetMapping("/view/{topicId}")
     public ResponseEntity<Map<String, Object>> viewDetails(@PathVariable int topicId) {
         Optional<Topic> optionalTopic = topicService.getTopicById(topicId);
@@ -110,6 +116,12 @@ public class ChatBotController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Question not found");
         }
+    }
+
+    @DeleteMapping("/questions/delete/{questionId}")
+    public ResponseEntity<String> deleteQuestion(@PathVariable int questionId) {
+        questionService.deleteQuestion(questionId);
+        return  ResponseEntity.ok("Question deleted successfully");
     }
 }
 

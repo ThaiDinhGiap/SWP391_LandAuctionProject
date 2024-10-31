@@ -17,6 +17,11 @@ Author URL: http://w3layouts.com
 
     <script th:src="@{/assets_CustomerSide/js/monetization.js}" type="text/javascript"></script>
     <link rel="stylesheet" th:href="@{/assets_CustomerSide/css/font-awesome.min.css}">
+    <!-- WebSocket -->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <!-- Template CSS -->
+    <link rel="stylesheet" th:href="@{/assets_CustomerSide/css/style-starter.css}">
     <!-- New toolbar-->
     <style>
         * {
@@ -169,7 +174,84 @@ Author URL: http://w3layouts.com
             }
         }
     </style>
+    <!--css for notify and clock -->
+    <style>
+        #clock-container {
+            display: flex;
+            flex-direction: column;
+            text-align: left; /* Căn phải */
+            margin-right: 30px; /* Khoảng cách phải */
+            color: white;
+            line-height: 0.4;
+        }
 
+        #time {
+            font-size: 25px;
+        }
+
+        #date {
+            font-size: 15px;
+        }
+
+        /* Điều chỉnh thanh thông báo */
+        .dropdown-menu {
+            padding: 0;
+            margin-right: 20px;
+            max-height: 300px; /* Giới hạn chiều cao */
+            overflow-y: auto;  /* Thêm thanh cuộn khi có nhiều thông báo */
+            scrollbar-width: none;
+            z-index: 1050;
+            min-width: 220px; /* Tăng chiều rộng của box notify */
+        }
+
+        /* Cỡ chữ nhỏ hơn và tự động xuống dòng */
+        .dropdown-menu .dropdown-item {
+            width: 95%;
+            white-space: normal; /* Để nội dung tự động xuống dòng */
+            word-wrap: break-word; /* Đảm bảo từ dài sẽ bị tách nếu cần */
+            font-size: 14px; /* Giảm cỡ chữ cho phù hợp với thông báo */
+            padding: 10px; /* Điều chỉnh padding nếu cần */
+        }
+
+        /* Các thông báo chưa đọc sẽ có màu đậm và có chấm xanh */
+        .notification-unread {
+            font-weight: bold; /* Chữ đậm */
+            background-color: #f9f9f9; /* Màu nền nhạt hơn cho thông báo chưa đọc */
+            position: relative; /* Để có thể định vị chấm xanh */
+        }
+
+        /* Chấm xanh cho thông báo chưa đọc */
+        .notification-unread::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 2px;
+            transform: translateY(-100%);
+            width: 10px;
+            height: 10px;
+            background-color: #00aaff; /* Màu xanh cho chấm */
+            border-radius: 50%;
+        }
+
+        /* Các thông báo đã đọc sẽ có màu nhạt và không có chấm */
+        .notification-read {
+            font-weight: normal; /* Chữ bình thường */
+            background-color: #eaeaea; /* Màu nền cho thông báo đã đọc */
+        }
+
+        /* Cài đặt cho nút chuông thông báo */
+        #trigger-overlay {
+            background-color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Màu và kích thước cho biểu tượng chuông */
+        #trigger-overlay i {
+            color: #ff0000; /* Màu đỏ cho biểu tượng chuông */
+            font-size: 20px; /* Kích thước biểu tượng chuông */
+        }
+    </style>
     <!--thu vien cho de zoom anh-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.10.5/viewer.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.10.5/viewer.min.js"></script>
@@ -239,6 +321,16 @@ Author URL: http://w3layouts.com
             background-color: #f9351b;
             color: white;
         }
+
+        .register-btn {
+            color: white;
+            transition: color 0.3s ease;
+        }
+
+        /* Khi di chuột qua nút, màu chữ đổi thành đen */
+        .register-btn:hover {
+            color: black;
+        }
     </style>
 </head>
 
@@ -247,8 +339,8 @@ Author URL: http://w3layouts.com
 <header id="site-header" class="fixed-top">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light stroke py-lg-0">
-            <h1><a class="navbar-brand" href="index.html">
-                Real<span class="sub-color">Houzing</span>
+            <h1><a class="navbar-brand" th:href="@{/customer/home}">
+                Viet<span class="sub-color">Land</span>
             </a></h1>
             <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false"
@@ -259,51 +351,39 @@ Author URL: http://w3layouts.com
             <div class="collapse navbar-collapse" id="navbarScroll">
                 <ul class="navbar-nav mx-lg-auto my-2 my-lg-0 navbar-nav-scroll">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="index.html">Home</a>
+                        <a class="nav-link" th:href="@{/}" style="font-size: 20px;">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="about.html">About</a>
+                        <a class="nav-link" th:href="@{/customer/get_all_asset}" style="font-size: 20px;">Asset</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="services.html">Services</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active" href="#Pages" id="navbarDropdown" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            Pages <span class="fa fa-angle-down ms-1"></span>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item pt-2" href="newsList.html">Blog Page</a></li>
-                            <li><a class="dropdown-item" href="newsDetail.html">Blog Single</a></li>
-
-                            <li><a class="dropdown-item" href="email.html">Email Page</a></li>
-                            <li><a class="dropdown-item" href="elements.html">Elements</a></li>
-
-                            <li><a class="dropdown-item" href="landing.html">Landing Page</a></li>
-
-                            <li><a class="dropdown-item" href="error.html">Error Page</a></li>
-                        </ul>
+                        <a class="nav-link active" th:href="@{/customer/get_all_auction}" style="font-size: 20px;">Auction</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact</a>
+                        <a class="nav-link" th:href="@{/customer/get_all_news}" style="font-size: 20px;">News</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html" style="font-size: 20px;">About us</a>
                     </li>
                 </ul>
-                <!--/search-->
-                <button id="trigger-overlay" class="searchw3-icon me-xl-4 me-lg-3" type="button"><i
-                        class="fas fa-search"></i></button>
-                <!-- open/close -->
-                <div class="overlay overlay-slidedown">
-                    <button type="button" class="overlay-close"><i class="fas fa-times"></i></button>
-                    <nav class="w3l-formhny">
-                        <h5 class="mb-3">Search here</h5>
-                        <form action="#" method="GET" class="d-sm-flex search-header">
-                            <input class="form-control me-2" type="search" placeholder="Search here..."
-                                   aria-label="Search" required>
-                            <button class="btn btn-style btn-primary" type="submit">Search</button>
-                        </form>
-                    </nav>
+
+
+                <!--/clock-->
+                <div class="navbar-nav" id="clock-container">
+                    <span class="nav-link" id="time"></span>
+                    <span class="nav-link" id="date"></span>
                 </div>
-                <!--//search-->
+
+                <!--/notify-->
+                <div class="dropdown">
+                    <button id="trigger-overlay" class="searchw3-icon me-xl-4 me-lg-3" type="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="loadNotifications()">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="notification-list" aria-labelledby="trigger-overlay">
+                        <li><a class="dropdown-item" href="#">Loading...</a></li>
+                    </ul>
+                </div>
+
             </div>
             <!-- toggle switch for light and dark theme -->
             <div class="mobile-position">
@@ -332,7 +412,6 @@ Author URL: http://w3layouts.com
                 <div class="w3breadcrumb-left text-left">
                     <h2 class="inner-w3-title mt-sm-5 mt-4">
                         Auction Detail </h2>
-
                 </div>
                 <div class="w3breadcrumb-right">
                     <ul class="breadcrumbs-custom-path">
@@ -443,7 +522,7 @@ Author URL: http://w3layouts.com
                             <div class="sidebar-sticky" th:if="${T(java.time.LocalDateTime).now().isAfter(auction.startTime)
                             and (auction.actualEndTime != null ? T(java.time.LocalDateTime).now().isBefore(auction.actualEndTime) : true)}">
                                 <div class="sidebar-sticky-fix">
-                                    <a href="">
+                                    <a th:href="@{/customer/joinAuctionDetail(auctionId=${auction.getAuctionId()})}">
                                         <button class="btn btn-style btn-primary register-btn"
                                                 style="width: 100%; margin-bottom: 20px;">
                                             Join auction
@@ -805,6 +884,49 @@ Author URL: http://w3layouts.com
         </div>
     </div>
 </section>
+
+<!-- Chatbot -->
+<div id="chatbot">
+    <div id="chatbox">
+        <div class="chat-header">
+            <div class="h-child">
+                <img th:src="@{/assets_CustomerSide/images/chatbot.jpg}" alt="avatar" id="avatar">
+                <div>
+                    <span class="name">Chat Box</span>
+                </div>
+            </div>
+            <div>
+                <button id="resetChat" class="btn btn-sm btn-light refBtn" onclick="initChat()"
+                        style="display: inline-block;">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+
+                <button id="endChat" class="btn btn-sm btn-light refBtn" onclick="disconnectWebSocket()"
+                        style="display: none;">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+
+            </div>
+        </div>
+        <div class="chat-body" id="chat-box">
+            <!-- Chat content goes here -->
+        </div>
+        <div class="chat-footer">
+            <input id="messageField" type="text" placeholder="Type your message here..." readonly>
+            <button onclick="sendButtonPressed()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+    <button id="init" class="btn btn-primary chat-btn"><i class="fas fa-headset"></i></button>
+</div>
+<!-- Modal cho hộp thoại xác nhận -->
+<div id="confirmModal">
+    <div>
+        <p id="confirmMessage"></p>
+        <button class="moralButton" id="confirmApprove">Approve</button>
+        <button class="moralButton" id="confirmReject">Reject</button>
+    </div>
+</div>
+
 <!--//w3l-blog-->
 <!--/footer-9-->
 <footer class="w3l-footer9">
@@ -942,7 +1064,9 @@ Author URL: http://w3layouts.com
     <!-- //move top -->
 </footer>
 <!--//footer-9 -->
-
+<script th:inline="javascript">
+    var clientId = [[${accountId}]];
+</script>
 <!-- Template JavaScript -->
 <script th:src="@{/assets_CustomerSide/js/jquery-3.3.1.min.js}"></script>
 <script th:src="@{/assets_CustomerSide/js/theme-change.js}"></script>
@@ -951,6 +1075,9 @@ Author URL: http://w3layouts.com
 <script th:src="@{/assets_CustomerSide/js/modernizr.custom.js}"></script>
 <script th:src="@{/assets_CustomerSide/js/classie.js}"></script>
 <script th:src="@{/assets_CustomerSide/js/demo1.js}"></script>
+
+<!-- //bootstrap -->
+<script th:src="@{/assets_CustomerSide/js/bootstrap.min.js}"></script>
 <!--//search-->
 <!-- MENU-JS -->
 <script>
@@ -1013,8 +1140,6 @@ Author URL: http://w3layouts.com
 
 </script>
 <!-- //disable body scroll which navbar is in active -->
-<!-- //bootstrap -->
-<script th:src="@{/assets_CustomerSide/js/bootstrap.min.js}"></script>
 
 <!-- script de hien thi tuy chon description va document -->
 <script>
@@ -1071,18 +1196,12 @@ Author URL: http://w3layouts.com
     });
 </script>
 <!-- Đổi màu chữ nút đăng ký tham gia đấu giá khi di chuột đến -->
-<style>
-    /* Màu chữ mặc định của nút là trắng */
-    .register-btn {
-        color: white;
-        transition: color 0.3s ease;
-    }
 
-    /* Khi di chuột qua nút, màu chữ đổi thành đen */
-    .register-btn:hover {
-        color: black;
-    }
-</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script th:src="@{/assets_CustomerSide/js/chatbot.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/notification.js}"></script>
 
 </body>
 

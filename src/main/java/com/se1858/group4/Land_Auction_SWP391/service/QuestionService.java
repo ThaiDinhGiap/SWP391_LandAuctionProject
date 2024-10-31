@@ -35,5 +35,9 @@ public class QuestionService {
         }
         return false;
     }
+
+    public void deleteQuestion(int questionId) {
+        questionRepository.deleteById(questionId);
+    }
 }
 

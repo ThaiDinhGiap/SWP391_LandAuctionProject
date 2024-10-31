@@ -104,60 +104,10 @@
         </div>
         <div class="sidebar-wrapper">
             <ul class="nav">
-                <li class="active ">
-                    <a th:href="@{/staff/dashboard}">
-                        <i class="nc-icon nc-bank"></i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
-                <!--Đường dẫn tùy chọn, chỉ cần copy thẻ li và sửa đường dẫn + tên-->
-                <!--Muốn đổi icon thì vào dashboardTemplates/icon.html mà lấy nhé-->
-                <!--          <li>-->
-                <!--            <a th:href="@{/staff/icons}">-->
-                <!--              <i class="nc-icon nc-diamond"></i>-->
-                <!--              <p>Đây là đường dẫn</p>-->
-                <!--            </a>-->
-                <!--          </li>-->
-                <li>
-                    <a th:href="@{/staff/icons}">
-                        <i class="nc-icon nc-diamond"></i>
-                        <p>Icons</p>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/staff/map}">
-                        <i class="nc-icon nc-pin-3"></i>
-                        <p>Maps</p>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/staff/notifications}">
-                        <i class="nc-icon nc-bell-55"></i>
-                        <p>Notifications</p>
-                    </a>
-                </li>
                 <li>
                     <a th:href="@{/staff/user}">
                         <i class="nc-icon nc-single-02"></i>
                         <p>User Profile</p>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/staff/tables}">
-                        <i class="nc-icon nc-tile-56"></i>
-                        <p>Table List</p>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/staff/typography}">
-                        <i class="nc-icon nc-caps-small"></i>
-                        <p>Typography</p>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/staff/upgrade}">
-                        <i class="nc-icon nc-spaceship"></i>
-                        <p>Upgrade to PRO</p>
                     </a>
                 </li>
                 <li>
@@ -179,12 +129,16 @@
 
             <h3>List Account</h3>
             <hr>
-            <a th:href="@{/accounts/showFormForAdd}" class="btn btn-primary btn-sm mb-3">
+            <a th:href="@{/accounts/showFormForAdd}" class="btn btn-primary btn-sm mb-3 ml-2">
                 Add New Account
             </a>
             <a th:href="@{/banLog/list}" class="btn btn-primary btn-sm mb-3">BanLog History</a>
-            <table class="table table-bordered table-striped">
-                <thead class="table-dark">
+
+
+
+            <table class="table table-bordered table-striped ml-2">
+                <thead class="table table-dark">
+
                 <tr>
                     <th>Account ID</th>
                     <th>User Name</th>
@@ -201,8 +155,12 @@
                     <td th:text="${tempAccount.accountId}"></td>
                     <td th:text="${tempAccount.username}"></td>
                     <td th:text="${tempAccount.password}"></td>
-                    <td th:text="${tempAccount.status}"></td>
-                    <td th:text="${tempAccount.verify}"></td>
+                    <td>
+                        <span class="text" th:text="${tempAccount.status == 1 ? 'Active' : 'Banned'}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${tempAccount.verify == 1 ? 'Verified' : 'Unverified'}"></span>
+                    </td>
                     <td th:text="${tempAccount.email}"></td>
                     <td th:text="${tempAccount.role.roleName}"></td>
                     <td>
@@ -213,6 +171,22 @@
                 </tr>
                 </tbody>
             </table>
+
+            <!-- Pagination controls -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li class="page-item " th:classappend="${currentPage == 1} ? 'disabled'">
+                        <a class="page-link ml-2" th:href="@{/accounts/list(page=${currentPage - 1}, size=5)}">Previous</a>
+                    </li>
+                    <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}"
+                        th:classappend="${i == currentPage} ? 'active'">
+                        <a class="page-link" th:href="@{/accounts/list(page=${i}, size=5)}" th:text="${i}">1</a>
+                    </li>
+                    <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                        <a class="page-link" th:href="@{/accounts/list(page=${currentPage + 1}, size=5)}">Next</a>
+                    </li>
+                </ul>
+            </nav>
         <!-- Het phan noi dung cua trang -->
     </div>
 </div>

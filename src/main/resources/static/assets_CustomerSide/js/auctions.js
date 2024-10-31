@@ -4,6 +4,9 @@ function applyAuctionSearch() {
     const fromDate = $('#fromDate').val();
     const toDate = $('#toDate').val();
 
+    // Lấy trạng thái phiên đấu giá
+    const status = $('input[name="status"]:checked').val();
+
     // Gửi yêu cầu AJAX để lấy danh sách phiên đấu giá đã lọc
     $.ajax({
         url: '/customer/filter_auctions', // URL của controller xử lý lọc và tìm kiếm
@@ -11,7 +14,8 @@ function applyAuctionSearch() {
         data: {
             keyword: keyword,
             fromDate: fromDate,
-            toDate: toDate
+            toDate: toDate,
+            status: status
         },
         success: function (response) {
             // Cập nhật danh sách phiên đấu giá trong phần tử có id 'auctionListContainer'
@@ -26,5 +30,11 @@ function applyAuctionSearch() {
 function clearSearchAuctionsFilters() {
     // Xóa giá trị trong form tìm kiếm
     document.getElementById("searchForm").reset();
+    applyAuctionSearch();
+}
+
+function clearStatusFilters() {
+    // Xóa giá trị trong form tìm kiếm
+    document.getElementById("statusFilterForm").reset();
     applyAuctionSearch();
 }

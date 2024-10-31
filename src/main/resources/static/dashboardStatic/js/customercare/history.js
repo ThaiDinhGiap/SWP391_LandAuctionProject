@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch("/api/chat/history/" + staffId)
         .then(response => {
             if (!response.ok) {
+                console.log("Error");
                 throw new Error('Network response was not ok');
             }
             return response.json();
@@ -48,13 +49,52 @@ document.addEventListener("DOMContentLoaded", function () {
                 const chatHistoryBox = document.getElementById('chatHistoryBox');
                 chatHistoryBox.innerHTML = ''; // Xóa nội dung cũ
 
+                let previousDate = null; // Biến để lưu ngày của tin nhắn trước đó
+
                 data.forEach(message => {
+                    const timestamp = new Date(message.timestamp);
+                    const currentDate = timestamp.toLocaleDateString('en-GB', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                    }); // Lấy ngày tháng năm không có thứ
+
+                    // Kiểm tra nếu ngày thay đổi
+                    if (previousDate !== currentDate) {
+                        // Tạo một phần tử ngày mới
+                        const dateDiv = document.createElement('div');
+                        dateDiv.classList.add('chat-date');
+                        dateDiv.textContent = currentDate;
+                        chatHistoryBox.appendChild(dateDiv);
+
+                        // Cập nhật ngày trước đó
+                        previousDate = currentDate;
+                    }
+
+                    const messageWrapper = document.createElement('div');
+                    messageWrapper.classList.add('message-wrapper', message.sender === 'Staff' ? 'left' : 'right');
+
+                    const timeDiv = document.createElement('div');
+                    const formattedTime = `${timestamp.getHours()}:${timestamp.getMinutes().toString().padStart(2, '0')}`;
+                    timeDiv.classList.add('message-time');
+                    timeDiv.textContent = formattedTime;
+
                     const messageDiv = document.createElement('div');
                     messageDiv.classList.add(message.sender === 'Staff' ? 'rep' : 'send');
                     messageDiv.textContent = message.content;
-                    chatHistoryBox.appendChild(messageDiv);
+
+                    if (message.sender === 'Staff') {
+                        messageWrapper.appendChild(timeDiv);    // Thời gian ở bên trái tin nhắn
+                        messageWrapper.appendChild(messageDiv); // Tin nhắn của Staff
+                    } else {
+                        messageWrapper.appendChild(messageDiv); // Tin nhắn của Client
+                        messageWrapper.appendChild(timeDiv);    // Thời gian ở bên phải tin nhắn
+                    }
+
+                    chatHistoryBox.appendChild(messageWrapper);
                 });
             })
             .catch(error => console.error('Error fetching chat messages:', error));
     }
+
 });

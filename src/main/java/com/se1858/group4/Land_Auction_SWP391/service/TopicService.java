@@ -35,5 +35,9 @@ public class TopicService {
         }
         return false;
     }
+
+    public void deleteTopic(int topicId) {
+        topicRepository.deleteById(topicId);
+    }
 }
 

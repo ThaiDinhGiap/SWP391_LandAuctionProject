@@ -73,9 +73,7 @@ public class FirebaseChatService {
     public List<Map<String, Object>> getChatSessionsByStaffId(Integer staffId) throws InterruptedException {
         List<Map<String, Object>> sessions = new ArrayList<>();
         DatabaseReference chatRef = firebaseDatabase.getReference("chats");
-
         CountDownLatch latch = new CountDownLatch(1);
-
         chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

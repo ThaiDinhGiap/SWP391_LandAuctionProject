@@ -1,6 +1,7 @@
 package com.se1858.group4.Land_Auction_SWP391.service;
 
 import com.se1858.group4.Land_Auction_SWP391.entity.Account;
+import com.se1858.group4.Land_Auction_SWP391.entity.Asset;
 import com.se1858.group4.Land_Auction_SWP391.entity.Image;
 import com.se1858.group4.Land_Auction_SWP391.entity.News;
 import com.se1858.group4.Land_Auction_SWP391.repository.NewsRepository;
@@ -8,6 +9,7 @@ import com.se1858.group4.Land_Auction_SWP391.security.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -55,5 +57,8 @@ public class NewsService {
     }
     public List<News> getTop3LatestNews(){
         return newsRepository.findTop3ByOrderByCreatedDateDesc();
+    }
+    public List<News> filterNews(List<Integer> tagIds, String keyword) {
+        return newsRepository.filterNews(tagIds, keyword);
     }
 }

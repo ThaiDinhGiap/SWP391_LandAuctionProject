@@ -24,10 +24,5 @@ public class ChatBotPageController {
     public String chatbotHomePage() {
         return "customer/chatBotPage"; // Trả về tên file HTML chatbot.html
     }
-
-    @GetMapping("/care")
-    public String careHomePage() {
-        return "customerCare/dashboard"; // Trả về tên file HTML chatbot.html
-    }
 }
 

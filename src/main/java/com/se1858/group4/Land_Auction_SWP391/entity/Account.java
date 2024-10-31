@@ -9,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Account")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Account {
 
     @Id
@@ -42,13 +43,16 @@ public class Account {
     @Column(name = "registration_date")
     private LocalDateTime registrationDate;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(
             name = "Account_Notification",
             joinColumns = @JoinColumn(name = "account_id"),
             inverseJoinColumns = @JoinColumn(name = "notification_id")
     )
     private List<Notification> notifications;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<SubscriptionNotification> subscriptions = new ArrayList<>();
 
     @OneToOne(mappedBy = "account", cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     private Staff staff;
@@ -308,6 +312,14 @@ public Account(String username, int status, int verify, Staff staff, Role role, 
         this.avatar_image = avatar_image;
     }
 
+    public List<SubscriptionNotification> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(List<SubscriptionNotification> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
@@ -326,5 +338,15 @@ public Account(String username, int status, int verify, Staff staff, Role role, 
              this.notifications = new ArrayList<>();
          }
          this.notifications.add(notification);
+    }
+
+    public void addSubscription(SubscriptionNotification subscription) {
+        subscriptions.add(subscription);
+        subscription.setAccount(this);
+    }
+
+    public void removeSubscription(SubscriptionNotification subscription) {
+        subscriptions.remove(subscription);
+        subscription.setAccount(null);
     }
 }

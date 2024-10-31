@@ -6,11 +6,11 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "Bid")
 public class Bid {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bid_id")
     private int bidId;
+
 
     @Column(name = "bid_amount")
     private Long bidAmount;

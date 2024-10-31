@@ -1,23 +1,34 @@
 package com.se1858.group4.Land_Auction_SWP391.controller;
 
 import com.se1858.group4.Land_Auction_SWP391.entity.Account;
+import com.se1858.group4.Land_Auction_SWP391.entity.Asset;
+import com.se1858.group4.Land_Auction_SWP391.entity.News;
 import com.se1858.group4.Land_Auction_SWP391.security.UserDetailsService;
+import com.se1858.group4.Land_Auction_SWP391.service.AssetService;
+import com.se1858.group4.Land_Auction_SWP391.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 @Controller
 @ControllerAdvice
 public class LoginController {
 
     private final UserDetailsService userDetailsService;
+    private final NewsService newsService;
+    private final AssetService assetService;
 
     @Autowired
-    public LoginController(UserDetailsService userDetailsService) {
+    public LoginController(UserDetailsService userDetailsService, NewsService newsService, AssetService assetService) {
         this.userDetailsService = userDetailsService;
+        this.newsService = newsService;
+        this.assetService = assetService;
     }
 
     @ModelAttribute("accountId")
@@ -48,6 +59,9 @@ public class LoginController {
         if (hasRole("ROLE_News_Writer")) {
             return "redirect:/news_writer/dashboard";
         }
+        if (hasRole("ROLE_LocalAuthority")) {
+            return "redirect:/LocalAuthority";
+        }
 
 
         return "redirect:/";
@@ -60,8 +74,13 @@ public class LoginController {
 
 
     @GetMapping({"/"})
-    public String homepage() {
-        return "homepage/homepage";
+    public String hompage(Model model) {
+        List<News> top3News = newsService.getTop3LatestNews();
+        model.addAttribute("top3LatestNews", top3News);
+
+        List<Asset> top3Assets = assetService.getTop3LastestAssets();
+        model.addAttribute("top3Assets", top3Assets);
+        return "customer/homepage";
     }
 
     @GetMapping({"/showMyLoginPage"})
@@ -75,7 +94,12 @@ public class LoginController {
     }
 
     @GetMapping("/customer/home")
-    public String customerHome() {
+    public String customerHome(Model model) {
+        List<News> top3News = newsService.getTop3LatestNews();
+        model.addAttribute("top3LatestNews", top3News);
+
+        List<Asset> top3Assets = assetService.getTop3LastestAssets();
+        model.addAttribute("top3Assets", top3Assets);
         return "customer/homepage";
     }
 
@@ -86,6 +110,6 @@ public class LoginController {
 
     @GetMapping("/customer-care/home")
     public String customerCareHome() {
-        return "customerCare/dashboard";
+        return "redirect:/customercare/profile";
     }
 }
