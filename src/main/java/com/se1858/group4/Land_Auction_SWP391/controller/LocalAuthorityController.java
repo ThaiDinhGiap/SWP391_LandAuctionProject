@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/local-authorities")
+//@RestController
+//@RequestMapping("/api/local-authorities")
 @Controller
 public class LocalAuthorityController {
 
