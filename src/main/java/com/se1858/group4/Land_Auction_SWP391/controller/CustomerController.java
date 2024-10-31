@@ -98,6 +98,11 @@ public class CustomerController {
         return "customer/auctionList";
     }
 
+    @GetMapping("/aboutus")
+    public String aboutUs(){
+        return "customer/about";
+    }
+
     @GetMapping("/get_all_news")
     public String getAllNews(Model model) {
         List<News> newsList = newsService.getAllNews();

@@ -269,6 +269,9 @@ Author URL: http://w3layouts.com
             <div class="collapse navbar-collapse" id="navbarScroll">
                 <ul class="navbar-nav mx-lg-auto my-2 my-lg-0 navbar-nav-scroll">
                     <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}" style="font-size: 20px;">Home</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link active" th:href="@{/customer/get_all_asset}" style="font-size: 20px;">Asset</a>
                     </li>
                     <li class="nav-item">
@@ -278,7 +281,7 @@ Author URL: http://w3layouts.com
                         <a class="nav-link" th:href="@{/customer/get_all_news}" style="font-size: 20px;">News</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.html" style="font-size: 20px;">About us</a>
+                        <a class="nav-link" th:href="@{/customer/aboutus}" style="font-size: 20px;">About us</a>
                     </li>
                 </ul>
 
