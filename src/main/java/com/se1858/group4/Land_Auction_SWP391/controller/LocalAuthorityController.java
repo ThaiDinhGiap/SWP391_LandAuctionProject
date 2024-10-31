@@ -3,29 +3,38 @@ package com.se1858.group4.Land_Auction_SWP391.controller;
 import com.se1858.group4.Land_Auction_SWP391.entity.LocalAuthority;
 import com.se1858.group4.Land_Auction_SWP391.service.LocalAuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-//@RestController
-//@RequestMapping("/api/local-authorities")
 @Controller
+//@RequestMapping("/LocalAuthority")
 public class LocalAuthorityController {
 
     @Autowired
     private LocalAuthorityService localAuthorityService;
 
-    @GetMapping
-    public List<LocalAuthority> getAllLocalAuthorities() {
-        return localAuthorityService.findAll();
-    }
-
     @GetMapping("/LocalAuthority")
-    public String getListOfLocalAuthority(Model model) {
-        List<LocalAuthority> localAuthorityList = localAuthorityService.findAll();
-        model.addAttribute("localAuthorityList", localAuthorityList);
+    public String getListOfLocalAuthority(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "localAuthorityName") String sortField,
+            @RequestParam(defaultValue = "asc") String sortDir,
+            @RequestParam(required = false) String keyword,
+            Model model) {
+
+        Page<LocalAuthority> localAuthorityPage = localAuthorityService.findAllWithPaginationAndSorting(page, size, sortField, sortDir, keyword);
+
+        model.addAttribute("localAuthorityList", localAuthorityPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", localAuthorityPage.getTotalPages());
+        model.addAttribute("totalItems", localAuthorityPage.getTotalElements());
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+        model.addAttribute("keyword", keyword);
+
         return "localAuthorityDashboard/dashboard";
     }
 
@@ -63,3 +72,4 @@ public class LocalAuthorityController {
         return "redirect:/LocalAuthority"; // Chuyển hướng về trang dashboard
     }
 }
+

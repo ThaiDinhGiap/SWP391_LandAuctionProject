@@ -4,6 +4,11 @@ import com.se1858.group4.Land_Auction_SWP391.entity.LocalAuthority;
 import com.se1858.group4.Land_Auction_SWP391.repository.LocalAuthorityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -41,4 +46,15 @@ public class LocalAuthorityService {
         return localAuthorityRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid authority Id:" + id));
     }
+
+    public Page<LocalAuthority> findAllWithPaginationAndSorting(int page, int size, String sortField, String sortDir, String keyword) {
+        Pageable pageable = PageRequest.of(page - 1, size, sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
+
+        if (keyword != null && !keyword.isEmpty()) {
+            return localAuthorityRepository.findByKeyword(keyword, pageable);
+        }
+
+        return localAuthorityRepository.findAll(pageable);
+    }
+
 }
