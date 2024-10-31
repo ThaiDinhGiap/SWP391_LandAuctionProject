@@ -20,10 +20,6 @@ public class CustomerCareController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @GetMapping("/dashboard")
-    public String dashboard() {
-        return "customerCare/dashboard";
-    }
     @GetMapping("/direct-chat")
     public String directChat() {
         return "customerCare/direct-chat";

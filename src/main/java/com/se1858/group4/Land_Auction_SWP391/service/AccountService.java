@@ -31,7 +31,6 @@ public class AccountService {
     @Autowired
     private BanLogRepository banLogRepository;
 
-
     private String storedOtp; // store OTP temporarily in memory or use a database.
     private String storedEmail; // Store the email temporarily for verification
     Account account = new Account();
@@ -42,21 +41,13 @@ public class AccountService {
         this.accountRepository = accountRepository;
         
     }
-
-
-
     public AccountService() {
-
     }
-
-
-
     public String registerUser(String username, String password, String email, Model model) {
         if (accountRepository.findByUsername(username) != null) {
             model.addAttribute("errorMessage", "Username already exists. Please choose another one.");
             return "register";
         }
-
         // Continue with user registration
         account.setUsername(username);
         account.setPassword(passwordEncoder.encode(password));
@@ -300,6 +291,4 @@ public class AccountService {
         account.setPassword(passwordEncoder.encode(newPassword));
         accountRepository.save(account);
     }
-
-
 }

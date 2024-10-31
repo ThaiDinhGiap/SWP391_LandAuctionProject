@@ -24,6 +24,16 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('placeBidButton').onclick = function () {
         var bidAmount = document.getElementById('bidAmount').value.trim();
         if (stompClient && bidAmount && !isNaN(bidAmount)) {
+            var now = new Date().getTime();
+            var endTime2 = new Date(endTime).getTime();
+            var timeLeft = endTime2 - now;
+
+            // Kiểm tra nếu left time < extra_time_unit
+            if (timeLeft < extraTimeUnit * 1000) { // extra_time_unit ở đơn vị giây
+                endTime = new Date(now + extraTimeUnit * 1000).toISOString(); // Reset endTime
+                updateCountdown();
+            }
+
             var bidMessage = {
                 sender: username,
                 content: parseInt(bidAmount),
@@ -38,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function addBidHistory(sender, bidder, amount, date) {
         var row = document.createElement('tr');
 
-        if (username == sender) {
+        if (username === sender) {
             displayName = 'Your bid';
             document.getElementById('currentBidName').innerText = 'Current Bid (with you)';
         } else {
@@ -102,6 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (timeLeft <= 0) {
             document.getElementById('timeLeft').textContent = 'Auction Ended';
             clearInterval(countdownInterval);
+            sendEndAuctionMessage();
         } else {
             var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
             var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -110,6 +121,17 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('timeLeft').textContent = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
         }
     }
+
+    function sendEndAuctionMessage() {
+        var endAuctionMessage = {
+            auctionId: auctionId,
+            typeMessage: 'Completed', // Hoặc 'Cancelled' tùy thuộc vào tình huống
+            dealPrice: currentHighestPrice, // Giá cuối cùng đã đấu giá
+        };
+
+        stompClient.send("/app/endAuction", {}, JSON.stringify(endAuctionMessage));
+    }
+
 
     var countdownInterval = setInterval(updateCountdown, 1000);
 });

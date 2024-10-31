@@ -24,7 +24,7 @@ public class Notification {
     @Column(name = "read_status")
     private String readStatus;
 
-    @ManyToMany(mappedBy = "notifications", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToMany(mappedBy = "notifications", fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.DETACH})
     private List<Account> accounts;
 
     public Notification() {

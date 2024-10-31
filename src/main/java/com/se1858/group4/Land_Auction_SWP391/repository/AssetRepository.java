@@ -21,4 +21,6 @@ public interface AssetRepository extends JpaRepository<Asset, Integer> {
             @Param("keyword") String keyword,
             @Param("fromDate") LocalDateTime fromDate,
             @Param("toDate") LocalDateTime toDate);
+
+    List<Asset> findTop3ByOrderByCreatedDateDesc();
 }

@@ -14,11 +14,16 @@ public interface AuctionSessionRepository extends JpaRepository<AuctionSession, 
     @Query("SELECT a FROM AuctionSession a WHERE "
             + "(:keyword IS NULL OR a.auctionName LIKE %:keyword%) AND "
             + "(:fromDate IS NULL OR a.startTime >= :fromDate) AND "
-            + "(:toDate IS NULL OR a.startTime <= :toDate)")
+            + "(:toDate IS NULL OR a.startTime <= :toDate) AND"
+            + "(:status IS NULL OR a.status LIKE :status)")
     List<AuctionSession> filterAuctionSessions(
             @Param("keyword") String keyword,
             @Param("fromDate") LocalDateTime fromDate,
-            @Param("toDate") LocalDateTime toDate);
+            @Param("toDate") LocalDateTime toDate,
+            @Param("status") String status);
+
     @Query("SELECT a FROM AuctionSession a WHERE a.auctioneer.accountId = :auctioneerId")
     List<AuctionSession> findByAuctioneerId(@Param("auctioneerId") int auctioneerId);
+
+    List<AuctionSession> findByStatus(String status);
 }
