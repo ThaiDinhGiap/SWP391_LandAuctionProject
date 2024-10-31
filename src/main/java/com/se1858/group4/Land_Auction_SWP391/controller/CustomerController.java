@@ -153,7 +153,7 @@ public class CustomerController {
             return "redirect:/customer/get_all_news";
         }
         News news = newsService.getNewsById(newsId);
-        if(news==null){
+        if (news == null) {
             return "redirect:/customer/get_all_news";
         }
         model.addAttribute("news", news);
@@ -172,7 +172,7 @@ public class CustomerController {
             return "redirect:/customer/get_all_asset";
         }
         Asset asset = assetService.getAssetById(assetId);
-        if(asset==null){
+        if (asset == null) {
             return "redirect:/customer/get_all_asset";
         }
         String embedUrl = GetSrcInGoogleMapEmbededURLUtil.extractSrcFromIframe(asset.getCoordinatesOnMap());
@@ -221,8 +221,8 @@ public class CustomerController {
     @PostMapping("/uploadAvatar")
     public String uploadAvatar(@RequestParam("avatar") MultipartFile avatar, Model model) {
         Account account = userDetailsService.accountAuthenticated();
-        if (account != null&&avatar!=null) {
-                uploadFile.UploadAvatar(avatar, account);
+        if (account != null && avatar != null) {
+            uploadFile.UploadAvatar(avatar, account);
         }
         return "redirect:/customer/profile";
     }
@@ -233,7 +233,7 @@ public class CustomerController {
             return "redirect:/customer/get_all_auction";
         }
         AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
-        if(auction==null){
+        if (auction == null) {
             return "redirect:/customer/get_all_auction";
         }
         //lay ra nguoi dang ky
@@ -242,13 +242,13 @@ public class CustomerController {
         model.addAttribute("embedUrl", embedUrl);
         model.addAttribute("auction", auction);
         qrCode.setAmount(auction.getDeposit() + auction.getRegisterFee() + "");
-        qrCode.setDescription("UserId "+ this_user.getAccountId() + " deposit fee AuctionId "+auction.getAuctionId());
+        qrCode.setDescription("UserId " + this_user.getAccountId() + " deposit fee AuctionId " + auction.getAuctionId());
         model.addAttribute("qrCode", qrCode);
-        AuctionRegister register = auctionRegisterService.getAuctionRegister(auctionId,this_user.getAccountId());
-        if(register != null){
+        AuctionRegister register = auctionRegisterService.getAuctionRegister(auctionId, this_user.getAccountId());
+        if (register != null) {
             model.addAttribute("auction_register", register);
         }
-        if(error!=null){
+        if (error != null) {
             model.addAttribute("error", error);
         }
         return "customer/auctionDetail";
@@ -303,7 +303,7 @@ public class CustomerController {
             return "redirect:/customer/get_all_auction";
         }
         AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
-        if(auction==null){
+        if (auction == null) {
             return "redirect:/customer/get_all_auction";
         }
         //check xem nguoi dung da validate tai khoan chua
@@ -332,21 +332,21 @@ public class CustomerController {
         } else {
             // Tài khoản chưa xác thực
             redirectAttributes.addFlashAttribute("error", "Please complete your personal information before registering for the auction");
-        if(LocalDateTime.now().isAfter(auction.getRegistrationOpenDate()) && LocalDateTime.now().isBefore(auction.getRegistrationCloseDate())){
-            if(this_user.getVerify()==1){
-                //kiem tra xem nguoi dung da tick het chua
-                if (validate != null) {
-                    //cap nhat trang thai vao database
-                    AuctionRegister register = new AuctionRegister(auction,this_user,"Waiting for payment",null,null,null, LocalDateTime.now());
-                    auctionRegisterService.createAuctionRegister(register);
-                    redirectAttributes.addFlashAttribute("error", "Registration successful, please transfer the deposit and register fee");
+            if (LocalDateTime.now().isAfter(auction.getRegistrationOpenDate()) && LocalDateTime.now().isBefore(auction.getRegistrationCloseDate())) {
+                if (this_user.getVerify() == 1) {
+                    //kiem tra xem nguoi dung da tick het chua
+                    if (validate != null) {
+                        //cap nhat trang thai vao database
+                        AuctionRegister register = new AuctionRegister(auction, this_user, "Waiting for payment", null, null, null, LocalDateTime.now());
+                        auctionRegisterService.createAuctionRegister(register);
+                        redirectAttributes.addFlashAttribute("error", "Registration successful, please transfer the deposit and register fee");
+                    }
+                } else {
+                    //gui thong bao tai khoan chua validate
+                    redirectAttributes.addFlashAttribute("error", "Please complete your personal information before registering for the auction");
                 }
             }
-            else{
-                //gui thong bao tai khoan chua validate
-                redirectAttributes.addFlashAttribute("error", "Please complete your personal information before registering for the auction");
-            }
-        }}
+        }
 
         return "redirect:/customer/viewAuctionDetail?auctionId=" + auctionId;
     }
@@ -360,73 +360,73 @@ public class CustomerController {
             return "redirect:/customer/get_all_auction";
         }
         AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
-        if(auction==null){
+        if (auction == null) {
             return "redirect:/customer/get_all_auction";
         }
-        if(LocalDateTime.now().isAfter(auction.getRegistrationOpenDate()) && LocalDateTime.now().isBefore(auction.getRegistrationCloseDate())){
+        if (LocalDateTime.now().isAfter(auction.getRegistrationOpenDate()) && LocalDateTime.now().isBefore(auction.getRegistrationCloseDate())) {
             //check xem nguoi dung da chuyen tien chua
-            if(transfer != null){
-                AuctionRegister auctionRegister=auctionRegisterService.getAuctionRegisterById(auctionRegisterId);
+            if (transfer != null) {
+                AuctionRegister auctionRegister = auctionRegisterService.getAuctionRegisterById(auctionRegisterId);
                 auctionRegister.setRegisterStatus("Waiting for confirmation");
                 auctionRegisterService.updateRegisterStatus(auctionRegister);
                 redirectAttributes.addFlashAttribute("error", "Please wait while we confirm the transaction, the result will be sent to you via notification");
-            }
-            else{
+            } else {
                 redirectAttributes.addFlashAttribute("error", "Please make sure to transfer the deposit and register fee before the auction registration deadline");
             }
-        Account this_user = userDetailsService.accountAuthenticated();
-        //check xem nguoi dung da chuyen tien chua
-        if(transfer != null){
-            AuctionRegister auctionRegister=auctionRegisterService.getAuctionRegisterById(auctionRegisterId);
-            auctionRegister.setRegisterStatus("dang cho xac nhan chuyen tien");
-            auctionRegisterService.updateRegisterStatus(auctionRegister);
-            redirectAttributes.addFlashAttribute("error", "Please wait while we confirm the transaction, the result will be sent to you via notification");
+            Account this_user = userDetailsService.accountAuthenticated();
+            //check xem nguoi dung da chuyen tien chua
+            if (transfer != null) {
+                AuctionRegister auctionRegister = auctionRegisterService.getAuctionRegisterById(auctionRegisterId);
+                auctionRegister.setRegisterStatus("dang cho xac nhan chuyen tien");
+                auctionRegisterService.updateRegisterStatus(auctionRegister);
+                redirectAttributes.addFlashAttribute("error", "Please wait while we confirm the transaction, the result will be sent to you via notification");
 
-            // Tạo thông báo sau khi đăng ký thành công
-            Notification notification = new Notification();
-            notification.setContent("You have transfer deposit and fee. Please wait while we confirm the transaction, the result will be sent to you via notification");
-            notification.setCreatedDate(LocalDateTime.now());
-            notification.setReadStatus("unread"); // Trạng thái chưa đọc
+                // Tạo thông báo sau khi đăng ký thành công
+                Notification notification = new Notification();
+                notification.setContent("You have transfer deposit and fee. Please wait while we confirm the transaction, the result will be sent to you via notification");
+                notification.setCreatedDate(LocalDateTime.now());
+                notification.setReadStatus("unread"); // Trạng thái chưa đọc
 
-            // Lưu thông báo vào cơ sở dữ liệu và gửi SSE cho client
-            notification.addAccount(this_user);
-            this_user.addNotification(notification);
-            notificationService.saveNotification(notification);
-            notificationService.sendNotification(notification); // Gửi SSE tới client
-        }
-        else{
-            redirectAttributes.addFlashAttribute("error", "Please make sure to transfer the deposit and register fee before the auction registration deadline");
-            // Tạo thông báo sau khi đăng ký thành công
-            Notification notification = new Notification();
-            notification.setContent("Please make sure to transfer the deposit and register fee before the auction registration deadline");
-            notification.setCreatedDate(LocalDateTime.now());
-            notification.setReadStatus("unread"); // Trạng thái chưa đọc
+                // Lưu thông báo vào cơ sở dữ liệu và gửi SSE cho client
+                notification.addAccount(this_user);
+                this_user.addNotification(notification);
+                notificationService.saveNotification(notification);
+                notificationService.sendNotification(notification); // Gửi SSE tới client
+            } else {
+                redirectAttributes.addFlashAttribute("error", "Please make sure to transfer the deposit and register fee before the auction registration deadline");
+                // Tạo thông báo sau khi đăng ký thành công
+                Notification notification = new Notification();
+                notification.setContent("Please make sure to transfer the deposit and register fee before the auction registration deadline");
+                notification.setCreatedDate(LocalDateTime.now());
+                notification.setReadStatus("unread"); // Trạng thái chưa đọc
 
-            // Lưu thông báo vào cơ sở dữ liệu và gửi SSE cho client
-            notification.addAccount(this_user);
-            this_user.addNotification(notification);
-            notificationService.saveNotification(notification);
-            notificationService.sendNotification(notification); // Gửi SSE tới client
-        }
-        return "redirect:/customer/viewAuctionDetail?auctionId=" + auctionId;
-    }}
-        @PostMapping("/change-password")
-        public ResponseEntity<String> changePassword(
-                @RequestParam String oldPassword,
-                @RequestParam String newPassword,
-                Principal principal) {
-
-            String username = principal.getName();
-
-            try {
-                accountService.changePassword(username, oldPassword, newPassword);
-                return ResponseEntity.ok("Password changed successfully.");
-            } catch (IllegalArgumentException e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-            } catch (NoSuchElementException e) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+                // Lưu thông báo vào cơ sở dữ liệu và gửi SSE cho client
+                notification.addAccount(this_user);
+                this_user.addNotification(notification);
+                notificationService.saveNotification(notification);
+                notificationService.sendNotification(notification); // Gửi SSE tới client
             }
         }
+        return "redirect:/customer/viewAuctionDetail?auctionId=" + auctionId;
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<String> changePassword(
+            @RequestParam String oldPassword,
+            @RequestParam String newPassword,
+            Principal principal) {
+
+        String username = principal.getName();
+
+        try {
+            accountService.changePassword(username, oldPassword, newPassword);
+            return ResponseEntity.ok("Password changed successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+        }
+    }
 
 }
 
