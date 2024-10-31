@@ -13,7 +13,8 @@ Author URL: http://w3layouts.com
 :root {
     --bs-blue: #0d6efd;
     --bs-indigo: #6610f2;
-    --bs-purple: #6f42c1 --bs-pink: #d63384;
+    --bs-purple: #6f42c1
+    --bs-pink: #d63384;
     --bs-red: #dc3545;
     --bs-orange: #fd7e14;
     --bs-yellow: #ffc107;
@@ -42,7 +43,7 @@ Author URL: http://w3layouts.com
     box-sizing: border-box
 }
 
-@media (prefers-reduced-motion:no-preference) {
+@media (prefers-reduced-motion: no-preference) {
     :root {
         scroll-behavior: smooth
     }
@@ -95,7 +96,7 @@ h1 {
     font-size: calc(1.375rem + 1.5vw)
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
 
     .h1,
     h1 {
@@ -108,7 +109,7 @@ h2 {
     font-size: calc(1.325rem + .9vw)
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
 
     .h2,
     h2 {
@@ -121,7 +122,7 @@ h3 {
     font-size: calc(1.3rem + .6vw)
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
 
     .h3,
     h3 {
@@ -134,7 +135,7 @@ h4 {
     font-size: calc(1.275rem + .3vw)
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
 
     .h4,
     h4 {
@@ -419,7 +420,7 @@ legend {
     line-height: inherit
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
     legend {
         font-size: 1.5rem
     }
@@ -497,7 +498,7 @@ progress {
     line-height: 1.2
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
     .display-1 {
         font-size: 5rem
     }
@@ -509,7 +510,7 @@ progress {
     line-height: 1.2
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
     .display-2 {
         font-size: 4.5rem
     }
@@ -521,7 +522,7 @@ progress {
     line-height: 1.2
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
     .display-3 {
         font-size: 4rem
     }
@@ -533,7 +534,7 @@ progress {
     line-height: 1.2
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
     .display-4 {
         font-size: 3.5rem
     }
@@ -545,7 +546,7 @@ progress {
     line-height: 1.2
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
     .display-5 {
         font-size: 3rem
     }
@@ -557,7 +558,7 @@ progress {
     line-height: 1.2
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
     .display-6 {
         font-size: 2.5rem
     }
@@ -648,7 +649,7 @@ progress {
     margin-left: auto
 }
 
-@media (min-width:576px) {
+@media (min-width: 576px) {
 
     .container,
     .container-sm {
@@ -656,7 +657,7 @@ progress {
     }
 }
 
-@media (min-width:768px) {
+@media (min-width: 768px) {
 
     .container,
     .container-md,
@@ -665,7 +666,7 @@ progress {
     }
 }
 
-@media (min-width:992px) {
+@media (min-width: 992px) {
 
     .container,
     .container-lg,
@@ -675,7 +676,7 @@ progress {
     }
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
 
     .container,
     .container-lg,
@@ -686,7 +687,7 @@ progress {
     }
 }
 
-@media (min-width:1400px) {
+@media (min-width: 1400px) {
 
     .container,
     .container-lg,
@@ -704,16 +705,16 @@ progress {
     display: flex;
     flex-wrap: wrap;
     margin-top: calc(var(--bs-gutter-y) * -1);
-    margin-right: calc(var(--bs-gutter-x)/ -2);
-    margin-left: calc(var(--bs-gutter-x)/ -2)
+    margin-right: calc(var(--bs-gutter-x) / -2);
+    margin-left: calc(var(--bs-gutter-x) / -2)
 }
 
 .row > * {
     flex-shrink: 0;
     width: 100%;
     max-width: 100%;
-    padding-right: calc(var(--bs-gutter-x)/ 2);
-    padding-left: calc(var(--bs-gutter-x)/ 2);
+    padding-right: calc(var(--bs-gutter-x) / 2);
+    padding-left: calc(var(--bs-gutter-x) / 2);
     margin-top: var(--bs-gutter-y)
 }
 
@@ -925,7 +926,7 @@ progress {
     --bs-gutter-y: 3rem
 }
 
-@media (min-width:576px) {
+@media (min-width: 576px) {
     .col-sm {
         flex: 1 0 0%
     }
@@ -1139,7 +1140,7 @@ progress {
     }
 }
 
-@media (min-width:768px) {
+@media (min-width: 768px) {
     .col-md {
         flex: 1 0 0%
     }
@@ -1353,7 +1354,7 @@ progress {
     }
 }
 
-@media (min-width:992px) {
+@media (min-width: 992px) {
     .col-lg {
         flex: 1 0 0%
     }
@@ -1567,7 +1568,7 @@ progress {
     }
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
     .col-xl {
         flex: 1 0 0%
     }
@@ -1781,7 +1782,7 @@ progress {
     }
 }
 
-@media (min-width:1400px) {
+@media (min-width: 1400px) {
     .col-xxl {
         flex: 1 0 0%
     }
@@ -2166,35 +2167,35 @@ progress {
     -webkit-overflow-scrolling: touch
 }
 
-@media (max-width:575.98px) {
+@media (max-width: 575.98px) {
     .table-responsive-sm {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch
     }
 }
 
-@media (max-width:767.98px) {
+@media (max-width: 767.98px) {
     .table-responsive-md {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch
     }
 }
 
-@media (max-width:991.98px) {
+@media (max-width: 991.98px) {
     .table-responsive-lg {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch
     }
 }
 
-@media (max-width:1199.98px) {
+@media (max-width: 1199.98px) {
     .table-responsive-xl {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch
     }
 }
 
-@media (max-width:1399.98px) {
+@media (max-width: 1399.98px) {
     .table-responsive-xxl {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch
@@ -2249,7 +2250,7 @@ progress {
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .form-control {
         transition: none
     }
@@ -2307,7 +2308,7 @@ progress {
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .form-control::file-selector-button {
         transition: none
     }
@@ -2334,7 +2335,7 @@ progress {
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .form-control::-webkit-file-upload-button {
         -webkit-transition: none;
         transition: none
@@ -2582,7 +2583,7 @@ textarea.form-control-lg {
     transition: background-position .15s ease-in-out
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .form-switch .form-check-input {
         transition: none
     }
@@ -2654,7 +2655,7 @@ textarea.form-control-lg {
     appearance: none
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .form-range::-webkit-slider-thumb {
         -webkit-transition: none;
         transition: none
@@ -2687,7 +2688,7 @@ textarea.form-control-lg {
     appearance: none
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .form-range::-moz-range-thumb {
         -moz-transition: none;
         transition: none
@@ -2742,7 +2743,7 @@ textarea.form-control-lg {
     transition: opacity .1s ease-in-out, transform .1s ease-in-out
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .form-floating > label {
         transition: none
     }
@@ -3120,7 +3121,7 @@ textarea.form-control.is-invalid {
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .btn {
         transition: none
     }
@@ -3858,7 +3859,7 @@ fieldset:disabled .btn {
     transition: opacity .15s linear
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .fade {
         transition: none
     }
@@ -3878,7 +3879,7 @@ fieldset:disabled .btn {
     transition: height .35s ease
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .collapsing {
         transition: none
     }
@@ -3951,7 +3952,7 @@ fieldset:disabled .btn {
     left: auto
 }
 
-@media (min-width:576px) {
+@media (min-width: 576px) {
     .dropdown-menu-sm-start {
         --bs-position: start
     }
@@ -3971,7 +3972,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:768px) {
+@media (min-width: 768px) {
     .dropdown-menu-md-start {
         --bs-position: start
     }
@@ -3991,7 +3992,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:992px) {
+@media (min-width: 992px) {
     .dropdown-menu-lg-start {
         --bs-position: start
     }
@@ -4011,7 +4012,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
     .dropdown-menu-xl-start {
         --bs-position: start
     }
@@ -4031,7 +4032,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:1400px) {
+@media (min-width: 1400px) {
     .dropdown-menu-xxl-start {
         --bs-position: start
     }
@@ -4363,7 +4364,7 @@ fieldset:disabled .btn {
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .nav-link {
         transition: none
     }
@@ -4525,7 +4526,7 @@ fieldset:disabled .btn {
     transition: box-shadow .15s ease-in-out
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .navbar-toggler {
         transition: none
     }
@@ -4556,7 +4557,7 @@ fieldset:disabled .btn {
     overflow-y: auto
 }
 
-@media (min-width:576px) {
+@media (min-width: 576px) {
     .navbar-expand-sm {
         flex-wrap: nowrap;
         justify-content: flex-start
@@ -4589,7 +4590,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:768px) {
+@media (min-width: 768px) {
     .navbar-expand-md {
         flex-wrap: nowrap;
         justify-content: flex-start
@@ -4622,7 +4623,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:992px) {
+@media (min-width: 992px) {
     .navbar-expand-lg {
         flex-wrap: nowrap;
         justify-content: flex-start
@@ -4655,7 +4656,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
     .navbar-expand-xl {
         flex-wrap: nowrap;
         justify-content: flex-start
@@ -4688,7 +4689,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:1400px) {
+@media (min-width: 1400px) {
     .navbar-expand-xxl {
         flex-wrap: nowrap;
         justify-content: flex-start
@@ -4974,7 +4975,7 @@ fieldset:disabled .btn {
     margin-bottom: .75rem
 }
 
-@media (min-width:576px) {
+@media (min-width: 576px) {
     .card-group {
         display: flex;
         flex-flow: row wrap
@@ -5037,7 +5038,7 @@ fieldset:disabled .btn {
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, border-radius .15s ease
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .accordion-button {
         transition: none
     }
@@ -5066,7 +5067,7 @@ fieldset:disabled .btn {
     transition: transform .2s ease-in-out
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .accordion-button::after {
         transition: none
     }
@@ -5186,7 +5187,7 @@ fieldset:disabled .btn {
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .page-link {
         transition: none
     }
@@ -5432,7 +5433,7 @@ fieldset:disabled .btn {
     transition: width .6s ease
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .progress-bar {
         transition: none
     }
@@ -5448,7 +5449,7 @@ fieldset:disabled .btn {
     animation: 1s linear infinite progress-bar-stripes
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .progress-bar-animated {
         -webkit-animation: none;
         animation: none
@@ -5563,7 +5564,7 @@ fieldset:disabled .btn {
     border-left-width: 1px
 }
 
-@media (min-width:576px) {
+@media (min-width: 576px) {
     .list-group-horizontal-sm {
         flex-direction: row
     }
@@ -5593,7 +5594,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:768px) {
+@media (min-width: 768px) {
     .list-group-horizontal-md {
         flex-direction: row
     }
@@ -5623,7 +5624,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:992px) {
+@media (min-width: 992px) {
     .list-group-horizontal-lg {
         flex-direction: row
     }
@@ -5653,7 +5654,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
     .list-group-horizontal-xl {
         flex-direction: row
     }
@@ -5683,7 +5684,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:1400px) {
+@media (min-width: 1400px) {
     .list-group-horizontal-xxl {
         flex-direction: row
     }
@@ -5977,7 +5978,7 @@ fieldset:disabled .btn {
     transform: translate(0, -50px)
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .modal.fade .modal-dialog {
         transition: none
     }
@@ -6084,7 +6085,7 @@ fieldset:disabled .btn {
     margin: .25rem
 }
 
-@media (min-width:576px) {
+@media (min-width: 576px) {
     .modal-dialog {
         max-width: 500px;
         margin: 1.75rem auto
@@ -6103,7 +6104,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:992px) {
+@media (min-width: 992px) {
 
     .modal-lg,
     .modal-xl {
@@ -6111,7 +6112,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
     .modal-xl {
         max-width: 1140px
     }
@@ -6142,7 +6143,7 @@ fieldset:disabled .btn {
     border-radius: 0
 }
 
-@media (max-width:575.98px) {
+@media (max-width: 575.98px) {
     .modal-fullscreen-sm-down {
         width: 100vw;
         max-width: none;
@@ -6169,7 +6170,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (max-width:767.98px) {
+@media (max-width: 767.98px) {
     .modal-fullscreen-md-down {
         width: 100vw;
         max-width: none;
@@ -6196,7 +6197,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (max-width:991.98px) {
+@media (max-width: 991.98px) {
     .modal-fullscreen-lg-down {
         width: 100vw;
         max-width: none;
@@ -6223,7 +6224,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (max-width:1199.98px) {
+@media (max-width: 1199.98px) {
     .modal-fullscreen-xl-down {
         width: 100vw;
         max-width: none;
@@ -6250,7 +6251,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (max-width:1399.98px) {
+@media (max-width: 1399.98px) {
     .modal-fullscreen-xxl-down {
         width: 100vw;
         max-width: none;
@@ -6587,7 +6588,7 @@ fieldset:disabled .btn {
     transition: transform .6s ease-in-out
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .carousel-item {
         transition: none
     }
@@ -6629,7 +6630,7 @@ fieldset:disabled .btn {
     transition: opacity 0s .6s
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
 
     .carousel-fade .active.carousel-item-end,
     .carousel-fade .active.carousel-item-start {
@@ -6656,7 +6657,7 @@ fieldset:disabled .btn {
     transition: opacity .15s ease
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
 
     .carousel-control-next,
     .carousel-control-prev {
@@ -6734,7 +6735,7 @@ fieldset:disabled .btn {
     transition: opacity .6s ease
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .carousel-indicators [data-bs-target] {
         transition: none
     }
@@ -6837,7 +6838,7 @@ fieldset:disabled .btn {
     height: 1rem
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
 
     .spinner-border,
     .spinner-grow {
@@ -6860,7 +6861,7 @@ fieldset:disabled .btn {
     transition: transform .3s ease-in-out
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
     .offcanvas {
         transition: none
     }
@@ -7064,7 +7065,7 @@ fieldset:disabled .btn {
     z-index: 1020
 }
 
-@media (min-width:576px) {
+@media (min-width: 576px) {
     .sticky-sm-top {
         position: -webkit-sticky;
         position: sticky;
@@ -7073,7 +7074,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:768px) {
+@media (min-width: 768px) {
     .sticky-md-top {
         position: -webkit-sticky;
         position: sticky;
@@ -7082,7 +7083,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:992px) {
+@media (min-width: 992px) {
     .sticky-lg-top {
         position: -webkit-sticky;
         position: sticky;
@@ -7091,7 +7092,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
     .sticky-xl-top {
         position: -webkit-sticky;
         position: sticky;
@@ -7100,7 +7101,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:1400px) {
+@media (min-width: 1400px) {
     .sticky-xxl-top {
         position: -webkit-sticky;
         position: sticky;
@@ -8380,7 +8381,7 @@ fieldset:disabled .btn {
     visibility: hidden !important
 }
 
-@media (min-width:576px) {
+@media (min-width: 576px) {
     .float-sm-start {
         float: left !important
     }
@@ -9032,7 +9033,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:768px) {
+@media (min-width: 768px) {
     .float-md-start {
         float: left !important
     }
@@ -9684,7 +9685,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:992px) {
+@media (min-width: 992px) {
     .float-lg-start {
         float: left !important
     }
@@ -10336,7 +10337,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
     .float-xl-start {
         float: left !important
     }
@@ -10988,7 +10989,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:1400px) {
+@media (min-width: 1400px) {
     .float-xxl-start {
         float: left !important
     }
@@ -11640,7 +11641,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
     .fs-1 {
         font-size: 2.5rem !important
     }
@@ -18178,7 +18179,7 @@ a.read:hover span.fas {
     }
 }
 
-@media (max-width:480px) {
+@media (max-width: 480px) {
 
     .title-w3l,
     .title-w3l.two {
@@ -18917,7 +18918,8 @@ p.w3ban-para {
     font-size: 18px;
 }
 
-@media (max-width: 1440px) {}
+@media (max-width: 1440px) {
+}
 
 @media (max-width: 1080px) {
     .w3l-main-slider h3.title-hero-19 {
@@ -18934,7 +18936,8 @@ p.w3ban-para {
     }
 }
 
-@media (max-width: 1050px) {}
+@media (max-width: 1050px) {
+}
 
 @media (max-width: 1024px) {
     .w3l-main-slider h3.title-hero-19 {
@@ -19005,7 +19008,8 @@ p.w3ban-para {
     }
 }
 
-@media (max-width: 600px) {}
+@media (max-width: 600px) {
+}
 
 @media (max-width: 480px) {
     .w3l-main-slider h3.title-hero-19 {
@@ -19022,7 +19026,8 @@ p.w3ban-para {
     }
 }
 
-@media (max-width: 440px) {}
+@media (max-width: 440px) {
+}
 
 @media (max-width: 387px) {
 
@@ -19149,9 +19154,10 @@ p.w3ban-para {
     }
 }
 
-@media (max-width:667px) {}
+@media (max-width: 667px) {
+}
 
-@media (max-width:600px) {
+@media (max-width: 600px) {
 
     .w3l-3-grids .w3-grids3-info,
     .w3l-3-grids .w3-grids3-info.second {
@@ -19227,16 +19233,18 @@ p.w3ban-para {
     -o-transition: .3s ease;
 }
 
-@media (max-width: 991px) {}
+@media (max-width: 991px) {
+}
 
-@media (max-width:667px) {
+@media (max-width: 667px) {
 
     .imagezoom-view {
         display: none !important;
     }
 }
 
-@media (max-width:600px) {}
+@media (max-width: 600px) {
+}
 
 
 /*--/features--*/
@@ -19314,13 +19322,17 @@ p.w3ban-para {
 }
 
 
-@media (max-width: 1280px) {}
+@media (max-width: 1280px) {
+}
 
-@media (max-width: 1080px) {}
+@media (max-width: 1080px) {
+}
 
-@media (max-width: 992px) {}
+@media (max-width: 992px) {
+}
 
-@media (max-width: 800px) {}
+@media (max-width: 800px) {
+}
 
 /*--//features--*/
 .locations-1 .box16,
@@ -19524,7 +19536,7 @@ p.w3ban-para {
     margin-right: 6px;
 }
 
-@media only screen and (max-width:1180px) {
+@media only screen and (max-width: 1180px) {
 
     .w3property-grid .product-features li:nth-child(3) {
         margin-top: 6px;
@@ -19798,7 +19810,7 @@ p.abinfo-para {
     margin: 0 auto;
 }
 
-@media (max-width:992px) {
+@media (max-width: 992px) {
     .w3breadcrumb-gids {
         display: grid;
         grid-template-columns: 1fr;
@@ -19812,14 +19824,14 @@ p.abinfo-para {
     }
 }
 
-@media (max-width:667px) {
+@media (max-width: 667px) {
     h2.inner-w3-title {
         font-size: 30px;
         line-height: 40px;
     }
 }
 
-@media (max-width:600px) {
+@media (max-width: 600px) {
     h2.inner-w3-title {
         font-size: 28px;
         line-height: 38px;
@@ -20094,7 +20106,7 @@ p.para-counter {
     }
 }
 
-@media only screen and (max-width:991px) {
+@media only screen and (max-width: 991px) {
     .w3l-index-about ul.w3l-right-book-grid {
         display: grid;
         grid-template-columns: 1fr;
@@ -20161,7 +20173,7 @@ p.para-counter {
     box-shadow: none;
 }
 
-@media only screen and (max-width:667px) {
+@media only screen and (max-width: 667px) {
     .w3l-subscribe-content form.subscribe-wthree button {
         flex-basis: 100%;
         display: block;
@@ -20303,7 +20315,7 @@ p.para-counter {
     }
 }
 
-@media all and (max-width:667px) {
+@media all and (max-width: 667px) {
     .grid-alignment {
         display: grid;
         grid-template-columns: 1fr;
@@ -20493,7 +20505,7 @@ p.para-counter {
     color: var(--text-color);
 }
 
-@media only screen and (max-width:1290px) {
+@media only screen and (max-width: 1290px) {
     .w3l-blog a.blog-desc {
         display: block;
         font-size: 18px;
@@ -20719,7 +20731,7 @@ ul.blog-meta li {
     transition: 0.3s ease-in-out;
 }
 
-@media (max-width:1200px) {
+@media (max-width: 1200px) {
     .w3l-clients .testimonial-content {
         padding-right: 0em;
     }
@@ -20734,7 +20746,7 @@ ul.blog-meta li {
     }
 }
 
-@media (max-width:991px) {
+@media (max-width: 991px) {
     .w3l-testimonials-main {
         margin-top: 0px;
         z-index: 10;
@@ -21236,7 +21248,7 @@ section.footer-inner-main {
     }
 }
 
-@media (max-width:992px) {
+@media (max-width: 992px) {
     .w3l-footer9 .copyright-footer {
         display: grid;
         grid-template-columns: 1fr;
@@ -21269,7 +21281,7 @@ section.footer-inner-main {
     }
 }
 
-@media (max-width:600px) {
+@media (max-width: 600px) {
     .w3l-footer9 ul.text-right li a {
         font-size: 14px;
         margin: 0 3px;
@@ -21308,7 +21320,7 @@ section.footer-inner-main {
     }
 }
 
-@media (max-width:568px) {
+@media (max-width: 568px) {
     .w3l-footer9 .footer-inner-main .phone {
         padding: 4px 0;
     }
@@ -21324,6 +21336,303 @@ section.footer-inner-main {
     }
 }
 
+
+/*ChatBox CSS*/
+.chat-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+    background-color: #fb4a33;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ cho nút */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s; /* Thêm hiệu ứng chuyển đổi */
+}
+
+.chat-btn i {
+    font-size: 24px; /* Tăng kích thước icon */
+}
+
+.chat-btn:hover {
+    background-color: #80B3C4; /* Màu thay đổi khi hover */
+    transform: scale(1.1); /* Nút phóng to khi hover */
+}
+
+#chatbox {
+    position: fixed;
+    bottom: 100px;
+    left: 20px;
+    width: 350px;
+    height: 440px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    transform: scale(0); /* Ban đầu thu nhỏ lại */
+    transition: transform 0.8s ease-in-out; /* Thời gian và độ mượt của chuyển động */
+}
+
+#chatbox.show {
+    transform: scale(1); /* Phóng to ra kích thước đầy đủ */
+}
+
+/* Header của chatbot */
+.chat-header {
+    padding: 15px;
+    background: linear-gradient(135deg, #ac1d2f, #fb4a33);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.chat-header .h-child {
+    display: flex;
+    align-items: center;
+}
+
+.chat-header img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.chat-header .name {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.chat-header .refBtn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* Body của chatbot */
+.chat-body {
+    padding: 10px;
+    overflow-y: auto; /* Cho phép cuộn nếu nội dung vượt quá chiều cao */
+    height: 300px; /* Giảm chiều cao của phần body */
+    max-height: 300px; /* Đảm bảo chiều cao tối đa của phần body */
+    background: #f7f7f7; /* Màu nền nhẹ cho body */
+}
+
+.msg {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 80%;
+    display: inline-block;
+    background-color: #e6e6e6;
+    text-align: left;
+}
+
+.rep {
+    background-color: #007bff; /* Màu nền nhạt dễ chịu */
+    color: white; /* Màu chữ đậm hơn để dễ đọc */
+    text-align: right; /* Căn chữ sang bên phải */
+    margin-left: auto; /* Đẩy phần tử về phía phải */
+    max-width: fit-content; /* Giới hạn chiều rộng tin nhắn */
+    padding: 10px;
+    border-radius: 12px; /* Đường bo góc mềm mại */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm bóng cho tin nhắn */
+    font-family: 'Arial', sans-serif;
+    font-size: 14px; /* Kích thước chữ vừa đủ */
+    margin-bottom: 10px; /* Thêm khoảng cách giữa các tin nhắn */
+    word-wrap: break-word;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.send {
+    background-color: #3e3e3e; /* Màu nền nhạt dễ chịu */
+    color: #ffffff; /* Màu chữ đậm hơn để dễ đọc */
+    text-align: left; /* Căn chữ sang bên phải */
+    margin-right: auto; /* Đẩy phần tử về phía trai */
+    max-width: fit-content; /* Giới hạn chiều rộng tin nhắn */
+    padding: 10px;
+    border-radius: 12px; /* Đường bo góc mềm mại */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm bóng cho tin nhắn */
+    font-family: 'Arial', sans-serif;
+    font-size: 14px; /* Kích thước chữ vừa đủ */
+    margin-bottom: 10px; /* Thêm khoảng cách giữa các tin nhắn */
+    word-wrap: break-word;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.moralButton {
+    border-radius: 5px;
+}
+
+/*.rep {*/
+/*    background-color: #007bff; !* Màu nền xanh đậm *!*/
+/*    color: white; !* Màu chữ trắng để nổi bật trên nền xanh *!*/
+/*    text-align: left; !* Căn chữ sang trái *!*/
+/*    margin-left: auto; !* Đẩy phần tử về phía phải *!*/
+/*    display: inline-block; !* Hiển thị phần tin nhắn theo nội dung *!*/
+/*    padding: 10px 15px; !* Điều chỉnh padding cho thoải mái *!*/
+/*    border-radius: 20px; !* Đường bo góc lớn hơn để mềm mại hơn *!*/
+/*    max-width: 80%; !* Giới hạn chiều rộng tối đa là 60% *!*/
+/*    font-family: 'Arial', sans-serif;*/
+/*    font-size: 14px; !* Kích thước chữ vừa đủ *!*/
+/*    margin-bottom: 10px; !* Khoảng cách giữa các tin nhắn *!*/
+/*    word-wrap: break-word; !* Tự động xuống dòng nếu quá dài *!*/
+/*    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); !* Thêm bóng nhẹ cho tin nhắn *!*/
+/*}*/
+
+
+.opt {
+    padding: 10px 15px;
+    border: 1px solid #3b82f6;
+    border-radius: 12px;
+    margin: 5px 0;
+    display: block;
+    cursor: pointer;
+    font-weight: 500;
+    background: white;
+    text-align: center;
+    font-size: 14px;
+    color: #3b82f6;
+    transition: background-color 0.2s;
+}
+
+.opt:hover {
+    background-color: #3b82f6;
+    color: white;
+}
+
+/* Footer cho nút và nhập tin nhắn */
+.chat-footer {
+    padding: 10px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #ddd;
+}
+
+.chat-footer input {
+    width: 80%;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.chat-footer button {
+    background-color: #80B3C4;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.chat-footer button:hover {
+    background-color: #458b9e;
+}
+
+/* CSS cho modal */
+#confirmModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Nền mờ */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+#confirmModal div {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 12px;
+    text-align: center;
+    width: 350px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Thêm bóng đổ */
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+#confirmModal p {
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Hiệu ứng khi modal xuất hiện */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Sử dụng flexbox để căn chỉnh các nút cùng một hàng */
+#confirmModal .button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* CSS cho nút bấm */
+.moralButton {
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    width: 100px;
+}
+
+.moralButton#confirmApprove {
+    background-color: #17a2b8; /* Màu xanh lá */
+    color: white;
+    margin-right: 10px;
+}
+
+.moralButton#confirmApprove:hover {
+    background-color: #17a2b8;
+    transform: scale(1.05);
+}
+
+.moralButton#confirmReject {
+    background-color: #6c757d; /* Màu đỏ */
+    color: white;
+}
+
+.moralButton#confirmReject:hover {
+    background-color: #6c757d;
+    transform: scale(1.05);
+}
 
 /*--//Footer-9--*/
 /*# sourceMappingURL=style-freedom.css.map */

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <link rel="apple-touch-icon" sizes="76x76" th:href="@{/dashboardStatic/img/apple-icon.png}">
+    <link rel="icon" type="image/png" th:href="@{/dashboardStatic/img/favicon.png}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>
+        Paper Dashboard 2 by Creative Tim
+    </title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+          name='viewport'/>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <!-- CSS Files -->
+    <!-- CHI SUA CAC DUONG DAN CSS O DUOI DAY -->
+    <link th:href="@{/dashboardStatic/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/dashboardStatic/css/paper-dashboard.css?v=2.0.1}" rel="stylesheet"/>
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link th:href="@{/dashboardStatic/demo/demo.css}" rel="stylesheet"/>
+    <!--  CSS cho nut tuy chon  -->
+    <style>
+        /* Nút mặc định */
+        .btn-toggle {
+            background-color: white;
+            color: #f9351b;
+            border: 1px solid #f9351b;
+            font-weight: bold;
+        }
+
+        /* Nút khi được nhấn */
+        .btn-toggle.changeColor {
+            background-color: #f9351b;
+            color: white;
+        }
+    </style>
+    <!--thu vien cho de zoom anh-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.10.5/viewer.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.10.5/viewer.min.js"></script>
+    <!--  script cho zoom anh  -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const gallery = document.getElementById('image-gallery');
+            const viewer = new Viewer(gallery, {
+                toolbar: {
+                    zoomIn: 1,
+                    zoomOut: 1,
+                    oneToOne: 1,
+                    reset: 1,
+                    prev: 1,
+                    next: 1
+                },
+                navbar: true,
+                title: true,
+                fullscreen: true, // Support full-screen viewing
+                transition: false //tat hieu ung chuyen doi de do lag
+            });
+        });
+    </script>
+    <!--  css cho zoom anh  -->
+    <style>
+        #image-gallery {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-image img {
+            width: 100%; /* Hoặc một giá trị cụ thể như 600px */
+            height: auto; /* Giữ tỷ lệ ảnh */
+        }
+
+        .thumbnail-images {
+            display: flex;
+            justify-content: flex-start; /* Đặt các ảnh phụ sát lề trái */
+            flex-wrap: wrap; /* Cho phép các thumbnail xuống hàng nếu không đủ chỗ */
+            margin-top: 10px; /* Khoảng cách giữa ảnh chính và thumbnail */
+        }
+
+        .thumbnail {
+            margin: 5px; /* Khoảng cách giữa các thumbnail */
+        }
+
+        .thumbnail img {
+            width: 100%; /* Kích thước thumbnail */
+            height: auto; /* Kích thước thumbnail */
+            object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */
+            border: none; /* Bỏ viền cho ảnh phụ */
+        }
+    </style>
+</head>
+
+<body class="">
+<div class="wrapper ">
+    <!--  Side navbar: chua lien ket den cac trang tuy chon cua minh  -->
+    <div class="sidebar" data-color="white" data-active-color="danger">
+        <div class="logo">
+            <!--     Đường dẫn đến web chính của dự án     -->
+            <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-mini">
+                <!--     Avatar người dùng ở đây     -->
+                <div class="logo-image-small">
+                    <img th:src="@{/dashboardStatic/img/logo-small.png}">
+                </div>
+                <!-- <p>CT</p> -->
+            </a>
+            <!--     Đường dẫn đến web chính của dự án     -->
+            <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-normal">
+                Bui Minh Chien
+                <!--     Thêm logo dự án ở đây     -->
+                <!--           <div class="logo-image-big">-->
+                <!--            <img src="../assets/img/logo-big.png">-->
+                <!--          </div>-->
+            </a>
+        </div>
+        <div class="sidebar-wrapper">
+            <ul class="nav">
+                <li >
+                    <a th:href="@{/auctioneer/profile}">
+                        <i class="nc-icon nc-single-02"></i>
+                        <p>User Profile</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/auctioneer/dashboard}">
+                        <i class="nc-icon nc-bank"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/auctioneer/awaiting_list}">
+                        <i class="nc-icon nc-single-copy-04"></i>
+                        <p>Asset awaiting scheduling list</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/auctioneer/get_auction_list}">
+                        <i class="nc-icon nc-bullet-list-67"></i>
+                        <p>Auction session list</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/logout}">
+                        <i class="nc-icon nc-user-run"></i>
+                        <p>Logout</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--  End side navbar  -->
+    <div class="main-panel">
+        <!-- Top Navbar, SUA TIEU DE TRANG CHO PHU HOP -->
+        <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+            <div class="container-fluid">
+                <span class="navbar-brand">VietLand Auction</span>
+            </div>
+        </nav>
+        <!-- End Top Navbar -->
+        <!-- Noi dung cua trang se nam trong phan content nay -->
+        <div class="content">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card card-user">
+                        <div class="card-body">
+                            <div id="image-gallery">
+                                <div class="main-image">
+                                    <img th:src="@{${auction.asset.getImages().get(0).path}}" alt="Main Asset Image"
+                                         class="img-fluid"/>
+                                </div>
+                                <div class="thumbnail-images row">
+                                    <!-- Sử dụng th:each để lặp qua danh sách ảnh trong asset.listImage, bắt đầu từ vị trí 1 -->
+                                    <div th:each="image, iterStat : ${auction.asset.getImages()}"
+                                         th:if="${iterStat.index > 0}"
+                                         class="col-md-3 mb-3">
+                                        <div class="thumbnail">
+                                            <img th:src="@{${image.path}}" class="img-thumbnail" alt="Asset Image"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <hr>
+                            <div class="row">
+                                <div th:each="document : ${auction.asset.getDocuments()}" class="col-md-3 mb-3">
+                                    <div class="col-md-2">
+                                        <a th:href="@{''+${document.path}}" target="_blank" class="btn btn-primary"
+                                           style="cursor: pointer;">
+                                            View Document
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 row">
+                    <div class="col-md-12">
+                        <div class="card card-user">
+                            <div class="card-header">
+                                <h5 class="card-title">Asset information</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Location</label>
+                                            <input type="text" class="form-control" disabled=""
+                                                   th:value="${auction.asset.location}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Length (m)</label>
+                                            <input type="text" class="form-control" disabled=""
+                                                   th:value="${auction.asset.length}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Width (m)</label>
+                                            <input type="text" class="form-control" disabled=""
+                                                   th:value="${auction.asset.width}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Area <span>(m<sup>2</sup>)</span></label>
+                                            <input type="text" class="form-control" disabled=""
+                                                   th:value="${auction.asset.area}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Local authority</label>
+                                            <input type="text" class="form-control" disabled=""
+                                                   th:value="${auction.asset.localAuthority != null ? auction.asset.localAuthority.localAuthorityName : 'null'}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Asset tags</label>
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <ul th:each="tag : ${auction.asset.getTags()}" class="col-md-6">
+                                                        <li th:text="${tag.tagName}"></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Status</label>
+                                            <input type="text" class="form-control" disabled=""
+                                                   th:value="${auction.asset.assetStatus}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Create date</label>
+                                            <input type="text" class="form-control" disabled=""
+                                                   th:value="${auction.asset.createdDate}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <!------------------------------------------------------------->
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <button class="btn btn-toggle" id="view_description" style="width: 100%;">Asset description</button>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <button class="btn btn-toggle" id="view_auction_info" style="width: 100%;">Auction information
+                    </button>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <button class="btn btn-toggle" id="view_register" style="width: 100%;">Register list
+                    </button>
+                </div>
+            </div>
+            <!--      <div class="single-post-content sidebar-widget" id="asset_description">-->
+            <!--        <div th:utext="${auction.asset.description}"></div>-->
+            <!--      </div>-->
+            <div class="row" id="asset_description">
+                <div class="col-md-12">
+                    <div class="card card-user">
+                        <div class="card-header">
+                            <h4 class="card-title">Asset description</h4>
+                        </div>
+                        <div class="card-body">
+                            <div th:utext="${auction.asset.description}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="register_list">
+                <div class="col-md-12">
+                    <div class="card card-user">
+                        <div class="card-header">
+                            <h4 class="card-title">Register list</h4>
+                        </div>
+                        <div class="card-body">
+                            <a th:href="@{/auctioneer/viewRegisterList(auctionId=${auction.auctionId})}">View register list here</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--      <div class="single-post-content sidebar-widget" id="asset_map">-->
+            <!--        <div th:each="document : ${auction.asset.getDocuments()}" class="row">-->
+            <!--          <div class="col-md-12">-->
+            <!--            <a th:href="@{''+${document.path}}" target="_blank"-->
+            <!--               style="cursor: pointer;">-->
+            <!--              Asset Document-->
+            <!--            </a>-->
+            <!--          </div>-->
+            <!--        </div>-->
+            <!--      </div>-->
+            <div class="row" id="auction_info">
+                <div class="col-md-12">
+                    <div class="card card-user">
+                        <div class="card-header">
+                            <h4 class="card-title">Auction Information</h4>
+                        </div>
+                        <div class="card-body"
+                             style="font-weight: bold; word-wrap: break-word; overflow-wrap: break-word;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Auctioneer name: </label>
+                                    <span th:text="${auction.auctioneer.staff.fullName}"
+                                          style="color: #f9351b;"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Auction id: </label>
+                                    <span th:text="${auction.auctionId}"
+                                          style="color: #f9351b;"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Auction name: </label>
+                                    <span th:text="${auction.auctionName}"
+                                          style="color: #f9351b;"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Start time: </label>
+                                    <span th:text="${auction.startTime}"
+                                          style="color: #f9351b; font-weight: bold"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Expected end time: </label>
+                                    <span th:text="${auction.expectedEndTime}"
+                                          style="color: #f9351b; font-weight: bold"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Actual end time: </label>
+                                    <span th:text="${auction.actualEndTime != null ? auction.actualEndTime : 'null'}"
+                                          style="color: #f9351b; font-weight: bold"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Starting price: </label>
+                                    <span th:text="${auction.startingPrice != null ? auction.startingPrice : 'null'}"
+                                          style="color: #f9351b; font-weight: bold;"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Dealt price: </label>
+                                    <span th:text="${auction.dealedPrice != null ? auction.dealedPrice : 'null'}"
+                                          style="color: #f9351b; font-weight: bold;"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Minimum bid increment: </label>
+                                    <span th:text="${auction.minimumBidIncrement != null ? auction.minimumBidIncrement : 'null'}"
+                                          style="color: #f9351b; font-weight: bold;"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Deposit: </label>
+                                    <span th:text="${auction.deposit != null ? auction.deposit : 'null'}"
+                                          style="color: #f9351b; font-weight: bold;"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Register fee: </label>
+                                    <span th:text="${auction.registerFee != null ? auction.registerFee : 'null'}"
+                                          style="color: #f9351b; font-weight: bold;"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Extra time number: </label>
+                                    <span th:text="${auction.extraTimeUnit != null ? auction.extraTimeUnit : 'null'}"
+                                          style="color: #f9351b; font-weight: bold;"></span>
+                                    <span style="color: #f9351b; font-weight: bold;"> seconds</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Registration open date: </label>
+                                    <span th:text="${auction.registrationOpenDate}"
+                                          style="color: #f9351b; font-weight: bold"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Registration close date: </label>
+                                    <span th:text="${auction.registrationCloseDate}"
+                                          style="color: #f9351b; font-weight: bold"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Status: </label>
+                                    <span th:text="${auction.status != null ? auction.status : 'null'}"
+                                          style="color: #f9351b; font-weight: bold;"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Current highest price: </label>
+                                    <span th:text="${auction.currentHighestPrice != null ? auction.currentHighestPrice : 'null'}"
+                                          style="color: #f9351b; font-weight: bold;"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Winner account id: </label>
+                                    <span th:text="${auction.winner != null ? auction.winner.accountId : 'null'}"
+                                          style="color: #f9351b; font-weight: bold;"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Winner name: </label>
+                                    <span th:text="${auction.winner != null ? auction.winner.customer.fullName : 'null'}"
+                                          style="color: #f9351b; font-weight: bold;"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="update ml-auto mr-auto">
+                                    <a th:if="${auction.status=='Upcoming'} and ${T(java.time.LocalDateTime).now().isBefore(auction.registrationOpenDate)}" th:href="@{/auctioneer/updateAuctionRequest(auctionId=${auction.auctionId})}">
+                                        <button type="button" class="btn btn-primary btn-round">
+                                            Update auction information
+                                        </button>
+                                    </a>
+                                    <a th:if="${auction.status!='Ending'}" th:href="@{/auctioneer/cancelAuctionRequest(auctionId=${auction.auctionId})}">
+                                        <button type="button" class="btn btn-danger btn-round">
+                                            Cancel auction
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-user">
+                        <div class="card-header">
+                            <h5 class="card-title">Auction change log history</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class=" text-primary">
+                                    <tr class="row col-md-12">
+                                        <th class="col-md-1">Id</th>
+                                        <th class="col-md-3">Change type</th>
+                                        <th class="col-md-5">Reason</th>
+                                        <th class="col-md-2">Time</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="change : ${listAuctionChangeLog}" class="row col-md-12">
+                                        <td class="col-md-1" th:text="${change.changeId}"></td>
+                                        <td class="col-md-3" th:text="${change.changeType == null ? 'null' : (change.changeType.length() > 40 ? change.changeType.substring(0, 40) + '...' : change.changeType)}"
+                                            th:title="${change.changeType == null ? 'null' : change.changeType}"></td>
+                                        <td class="col-md-5" th:text="${change.reason == null ? 'null' : (change.reason.length() > 130 ? change.reason.substring(0, 130) + '...' : change.reason)}"
+                                            th:title="${change.reason == null ? 'null' : change.reason}"></td>
+                                        <td class="col-md-2" th:text="${change.time}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!------------------------------------------------------------->
+        </div>
+        <!-- Het phan noi dung cua trang -->
+    </div>
+</div>
+<!---------------------------------------KHONG DUOC SUA------------------------------------------------------>
+<!--   Core JS Files   -->
+<script th:src="@{/dashboardStatic/js/core/jquery.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/core/popper.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/core/bootstrap.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/plugins/perfect-scrollbar.jquery.min.js}"></script>
+<!-- Chart JS -->
+<script th:src="@{/dashboardStatic/js/plugins/chartjs.min.js}"></script>
+<!--  Notifications Plugin    -->
+<script th:src="@{/dashboardStatic/js/plugins/bootstrap-notify.js}"></script>
+<!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+<script th:src="@{/dashboardStatic/js/paper-dashboard.min.js?v=2.0.1}" type="text/javascript"></script>
+<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
+<script th:src="@{/dashboardStatic/demo/demo.js}"></script>
+
+<!-- script de hien thi tuy chon description va document -->
+<script>
+    // Lấy các phần tử DOM
+    const descriptionButton = document.getElementById('view_description');
+    const auctionInfoButton = document.getElementById('view_auction_info');
+    const registerListButton = document.getElementById('view_register');
+    const assetDescription = document.getElementById('asset_description');
+    const auctionInfo = document.getElementById('auction_info');
+    const registerList = document.getElementById('register_list');
+
+    // Mặc định khi tải trang, chỉ hiển thị asset_description và active button
+    window.onload = function () {
+        assetDescription.style.display = 'block';  // Hiển thị khối mô tả
+        auctionInfo.style.display = 'none';  // Ẩn khối tài liệu
+        registerList.style.display = 'none';
+        descriptionButton.classList.add('changeColor');  // Đặt nút "Description" là active
+    };
+
+    // Khi nhấn vào nút "Description"
+    descriptionButton.addEventListener('click', function () {
+        assetDescription.style.display = 'block';  // Hiển thị khối mô tả
+        auctionInfo.style.display = 'none';  // Ẩn khối tài liệu
+        registerList.style.display = 'none';
+
+        // Đổi trạng thái active của các nút
+        descriptionButton.classList.add('changeColor');
+        auctionInfoButton.classList.remove('changeColor');
+        registerListButton.classList.remove('changeColor');
+    });
+
+    // Khi nhấn vào nút "Map"
+    auctionInfoButton.addEventListener('click', function () {
+        auctionInfo.style.display = 'block';  // Hiển thị khối tài liệu
+        assetDescription.style.display = 'none';  // Ẩn khối mô tả
+        registerList.style.display = 'none';
+
+        // Đổi trạng thái active của các nút
+        auctionInfoButton.classList.add('changeColor');
+        descriptionButton.classList.remove('changeColor');
+        registerListButton.classList.remove('changeColor');
+    });
+
+    // Khi nhấn vào nút "Map"
+    registerListButton.addEventListener('click', function () {
+        registerList.style.display = 'block';  // Hiển thị khối tài liệu
+        assetDescription.style.display = 'none';  // Ẩn khối mô tả
+        auctionInfo.style.display = 'none';
+
+        // Đổi trạng thái active của các nút
+        registerListButton.classList.add('changeColor');
+        descriptionButton.classList.remove('changeColor');
+        auctionInfoButton.classList.remove('changeColor');
+    });
+</script>
+<!--check xem thứ tự thời gian của các trường đã hợp lý chưa-->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form'); // Chọn form của bạn
+
+        form.addEventListener('submit', function (event) {
+            // Lấy giá trị từ các trường input
+            const startTime = new Date(document.getElementById('starttime').value);
+            const expectedEndTime = new Date(document.getElementById('expectedendtime').value);
+            const registrationOpenDate = new Date(document.getElementById('registrationopendate').value);
+            const registrationCloseDate = new Date(document.getElementById('registrationclosedate').value);
+
+            // Kiểm tra điều kiện thứ tự thời gian
+            if (registrationOpenDate >= registrationCloseDate || registrationCloseDate >= startTime || startTime >= expectedEndTime) {
+                // Nếu điều kiện không thỏa mãn, ngăn không cho submit form
+                event.preventDefault();
+                alert('Please ensure that the dates follow the correct order: Registration open date < Registration close date < Start time < Expected end time');
+            }
+        });
+    });
+</script>
+</body>
+
+</html>

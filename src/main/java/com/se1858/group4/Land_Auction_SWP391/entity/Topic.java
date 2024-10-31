@@ -20,9 +20,13 @@ public class Topic {
     @JsonBackReference
     private Topic parentTopic;
 
-    @OneToMany(mappedBy = "parentTopic")
+    @OneToMany(mappedBy = "parentTopic", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Topic> subTopics;
+
+    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
+    private List<Question> questions;
 
     // Constructors, getters, and setters
 
@@ -59,6 +63,14 @@ public class Topic {
 
     public void setSubTopics(List<Topic> subTopics) {
         this.subTopics = subTopics;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
     }
 }
 

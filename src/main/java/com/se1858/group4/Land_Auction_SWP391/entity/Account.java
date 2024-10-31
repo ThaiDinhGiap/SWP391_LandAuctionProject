@@ -1,12 +1,15 @@
 package com.se1858.group4.Land_Auction_SWP391.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "Account")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Account {
 
     @Id
@@ -40,13 +43,16 @@ public class Account {
     @Column(name = "registration_date")
     private LocalDateTime registrationDate;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(
             name = "Account_Notification",
             joinColumns = @JoinColumn(name = "account_id"),
             inverseJoinColumns = @JoinColumn(name = "notification_id")
     )
     private List<Notification> notifications;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<SubscriptionNotification> subscriptions = new ArrayList<>();
 
     @OneToOne(mappedBy = "account", cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     private Staff staff;
@@ -144,6 +150,20 @@ public class Account {
         this.status = status;
         this.verify = verify;
         this.username = username;
+    }
+
+
+public Account(String username, int status, int verify, Staff staff, Role role, LocalDateTime registrationDate, String password, List<Notification> notifications, String email, Image avatar_image) {
+        this.username = username;
+        this.status = status;
+        this.verify = verify;
+        this.staff = staff;
+        this.role = role;
+        this.registrationDate = registrationDate;
+        this.password = password;
+        this.notifications = notifications;
+        this.email = email;
+        this.avatar_image = avatar_image;
     }
 
 
@@ -292,6 +312,14 @@ public class Account {
         this.avatar_image = avatar_image;
     }
 
+    public List<SubscriptionNotification> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(List<SubscriptionNotification> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
@@ -304,5 +332,21 @@ public class Account {
                 ", role=" + role +
                 ", registrationDate=" + registrationDate +
                 '}';
+    }
+    public void addNotification(Notification notification) {
+         if (this.notifications == null) {
+             this.notifications = new ArrayList<>();
+         }
+         this.notifications.add(notification);
+    }
+
+    public void addSubscription(SubscriptionNotification subscription) {
+        subscriptions.add(subscription);
+        subscription.setAccount(this);
+    }
+
+    public void removeSubscription(SubscriptionNotification subscription) {
+        subscriptions.remove(subscription);
+        subscription.setAccount(null);
     }
 }

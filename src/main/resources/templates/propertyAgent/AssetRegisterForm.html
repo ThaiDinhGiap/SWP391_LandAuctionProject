@@ -52,6 +52,12 @@
         </div>
         <div class="sidebar-wrapper">
             <ul class="nav">
+                <li class="active">
+                    <a th:href="@{/property_agent/profile}">
+                        <i class="nc-icon nc-single-02"></i>
+                        <p>Profile</p>
+                    </a>
+                </li>
                 <li>
                     <a th:href="@{/property_agent/dashboard}">
                         <i class="nc-icon nc-bank"></i>
@@ -65,9 +71,15 @@
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/property_agent/list_unsuccessful_sale_asset}">
+                    <a th:href="@{/property_agent/get_all_asset}">
                         <i class="nc-icon nc-bullet-list-67"></i>
                         <p>Asset list</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/logout}">
+                        <i class="nc-icon nc-user-run"></i>
+                        <p>Logout</p>
                     </a>
                 </li>
             </ul>
@@ -89,7 +101,7 @@
                 <div class="col-md-12">
                     <div class="card card-user">
                         <div class="card-header">
-                            <h5 class="card-title">Mời bạn nhập thông tin tài sản</h5>
+                            <h5 class="card-title">Please enter the asset information</h5>
                         </div>
                         <div class="card-body">
                             <form th:action="@{/property_agent/register}" th:method="post" th:object="${assetDTO}"
@@ -99,7 +111,7 @@
                                         <div class="form-group">
                                             <label for="location">Location</label>
                                             <input type="text" th:field="*{asset.location}" id="location"
-                                                   class="form-control">
+                                                   required class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -107,21 +119,22 @@
                                     <div class="col-md-4 pr-1">
                                         <div class="form-group">
                                             <label for="length">Length (m)</label>
-                                            <input type="text" th:field="*{asset.length}" id="length"
-                                                   class="form-control">
+                                            <input type="number" th:field="*{asset.length}" id="length" class="form-control"
+                                                   required step="0.01" min="0.01" max="9999.99" placeholder="#.##">
                                         </div>
                                     </div>
                                     <div class="col-md-4 px-1">
                                         <div class="form-group">
                                             <label for="width">Width (m)</label>
-                                            <input type="text" th:field="*{asset.width}" id="width"
-                                                   class="form-control">
+                                            <input type="number" th:field="*{asset.width}" id="width" class="form-control"
+                                                   required step="0.01" min="0.01" max="9999.99" placeholder="#.##">
                                         </div>
                                     </div>
                                     <div class="col-md-4 pl-1">
                                         <div class="form-group">
                                             <label for="area">Area <span>(m<sup>2</sup>)</span></label>
-                                            <input type="text" th:field="*{asset.area}" id="area" class="form-control">
+                                            <input type="number" th:field="*{asset.area}" id="area" class="form-control"
+                                                   required step="0.0001" min="0.0001" max="99999999.9999" placeholder="#.####">
                                         </div>
                                     </div>
                                 </div>
@@ -179,6 +192,20 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="auctioneer">Select auctioneer</label>
+                                            <select id="auctioneer" name="auctioneerAccountId" class="form-control">
+                                                <option value="">-- Select Auctioneer --</option>
+                                                <option th:each="auctioneer : ${listAuctioneer}"
+                                                        th:value="${auctioneer.account.getAccountId()}"
+                                                        th:text="${auctioneer.fullName}">
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <div>
                                             <label for="images">Choose images</label>
                                             <input type="file" name="images" id="images" class="form-control" multiple
@@ -197,27 +224,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="auctioneer">Select auctioneer</label>
-                                            <select id="auctioneer" name="auctioneerAccountId" class="form-control">
-                                                <option value="">-- Select Auctioneer --</option>
-                                                <option th:each="auctioneer : ${listAuctioneer}"
-                                                        th:value="${auctioneer.account.getAccountId()}"
-                                                        th:text="${auctioneer.fullName}">
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="update ml-auto mr-auto">
+                                <div class="row form-group" style="display: flex; flex-direction: column; margin-top: 10px;">
+                                    <p class="ml-auto mr-auto row" th:if="${param.message}" th:text="${param.message}"></p>
+                                    <div class="update ml-auto mr-auto row">
                                         <button type="submit" class="btn btn-primary btn-round">Save</button>
                                     </div>
                                 </div>
                             </form>
-<!--                            <span th:if="${param.message}" th:text="${param.message}" class="alert-message"></span>-->
                         </div>
                     </div>
                 </div>

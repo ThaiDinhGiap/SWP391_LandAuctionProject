@@ -1,0 +1,864 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+-->
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>RealHouzing - Real Estate Category Bootstrap Responsive Template | Blog Single :: W3layouts</title>
+    <!-- google fonts -->
+    <link href="//fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Template CSS -->
+    <link rel="stylesheet" th:href="@{/assets_CustomerSide/css/style-liberty.css}">
+
+    <script th:src="@{/assets_CustomerSide/js/monetization.js}" type="text/javascript"></script>
+    <link rel="stylesheet" th:href="@{/assets_CustomerSide/css/font-awesome.min.css}">
+    <!-- WebSocket -->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <!-- Template CSS -->
+    <link rel="stylesheet" th:href="@{/assets_CustomerSide/css/style-starter.css}">
+    <!-- New toolbar-->
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+        }
+
+
+        #w3lDemoBar.w3l-demo-bar {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 9999;
+            padding: 40px 5px;
+            padding-top: 70px;
+            margin-bottom: 70px;
+            background: #0D1326;
+            border-top-left-radius: 9px;
+            border-bottom-left-radius: 9px;
+        }
+
+        #w3lDemoBar.w3l-demo-bar a {
+            display: block;
+            color: #e6ebff;
+            text-decoration: none;
+            line-height: 24px;
+            opacity: .6;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #w3lDemoBar.w3l-demo-bar span.w3l-icon {
+            display: block;
+        }
+
+        #w3lDemoBar.w3l-demo-bar a:hover {
+            opacity: 1;
+        }
+
+        #w3lDemoBar.w3l-demo-bar .w3l-icon svg {
+            color: #e6ebff;
+        }
+
+        #w3lDemoBar.w3l-demo-bar .responsive-icons {
+            margin-top: 30px;
+            border-top: 1px solid #41414d;
+            padding-top: 40px;
+        }
+
+        #w3lDemoBar.w3l-demo-bar .demo-btns {
+            border-top: 1px solid #41414d;
+            padding-top: 30px;
+        }
+
+        #w3lDemoBar.w3l-demo-bar .responsive-icons a span.fa {
+            font-size: 26px;
+        }
+
+        #w3lDemoBar.w3l-demo-bar .no-margin-bottom {
+            margin-bottom: 0;
+        }
+
+        .toggle-right-sidebar span {
+            background: #0D1326;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            color: #e6ebff;
+            border-radius: 50px;
+            font-size: 26px;
+            cursor: pointer;
+            opacity: .5;
+        }
+
+        .pull-right {
+            float: right;
+            position: fixed;
+            right: 0px;
+            top: 70px;
+            width: 90px;
+            z-index: 99999;
+            text-align: center;
+        }
+
+        /* ============================================================
+        RIGHT SIDEBAR SECTION
+        ============================================================ */
+
+        #right-sidebar {
+            width: 90px;
+            position: fixed;
+            height: 100%;
+            z-index: 1000;
+            right: 0px;
+            top: 0;
+            margin-top: 60px;
+            -webkit-transition: all .5s ease-in-out;
+            -moz-transition: all .5s ease-in-out;
+            -o-transition: all .5s ease-in-out;
+            transition: all .5s ease-in-out;
+            overflow-y: auto;
+        }
+
+
+        /* ============================================================
+        RIGHT SIDEBAR TOGGLE SECTION
+        ============================================================ */
+
+        .hide-right-bar-notifications {
+            margin-right: -300px !important;
+            -webkit-transition: all .3s ease-in-out;
+            -moz-transition: all .3s ease-in-out;
+            -o-transition: all .3s ease-in-out;
+            transition: all .3s ease-in-out;
+        }
+
+
+        @media (max-width: 992px) {
+            #w3lDemoBar.w3l-demo-bar a.desktop-mode {
+                display: none;
+
+            }
+        }
+
+        @media (max-width: 767px) {
+            #w3lDemoBar.w3l-demo-bar a.tablet-mode {
+                display: none;
+
+            }
+        }
+
+        @media (max-width: 568px) {
+            #w3lDemoBar.w3l-demo-bar a.mobile-mode {
+                display: none;
+            }
+
+            #w3lDemoBar.w3l-demo-bar .responsive-icons {
+                margin-top: 0px;
+                border-top: none;
+                padding-top: 0px;
+            }
+
+            #right-sidebar, .pull-right {
+                width: 90px;
+            }
+
+            #w3lDemoBar.w3l-demo-bar .no-margin-bottom-mobile {
+                margin-bottom: 0;
+            }
+        }
+    </style>
+    <!--css for notify and clock -->
+    <style>
+        #clock-container {
+            display: flex;
+            flex-direction: column;
+            text-align: left; /* Căn phải */
+            margin-right: 30px; /* Khoảng cách phải */
+            color: white;
+            line-height: 0.4;
+        }
+
+        #time {
+            font-size: 25px;
+        }
+
+        #date {
+            font-size: 15px;
+        }
+
+        /* Điều chỉnh thanh thông báo */
+        .dropdown-menu {
+            padding: 0;
+            margin-right: 20px;
+            max-height: 300px; /* Giới hạn chiều cao */
+            overflow-y: auto;  /* Thêm thanh cuộn khi có nhiều thông báo */
+            scrollbar-width: none;
+            z-index: 1050;
+            min-width: 220px; /* Tăng chiều rộng của box notify */
+        }
+
+        /* Cỡ chữ nhỏ hơn và tự động xuống dòng */
+        .dropdown-menu .dropdown-item {
+            width: 95%;
+            white-space: normal; /* Để nội dung tự động xuống dòng */
+            word-wrap: break-word; /* Đảm bảo từ dài sẽ bị tách nếu cần */
+            font-size: 14px; /* Giảm cỡ chữ cho phù hợp với thông báo */
+            padding: 10px; /* Điều chỉnh padding nếu cần */
+        }
+
+        /* Các thông báo chưa đọc sẽ có màu đậm và có chấm xanh */
+        .notification-unread {
+            font-weight: bold; /* Chữ đậm */
+            background-color: #f9f9f9; /* Màu nền nhạt hơn cho thông báo chưa đọc */
+            position: relative; /* Để có thể định vị chấm xanh */
+        }
+
+        /* Chấm xanh cho thông báo chưa đọc */
+        .notification-unread::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 2px;
+            transform: translateY(-100%);
+            width: 10px;
+            height: 10px;
+            background-color: #00aaff; /* Màu xanh cho chấm */
+            border-radius: 50%;
+        }
+
+        /* Các thông báo đã đọc sẽ có màu nhạt và không có chấm */
+        .notification-read {
+            font-weight: normal; /* Chữ bình thường */
+            background-color: #eaeaea; /* Màu nền cho thông báo đã đọc */
+        }
+
+        /* Cài đặt cho nút chuông thông báo */
+        #trigger-overlay {
+            background-color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Màu và kích thước cho biểu tượng chuông */
+        #trigger-overlay i {
+            color: #ff0000; /* Màu đỏ cho biểu tượng chuông */
+            font-size: 20px; /* Kích thước biểu tượng chuông */
+        }
+    </style>
+    <!--thu vien cho de zoom anh-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.10.5/viewer.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.10.5/viewer.min.js"></script>
+    <!--  script cho zoom anh  -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const gallery = document.getElementById('image-gallery');
+            const viewer = new Viewer(gallery, {
+                toolbar: {
+                    zoomIn: 1,
+                    zoomOut: 1,
+                    oneToOne: 1,
+                    reset: 1,
+                    prev: 1,
+                    next: 1
+                },
+                navbar: true,
+                title: true,
+                fullscreen: true, // Support full-screen viewing
+                transition: false //tat hieu ung chuyen doi de do lag
+            });
+        });
+    </script>
+    <!--  css cho zoom anh  -->
+    <style>
+        #image-gallery {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-image img {
+            width: 100%; /* Hoặc một giá trị cụ thể như 600px */
+            height: auto; /* Giữ tỷ lệ ảnh */
+        }
+
+        .thumbnail-images {
+            display: flex;
+            justify-content: flex-start; /* Đặt các ảnh phụ sát lề trái */
+            flex-wrap: wrap; /* Cho phép các thumbnail xuống hàng nếu không đủ chỗ */
+            margin-top: 10px; /* Khoảng cách giữa ảnh chính và thumbnail */
+        }
+
+        .thumbnail {
+            margin: 5px; /* Khoảng cách giữa các thumbnail */
+        }
+
+        .thumbnail img {
+            width: 100%; /* Kích thước thumbnail */
+            height: auto; /* Kích thước thumbnail */
+            object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */
+            border: none; /* Bỏ viền cho ảnh phụ */
+        }
+    </style>
+    <style>
+        /* Nút mặc định */
+        .btn-toggle {
+            background-color: white;
+            color: #f9351b;
+            border: 1px solid #f9351b;
+            font-weight: bold;
+        }
+
+        /* Nút khi được nhấn */
+        .btn-toggle.active {
+            background-color: #f9351b;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+<!--/Header-->
+<header id="site-header" class="fixed-top">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light stroke py-lg-0">
+            <h1><a class="navbar-brand" th:href="@{/customer/home}">
+                Viet<span class="sub-color">Land</span>
+            </a></h1>
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon fa icon-expand fa-bars"></span>
+                <span class="navbar-toggler-icon fa icon-close fa-times"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarScroll">
+                <ul class="navbar-nav mx-lg-auto my-2 my-lg-0 navbar-nav-scroll">
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/customer/get_all_asset}" style="font-size: 20px;">Asset</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/get_all_auction}" style="font-size: 20px;">Auction</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/get_all_news}" style="font-size: 20px;">News</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html" style="font-size: 20px;">About us</a>
+                    </li>
+                </ul>
+
+
+                <!--/clock-->
+                <div class="navbar-nav" id="clock-container">
+                    <span class="nav-link" id="time"></span>
+                    <span class="nav-link" id="date"></span>
+                </div>
+
+                <!--/notify-->
+                <div class="dropdown">
+                    <button id="trigger-overlay" class="searchw3-icon me-xl-4 me-lg-3" type="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="loadNotifications()">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="notification-list" aria-labelledby="trigger-overlay">
+                        <li><a class="dropdown-item" href="#">Loading...</a></li>
+                    </ul>
+                </div>
+
+            </div>
+            <!-- toggle switch for light and dark theme -->
+            <div class="mobile-position">
+                <nav class="navigation">
+                    <div class="theme-switch-wrapper">
+                        <label class="theme-switch" for="checkbox">
+                            <input type="checkbox" id="checkbox">
+                            <div class="mode-container">
+                                <i class="gg-sun"></i>
+                                <i class="gg-moon"></i>
+                            </div>
+                        </label>
+                    </div>
+                </nav>
+            </div>
+            <!-- //toggle switch for light and dark theme -->
+        </nav>
+    </div>
+</header>
+<!--//Header-->
+<!--/inner-page-->
+<div class="inner-banner py-5">
+    <section class="w3l-breadcrumb text-left py-sm-5 ">
+        <div class="container">
+            <div class="w3breadcrumb-gids">
+                <div class="w3breadcrumb-left text-left">
+                    <h2 class="inner-w3-title mt-sm-5 mt-4">
+                        Asset Detail </h2>
+
+                </div>
+                <div class="w3breadcrumb-right">
+                    <ul class="breadcrumbs-custom-path">
+                        <li><a href="index.html">Home</a></li>
+                        <li class="active"><span class="fas fa-angle-double-right mx-2"></span>Asset Detail</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+<!--//inner-page-->
+
+<!--/w3l-blog-->
+<section class="w3l-blog blog-single-post">
+    <div class="blog py-5">
+        <div class="container py-lg-5 py-md-4 py-2">
+            <div class="row justify-content-center bloghny-page">
+                <!--/w3l-blopagew3-left-->
+                <div class="col-lg-7 blopagew3-left">
+<!--                    <div class="single-post-image mb-4">-->
+<!--                        <img th:src="${asset.images.get(0).path}" class="img-fluid w-100 radius-image"-->
+<!--                             alt="Cover photo">-->
+<!--                    </div>-->
+                    <!--xem anh-->
+                    <div id="image-gallery">
+                        <div class="main-image">
+                            <img th:src="@{${asset.getImages().get(0).path}}" alt="Main Asset Image"
+                                 class="img-fluid"/>
+                        </div>
+                        <div class="thumbnail-images row">
+                            <!-- Sử dụng th:each để lặp qua danh sách ảnh trong asset.listImage, bắt đầu từ vị trí 1 -->
+                            <div th:each="image, iterStat : ${asset.getImages()}" th:if="${iterStat.index > 0}"
+                                 class="col-md-3 mb-3">
+                                <div class="thumbnail">
+                                    <img th:src="@{${image.path}}" class="img-thumbnail" alt="Asset Image"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--xem tai lieu-->
+                    <div class="row">
+                        <div class="col-md-2 mb-2">
+                            <button class="btn btn-toggle" id="view_description">Description</button>
+                        </div>
+                        <div class="col-md-2 mb-2">
+                            <button class="btn btn-toggle" id="view_document">Document</button>
+                        </div>
+                    </div>
+                    <div class="single-post-content sidebar-widget" id="asset_description">
+                        <div th:utext="${asset.description}"></div>
+                    </div>
+                    <div class="single-post-content sidebar-widget" id="asset_document">
+                            <div th:each="document : ${asset.getDocuments()}" class="row">
+                                <div class="col-md-12">
+                                    <a th:href="@{''+${document.path}}" target="_blank"
+                                       style="cursor: pointer;">
+                                        Asset Document
+                                    </a>
+                                </div>
+                            </div>
+                    </div>
+
+                </div>
+                <!--//w3l-blopagew3-left-->
+                <!--/w3l-blopagew3-right-->
+                <div class="sidebar-side col-lg-5 col-md-12 col-sm-12 mt-lg-0 mt-5">
+                    <aside class="sidebar ps-lg-4">
+                        <div class="sidebar-blog-category">
+                            <!--thong tin tai san-->
+                            <div class="sidebar-widget popular-posts">
+                                <div class="sidebar-title">
+                                    <h4>Asset Information</h4>
+                                </div>
+                                <article style=" font-weight: bold; word-wrap: break-word; overflow-wrap: break-word;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>Location: </label>
+                                            <span th:text="${asset.location}"
+                                                  style="color: #f9351b;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>Length (m): </label>
+                                            <span th:text="${asset.length}"
+                                                  style="color: #f9351b; font-weight: bold"></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Width (m): </label>
+                                            <span th:text="${asset.width}"
+                                                  style="color: #f9351b; font-weight: bold"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>Area <span>(m<sup>2</sup>): </span></label>
+                                            <span th:text="${asset.area}"
+                                                  style="color: #f9351b; font-weight: bold"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>Local authority: </label>
+                                            <span th:text="${asset.localAuthority != null ? asset.localAuthority.localAuthorityName : 'null'}"
+                                                  style="color: #f9351b; font-weight: bold"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>Asset tags: </label>
+                                            <span th:each="tag, iterStat : ${asset.getTags()}"
+                                                  th:text="${tag.tagName} + (${iterStat.last} ? '' : ', ')"
+                                                  th:title="${tag.description}"
+                                                  style="color: #f9351b; font-weight: bold;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>Status: </label>
+                                            <span th:text="${asset.assetStatus}"
+                                                  style="color: #f9351b; font-weight: bold"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>Upload date: </label>
+                                            <span th:text="${asset.createdDate}"
+                                                  style="color: #f9351b; font-weight: bold"></span>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                            <!--google map nam ơ day-->
+                            <div class="sidebar-sticky">
+                                <div class="sidebar-sticky-fix">
+                                    <!-- Tags Widget-->
+                                    <div class="sidebar-widget popular-tags">
+                                        <div class="sidebar-title">
+                                            <h4>Google Map</h4>
+                                        </div>
+                                        <div>
+                                            <iframe
+                                                    th:src="${embedUrl}"
+                                                    width=100%
+                                                    height="300"
+                                                    style="border:0;"
+                                                    allowfullscreen=""
+                                                    loading="lazy"
+                                                    referrerpolicy="no-referrer-when-downgrade">
+                                            </iframe>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+                <!--//w3l-blopagew3-right-->
+            </div>
+
+        </div>
+    </div>
+</section>
+<!--//w3l-blog-->
+<!--/footer-9-->
+<footer class="w3l-footer9">
+    <section class="footer-inner-main py-5">
+        <div class="container py-md-4">
+            <div class="right-side">
+                <div class="row footer-hny-grids sub-columns">
+                    <div class="col-lg-3 sub-one-left">
+                        <h6>About </h6>
+                        <p class="footer-phny pe-lg-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                            eiusmod tempor incididunt ute dolor sit.</p>
+                        <div class="columns-2 mt-4 pt-lg-2">
+                            <ul class="social">
+                                <li><a href="#facebook"><span class="fab fa-facebook-f"></span></a>
+                                </li>
+                                <li><a href="#linkedin"><span class="fab fa-linkedin-in"></span></a>
+                                </li>
+                                <li><a href="#twitter"><span class="fab fa-twitter"></span></a>
+                                </li>
+                                <li><a href="#google"><span class="fab fa-google-plus-g"></span></a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 sub-two-right">
+                        <h6>Company</h6>
+                        <ul>
+
+                            <li><a href="#why"><i class="fas fa-angle-right"></i> Why Us</a>
+                            </li>
+                            <li><a href="#licence"><i class="fas fa-angle-right"></i>Our Agents
+                            </a>
+                            </li>
+                            <li><a href="#log"><i class="fas fa-angle-right"></i>Our Offers
+                            </a></li>
+
+                            <li><a href="#career"><i class="fas fa-angle-right"></i> Careers</a></li>
+
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 sub-two-right">
+                        <h6>Services</h6>
+                        <ul>
+                            <li><a href="#processing"><i class="fas fa-angle-right"></i> Buy Properties</a>
+                            </li>
+                            <li><a href="#research"><i class="fas fa-angle-right"></i> Sell Properties</a>
+                            </li>
+                            <li><a href="#metal"><i class="fas fa-angle-right"></i> Rent Properties</a>
+                            </li>
+                            <li><a href="#metal"><i class="fas fa-angle-right"></i> Property Search</a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 sub-two-right">
+                        <h6>Explore</h6>
+                        <ul>
+                            <li><a href="#processing"><i class="fas fa-angle-right"></i> Homes for Rent</a>
+                            </li>
+                            <li><a href="#research"><i class="fas fa-angle-right"></i> Apartments for Rent</a>
+                            </li>
+                            <li><a href="#metal"><i class="fas fa-angle-right"></i> Homes for Sale</a>
+                            </li>
+                            <li><a href="#metal"><i class="fas fa-angle-right"></i> Apartments for Sale</a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 sub-one-left ps-lg-5">
+                        <h6>Stay Update!</h6>
+                        <p class="w3f-para mb-4">Subscribe to our newsletter to receive our weekly feed.</p>
+                        <div class="w3l-subscribe-content align-self mt-lg-0 mt-5">
+                            <form action="#" method="post" class="subscribe-wthree">
+                                <div class="flex-wrap subscribe-wthree-field">
+                                    <input class="form-control" type="email" placeholder="Email" name="email"
+                                           required="">
+                                    <button class="btn btn-style btn-primary" type="submit">Subscribe</button>
+                                </div>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="below-section mt-5 pt-lg-3">
+                <div class="copyright-footer">
+                    <div class="columns text-left">
+                        <p>© 2021 RealHouzing.All rights reserved. Design by <a href="https://w3layouts.com/"
+                                                                                target="_blank">
+                            W3Layouts</a></p>
+                    </div>
+                    <ul class="footer-w3list text-right">
+                        <li><a href="#url">Privacy Policy</a>
+                        </li>
+                        <li><a href="#url">Terms &amp; Conditions</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Chatbot -->
+    <div id="chatbot">
+        <div id="chatbox">
+            <div class="chat-header">
+                <div class="h-child">
+                    <img th:src="@{/assets_CustomerSide/images/chatbot.jpg}" alt="avatar" id="avatar">
+                    <div>
+                        <span class="name">Chat Box</span>
+                    </div>
+                </div>
+                <div>
+                    <button id="resetChat" class="btn btn-sm btn-light refBtn" onclick="initChat()"
+                            style="display: inline-block;">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+
+                    <button id="endChat" class="btn btn-sm btn-light refBtn" onclick="disconnectWebSocket()"
+                            style="display: none;">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+
+                </div>
+            </div>
+            <div class="chat-body" id="chat-box">
+                <!-- Chat content goes here -->
+            </div>
+            <div class="chat-footer">
+                <input id="messageField" type="text" placeholder="Type your message here..." readonly>
+                <button onclick="sendButtonPressed()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+        <button id="init" class="btn btn-primary chat-btn"><i class="fas fa-headset"></i></button>
+    </div>
+    <!-- Modal cho hộp thoại xác nhận -->
+    <div id="confirmModal">
+        <div>
+            <p id="confirmMessage"></p>
+            <button class="moralButton" id="confirmApprove">Approve</button>
+            <button class="moralButton" id="confirmReject">Reject</button>
+        </div>
+    </div>
+
+    <!-- Js scripts -->
+    <!-- move top -->
+    <button onclick="topFunction()" id="movetop" title="Go to top">
+        <span class="fas fa-level-up-alt" aria-hidden="true"></span>
+    </button>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script>
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () {
+            scrollFunction()
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("movetop").style.display = "block";
+            } else {
+                document.getElementById("movetop").style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+
+    </script>
+    <!-- //move top -->
+</footer>
+<!--//footer-9 -->
+<script th:inline="javascript">
+    var clientId = [[${accountId}]];
+</script>
+<!-- Template JavaScript -->
+<script th:src="@{/assets_CustomerSide/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/theme-change.js}"></script>
+
+<!--/search-->
+<script th:src="@{/assets_CustomerSide/js/modernizr.custom.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/classie.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/demo1.js}"></script>
+<!--//search-->
+<!-- MENU-JS -->
+<script>
+    $(window).on("scroll", function () {
+        var scroll = $(window).scrollTop();
+
+        if (scroll >= 80) {
+            $("#site-header").addClass("nav-fixed");
+        } else {
+            $("#site-header").removeClass("nav-fixed");
+        }
+    });
+
+    //Main navigation Active Class Add Remove
+    $(".navbar-toggler").on("click", function () {
+        $("header").toggleClass("active");
+    });
+    $(document).on("ready", function () {
+        if ($(window).width() > 991) {
+            $("header").removeClass("active");
+        }
+        $(window).on("resize", function () {
+            if ($(window).width() > 991) {
+                $("header").removeClass("active");
+            }
+        });
+    });
+
+</script>
+<!-- //MENU-JS -->
+
+<!-- disable body scroll which navbar is in active -->
+<script>
+    $(function () {
+        $('.navbar-toggler').click(function () {
+            $('body').toggleClass('noscroll');
+        })
+    });
+
+    function updateClock() {
+        var now = new Date();
+
+        // Lấy giờ, phút, giây với định dạng 2 chữ số
+        var hours = now.getHours().toString().padStart(2, '0');
+        var minutes = now.getMinutes().toString().padStart(2, '0');
+        var seconds = now.getSeconds().toString().padStart(2, '0');
+
+        // Lấy ngày với định dạng tiếng Anh
+        var day = now.toLocaleDateString('en-US', {weekday: 'long'});
+        var date = now.toLocaleDateString('en-US'); // Hiển thị ngày tháng năm theo định dạng US (MM/DD/YYYY)
+
+        // Hiển thị thời gian vào phần tử HTML
+        document.getElementById('time').innerText = `${hours}:${minutes}:${seconds}`;
+        document.getElementById('date').innerText = `${day}, ${date}`;
+    }
+
+    // Cập nhật thời gian mỗi giây
+    setInterval(updateClock, 1000);
+    updateClock();
+
+</script>
+<!-- //disable body scroll which navbar is in active -->
+<!-- //bootstrap -->
+<script th:src="@{/assets_CustomerSide/js/bootstrap.min.js}"></script>
+
+<!-- script de hien thi tuy chon description va document -->
+<script>
+    // Lấy các phần tử DOM
+    const descriptionButton = document.getElementById('view_description');
+    const documentButton = document.getElementById('view_document');
+    const assetDescription = document.getElementById('asset_description');
+    const assetDocument = document.getElementById('asset_document');
+
+    // Mặc định khi tải trang, chỉ hiển thị asset_description và active button
+    window.onload = function() {
+        assetDescription.style.display = 'block';  // Hiển thị khối mô tả
+        assetDocument.style.display = 'none';  // Ẩn khối tài liệu
+        descriptionButton.classList.add('active');  // Đặt nút "Description" là active
+    };
+
+    // Khi nhấn vào nút "Description"
+    descriptionButton.addEventListener('click', function() {
+        assetDescription.style.display = 'block';  // Hiển thị khối mô tả
+        assetDocument.style.display = 'none';  // Ẩn khối tài liệu
+
+        // Đổi trạng thái active của các nút
+        descriptionButton.classList.add('active');
+        documentButton.classList.remove('active');
+    });
+
+    // Khi nhấn vào nút "Document"
+    documentButton.addEventListener('click', function() {
+        assetDocument.style.display = 'block';  // Hiển thị khối tài liệu
+        assetDescription.style.display = 'none';  // Ẩn khối mô tả
+
+        // Đổi trạng thái active của các nút
+        documentButton.classList.add('active');
+        descriptionButton.classList.remove('active');
+    });
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script th:src="@{/assets_CustomerSide/js/chatbot.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/notification.js}"></script>
+
+</body>
+
+</html>

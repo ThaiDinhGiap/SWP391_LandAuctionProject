@@ -42,6 +42,7 @@
             });
         });
     </script>
+    <!--  css cho zoom anh  -->
     <style>
         #image-gallery {
             display: flex;
@@ -98,6 +99,13 @@
         </div>
         <div class="sidebar-wrapper">
             <ul class="nav">
+                <li class="active">
+                    <a th:href="@{/property_agent/profile}">
+                        <i class="nc-icon nc-single-02"></i>
+                        <p>Profile</p>
+                    </a>
+                </li>
+
                 <li>
                     <a th:href="@{/property_agent/dashboard}">
                         <i class="nc-icon nc-bank"></i>
@@ -111,9 +119,15 @@
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/property_agent/list_unsuccessful_sale_asset}">
+                    <a th:href="@{/property_agent/get_all_asset}">
                         <i class="nc-icon nc-bullet-list-67"></i>
                         <p>Asset list</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/logout}">
+                        <i class="nc-icon nc-user-run"></i>
+                        <p>Logout</p>
                     </a>
                 </li>
             </ul>
@@ -280,6 +294,7 @@
                 <div class="card col-md-12">
                     <div class="card-body">
                         <div>
+                            <h4 class="card-title">Google map</h4>
                             <iframe
                                     th:src="${embedUrl}"
                                     width=100%

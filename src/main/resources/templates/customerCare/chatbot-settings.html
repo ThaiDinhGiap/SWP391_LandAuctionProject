@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <link rel="apple-touch-icon" sizes="76x76" th:href="@{/dashboardStatic/img/apple-icon.png}">
+    <link rel="icon" type="image/png" th:href="@{/dashboardStatic/img/favicon.png}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Chatbot Settings</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+          name='viewport'/>
+    <!-- Fonts and icons -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- SockJS-->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <!-- CSS Files -->
+    <link th:href="@{/dashboardStatic/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/dashboardStatic/css/paper-dashboard.css?v=2.0.1}" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/dashboardStatic/css/styleCustomerCare.css}">
+</head>
+
+<body class="">
+<div class="wrapper ">
+    <!-- Side navbar -->
+    <div class="sidebar" data-color="white" data-active-color="danger">
+        <div class="logo">
+            <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-mini">
+                <div class="logo-image-small">
+                    <img th:src="@{/dashboardStatic/img/logo-small.png}">
+                </div>
+            </a>
+            <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-normal">
+                VietLand Auction
+            </a>
+        </div>
+        <div class="sidebar-wrapper">
+            <ul class="nav">
+                <li>
+                    <a th:href="@{/customercare/profile}">
+                        <i class="nc-icon nc-single-02"></i>
+                        <p>User Profile</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/customercare/direct-chat}">
+                        <i class="nc-icon nc-send"></i>
+                        <p>Direct Chat</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/customercare/history-chat}">
+                        <i class="nc-icon nc-tile-56"></i>
+                        <p>History Chat</p>
+                    </a>
+                </li>
+                <li class="active">
+                    <a th:href="@{/customercare/chatbot-settings}">
+                        <i class="nc-icon nc-settings-gear-65"></i>
+                        <p>Chatbot Settings</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/logout}">
+                        <i class="nc-icon nc-user-run"></i>
+                        <p>Logout</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- End side navbar -->
+
+    <div class="main-panel">
+        <div class="chatbot-settings-container">
+            <div class="table-header">
+                <h2>Main Topics</h2>
+            </div>
+            <table id="mainTopicsTable">
+                <thead class="text-primary">
+                <tr>
+                    <th>TOPIC ID</th>
+                    <th>TOPIC NAME</th>
+                    <th>ACTIONS</th>
+                </tr>
+                </thead>
+                <tbody id="mainTopics">
+                <!-- Danh sách main topics sẽ được load ở đây -->
+                </tbody>
+            </table>
+        </div>
+        <div id="subTopicsContainer">
+            <!-- Các bảng Sub-Topics sẽ được tạo động tại đây -->
+        </div>
+    </div>
+
+</div>
+
+
+</div>
+
+<!-- Core JS Files -->
+<script th:src="@{/dashboardStatic/js/core/jquery.min.js}"></script>
+
+<script th:src="@{/dashboardStatic/js/core/popper.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/core/bootstrap.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/plugins/perfect-scrollbar.jquery.min.js}"></script>
+<!-- Notifications Plugin -->
+<script th:src="@{/dashboardStatic/js/plugins/bootstrap-notify.js}"></script>
+<script th:src="@{/dashboardStatic/js/paper-dashboard.min.js?v=2.0.1}" type="text/javascript"></script>
+<script th:src="@{/dashboardStatic/js/customercare/chatbotSettings.js}"></script>
+</body>
+
+</html>

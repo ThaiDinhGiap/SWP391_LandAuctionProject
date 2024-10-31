@@ -1,8 +1,10 @@
 package com.se1858.group4.Land_Auction_SWP391.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,7 +24,7 @@ public class Notification {
     @Column(name = "read_status")
     private String readStatus;
 
-    @ManyToMany(mappedBy = "notifications", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToMany(mappedBy = "notifications", fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.DETACH})
     private List<Account> accounts;
 
     public Notification() {
@@ -83,5 +85,12 @@ public class Notification {
                 ", createdDate=" + createdDate +
                 ", readStatus='" + readStatus + '\'' +
                 '}';
+    }
+
+    public void addAccount(Account account) {
+        if (this.accounts == null) {
+            this.accounts = new ArrayList<>();
+        }
+        this.accounts.add(account);
     }
 }

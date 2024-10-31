@@ -28,14 +28,8 @@ public class AuctionSession {
     @Column(name = "starting_price")
     private Long startingPrice;
 
-    @Column(name = "starting_price_per_unit")
-    private Long startingPricePerUnit;
-
     @Column(name = "dealed_price")
     private Long dealedPrice;
-
-    @Column(name = "dealed_price_per_unit")
-    private Long dealedPricePerUnit;
 
     @Column(name = "current_highest_price")
     private Long currentHighestPrice;
@@ -85,14 +79,13 @@ public class AuctionSession {
     }
 
     public AuctionSession(String auctionName, LocalDateTime startTime, LocalDateTime expectedEndTime,
-                          Long startingPrice, Long startingPricePerUnit, Account auctioneer, Long minimumBidIncrement, Long deposit,
+                          Long startingPrice, Account auctioneer, Long minimumBidIncrement, Long deposit,
                           Long registerFee, int extraTimeUnit, String status, LocalDateTime registrationOpenDate,
                           LocalDateTime registrationCloseDate, Asset asset) {
 		this.auctionName = auctionName;
 		this.startTime = startTime;
 		this.expectedEndTime = expectedEndTime;
 		this.startingPrice = startingPrice;
-		this.startingPricePerUnit = startingPricePerUnit;
 		this.auctioneer = auctioneer;
 		this.minimumBidIncrement = minimumBidIncrement;
 		this.deposit = deposit;
@@ -176,14 +169,6 @@ public class AuctionSession {
         this.dealedPrice = dealedPrice;
     }
 
-    public Long getDealedPricePerUnit() {
-        return dealedPricePerUnit;
-    }
-
-    public void setDealedPricePerUnit(Long dealedPricePerUnit) {
-        this.dealedPricePerUnit = dealedPricePerUnit;
-    }
-
     public Long getDeposit() {
         return deposit;
     }
@@ -232,14 +217,6 @@ public class AuctionSession {
         this.startingPrice = startingPrice;
     }
 
-    public Long getStartingPricePerUnit() {
-        return startingPricePerUnit;
-    }
-
-    public void setStartingPricePerUnit(Long startingPricePerUnit) {
-        this.startingPricePerUnit = startingPricePerUnit;
-    }
-
     public LocalDateTime getStartTime() {
         return startTime;
     }
@@ -284,7 +261,7 @@ public class AuctionSession {
 	public String toString() {
 		return "Auction_session [auctionId=" + auctionId + ", auctionName=" + auctionName + ", startTime=" + startTime
 				+ ", expectedEndTime=" + expectedEndTime + ", startingPrice=" + startingPrice
-				+ ", startingPricePerUnit=" + startingPricePerUnit + ", auctioneer=" + auctioneer
+                + ", auctioneer=" + auctioneer
 				+ ", minimumBidIncrement=" + minimumBidIncrement + ", deposit=" + deposit + ", registerFee="
 				+ registerFee + ", extraTimeUnit=" + extraTimeUnit + ", status=" + status + ", registrationOpenDate="
 				+ registrationOpenDate + ", registrationCloseDate=" + registrationCloseDate + ", asset=" + asset + "]";

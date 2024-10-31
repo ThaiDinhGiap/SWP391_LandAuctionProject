@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>RealHouzing - Real Estate Category Bootstrap Responsive Template | Home :: W3layouts</title>
+    <!-- Google fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <!-- Template CSS -->
+    <link rel="stylesheet" th:href="@{/assets_CustomerSide/css/style-starter.css}">
+</head>
+
+<body>
+<!--/Header-->
+<header id="site-header" class="fixed-top">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light stroke py-lg-0">
+            <h1><a class="navbar-brand" th:href="@{/customer/homepage}">
+                Viet<span class="sub-color">Land</span>
+            </a></h1>
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon fa icon-expand fa-bars"></span>
+                <span class="navbar-toggler-icon fa icon-close fa-times"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarScroll">
+                <ul class="navbar-nav mx-lg-auto my-2 my-lg-0 navbar-nav-scroll">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/homepage}" style="font-size: 20px;">Properties</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/about}" style="font-size: 20px;">Auction</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/services}" style="font-size: 20px;">News</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/contact}" style="font-size: 20px;">About us</a>
+                    </li>
+                </ul>
+
+                <div class="navbar-nav" id="clock-container">
+                    <span class="nav-link" id="time"></span>
+                    <span class="nav-link" id="date"></span>
+                </div>
+
+                <!--/search-->
+                <button id="trigger-overlay" class="searchw3-icon me-xl-4 me-lg-3" type="button"><i
+                        class="fas fa-search"></i></button>
+                <!-- open/close -->
+                <div class="overlay overlay-slidedown">
+                    <button type="button" class="overlay-close"><i class="fas fa-times"></i></button>
+                    <nav class="w3l-formhny">
+                        <h5 class="mb-3">Search here</h5>
+                        <form action="#" method="GET" class="d-sm-flex search-header">
+                            <input class="form-control me-2" type="search" placeholder="Search here..."
+                                   aria-label="Search" required>
+                            <button class="btn btn-style btn-primary" type="submit">Search</button>
+                        </form>
+                    </nav>
+                </div>
+                <!--//search-->
+
+                <!-- Register and Login Buttons -->
+                <div class="auth-buttons">
+                    <button class="btn btn-login">Log in</button>
+                </div>
+
+            </div>
+        </nav>
+    </div>
+</header>
+<!--//Header-->
+
+<!-- main-slider -->
+<section class="w3l-main-slider banner-slider" id="home">
+    <div class="owl-one owl-carousel owl-theme">
+        <div class="item">
+            <div class="slider-info banner-view banner-top1">
+                <div class="container">
+                    <div class="banner-info header-hero-19" style="padding: 30px; text-align: left;">
+                        <p class="w3hny-tag"
+                           style="font-size: 1.5rem; color: #FF5722; font-weight: bold; margin-bottom: 10px;">VietLand
+                            Auction</p>
+                        <!-- Màu #e91e63 là màu hồng đậm tạo điểm nhấn -->
+                        <h3 class="title-hero-19"
+                            style="font-size: 2.5rem; font-weight: bold; line-height: 1.2; margin-bottom: 20px;">A
+                            Trusted Platform for Land Auctions with Transparent Deals</h3>
+                        <a th:href="@{/customer/about}" class="btn btn-style btn-primary mt-3"
+                           style="padding: 10px 20px; font-size: 1rem;">Read More <i
+                                class="fas fa-angle-double-right ms-2"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="chatbot">
+    <div id="chatbox">
+        <div class="chat-header">
+            <div class="h-child">
+                <img th:src="@{/assets_CustomerSide/images/chatbot.jpg}" alt="avatar" id="avatar">
+                <div>
+                    <span class="name">Chat Box</span>
+                </div>
+            </div>
+            <div>
+                <button id="resetChat" class="btn btn-sm btn-light refBtn" onclick="initChat()"
+                        style="display: inline-block;">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+
+                <button id="endChat" class="btn btn-sm btn-light refBtn" onclick="disconnectWebSocket()"
+                        style="display: none;">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+
+            </div>
+        </div>
+        <div class="chat-body" id="chat-box">
+            <!-- Chat content goes here -->
+        </div>
+        <div class="chat-footer">
+            <input id="messageField" type="text" placeholder="Type your message here..." readonly>
+            <button onclick="sendButtonPressed()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+    <button id="init" class="btn btn-primary chat-btn"><i class="fas fa-headset"></i></button>
+</div>
+
+<!-- Modal cho hộp thoại xác nhận -->
+<div id="confirmModal">
+    <div>
+        <p id="confirmMessage"></p>
+        <button class="moralButton" id="confirmApprove">Approve</button>
+        <button class="moralButton" id="confirmReject">Reject</button>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    var clientId = [[${accountId}]];
+</script>
+<script th:src="@{/assets_CustomerSide/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/theme-change.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/modernizr.custom.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/classie.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/demo1.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/chatbot.js}"></script>
+</body>
+</html>

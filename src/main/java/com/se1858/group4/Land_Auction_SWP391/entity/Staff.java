@@ -1,6 +1,7 @@
 package com.se1858.group4.Land_Auction_SWP391.entity;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -23,6 +24,7 @@ public class Staff {
     private String gender;
 
     @Column(name = "date_of_birth")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime dateOfBirth;
 
     @Column(name = "address")
@@ -31,16 +33,20 @@ public class Staff {
     @Column(name = "phone_number", length = 10)
     private String phoneNumber;
 
+    @Column(name = "is_available")
+    private boolean isAvailable = true;
+
     public Staff() {
     }
 
-    public Staff(Account account, String fullName, String gender, LocalDateTime dateOfBirth, String address, String phoneNumber) {
+    public Staff(Account account, String fullName, String gender, LocalDateTime dateOfBirth, String address, String phoneNumber, boolean isAvailable) {
         this.account = account;
         this.fullName = fullName;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.isAvailable = isAvailable;
     }
 
     public int getStaffId() {
@@ -97,6 +103,14 @@ public class Staff {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 
     @Override

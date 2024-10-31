@@ -1,3 +1,7 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+-->
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
@@ -6,186 +10,110 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>RealHouzing - Real Estate Category Bootstrap Responsive Template | Home :: W3layouts</title>
-    <!-- Google fonts -->
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- google fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- WebSocket -->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
     <!-- Template CSS -->
     <link rel="stylesheet" th:href="@{/assets_CustomerSide/css/style-starter.css}">
 
     <style>
-        .chat-btn {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            z-index: 1000;
+        .btn {
+            padding: 10px 20px;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+
+            cursor: pointer;
+        }
+
+        .btn-login {
             background-color: #fb4a33;
             color: white;
-            border: none;
+        }
+
+        .btn-register:hover {
+            background-color: #004e68;
+            transition: 0.3s;
+        }
+
+        #clock-container {
+            display: flex;
+            flex-direction: column;
+            text-align: left; /* Căn phải */
+            margin-right: 30px; /* Khoảng cách phải */
+            color: white;
+            line-height: 0.4;
+        }
+
+        #time {
+            font-size: 25px;
+        }
+
+        #date {
+            font-size: 15px;
+        }
+
+        /* Điều chỉnh thanh thông báo */
+        .dropdown-menu {
+            padding: 0;
+            margin-right: 20px;
+            max-height: 300px; /* Giới hạn chiều cao */
+            overflow-y: auto;  /* Thêm thanh cuộn khi có nhiều thông báo */
+            scrollbar-width: none;
+            z-index: 1050;
+            min-width: 220px; /* Tăng chiều rộng của box notify */
+        }
+
+        /* Cỡ chữ nhỏ hơn và tự động xuống dòng */
+        .dropdown-menu .dropdown-item {
+            width: 95%;
+            white-space: normal; /* Để nội dung tự động xuống dòng */
+            word-wrap: break-word; /* Đảm bảo từ dài sẽ bị tách nếu cần */
+            font-size: 14px; /* Giảm cỡ chữ cho phù hợp với thông báo */
+            padding: 10px; /* Điều chỉnh padding nếu cần */
+        }
+
+        /* Các thông báo chưa đọc sẽ có màu đậm và có chấm xanh */
+        .notification-unread {
+            font-weight: bold; /* Chữ đậm */
+            background-color: #f9f9f9; /* Màu nền nhạt hơn cho thông báo chưa đọc */
+            position: relative; /* Để có thể định vị chấm xanh */
+        }
+
+        /* Chấm xanh cho thông báo chưa đọc */
+        .notification-unread::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 2px;
+            transform: translateY(-100%);
+            width: 10px;
+            height: 10px;
+            background-color: #00aaff; /* Màu xanh cho chấm */
             border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ cho nút */
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s; /* Thêm hiệu ứng chuyển đổi */
         }
 
-        .chat-btn i {
-            font-size: 24px; /* Tăng kích thước icon */
+        /* Các thông báo đã đọc sẽ có màu nhạt và không có chấm */
+        .notification-read {
+            font-weight: normal; /* Chữ bình thường */
+            background-color: #eaeaea; /* Màu nền cho thông báo đã đọc */
         }
 
-        .chat-btn:hover {
-            background-color: #80B3C4; /* Màu thay đổi khi hover */
-            transform: scale(1.1); /* Nút phóng to khi hover */
-        }
-
-        #chatbox {
-            position: fixed;
-            bottom: 100px;
-            left: 20px;
-            width: 350px;
-            height: 440px;
-            border: 1px solid #ccc;
-            border-radius: 20px;
-            background: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            transform: scale(0); /* Ban đầu thu nhỏ lại */
-            transition: transform 0.8s ease-in-out; /* Thời gian và độ mượt của chuyển động */
-        }
-
-        #chatbox.show {
-            transform: scale(1); /* Phóng to ra kích thước đầy đủ */
-        }
-
-        /* Header của chatbot */
-        .chat-header {
-            padding: 15px;
-            background: linear-gradient(135deg, #ac1d2f, #fb4a33);
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-        }
-
-        .chat-header .h-child {
-            display: flex;
-            align-items: center;
-        }
-
-        .chat-header img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-
-        .chat-header .name {
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .chat-header .refBtn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-
-        /* Body của chatbot */
-        .chat-body {
-            padding: 10px;
-            overflow-y: auto; /* Cho phép cuộn nếu nội dung vượt quá chiều cao */
-            height: 300px; /* Giảm chiều cao của phần body */
-            max-height: 300px; /* Đảm bảo chiều cao tối đa của phần body */
-            background: #f7f7f7; /* Màu nền nhẹ cho body */
-        }
-
-        .msg, .rep {
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 10px;
-            max-width: 80%;
-            display: inline-block;
-        }
-
-        .msg {
-            background-color: #e6e6e6;
-            text-align: left;
-        }
-
-        .rep {
-            background-color: #d2f8d2;
-            text-align: right;
-            margin-left: auto;
-        }
-
-        .opt {
-            padding: 10px 15px;
-            border: 1px solid #3b82f6;
-            border-radius: 12px;
-            margin: 5px 0;
-            display: block;
-            cursor: pointer;
-            font-weight: 500;
-            background: white;
-            text-align: center;
-            font-size: 14px;
-            color: #3b82f6;
-            transition: background-color 0.2s;
-        }
-
-        .opt:hover {
-            background-color: #3b82f6;
-            color: white;
-        }
-
-        .opt.selected {
-            background-color: #11ba11; /* Màu nền xanh nhạt khi chọn */
-            color: #6b6b6b; /* Màu chữ nhạt */
-            border: none; /* Bỏ viền */
-        }
-
-        /* Footer cho nút và nhập tin nhắn */
-        .chat-footer {
-            padding: 10px;
+        /* Cài đặt cho nút chuông thông báo */
+        #trigger-overlay {
             background-color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid #ddd;
-        }
-
-        .chat-footer input {
-            width: 80%;
-            padding: 10px;
-            border-radius: 20px;
-            border: 1px solid #ccc;
-            outline: none;
-        }
-
-        .chat-footer button {
-            background-color: #80B3C4;
-            color: white;
             border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s;
         }
 
-        .chat-footer button:hover {
-            background-color: #458b9e;
+        /* Màu và kích thước cho biểu tượng chuông */
+        #trigger-overlay i {
+            color: #ff0000; /* Màu đỏ cho biểu tượng chuông */
+            font-size: 20px; /* Kích thước biểu tượng chuông */
         }
     </style>
 </head>
@@ -195,28 +123,26 @@
 <header id="site-header" class="fixed-top">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light stroke py-lg-0">
-            <h1><a class="navbar-brand" th:href="@{/customer/homepage}">
+            <h1><a class="navbar-brand" th:href="@{/customer/home}">
                 Viet<span class="sub-color">Land</span>
             </a></h1>
-            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false"
-                    aria-label="Toggle navigation">
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon fa icon-expand fa-bars"></span>
                 <span class="navbar-toggler-icon fa icon-close fa-times"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarScroll">
                 <ul class="navbar-nav mx-lg-auto my-2 my-lg-0 navbar-nav-scroll">
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/customer/homepage}" style="font-size: 20px;">Properties</a>
+                        <a class="nav-link" th:href="@{/customer/get_all_asset}" style="font-size: 20px;">Asset</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/customer/about}" style="font-size: 20px;">Auction</a>
+                        <a class="nav-link" th:href="@{/customer/get_all_auction}" style="font-size: 20px;">Auction</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/customer/services}" style="font-size: 20px;">News</a>
+                        <a class="nav-link" th:href="@{/customer/get_all_news}" style="font-size: 20px;">News</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/customer/contact}" style="font-size: 20px;">About us</a>
+                        <a class="nav-link" href="contact.html" style="font-size: 20px;">About us</a>
                     </li>
                 </ul>
 
@@ -225,34 +151,43 @@
                     <span class="nav-link" id="date"></span>
                 </div>
 
-                <!--/search-->
-                <button id="trigger-overlay" class="searchw3-icon me-xl-4 me-lg-3" type="button"><i
-                        class="fas fa-search"></i></button>
-                <!-- open/close -->
-                <div class="overlay overlay-slidedown">
-                    <button type="button" class="overlay-close"><i class="fas fa-times"></i></button>
-                    <nav class="w3l-formhny">
-                        <h5 class="mb-3">Search here</h5>
-                        <form action="#" method="GET" class="d-sm-flex search-header">
-                            <input class="form-control me-2" type="search" placeholder="Search here..."
-                                   aria-label="Search" required>
-                            <button class="btn btn-style btn-primary" type="submit">Search</button>
-                        </form>
-                    </nav>
+                <!--/notify-->
+                <div class="dropdown">
+                    <button id="trigger-overlay" class="searchw3-icon me-xl-4 me-lg-3" type="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="loadNotifications()">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="notification-list" aria-labelledby="trigger-overlay">
+                        <li><a class="dropdown-item" href="#">Loading...</a></li>
+                    </ul>
                 </div>
-                <!--//search-->
+                <!-- open/close -->
+                <!--//notify-->
 
                 <!-- Register and Login Buttons -->
                 <div class="auth-buttons">
-                    <button class="btn btn-login">Log in</button>
+                    <div th:if="${#authentication.name == 'anonymousUser'}">
+                        <a class="btn btn-login btn-primary" th:href="@{/showMyLoginPage}" style="font-size: 20px">LOG IN</a>
+                    </div>
+                    <div th:if="${#authentication.name != 'anonymousUser'}">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-user"></i>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item" th:href="@{/customer/profile}">Profile</a></li>
+                                <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
             </div>
+
         </nav>
     </div>
 </header>
 <!--//Header-->
-
+<!--/Banner-Start-->
 <!-- main-slider -->
 <section class="w3l-main-slider banner-slider" id="home">
     <div class="owl-one owl-carousel owl-theme">
@@ -260,59 +195,391 @@
             <div class="slider-info banner-view banner-top1">
                 <div class="container">
                     <div class="banner-info header-hero-19" style="padding: 30px; text-align: left;">
-                        <p class="w3hny-tag"
-                           style="font-size: 1.5rem; color: #FF5722; font-weight: bold; margin-bottom: 10px;">VietLand
-                            Auction</p>
+                        <p class="w3hny-tag" style="font-size: 1.5rem; color: #FF5722; font-weight: bold; margin-bottom: 10px;">VietLand Auction</p>
                         <!-- Màu #e91e63 là màu hồng đậm tạo điểm nhấn -->
-                        <h3 class="title-hero-19"
-                            style="font-size: 2.5rem; font-weight: bold; line-height: 1.2; margin-bottom: 20px;">A
-                            Trusted Platform for Land Auctions with Transparent Deals</h3>
-                        <a th:href="@{/customer/about}" class="btn btn-style btn-primary mt-3"
-                           style="padding: 10px 20px; font-size: 1rem;">Read More <i
-                                class="fas fa-angle-double-right ms-2"></i></a>
+                        <h3 class="title-hero-19" style="font-size: 2.5rem; font-weight: bold; line-height: 1.2; margin-bottom: 20px;">A Trusted Platform for Land Auctions with Transparent Deals</h3>
+                        <a href="about.html" class="btn btn-style btn-primary mt-3" style="padding: 10px 20px; font-size: 1rem;">Read More <i class="fas fa-angle-double-right ms-2"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</section>
+<!-- //main-slider -->
+<!--/bottom-3-grids-->
+<div class=" w3l-3-grids py-5" id="grids-3">
+    <div class="container py-md-4">
+        <div class="row">
+            <div class="col-md-6 mt-md-0">
+                <div class="grids3-info position-relative">
+                    <a href="#img" class="d-block zoom"><img th:src="@{/assets_CustomerSide/images/banner1.jpg}" alt="" class="img-fluid news-image"></a>
+                    <div class="w3-grids3-info">
+                        <h4 class="gdnhy-1"><a href="#img">Asset Listings</a>
+                            <a class="w3item-link btn btn-style mt-4" th:href="@{/customer/get_all_asset}">
+                                Explore Assets <i class="fas fa-angle-double-right ms-2"></i>
+                            </a>
+
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mt-md-0 mt-4 grids3-info2">
+                <div class="grids3-info position-relative">
+                    <a href="#img" class="d-block zoom"><img th:src="@{/assets_CustomerSide/images/banner2.jpg}" alt="" class="img-fluid news-image"></a>
+                    <div class="w3-grids3-info second">
+                        <h4 class="gdnhy-1"><a href="#img">Auction Listings</a>
+                            <a class="w3item-link btn btn-style mt-4" th:href="@{/customer/get_all_auction}">
+                                Explore Auctions <i class="fas fa-angle-double-right ms-2"></i>
+                            </a>
+                        </h4>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--//bottom-3-grids-->
+
+<!--/properties-->
+<section class="w3l-blog" id="locations">
+    <div class="blog py-5 py-5">
+        <div class="container py-lg-5 py-md-4 py-2">
+            <div class="title-content text-center mb-lg-3 mb-4">
+                <h6 class="title-subw3hny mb-1">Our Assets</h6>
+                <h3 class="title-w3l mb-3">Latest Assets</h3>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-6 item" th:each="asset: ${top3Assets}">
+                    <div class="card">
+                        <div class="card-header p-0 position-relative">
+                            <a th:href="@{/customer/viewAssetDetail(assetId=${asset.assetId})}"
+                               class="zoom d-block">
+                                <img class="card-img-bottom d-block" th:if="${asset.images.size() > 0}"
+                                     th:src="${asset.images.get(0).path}"
+                                     alt="Cover photo" style="height: 250px; width: 100%;">
+                            </a>
+                        </div>
+                        <div class="card-body blog-details">
+                            <a th:href="@{/customer/viewAssetDetail(assetId=${asset.assetId})}"
+                               class="blog-desc"
+                               th:text="${asset.location.length() > 40 ? asset.location.substring(0, 40) + '...' : asset.location}"
+                               th:title="${asset.location}"></a>
+                        </div>
+                        <div class="card-footer">
+                            <div>
+                                <div>
+                                    <span class="meta-value">Length (m): </span>
+                                    <span th:text="${asset.length}" style="font-weight: bold;"></span>
+                                    <span class="meta-value">Width (m): </span>
+                                    <span th:text="${asset.width}" style="font-weight: bold;"></span>
+                                </div>
+                                <div>
+                                    <span class="meta-value">Area (m<sup>2</sup>): </span>
+                                    <span th:text="${asset.area}" style="font-weight: bold;"></span>
+                                </div>
+                                <div class="date">
+                                    <span>Upload date:</span>
+                                    <span th:text="${asset.createdDate}"></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
-<div id="chatbox">
-
-    <div class="chat-header">
-        <div class="h-child">
-            <img th:src="@{/assets_CustomerSide/images/chatbot.jpg}" alt="avatar" id="avatar">
-            <div>
-                <span class="name">Chatbot</span>
+<!--//properties-->
+<!--/w3l-blog-->
+<section class="w3l-blog">
+    <div class="blog py-5" id="Newsblog">
+        <div class="container py-lg-5 py-md-4 py-2">
+            <div class="title-content text-center mb-lg-3 mb-4">
+                <h6 class="title-subw3hny mb-1">Our News</h6>
+                <h3 class="title-w3l mb-5">Stay Updated with Our <br>News Feed</h3>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-6 item" th:each="news: ${top3LatestNews}">
+                    <div class="card">
+                        <div class="card-header p-0 position-relative">
+                            <a th:href="@{/customer/viewNewsDetail(newsId=${news.newsId})}" class="zoom d-block">
+                                <img class="card-img-bottom d-block" th:src="${news.cover_photo.path}" alt="Card image cap"
+                                     style="height: 250px; width: 100%;">
+                            </a>
+                        </div>
+                        <div class="card-body blog-details">
+                            <a th:href="@{/customer/viewNewsDetail(newsId=${news.newsId})}" class="blog-desc"
+                               th:text="${news.title.length() > 80 ? news.title.substring(0, 80) + '...' : news.title}"
+                               th:title="${news.title}"></a>
+                        </div>
+                        <div class="card-footer">
+                            <div class="author align-items-center">
+                                <span class="meta-value">by</span>
+                                <span th:text="${news.staff.staff.fullName}" style="font-weight: bold;"></span>
+                                <div class="date">
+                                    <p th:text="${news.createdDate}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div>
-            <button class="btn btn-sm btn-light refBtn" onclick="initChat()"><i class="fas fa-sync-alt"></i></button>
+    </div>
+</section>
+<!--//w3l-blog-->
+<!--/footer-9-->
+<footer class="w3l-footer9">
+    <section class="footer-inner-main py-5">
+        <div class="container py-md-4">
+            <div class="right-side">
+                <div class="row footer-hny-grids sub-columns">
+                    <div class="col-lg-3 sub-one-left">
+                        <h6>About </h6>
+                        <p class="footer-phny pe-lg-5">VietLand Auction is a leading online platform for real estate auctions, offering a transparent and efficient way to buy and sell properties.</p>
+                        <div class="columns-2 mt-4 pt-lg-2">
+                            <ul class="social">
+                                <li><a href="#facebook"><span class="fab fa-facebook-f"></span></a>
+                                </li>
+                                <li><a href="#linkedin"><span class="fab fa-linkedin-in"></span></a>
+                                </li>
+                                <li><a href="#twitter"><span class="fab fa-twitter"></span></a>
+                                </li>
+                                <li><a href="#google"><span class="fab fa-google-plus-g"></span></a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 sub-two-right">
+                        <h6>Company</h6>
+                        <ul>
+
+                            <li><a href="#why"><i class="fas fa-angle-right"></i> Why Us</a>
+                            </li>
+                            <li><a href="#licence"><i class="fas fa-angle-right"></i>Our Agents
+                            </a>
+                            </li>
+                            <li><a href="#log"><i class="fas fa-angle-right"></i>Our Offers
+                            </a></li>
+
+                            <li><a href="#career"><i class="fas fa-angle-right"></i> Careers</a></li>
+
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 sub-two-right">
+                        <h6>Services</h6>
+                        <ul>
+                            <li><a href="#processing"><i class="fas fa-angle-right"></i> Buy Properties</a>
+                            </li>
+                            <li><a href="#research"><i class="fas fa-angle-right"></i> Sell Properties</a>
+                            </li>
+                            <li><a href="#metal"><i class="fas fa-angle-right"></i> Rent Properties</a>
+                            </li>
+                            <li><a href="#metal"><i class="fas fa-angle-right"></i> Property Search</a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 sub-two-right">
+                        <h6>Explore</h6>
+                        <ul>
+                            <li><a href="#processing"><i class="fas fa-angle-right"></i> Homes for Rent</a>
+                            </li>
+                            <li><a href="#research"><i class="fas fa-angle-right"></i> Apartments for Rent</a>
+                            </li>
+                            <li><a href="#metal"><i class="fas fa-angle-right"></i> Homes for Sale</a>
+                            </li>
+                            <li><a href="#metal"><i class="fas fa-angle-right"></i> Apartments for Sale</a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 sub-one-left ps-lg-5">
+                        <h6>Stay Update!</h6>
+                        <p class="w3f-para mb-4">Subscribe to our newsletter to receive our weekly feed.</p>
+                        <div class="w3l-subscribe-content align-self mt-lg-0 mt-5">
+                            <form action="#" method="post" class="subscribe-wthree">
+                                <div class="flex-wrap subscribe-wthree-field">
+                                    <input class="form-control" type="email" placeholder="Email" name="email" required="">
+                                    <button class="btn btn-style btn-primary" type="submit">Subscribe</button>
+                                </div>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Js scripts -->
+    <!-- move top -->
+    <button onclick="topFunction()" id="movetop" title="Go to top">
+        <span class="fas fa-level-up-alt" aria-hidden="true"></span>
+    </button>
+    <script>
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {
+            scrollFunction()
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("movetop").style.display = "block";
+            } else {
+                document.getElementById("movetop").style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+
+    </script>
+    <!-- //move top -->
+</footer>
+<!--//footer-9 -->
+
+<div id="chatbot">
+    <div id="chatbox">
+        <div class="chat-header">
+            <div class="h-child">
+                <img th:src="@{/assets_CustomerSide/images/chatbot.jpg}" alt="avatar" id="avatar">
+                <div>
+                    <span class="name">Chat Box</span>
+                </div>
+            </div>
+            <div>
+                <button id="resetChat" class="btn btn-sm btn-light refBtn" onclick="initChat()"
+                        style="display: inline-block;">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+
+                <button id="endChat" class="btn btn-sm btn-light refBtn" onclick="disconnectWebSocket()"
+                        style="display: none;">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+
+            </div>
+        </div>
+        <div class="chat-body" id="chat-box">
+            <!-- Chat content goes here -->
+        </div>
+        <div class="chat-footer">
+            <input id="messageField" type="text" placeholder="Type your message here..." readonly>
+            <button onclick="sendButtonPressed()"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
-
-    <div class="chat-body" id="chat-box">
-        <!-- Chat content goes here -->
-    </div>
-
-    <!-- Thêm phần footer -->
-    <div class="chat-footer">
-        <input type="text" placeholder="Type your message here...">
-        <button><i class="fas fa-paper-plane"></i></button>
-    </div>
-
+    <button id="init" class="btn btn-primary chat-btn"><i class="fas fa-headset"></i></button>
 </div>
 
-<button id="init" class="btn btn-primary chat-btn"><i class="fas fa-headset"></i></button>
-<!-- //main-slider -->
+<!-- Modal cho hộp thoại xác nhận -->
+<div id="confirmModal">
+    <div>
+        <p id="confirmMessage"></p>
+        <button class="moralButton" id="confirmApprove">Approve</button>
+        <button class="moralButton" id="confirmReject">Reject</button>
+    </div>
+</div>
 
-<!-- Thay đổi tất cả các đường dẫn image và JS để sử dụng đúng cấu trúc thư mục mới -->
+<script th:inline="javascript">
+    var clientId = [[${accountId}]];
+</script>
+
+<!-- Template JavaScript -->
 <script th:src="@{/assets_CustomerSide/js/jquery-3.3.1.min.js}"></script>
 <script th:src="@{/assets_CustomerSide/js/theme-change.js}"></script>
+
+<!--/search-->
 <script th:src="@{/assets_CustomerSide/js/modernizr.custom.js}"></script>
 <script th:src="@{/assets_CustomerSide/js/classie.js}"></script>
 <script th:src="@{/assets_CustomerSide/js/demo1.js}"></script>
+<!--//search-->
+<!-- MENU-JS -->
+<script>
+    $(window).on("scroll", function() {
+        var scroll = $(window).scrollTop();
+
+        if (scroll >= 80) {
+            $("#site-header").addClass("nav-fixed");
+        } else {
+            $("#site-header").removeClass("nav-fixed");
+        }
+    });
+
+    //Main navigation Active Class Add Remove
+    $(".navbar-toggler").on("click", function() {
+        $("header").toggleClass("active");
+    });
+    $(document).on("ready", function() {
+        if ($(window).width() > 991) {
+            $("header").removeClass("active");
+        }
+        $(window).on("resize", function() {
+            if ($(window).width() > 991) {
+                $("header").removeClass("active");
+            }
+        });
+    });
+
+</script>
+<!-- //MENU-JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- disable body scroll which navbar is in active -->
+<script>
+    $(function() {
+        $('.navbar-toggler').click(function() {
+            $('body').toggleClass('noscroll');
+        })
+    });
+
+    function updateClock() {
+        var now = new Date();
+
+        // Lấy giờ, phút, giây với định dạng 2 chữ số
+        var hours = now.getHours().toString().padStart(2, '0');
+        var minutes = now.getMinutes().toString().padStart(2, '0');
+        var seconds = now.getSeconds().toString().padStart(2, '0');
+
+        // Lấy ngày với định dạng tiếng Anh
+        var day = now.toLocaleDateString('en-US', { weekday: 'long' });
+        var date = now.toLocaleDateString('en-US'); // Hiển thị ngày tháng năm theo định dạng US (MM/DD/YYYY)
+
+        // Hiển thị thời gian vào phần tử HTML
+        document.getElementById('time').innerText = `${hours}:${minutes}:${seconds}`;
+        document.getElementById('date').innerText = `${day}, ${date}`;
+    }
+
+    // Cập nhật thời gian mỗi giây
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    document.getElementById('trigger-overlay').addEventListener('click', function() {
+        console.log('Bell clicked');
+    });
+
+    var dropdownTrigger = new bootstrap.Dropdown(document.getElementById('trigger-overlay'));
+
+
+</script>
+<!-- //disable body scroll which navbar is in active -->
+<!-- //bootstrap -->
 <script th:src="@{/assets_CustomerSide/js/bootstrap.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script th:src="@{/assets_CustomerSide/js/chatbot.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/notification.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/main.js}"></script>
 </body>
 </html>

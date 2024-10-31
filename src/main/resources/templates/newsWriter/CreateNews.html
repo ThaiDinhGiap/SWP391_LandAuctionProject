@@ -53,6 +53,12 @@
         <div class="sidebar-wrapper">
             <ul class="nav">
                 <li>
+                    <a th:href="@{/news_writer/profile}">
+                        <i class="nc-icon nc-single-02"></i>
+                        <p>Profile</p>
+                    </a>
+                </li>
+                <li>
                     <a th:href="@{/news_writer/dashboard}">
                         <i class="nc-icon nc-bank"></i>
                         <p>Dashboard</p>
@@ -65,9 +71,15 @@
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/news_writer/list}">
+                    <a th:href="@{/news_writer/get_all_news_list}">
                         <i class="nc-icon nc-bullet-list-67"></i>
                         <p>News list</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/logout}">
+                        <i class="nc-icon nc-user-run"></i>
+                        <p>Logout</p>
                     </a>
                 </li>
             </ul>
@@ -89,7 +101,7 @@
                 <div class="col-md-12">
                     <div class="card card-user">
                         <div class="card-header">
-                            <h5 class="card-title">Mời soạn bài viết</h5>
+                            <h5 class="card-title">Compose news</h5>
                         </div>
                         <div class="card-body">
                             <form th:action="@{/news_writer/add}" th:method="post" th:object="${newsDTO}"
@@ -99,7 +111,7 @@
                                         <div class="form-group">
                                             <label for="title">Title</label>
                                             <input type="text" th:field="*{news.title}" id="title"
-                                                   class="form-control">
+                                                   class="form-control" required>
                                         </div>
                                     </div>
                                 </div>
@@ -108,7 +120,7 @@
                                         <div class="form-group">
                                             <label for="content">Content</label>
                                             <textarea th:field="*{news.content}" id="content"
-                                                      class="form-control"></textarea>
+                                                      class="form-control" required></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -135,13 +147,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="update ml-auto mr-auto">
+                                <div class="row form-group" style="display: flex; flex-direction: column">
+                                    <p class="ml-auto mr-auto row" th:if="${param.message}" th:text="${param.message}"></p>
+                                    <div class="update ml-auto mr-auto row">
                                         <button type="submit" class="btn btn-primary btn-round">Save</button>
                                     </div>
                                 </div>
                             </form>
-<!--                            <span th:if="${param.message}" th:text="${param.message}" class="alert-message"></span>-->
+                        </div>
+                        <div class="stats">
+
                         </div>
                     </div>
                 </div>

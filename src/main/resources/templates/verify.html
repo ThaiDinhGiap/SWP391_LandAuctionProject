@@ -8,7 +8,7 @@
 <body>
 <div class="container" id="container">
     <div class="form-container sign-in-container">
-        <form action="/verify-otp" method="POST">
+        <form th:action="@{/verify-otp}" th:method="POST">
             <h1>OTP Verification</h1>
             <span style="margin: 10px">Please check your email!</span>
             <input type="text" name="otp" placeholder="Enter OTP" required/>
@@ -26,13 +26,14 @@
     </div>
 
     <!-- Resend OTP Button -->
-    <div class="overlay-container">
+    <div class="overlay-container" style="background-color: #FF416C">
         <div class="overlay">
-            <div class="overlay-panel overlay-right">
+            <div STYLE="margin-left: 400px; padding-top: 150px" >
                 <h1>Didn't receive OTP?</h1>
-                <form class="otp-resend" action="/resend-otp" method="POST">
-                    <button type="submit">Resend OTP</button>
+                <form style="margin-top: 90px; background-image: linear-gradient(to right, #ff4646, #FF416C);" action="/resend-otp" method="POST">
+                    <button type="submit" style="color: red; background-color: white;">Resend OTP</button>
                 </form>
+
             </div>
         </div>
     </div>

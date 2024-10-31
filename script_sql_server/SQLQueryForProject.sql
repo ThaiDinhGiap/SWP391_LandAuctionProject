@@ -23,9 +23,9 @@ CREATE TABLE Local_authority (
 CREATE TABLE Asset (
     asset_id INT PRIMARY KEY IDENTITY(1,1),
     location NVARCHAR(max) NOT NULL,
-	length DECIMAL(10, 2) NOT NULL,
-	width DECIMAL(10, 2) NOT NULL,
-    area DECIMAL(10, 2) NOT NULL,
+	length DECIMAL(6, 2) NOT NULL,
+	width DECIMAL(6, 2) NOT NULL,
+    area DECIMAL(12, 4) NOT NULL,
     description NVARCHAR(max),
     coordinates_on_map NVARCHAR(max),
     local_authority_id INT FOREIGN KEY REFERENCES Local_authority(local_authority_id),
@@ -69,7 +69,8 @@ CREATE TABLE Staff (
     gender NVARCHAR(1) CHECK (gender IN ('F', 'M')), 
     date_of_birth datetime2(3), 
     address NVARCHAR(max),                   
-    phone_number VARCHAR(10)
+    phone_number VARCHAR(10),
+	is_available BIT DEFAULT 1
 );
 CREATE TABLE Ban_log (
     log_id INT PRIMARY KEY IDENTITY(1,1),         
@@ -85,9 +86,7 @@ CREATE TABLE Auction_session (
     expected_end_time datetime2(3), 
     actual_end_time datetime2(3), 
     starting_price bigint, 
-    starting_price_per_unit bigint, 
     dealed_price bigint, 
-    dealed_price_per_unit bigint, 
     current_highest_price bigint, 
     winner_id INT FOREIGN KEY REFERENCES Account(account_id), 
     minimum_bid_increment bigint, 
@@ -150,7 +149,7 @@ CREATE TABLE Customer (
     account_id INT FOREIGN KEY REFERENCES Account(account_id),                        
     full_name NVARCHAR(100),             
     gender NVARCHAR(1) CHECK (gender IN ('F', 'M')),                 
-    date_of_birth datetime2(3),                    
+    date_of_birth datetime2(3),
     address NVARCHAR(max),                
     phone_number VARCHAR(10),             
     tax_identification_number VARCHAR(50),        
@@ -227,8 +226,8 @@ INSERT INTO Tag (tag_name, description) VALUES
 ('Rural', 'Rural: Land located in rural areas, usually quiet and far from urban centers'),
 ('Urban', 'Urban: Land located within cities or urban centers');
 INSERT INTO Image (asset_id, path, upload_date) 
-VALUES (null, '/static/image/avatar_default.jpg', '2024-09-26 15:38:54.468'),
-(null, '/static/image/auction_hammer.jpg', '2024-09-26 15:38:54.468');
+VALUES (null, '/image/avatar_default.jpg', '2024-09-26 15:38:54.468'),
+(null, '/image/auction_hammer.jpg', '2024-09-26 15:38:54.468');
 INSERT INTO Topic (topic_name, parent_topic_id) VALUES 
 ('Auction Participation Process', NULL),
 ('Account Registration', 1),
@@ -278,12 +277,12 @@ INSERT INTO Notification (content, created_date, read_status)
 VALUES (N'Hê sờ lô, hô sờ ly ly!!!', '2024-09-26 07:16:54.468837', 'unread');
 
 INSERT INTO Account (username, password, status, verify, email, avatar_image_id, role_id, registration_date) 
-VALUES ('admin', '{noop}123', 1, 1, 'johndoe@example.com', 1, 2, '2024-09-26 07:16:54.470494'),
-('propertyagent', '{noop}123', 1, 1, 'chickenrice@example.com', 1, 3, '2024-09-26 07:16:54.470494'),
-('auctioneer', '{noop}123', 1, 1, 'bunbohue@example.com', 1, 4, '2024-09-26 07:16:54.470494'),
-('customercare', '{noop}123', 1, 1, 'banhmy@example.com', 1, 5, '2024-09-26 07:16:54.470494'),
-('newswriter', '{noop}123', 1, 1, 'meomeo@example.com', 1, 6, '2024-09-26 07:16:54.470494'),
-('customer', '{noop}123', 1, 1, 'alexpeter@example.com', 1, 1, '2024-09-26 07:16:54.470494');
+VALUES ('admin', '$2a$10$43UPoYJoq5cJT.U6bSrZPOAQ4K.GrN8F5JzhGdBcxy.ZfFpvrsUAi', 1, 1, 'johndoe@example.com', 1, 2, '2024-09-26 07:16:54.470494'),
+('propertyagent', '$2a$10$43UPoYJoq5cJT.U6bSrZPOAQ4K.GrN8F5JzhGdBcxy.ZfFpvrsUAi', 1, 1, 'chickenrice@example.com', 1, 3, '2024-09-26 07:16:54.470494'),
+('auctioneer', '$2a$10$43UPoYJoq5cJT.U6bSrZPOAQ4K.GrN8F5JzhGdBcxy.ZfFpvrsUAi', 1, 1, 'bunbohue@example.com', 1, 4, '2024-09-26 07:16:54.470494'),
+('customercare', '$2a$10$43UPoYJoq5cJT.U6bSrZPOAQ4K.GrN8F5JzhGdBcxy.ZfFpvrsUAi', 1, 1, 'banhmy@example.com', 1, 5, '2024-09-26 07:16:54.470494'),
+('newswriter', '$2a$10$43UPoYJoq5cJT.U6bSrZPOAQ4K.GrN8F5JzhGdBcxy.ZfFpvrsUAi', 1, 1, 'meomeo@example.com', 1, 6, '2024-09-26 07:16:54.470494'),
+('customer', '$2a$10$43UPoYJoq5cJT.U6bSrZPOAQ4K.GrN8F5JzhGdBcxy.ZfFpvrsUAi', 1, 1, 'alexpeter@example.com', 1, 1, '2024-09-26 07:16:54.470494');
 
 INSERT INTO Staff (account_id, full_name, gender, date_of_birth, address, phone_number) 
 VALUES (1, 'John Doe', 'M', '1990-01-01 00:00:00', '123 Main St, Hanoi', '0123456789'),
