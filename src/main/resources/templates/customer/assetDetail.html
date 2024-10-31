@@ -446,6 +446,7 @@ Author URL: http://w3layouts.com
                                             <label>Asset tags: </label>
                                             <span th:each="tag, iterStat : ${asset.getTags()}"
                                                   th:text="${tag.tagName} + (${iterStat.last} ? '' : ', ')"
+                                                  th:title="${tag.description}"
                                                   style="color: #f9351b; font-weight: bold;"></span>
                                         </div>
                                     </div>

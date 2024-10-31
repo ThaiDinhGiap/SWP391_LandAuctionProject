@@ -124,7 +124,8 @@
                                     <tbody>
                                     <tr th:each="auction : ${listAuction}">
                                         <td th:text="${auction.auctionId}"></td>
-                                        <td th:text="${auction.auctionName.length() > 40 ? auction.auctionName.substring(0, 40) + '...' : auction.auctionName}"></td>
+                                        <td th:text="${auction.auctionName.length() > 40 ? auction.auctionName.substring(0, 40) + '...' : auction.auctionName}"
+                                            th:title="${auction.auctionName}"></td>
                                         <td th:text="${auction.registrationOpenDate}"></td>
                                         <td th:text="${auction.registrationCloseDate}"></td>
                                         <td th:text="${auction.startTime}"></td>

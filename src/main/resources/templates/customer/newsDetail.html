@@ -344,7 +344,7 @@ Author URL: http://w3layouts.com
                                 <article class="post" th:each="news : ${top3LatestNews}" style="margin-top: 20px;">
                                     <figure class="post-thumb"><img th:src="${news.cover_photo.path}" class="radius-image" alt="Cover Photo"></figure>
                                     <div class="text">
-                                        <a th:href="@{/customer/viewNewsDetail(newsId=${news.newsId})}" th:text="${news.title.length() > 30 ? news.title.substring(0, 30) + '...' : news.title}"></a>
+                                        <a th:href="@{/customer/viewNewsDetail(newsId=${news.newsId})}" th:text="${news.title.length() > 30 ? news.title.substring(0, 30) + '...' : news.title}" th:title="${news.title}"></a>
                                         <div class="post-info" th:text="${news.createdDate}"></div>
                                     </div>
                                 </article>

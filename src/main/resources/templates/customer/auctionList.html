@@ -337,7 +337,8 @@ Author URL: http://w3layouts.com
                   <div class="card-body blog-details">
                     <a th:href="@{/customer/viewAuctionDetail(auctionId=${auction.auctionId})}"
                        class="blog-desc"
-                       th:text="${auction.auctionName.length() > 40 ? auction.auctionName.substring(0, 40) + '...' : auction.auctionName}"></a>
+                       th:text="${auction.auctionName.length() > 40 ? auction.auctionName.substring(0, 40) + '...' : auction.auctionName}"
+                        th:title="${auction.auctionName}"></a>
                     <span th:href="@{/customer/viewAuctionDetail(auctionId=${auction.auctionId})}"
                           class="blog-desc"
                           th:text="${auction.startTime}"></span>

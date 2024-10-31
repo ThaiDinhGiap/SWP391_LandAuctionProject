@@ -495,8 +495,10 @@
                                     <tbody>
                                     <tr th:each="change : ${listAuctionChangeLog}" class="row col-md-12">
                                         <td class="col-md-1" th:text="${change.changeId}"></td>
-                                        <td class="col-md-3" th:text="${change.changeType == null ? 'null' : (change.changeType.length() > 40 ? change.changeType.substring(0, 40) + '...' : change.changeType)}"></td>
-                                        <td class="col-md-5" th:text="${change.reason == null ? 'null' : (change.reason.length() > 130 ? change.reason.substring(0, 130) + '...' : change.reason)}"></td>
+                                        <td class="col-md-3" th:text="${change.changeType == null ? 'null' : (change.changeType.length() > 40 ? change.changeType.substring(0, 40) + '...' : change.changeType)}"
+                                            th:title="${change.changeType == null ? 'null' : change.changeType}"></td>
+                                        <td class="col-md-5" th:text="${change.reason == null ? 'null' : (change.reason.length() > 130 ? change.reason.substring(0, 130) + '...' : change.reason)}"
+                                            th:title="${change.reason == null ? 'null' : change.reason}"></td>
                                         <td class="col-md-2" th:text="${change.time}"></td>
                                     </tr>
                                     </tbody>

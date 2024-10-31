@@ -123,7 +123,8 @@
                   <tbody>
                   <tr th:each="task:${listTask}">
                     <td th:text="${task.asset.assetId}"></td>
-                    <td th:text="${task.asset.location.length() > 40 ? task.asset.location.substring(0, 40) + '...' : task.asset.location}"></td>
+                    <td th:text="${task.asset.location.length() > 40 ? task.asset.location.substring(0, 40) + '...' : task.asset.location}"
+                      th:title="${task.asset.location}"></td>
                     <td th:text="${task.asset.localAuthority != null ? task.asset.localAuthority.localAuthorityName : 'null'}"></td>
                     <td th:text="${task.asset.assetStatus}"></td>
                     <td th:text="${task.asset.createdDate}"></td>

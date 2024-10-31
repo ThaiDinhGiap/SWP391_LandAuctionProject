@@ -519,7 +519,7 @@ Author URL: http://w3layouts.com
                             </div>
                             <!--button tham gia dau gia nam o day-->
                             <div class="sidebar-sticky" th:if="${auction.status == 'Upcoming'} and ${auction_register != null}
-                            and ${auction_register.getRegisterStatus() == 'chua chuyen tien'}
+                            and ${auction_register.getRegisterStatus() == 'Waiting for payment'}
                             and ${T(java.time.LocalDateTime).now().isAfter(auction.registrationOpenDate)}
                             and ${T(java.time.LocalDateTime).now().isBefore(auction.registrationCloseDate)}">
                                 <div class="sidebar-sticky-fix">
@@ -647,6 +647,7 @@ Author URL: http://w3layouts.com
                                             <label>Asset tags: </label>
                                             <span th:each="tag, iterStat : ${auction.asset.getTags()}"
                                                   th:text="${tag.tagName} + (${iterStat.last} ? '' : ', ')"
+                                                  th:title="${tag.description}"
                                                   style="color: #f9351b; font-weight: bold;"></span>
                                         </div>
                                     </div>

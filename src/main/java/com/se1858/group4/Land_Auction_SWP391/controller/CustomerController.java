@@ -70,9 +70,18 @@ public class CustomerController {
         this.notificationService = notificationService;
     }
 
+    @GetMapping("/viewAuctionHistory")
+    public String getAuctionHistory(Model model) {
+        Account this_user = userDetailsService.accountAuthenticated();
+        List<AuctionRegister> registerList = auctionRegisterService.getAllAuctionRegistersByAccountId(this_user.getAccountId());
+        model.addAttribute("registerList", registerList);
+        return "customer/auctionHistory";
+    }
+
     @GetMapping("/get_all_asset")
     public String getAllAsset(Model model) {
-        List<Asset> newsList = assetService.getAllAssetWithStatus("Waiting for Auction Scheduling");
+        //lay ra toan bo tai san
+        List<Asset> newsList = assetService.getAllAsset();
         model.addAttribute("listAsset", newsList);
 //        lay danh sach cac tag
         List<Tag> tagList = tagService.getAllTag();
@@ -126,7 +135,13 @@ public class CustomerController {
 
     @GetMapping("/viewNewsDetail")
     public String getNewsById(@RequestParam("newsId") int newsId, Model model) {
+        if (newsId <= 0) {
+            return "redirect:/customer/get_all_news";
+        }
         News news = newsService.getNewsById(newsId);
+        if(news==null){
+            return "redirect:/customer/get_all_news";
+        }
         model.addAttribute("news", news);
 //        lay ra 3 bai viet moi nhat
         List<News> top3News = newsService.getTop3LatestNews();
@@ -140,7 +155,13 @@ public class CustomerController {
 
     @GetMapping("/viewAssetDetail")
     public String getAssetById(@RequestParam("assetId") int assetId, Model model) {
+        if (assetId <= 0) {
+            return "redirect:/customer/get_all_asset";
+        }
         Asset asset = assetService.getAssetById(assetId);
+        if(asset==null){
+            return "redirect:/customer/get_all_asset";
+        }
         String embedUrl = GetSrcInGoogleMapEmbededURLUtil.extractSrcFromIframe(asset.getCoordinatesOnMap());
         model.addAttribute("embedUrl", embedUrl);
         model.addAttribute("asset", asset);
@@ -197,9 +218,15 @@ public class CustomerController {
 
     @GetMapping("/viewAuctionDetail")
     public String getAuctionById(@RequestParam(value = "error", required = false) String error, @RequestParam("auctionId") int auctionId, Model model) {
+        if (auctionId <= 0) {
+            return "redirect:/customer/get_all_auction";
+        }
+        AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
+        if(auction==null){
+            return "redirect:/customer/get_all_auction";
+        }
         //lay ra nguoi dang ky
         Account this_user = userDetailsService.accountAuthenticated();
-        AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
         String embedUrl = GetSrcInGoogleMapEmbededURLUtil.extractSrcFromIframe(auction.getAsset().getCoordinatesOnMap());
         model.addAttribute("embedUrl", embedUrl);
         model.addAttribute("auction", auction);
@@ -219,10 +246,15 @@ public class CustomerController {
     @PostMapping("/registerAuction")
     public String registerAuction(@RequestParam(value = "validate", required = false) String validate,
                                   @RequestParam("auctionId") int auctionId, RedirectAttributes redirectAttributes) {
+        if (auctionId <= 0) {
+            return "redirect:/customer/get_all_auction";
+        }
         AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
+        if(auction==null){
+            return "redirect:/customer/get_all_auction";
+        }
         //check xem nguoi dung da validate tai khoan chua
         Account this_user = userDetailsService.accountAuthenticated();
-
         // Kiểm tra tài khoản đã xác thực chưa
         if (this_user.getVerify() == 1) {
             if (validate != null) {
@@ -271,7 +303,13 @@ public class CustomerController {
     public String transferDepositAndFee(@RequestParam(value = "transfer", required = false) String transfer,
                                         @RequestParam("auctionId") int auctionId,
                                         @RequestParam("auctionRegisterId") int auctionRegisterId, RedirectAttributes redirectAttributes) {
+        if (auctionId <= 0) {
+            return "redirect:/customer/get_all_auction";
+        }
         AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
+        if(auction==null){
+            return "redirect:/customer/get_all_auction";
+        }
         if(LocalDateTime.now().isAfter(auction.getRegistrationOpenDate()) && LocalDateTime.now().isBefore(auction.getRegistrationCloseDate())){
             //check xem nguoi dung da chuyen tien chua
             if(transfer != null){

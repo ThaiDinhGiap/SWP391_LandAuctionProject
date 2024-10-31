@@ -303,7 +303,8 @@ Author URL: http://w3layouts.com
                                     <div class="card-body blog-details">
                                         <a th:href="@{/customer/viewAssetDetail(assetId=${asset.assetId})}"
                                            class="blog-desc"
-                                           th:text="${asset.location.length() > 40 ? asset.location.substring(0, 40) + '...' : asset.location}"></a>
+                                           th:text="${asset.location.length() > 20 ? asset.location.substring(0, 20) + '...' : asset.location}"
+                                           th:title="${asset.location}"></a>
                                     </div>
                                     <div class="card-footer">
                                         <div>
@@ -373,7 +374,7 @@ Author URL: http://w3layouts.com
                                         <form id="tagFilterForm" action="#" method="get">
                                             <div class="form-check" th:each="tag : ${listTag}">
                                                 <input class="form-check-input" type="checkbox" name="tagIds" th:value="${tag.tagId}" th:id="${tag.tagId}">
-                                                <label th:for="${tag.tagId}" th:text="${tag.tagName}"></label><br>
+                                                <label th:for="${tag.tagId}" th:text="${tag.tagName}" th:title="${tag.description}"></label><br>
                                             </div>
                                             <button class="btn btn-primary" type="button" onclick="applyFilters()">Filter</button>
                                             <button type="button" class="btn btn-primary" onclick="clearTagFilters()">Clear</button>

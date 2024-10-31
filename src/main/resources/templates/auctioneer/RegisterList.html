@@ -107,7 +107,8 @@
                                     <tbody>
                                     <tr th:each="register : ${registerList}">
                                         <td th:text="${register.registerId}"></td>
-                                        <td th:text="${register.auction.auctionName.length() > 40 ? register.auction.auctionName.substring(0, 40) + '...' : register.auction.auctionName}"></td>
+                                        <td th:text="${register.auction.auctionName.length() > 40 ? register.auction.auctionName.substring(0, 40) + '...' : register.auction.auctionName}"
+                                            th:title="${register.auction.auctionName}"></td>
                                         <td th:text="${register.buyer.customer.fullName}"></td>
                                         <td th:text="${register.nickName != null ? register.nickName : 'null'}"></td>
                                         <td th:text="${register.registerStatus != null ? register.registerStatus : 'null'}"></td>
