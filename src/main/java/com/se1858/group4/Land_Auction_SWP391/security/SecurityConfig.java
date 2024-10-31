@@ -1,13 +1,11 @@
 package com.se1858.group4.Land_Auction_SWP391.security;
 
-//import com.se1858.group4.Land_Auction_SWP391.googleLoginHandler.OAuth2SuccessHandler;
-import com.se1858.group4.Land_Auction_SWP391.service.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.security.Security;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,14 +14,13 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import javax.sql.DataSource;
 
-
-
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
 
-
-
+    static {
+        Security.addProvider(new BouncyCastleProvider());
+    }
 
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
@@ -46,9 +43,6 @@ public class SecurityConfig {
 
         return userDetailsManager;
     }
-
-
-
 
 //
 //    @Autowired

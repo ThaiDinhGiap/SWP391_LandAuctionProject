@@ -16,7 +16,7 @@ import java.util.Map;
 @RequestMapping("/api/chat")
 public class ChatController {
     private final StaffService staffService;
-    private FirebaseChatService firebaseChatService;
+    private final FirebaseChatService firebaseChatService;
 
     @Autowired
     public ChatController(StaffService staffService, FirebaseChatService firebaseChatService) {

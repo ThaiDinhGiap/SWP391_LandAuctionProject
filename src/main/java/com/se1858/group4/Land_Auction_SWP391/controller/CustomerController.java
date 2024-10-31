@@ -26,13 +26,8 @@ import java.time.LocalDateTime;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
-
-
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 @Controller
@@ -51,13 +46,14 @@ public class CustomerController {
     private QrCode qrCode;
     private AuctionRegisterService auctionRegisterService;
     private NotificationService notificationService;
+    private BidService bidService;
 
     public CustomerController(NewsService newsService, TagForNewsService tagForNewsService,
                               AssetService assetService, TagService tagService, AuctionService auctionService,
                               UserDetailsService userDetailsService, AccountService accountService,
                               ImageService imageService, FileUploadUtil uploadFile,
                               CustomerService customerService, QrCode qrCode, AuctionRegisterService auctionRegisterService,
-                              NotificationService notificationService) {
+                              NotificationService notificationService, BidService bidService) {
         this.newsService = newsService;
         this.tagForNewsService = tagForNewsService;
         this.assetService = assetService;
@@ -71,6 +67,7 @@ public class CustomerController {
         this.qrCode = qrCode;
         this.auctionRegisterService = auctionRegisterService;
         this.notificationService = notificationService;
+        this.bidService = bidService;
     }
 
     @GetMapping("/get_all_asset")
@@ -122,11 +119,22 @@ public class CustomerController {
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
+            @RequestParam(required = false) String status,
             Model model) {
 
-        List<AuctionSession> filteredAuctions = auctionService.filterAuctionSessions(keyword, fromDate, toDate);
+        List<AuctionSession> filteredAuctions = auctionService.filterAuctionSessions(keyword, fromDate, toDate, status);
         model.addAttribute("listAuction", filteredAuctions);
         return "customer/auctionList :: auctionListFragment";
+    }
+
+    @GetMapping("/filter_news")
+    public String filterNews(
+            @RequestParam(required = false) List<Integer> tagIds,
+            @RequestParam(required = false) String keyword,
+            Model model) {
+        List<News> filteredNews = newsService.filterNews(tagIds, keyword);
+        model.addAttribute("listNews", filteredNews);
+        return "customer/newsList :: newsListFragment";
     }
 
     @GetMapping("/viewNewsDetail")
@@ -203,7 +211,6 @@ public class CustomerController {
         return "redirect:/customer/profile";
     }
 
-
     @GetMapping("/viewAuctionDetail")
     public String getAuctionById(@RequestParam(value = "error", required = false) String error, @RequestParam("auctionId") int auctionId, Model model) {
         AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
@@ -223,6 +230,48 @@ public class CustomerController {
             model.addAttribute("error", error);
         }
         return "customer/auctionDetail";
+    }
+
+    @GetMapping("/joinAuctionDetail")
+    public String accessAuction(@RequestParam String auctionId, Model model) {
+        // Truy vấn Account now
+        int auctionIdUsing = Integer.parseInt(auctionId);
+        Account currentAccount = userDetailsService.accountAuthenticated();
+
+        if (currentAccount == null) {
+            return getAuctionById("User account not found.", auctionIdUsing, model);
+        }
+
+        // Kiểm tra xem người dùng có được phép truy cập phiên đấu giá không
+        if (!auctionService.isUserAllowedToAccessAuction(auctionIdUsing, currentAccount.getAccountId())) {
+            return getAuctionById("You are not allowed to access this auction.", auctionIdUsing, model);
+        }
+
+        // Lấy thông tin phiên đấu giá
+        AuctionSession auctionSession = auctionService.getAuctionSessionById(auctionIdUsing);
+        List<Bid> bidList = bidService.getAllBidsByAuctionId(auctionIdUsing);
+
+        LocalDateTime now = LocalDateTime.now();
+
+        // Kiểm tra thời gian của phiên đấu giá
+        if (now.isBefore(auctionSession.getStartTime())) {
+            return getAuctionById("The auction has not started yet.", auctionIdUsing, model);
+        } else if (auctionSession.getActualEndTime() != null && now.isAfter(auctionSession.getActualEndTime())) {
+            return getAuctionById("The auction has already ended.", auctionIdUsing, model);
+        }
+
+        AuctionSession auction = auctionService.getAuctionSessionById(auctionIdUsing);
+        String embedUrl = GetSrcInGoogleMapEmbededURLUtil.extractSrcFromIframe(auction.getAsset().getCoordinatesOnMap());
+        model.addAttribute("embedUrl", embedUrl);
+        model.addAttribute("auction", auction);
+
+        // Truyền dữ liệu phiên đấu giá đến View
+        model.addAttribute("auctionSession", auctionSession);
+        model.addAttribute("accountCustomer", currentAccount);
+        model.addAttribute("bidList", bidList);
+
+        // Trả về tên của view đấu giá
+        return "customer/auctionPage";
     }
 
     @PostMapping("/registerAuction")
@@ -280,15 +329,39 @@ public class CustomerController {
                                         @RequestParam("auctionId") int auctionId,
                                         @RequestParam("auctionRegisterId") int auctionRegisterId, RedirectAttributes redirectAttributes) {
         AuctionSession auction = auctionService.getAuctionSessionById(auctionId);
+        Account this_user = userDetailsService.accountAuthenticated();
         //check xem nguoi dung da chuyen tien chua
         if(transfer != null){
             AuctionRegister auctionRegister=auctionRegisterService.getAuctionRegisterById(auctionRegisterId);
             auctionRegister.setRegisterStatus("dang cho xac nhan chuyen tien");
             auctionRegisterService.updateRegisterStatus(auctionRegister);
             redirectAttributes.addFlashAttribute("error", "Please wait while we confirm the transaction, the result will be sent to you via notification");
+
+            // Tạo thông báo sau khi đăng ký thành công
+            Notification notification = new Notification();
+            notification.setContent("You have transfer deposit and fee. Please wait while we confirm the transaction, the result will be sent to you via notification");
+            notification.setCreatedDate(LocalDateTime.now());
+            notification.setReadStatus("unread"); // Trạng thái chưa đọc
+
+            // Lưu thông báo vào cơ sở dữ liệu và gửi SSE cho client
+            notification.addAccount(this_user);
+            this_user.addNotification(notification);
+            notificationService.saveNotification(notification);
+            notificationService.sendNotification(notification); // Gửi SSE tới client
         }
         else{
             redirectAttributes.addFlashAttribute("error", "Please make sure to transfer the deposit and register fee before the auction registration deadline");
+            // Tạo thông báo sau khi đăng ký thành công
+            Notification notification = new Notification();
+            notification.setContent("Please make sure to transfer the deposit and register fee before the auction registration deadline");
+            notification.setCreatedDate(LocalDateTime.now());
+            notification.setReadStatus("unread"); // Trạng thái chưa đọc
+
+            // Lưu thông báo vào cơ sở dữ liệu và gửi SSE cho client
+            notification.addAccount(this_user);
+            this_user.addNotification(notification);
+            notificationService.saveNotification(notification);
+            notificationService.sendNotification(notification); // Gửi SSE tới client
         }
         return "redirect:/customer/viewAuctionDetail?auctionId=" + auctionId;
     }
@@ -315,7 +388,6 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
         }
     }
-
 
 }
 

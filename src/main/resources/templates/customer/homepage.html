@@ -123,7 +123,7 @@ Author URL: http://w3layouts.com
 <header id="site-header" class="fixed-top">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light stroke py-lg-0">
-            <h1><a class="navbar-brand" href="index.html">
+            <h1><a class="navbar-brand" th:href="@{/customer/home}">
                 Viet<span class="sub-color">Land</span>
             </a></h1>
             <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
@@ -216,9 +216,9 @@ Author URL: http://w3layouts.com
                 <div class="grids3-info position-relative">
                     <a href="#img" class="d-block zoom"><img th:src="@{/assets_CustomerSide/images/banner1.jpg}" alt="" class="img-fluid news-image"></a>
                     <div class="w3-grids3-info">
-                        <h4 class="gdnhy-1"><a href="#img">Property Listings</a>
-                            <a class="w3item-link btn btn-style mt-4" href="#">
-                                Explore Properties <i class="fas fa-angle-double-right ms-2"></i>
+                        <h4 class="gdnhy-1"><a href="#img">Asset Listings</a>
+                            <a class="w3item-link btn btn-style mt-4" th:href="@{/customer/get_all_asset}">
+                                Explore Assets <i class="fas fa-angle-double-right ms-2"></i>
                             </a>
 
                         </h4>
@@ -230,7 +230,7 @@ Author URL: http://w3layouts.com
                     <a href="#img" class="d-block zoom"><img th:src="@{/assets_CustomerSide/images/banner2.jpg}" alt="" class="img-fluid news-image"></a>
                     <div class="w3-grids3-info second">
                         <h4 class="gdnhy-1"><a href="#img">Auction Listings</a>
-                            <a class="w3item-link btn btn-style mt-4" href="#">
+                            <a class="w3item-link btn btn-style mt-4" th:href="@{/customer/get_all_auction}">
                                 Explore Auctions <i class="fas fa-angle-double-right ms-2"></i>
                             </a>
                         </h4>
@@ -245,184 +245,47 @@ Author URL: http://w3layouts.com
 <!--//bottom-3-grids-->
 
 <!--/properties-->
-<section class="locations-1" id="locations">
-    <div class="locations py-5">
+<section class="w3l-blog" id="locations">
+    <div class="blog py-5 py-5">
         <div class="container py-lg-5 py-md-4 py-2">
-            <div class="heading text-center mx-auto">
-                <h6 class="title-subw3hny mb-1">Our Properties</h6>
-                <h3 class="title-w3l mb-3">Latest Properties</h3>
+            <div class="title-content text-center mb-lg-3 mb-4">
+                <h6 class="title-subw3hny mb-1">Our Assets</h6>
+                <h3 class="title-w3l mb-3">Latest Assets</h3>
             </div>
-            <div class="row pt-md-5 pt-4">
-                <div class="col-lg-4 col-md-6">
-                    <div class="w3property-grid">
-                        <a href="#property">
-                            <div class="box16">
-                                <div class="rentext-listing-category"><span>Follow</span></div>
-                                <img class="img-fluid" src="assets/images/g1.jpg" alt="">
-                                <div class="box-content">
-                                    <h3 class="title">$25,00,000</h3>
-                                    <span class="post">51 Merrick Way, Coral Gables, USA</span>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="list-information space-between">
-                            <ul class="product-features">
-                                <li>
-                                    <i class="fas fa-bed"></i>
-                                    <span class="listable-value">
-                                            <span class="prefix">
-                                                Beds </span>
-
-                                            <span class="value">
-                                                <span>0</span>4 </span>
-
-                                            <span class="suffix">
-                                            </span>
-                                        </span>
-                                </li>
-                                <li>
-                                    <i class="fas fa-shower"></i>
-                                    <span class="listable-value">
-                                            <span class="prefix">
-                                                Baths </span>
-
-                                            <span class="value">
-                                                <span>0</span>2 </span>
-
-                                            <span class="suffix">
-                                            </span>
-                                        </span>
-                                </li>
-                                <li>
-                                    <i class="fas fa-vector-square"></i>
-                                    <span class="listable-value">
-                                            <span class="prefix">
-                                            </span>
-
-                                            <span class="value">
-                                                1200 </span>
-
-                                            <span class="suffix">
-                                                Sqft </span>
-                                        </span>
-                                </li>
-                            </ul>
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-6 item" th:each="asset: ${top3Assets}">
+                    <div class="card">
+                        <div class="card-header p-0 position-relative">
+                            <a th:href="@{/customer/viewAssetDetail(assetId=${asset.assetId})}"
+                               class="zoom d-block">
+                                <img class="card-img-bottom d-block" th:if="${asset.images.size() > 0}"
+                                     th:src="${asset.images.get(0).path}"
+                                     alt="Cover photo" style="height: 250px; width: 100%;">
+                            </a>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mt-md-0 mt-4">
-                    <div class="w3property-grid">
-                        <a href="#property">
-                            <div class="box16">
-                                <div class="rentext-listing-category"><span>Follow</span></div>
-                                <img class="img-fluid" src="assets/images/g2.jpg" alt="">
-                                <div class="box-content">
-                                    <h3 class="title">$37,00,000</h3>
-                                    <span class="post">51 Merrick Way, Coral Gables, USA</span>
-
-                                </div>
-                            </div>
-                        </a>
-                        <div class="list-information space-between">
-                            <ul class="product-features">
-                                <li>
-                                    <i class="fas fa-bed"></i>
-                                    <span class="listable-value">
-                                            <span class="prefix">
-                                                Beds </span>
-
-                                            <span class="value">
-                                                <span>0</span>2 </span>
-
-                                            <span class="suffix">
-                                            </span>
-                                        </span>
-                                </li>
-                                <li>
-                                    <i class="fas fa-shower"></i>
-                                    <span class="listable-value">
-                                            <span class="prefix">
-                                                Baths </span>
-
-                                            <span class="value">
-                                                <span>0</span>2 </span>
-
-                                            <span class="suffix">
-                                            </span>
-                                        </span>
-                                </li>
-                                <li>
-                                    <i class="fas fa-vector-square"></i>
-                                    <span class="listable-value">
-                                            <span class="prefix">
-                                            </span>
-
-                                            <span class="value">
-                                                1000 </span>
-
-                                            <span class="suffix">
-                                                Sqft </span>
-                                        </span>
-                                </li>
-                            </ul>
+                        <div class="card-body blog-details">
+                            <a th:href="@{/customer/viewAssetDetail(assetId=${asset.assetId})}"
+                               class="blog-desc"
+                               th:text="${asset.location.length() > 40 ? asset.location.substring(0, 40) + '...' : asset.location}"
+                               th:title="${asset.location}"></a>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mt-lg-0 pt-lg-0 mt-4 pt-md-2">
-                    <div class="w3property-grid">
-                        <a href="#property">
-                            <div class="box16">
-                                <div class="rentext-listing-category"><span>Follow</span></div>
-                                <img class="img-fluid" src="assets/images/g3.jpg" alt="">
-                                <div class="box-content">
-                                    <h3 class="title">$41,00,000</h3>
-                                    <span class="post">51 Merrick Way, Coral Gables, USA</span>
-
+                        <div class="card-footer">
+                            <div>
+                                <div>
+                                    <span class="meta-value">Length (m): </span>
+                                    <span th:text="${asset.length}" style="font-weight: bold;"></span>
+                                    <span class="meta-value">Width (m): </span>
+                                    <span th:text="${asset.width}" style="font-weight: bold;"></span>
+                                </div>
+                                <div>
+                                    <span class="meta-value">Area (m<sup>2</sup>): </span>
+                                    <span th:text="${asset.area}" style="font-weight: bold;"></span>
+                                </div>
+                                <div class="date">
+                                    <span>Upload date:</span>
+                                    <span th:text="${asset.createdDate}"></span>
                                 </div>
                             </div>
-                        </a>
-                        <div class="list-information space-between">
-                            <ul class="product-features">
-                                <li>
-                                    <i class="fas fa-bed"></i>
-                                    <span class="listable-value">
-                                            <span class="prefix">
-                                                Beds </span>
-
-                                            <span class="value">
-                                                <span>0</span>3 </span>
-
-                                            <span class="suffix">
-                                            </span>
-                                        </span>
-                                </li>
-                                <li>
-                                    <i class="fas fa-shower"></i>
-                                    <span class="listable-value">
-                                            <span class="prefix">
-                                                Baths </span>
-
-                                            <span class="value">
-                                                <span>0</span>2 </span>
-
-                                            <span class="suffix">
-                                            </span>
-                                        </span>
-                                </li>
-                                <li>
-                                    <i class="fas fa-vector-square"></i>
-                                    <span class="listable-value">
-                                            <span class="prefix">
-                                            </span>
-
-                                            <span class="value">
-                                                1400 </span>
-
-                                            <span class="suffix">
-                                                Sqft </span>
-                                        </span>
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </div>
@@ -436,94 +299,29 @@ Author URL: http://w3layouts.com
     <div class="blog py-5" id="Newsblog">
         <div class="container py-lg-5 py-md-4 py-2">
             <div class="title-content text-center mb-lg-3 mb-4">
-                <h6 class="title-subw3hny mb-1">Our Article</h6>
+                <h6 class="title-subw3hny mb-1">Our News</h6>
                 <h3 class="title-w3l mb-5">Stay Updated with Our <br>News Feed</h3>
             </div>
-
             <div class="row justify-content-center">
-                <div class="col-lg-4 col-md-6 item">
+                <div class="col-lg-4 col-md-6 item" th:each="news: ${top3LatestNews}">
                     <div class="card">
                         <div class="card-header p-0 position-relative">
-                            <a href="#blog" class="zoom d-block">
-                                <img class="card-img-bottom d-block" src="assets/images/g3.jpg" alt="Card image cap">
+                            <a th:href="@{/customer/viewNewsDetail(newsId=${news.newsId})}" class="zoom d-block">
+                                <img class="card-img-bottom d-block" th:src="${news.cover_photo.path}" alt="Card image cap"
+                                     style="height: 250px; width: 100%;">
                             </a>
                         </div>
                         <div class="card-body blog-details">
-
-                            <a href="#blog" class="blog-desc">Private Contemporary Home Balancing Openness</a>
-                            <p>Lorem ipsum viverra feugiat. Pellen tesque libero ut justo.</p>
+                            <a th:href="@{/customer/viewNewsDetail(newsId=${news.newsId})}" class="blog-desc"
+                               th:text="${news.title.length() > 80 ? news.title.substring(0, 80) + '...' : news.title}"
+                               th:title="${news.title}"></a>
                         </div>
                         <div class="card-footer">
                             <div class="author align-items-center">
-                                <a href="#author" class="post-author">
-                                    <img src="assets/images/team1.jpg" alt="" class="img-fluid rounded-circle">
-                                </a>
-                                <ul class="blog-meta">
-                                    <li>
-                                        <span class="meta-value">by</span><a href="#author"> David Marks</a>
-                                    </li>
-                                </ul>
+                                <span class="meta-value">by</span>
+                                <span th:text="${news.staff.staff.fullName}" style="font-weight: bold;"></span>
                                 <div class="date">
-                                    <p>20 Oct, 2021</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 item mt-md-0 mt-5">
-                    <div class="card">
-                        <div class="card-header p-0 position-relative">
-                            <a href="#blog" class="zoom d-block">
-                                <img class="card-img-bottom d-block" src="assets/images/g4.jpg" alt="Card image cap">
-                            </a>
-                        </div>
-                        <div class="card-body blog-details">
-
-                            <a href="#blog" class="blog-desc">How Does A Designer Home Look Like</a>
-                            <p>Lorem ipsum viverra feugiat. Pellen tesque libero ut justo.</p>
-                        </div>
-                        <div class="card-footer">
-                            <div class="author align-items-center">
-                                <a href="#author" class="post-author">
-                                    <img src="assets/images/team2.jpg" alt="" class="img-fluid rounded-circle">
-                                </a>
-                                <ul class="blog-meta">
-                                    <li>
-                                        <span class="meta-value">by</span><a href="#author"> Lynda Stone</a>
-                                    </li>
-                                </ul>
-                                <div class="date">
-                                    <p>22 Oct, 2021</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 item mt-lg-0 mt-5">
-                    <div class="card">
-                        <div class="card-header p-0 position-relative">
-                            <a href="#blog" class="zoom d-block">
-                                <img class="card-img-bottom d-block" src="assets/images/g2.jpg" alt="Card image cap">
-                            </a>
-                        </div>
-                        <div class="card-body blog-details">
-
-                            <a href="#blog" class="blog-desc">Private Contemporary Home Balancing Openness</a>
-                            <p>Lorem ipsum viverra feugiat. Pellen tesque libero ut justo.</p>
-                        </div>
-                        <div class="card-footer">
-                            <div class="author align-items-center">
-                                <a href="#author" class="post-author">
-                                    <img src="assets/images/team3.jpg" alt="" class="img-fluid rounded-circle">
-                                </a>
-                                <ul class="blog-meta">
-                                    <li>
-                                        <span class="meta-value">by</span><a href="#author"> David Nelson</a>
-                                    </li>
-                                </ul>
-                                <div class="date">
-                                    <p>23 Oct, 2021</p>
+                                    <p th:text="${news.createdDate}"></p>
                                 </div>
                             </div>
                         </div>
@@ -782,5 +580,6 @@ Author URL: http://w3layouts.com
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script th:src="@{/assets_CustomerSide/js/chatbot.js}"></script>
 <script th:src="@{/assets_CustomerSide/js/notification.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/main.js}"></script>
 </body>
 </html>

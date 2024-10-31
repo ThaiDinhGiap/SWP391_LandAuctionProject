@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,9 +18,11 @@ public class NotificationService {
 
     private final NotificationRepository notificationRepository;
     private final Map<Integer, SseEmitter> emitters = new ConcurrentHashMap<>();
+    private final SubscriptionNotificationService subscriptionNotificationService;
 
-    public NotificationService(NotificationRepository notificationRepository) {
+    public NotificationService(NotificationRepository notificationRepository, SubscriptionNotificationService subscriptionNotificationService) {
         this.notificationRepository = notificationRepository;
+        this.subscriptionNotificationService = subscriptionNotificationService;
     }
 
     // Chuyển đổi Notification sang NotificationDTO
@@ -32,9 +33,8 @@ public class NotificationService {
                 notification.getReadStatus());
     }
 
-    public NotificationDTO saveNotification(Notification notification) {
-        Notification savedNotification = notificationRepository.save(notification);
-        return convertToDTO(savedNotification);
+    public void saveNotification(Notification notification) {
+        notificationRepository.save(notification);
     }
 
     public List<NotificationDTO> getNotificationsForAccount(Account account) {
@@ -73,6 +73,8 @@ public class NotificationService {
                 } catch (IOException e) {
                     emitters.remove(account.getAccountId());
                 }
+            } else {
+                subscriptionNotificationService.sendWebPushNotification(notificationDTO, account.getAccountId());
             }
         });
     }

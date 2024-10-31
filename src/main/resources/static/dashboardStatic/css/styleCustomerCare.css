@@ -154,32 +154,6 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.rep {
-    background-color: #007bff;
-    color: white;
-    text-align: right;
-    margin-left: auto;
-    max-width: fit-content;
-    padding: 10px;
-    border-radius: 12px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-    word-wrap: break-word;
-}
-
-.send {
-    background-color: #3e3e3e;
-    color: #ffffff;
-    text-align: left;
-    margin-right: auto;
-    max-width: fit-content;
-    padding: 10px;
-    border-radius: 12px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-    word-wrap: break-word;
-}
-
 /* Thêm hiệu ứng cho chatbox */
 #chatBox, #chatHistoryBox {
     animation: fadeIn 0.5s ease-in-out;
@@ -367,5 +341,59 @@ tr:hover {
     resize: vertical;             /* Cho phép người dùng thay đổi chiều cao */
 }
 
+.message-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Khoảng cách giữa thời gian và tin nhắn */
+    margin: 5px 0;
+}
 
+.left {
+    justify-content: flex-end; /* Tin nhắn của Staff căn trái */
+}
+
+.right {
+    justify-content: flex-start; /* Tin nhắn của Client căn phải */
+}
+
+.rep {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border-radius: 12px;
+    max-width: 70%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.send {
+    background-color: #3e3e3e;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 12px;
+    max-width: 70%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.message-time {
+    font-size: 0.8em;
+    color: #888; /* Màu xám cho thời gian */
+}
+
+.message-wrapper.left .message-time {
+    order: -1; /* Đặt thời gian trước tin nhắn */
+    margin-right: 8px;
+}
+
+.message-wrapper.right .message-time {
+    order: 1; /* Đặt thời gian sau tin nhắn */
+    margin-left: 8px;
+}
+
+.chat-date {
+    text-align: center;
+    font-size: 0.9em;
+    color: #888;
+    margin: 10px 0;
+    font-weight: bold;
+}
 

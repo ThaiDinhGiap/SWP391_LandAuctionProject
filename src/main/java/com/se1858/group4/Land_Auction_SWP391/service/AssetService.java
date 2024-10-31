@@ -79,4 +79,8 @@ public class AssetService {
         System.out.println(assetRepository.filterAssets(tagIds, keyword, fromDateTime, toDateTime).toArray().length);
         return assetRepository.filterAssets(tagIds, keyword, fromDateTime, toDateTime);
     }
+
+    public List<Asset> getTop3LastestAssets() {
+        return assetRepository.findTop3ByOrderByCreatedDateDesc();
+    }
 }

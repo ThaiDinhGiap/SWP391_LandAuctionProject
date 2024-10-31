@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <td>
                         <button id="viewButton-${topic.topicId}" onclick="viewDetails(${topic.topicId})">View</button>
                         <button id="editButton-${topic.topicId}" onclick="editDetails(${topic.topicId})">Edit</button>
+                        <button id="deleteButton-${topic.topicId}" onclick="deleteTopic(${topic.topicId})">Delete</button>
                         <button id="saveButton-${topic.topicId}" onclick="saveDetails(${topic.topicId})" style="display: none;">Save</button>
                     </td>
                 `;
@@ -96,6 +97,7 @@ function viewDetails(topicId) {
                         <td>
                             <button id="viewButton-${subTopic.topicId}" onclick="viewDetails(${subTopic.topicId})">View</button>
                             <button id="editButton-${subTopic.topicId}" onclick="editDetails(${subTopic.topicId})">Edit</button>
+                            <button id="deleteButton-${subTopic.topicId}" onclick="deleteTopic(${subTopic.topicId})">Delete</button>
                             <button id="saveButton-${subTopic.topicId}" style="display:none;" onclick="saveDetails(${subTopic.topicId})">Save</button>
                         </td>
                     `;
@@ -110,6 +112,7 @@ function viewDetails(topicId) {
                         <td id="answerText-${question.questionId}">${question.answer}</td>
                         <td>
                             <button id="editButtonQuestion-${question.questionId}" onclick="editQuestion(${question.questionId})">Edit</button>
+                            <button id="deleteButtonQuestion-${question.questionId}" onclick="deleteQuestion(${question.questionId})">Delete</button>
                             <button id="saveButtonQuestion-${question.questionId}" style="display:none;" onclick="saveQuestion(${question.questionId})">Save</button>
                         </td>
                     `;
@@ -225,3 +228,36 @@ function deleteDetails(topicId) {
     }
 }
 
+function deleteTopic(topicId) {
+    fetch(`/api/chatbot/topics/delete/${topicId}`, {
+        method: 'DELETE',
+    })
+        .then(response => {
+            if (response.ok) {
+                // Xóa hàng của topic khỏi bảng
+                const row = document.getElementById(`deleteButton-${topicId}`).closest('tr');
+                row.remove();
+                console.log("Topic deleted successfully");
+            } else {
+                console.error("Failed to delete topic");
+            }
+        })
+        .catch(error => console.error("Error deleting topic:", error));
+}
+
+function deleteQuestion(questionId) {
+    fetch(`/api/chatbot/questions/delete/${questionId}`, {
+        method: 'DELETE',
+    })
+        .then(response => {
+            if (response.ok) {
+                // Xóa hàng của question khỏi bảng
+                const row = document.getElementById(`deleteButtonQuestion-${questionId}`).closest('tr');
+                row.remove();
+                console.log("Question deleted successfully");
+            } else {
+                console.error("Failed to delete question");
+            }
+        })
+        .catch(error => console.error("Error deleting question:", error));
+}
