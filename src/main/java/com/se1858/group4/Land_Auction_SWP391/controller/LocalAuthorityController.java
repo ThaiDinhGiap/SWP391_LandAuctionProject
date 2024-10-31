@@ -1,5 +1,7 @@
 package com.se1858.group4.Land_Auction_SWP391.controller;
 
+import com.se1858.group4.Land_Auction_SWP391.dto.StaffDTO;
+import com.se1858.group4.Land_Auction_SWP391.entity.Account;
 import com.se1858.group4.Land_Auction_SWP391.entity.LocalAuthority;
 import com.se1858.group4.Land_Auction_SWP391.service.LocalAuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import com.se1858.group4.Land_Auction_SWP391.dto.StaffDTO;
+import com.se1858.group4.Land_Auction_SWP391.security.UserDetailsService;
+import com.se1858.group4.Land_Auction_SWP391.utility.FileUploadUtil;
 
 @Controller
 //@RequestMapping("/LocalAuthority")
@@ -14,6 +20,10 @@ public class LocalAuthorityController {
 
     @Autowired
     private LocalAuthorityService localAuthorityService;
+    @Autowired
+    private UserDetailsService userDetailsService;
+    @Autowired
+    private FileUploadUtil uploadFile;
 
     @GetMapping("/LocalAuthority")
     public String getListOfLocalAuthority(
@@ -70,6 +80,26 @@ public class LocalAuthorityController {
 
         localAuthorityService.saveAuthority(existingAuthority); // Lưu bản cập nhật
         return "redirect:/LocalAuthority"; // Chuyển hướng về trang dashboard
+    }
+
+    @GetMapping("/local-profile")
+    public String profile(Model model) {
+        Account account = userDetailsService.accountAuthenticated();
+        if (account != null) {
+            StaffDTO staffDTO = new StaffDTO();
+            staffDTO.setAccount(account);
+            staffDTO.setStaff(account.getStaff());
+            model.addAttribute("staffDTO", staffDTO);
+        }
+        return "localAuthorityDashboard/profile";
+    }
+    @PostMapping("/uploadAvatar")
+    public String uploadAvatar(@RequestParam("avatar") MultipartFile avatar, Model model) {
+        Account account = userDetailsService.accountAuthenticated();
+        if (account != null&&avatar!=null) {
+            uploadFile.UploadAvatar(avatar, account);
+        }
+        return "redirect:/local-profile";
     }
 }
 
