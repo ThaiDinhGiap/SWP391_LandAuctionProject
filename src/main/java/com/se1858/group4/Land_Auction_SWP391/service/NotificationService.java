@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -38,15 +39,16 @@ public class NotificationService {
     }
 
     public List<NotificationDTO> getNotificationsForAccount(Account account) {
-        List<Notification> notifications = notificationRepository.findByAccountIdOrderByCreatedDateDesc(account.getAccountId());
+        int accountId = account.getAccountId();
+        List<Notification> notifications = notificationRepository.findByAccountIdOrderByCreatedDateDesc(accountId);
         return notifications.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     public void markNotificationAsRead(int notificationId) {
-        Notification notification = notificationRepository.findById(notificationId)
-                .orElseThrow(() -> new RuntimeException("Notification not found"));
+        Optional<Notification> notificationOptional = notificationRepository.findById(notificationId);
+        Notification notification = notificationOptional.get();
         notification.setReadStatus("read");
-        notificationRepository.save(notification); // Cập nhật trạng thái trong database
+        notificationRepository.save(notification);
     }
 
     // Thêm emitter mới cho client

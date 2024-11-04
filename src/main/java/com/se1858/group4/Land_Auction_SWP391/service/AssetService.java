@@ -6,6 +6,9 @@ import com.se1858.group4.Land_Auction_SWP391.repository.AssetRepository;
 import com.se1858.group4.Land_Auction_SWP391.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -79,12 +82,19 @@ public class AssetService {
         return new ArrayList<>(filteredAssets);
     }
 
-    public List<Asset> filterAssets(List<Integer> tagIds, String keyword, LocalDate fromDate, LocalDate toDate) {
+    public Page<Asset> getAssets(int page) {
+        Pageable pageable = PageRequest.of(page, 4); // Mỗi trang 6 bản ghi
+        return assetRepository.findAll(pageable);
+    }
+
+
+    public Page<Asset> filterAssets(List<Integer> tagIds, String keyword, LocalDate fromDate, LocalDate toDate, int page) {
         LocalDateTime fromDateTime = (fromDate != null) ? fromDate.atStartOfDay() : null;
         LocalDateTime toDateTime = (toDate != null) ? toDate.atTime(23, 59, 59) : null;
 
-        System.out.println(assetRepository.filterAssets(tagIds, keyword, fromDateTime, toDateTime).toArray().length);
-        return assetRepository.filterAssets(tagIds, keyword, fromDateTime, toDateTime);
+
+        Pageable pageable = PageRequest.of(page, 4); // Mỗi trang 6 bản ghi
+        return assetRepository.filterAssets(tagIds, keyword, fromDateTime, toDateTime, pageable);
     }
 
     public List<Asset> getTop3LastestAssets() {

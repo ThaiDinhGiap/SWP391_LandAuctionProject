@@ -11,6 +11,9 @@ import com.se1858.group4.Land_Auction_SWP391.repository.AuctionRegisterRepositor
 import com.se1858.group4.Land_Auction_SWP391.repository.AuctionSessionRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -54,12 +57,19 @@ public class AuctionService {
         return auctionSessionRepository.findAll();
     }
 
-    public List<AuctionSession> filterAuctionSessions(String keyword, LocalDate fromDate, LocalDate toDate, String status) {
+    public Page<AuctionSession> filterAuctionSessions(String keyword, LocalDate fromDate, LocalDate toDate, String status, int page) {
         LocalDateTime fromDateTime = (fromDate != null) ? fromDate.atStartOfDay() : null;
         LocalDateTime toDateTime = (toDate != null) ? toDate.atTime(23, 59, 59) : null;
 
 
-        return auctionSessionRepository.filterAuctionSessions(keyword, fromDateTime, toDateTime, status);
+        Pageable pageable = PageRequest.of(page, 4);
+        return auctionSessionRepository.filterAuctionSessions(keyword, fromDateTime, toDateTime, status, pageable);
+    }
+
+
+    public Page<AuctionSession> getAuctions(int page) {
+        Pageable pageable = PageRequest.of(page, 4);
+        return auctionSessionRepository.findAll(pageable);
     }
 
     public AuctionSession createAuctionSession(AuctionSession auctionSession) {
