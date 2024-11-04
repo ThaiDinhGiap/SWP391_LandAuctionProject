@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface AuctionRegisterRepository extends JpaRepository<AuctionRegister, Integer> {
+
     // Kiểm tra xem người dùng có trạng thái "accepted" trong phiên đấu giá không
     Optional<AuctionRegister> findByAuction_AuctionIdAndBuyer_AccountIdAndRegisterStatus(int auctionId, int accountId, String registerStatus);
 
@@ -26,5 +27,5 @@ public interface AuctionRegisterRepository extends JpaRepository<AuctionRegister
 
     @Query("SELECT ar FROM AuctionRegister ar LEFT JOIN FETCH ar.buyer b LEFT JOIN FETCH b.notifications WHERE ar.auction.auctionId = :auctionId")
     List<AuctionRegister> findByAuctionIdWithNotifications(@Param("auctionId") int auctionId);
-    List<AuctionRegister> findByBuyer_AccountId(int accountId);
+    List<AuctionRegister> findByBuyer_AccountIdOrderByRegistrationTimeDesc(int accountId);
 }

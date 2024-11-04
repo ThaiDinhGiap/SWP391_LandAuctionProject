@@ -106,7 +106,7 @@ public class AuctionService {
         auctionSession.setActualEndTime(LocalDateTime.now());
 
         // Cập nhật trạng thái đăng ký đấu giá
-        auctionSession.setStatus("Completed");
+        auctionSession.setStatus("Ending");
 
         // Cap nhat deal price
         auctionSession.setDealedPrice(dealPrice);
@@ -144,7 +144,7 @@ public class AuctionService {
 
     @Scheduled(fixedRate = 6000) // Kiểm tra mỗi phút
     public void checkAuctionEnd() {
-        List<AuctionSession> activeAuctions = auctionSessionRepository.findByStatus("OnGoing");
+        List<AuctionSession> activeAuctions = auctionSessionRepository.findByStatus("Ongoing");
         long now = System.currentTimeMillis();
         for (AuctionSession auction : activeAuctions) {
             if (auction.getExpectedEndTime().getSecond() >= now) {

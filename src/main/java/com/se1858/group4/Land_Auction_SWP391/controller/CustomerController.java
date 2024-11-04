@@ -99,7 +99,7 @@ public class CustomerController {
     }
 
     @GetMapping("/aboutus")
-    public String aboutUs(){
+    public String aboutUs() {
         return "customer/about";
     }
 

@@ -228,22 +228,7 @@ public class AuctioneerController {
         return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + auctionId;
     }
 
-    @GetMapping("/viewRegisterList")
-    public String getRegisterList(@RequestParam("auctionId") int auctionId, Model model) {
-        Account auctioneer = userDetailsService.accountAuthenticated();
-        if (auctionId <= 0) {
-            return "redirect:/auctioneer/get_auction_list";
-        }
-        AuctionSession auctionSession = auctionService.getAuctionSessionById(auctionId);
-        if (auctionSession == null) {
-            return "redirect:/auctioneer/get_auction_list";
-        }
-        if (auctionSession != null && auctionSession.getAuctioneer().getAccountId() == auctioneer.getAccountId()) {
-            List<AuctionRegister> registerList = auctionRegisterService.getAllAuctionRegistersByAuctionId(auctionId);
-            model.addAttribute("registerList", registerList);
-            return "auctioneer/RegisterList";
-        } else return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + auctionId;
-    }
+    //@GetMapping("/viewRegisterList")
 
     @GetMapping("/viewRegisterDetail")
     public String getRegisterDetail(@RequestParam("registerId") int registerId, Model model) {
@@ -293,12 +278,12 @@ public class AuctioneerController {
                 accountRepository.save(buyer);
                 notificationService.sendNotification(notification);
             }
-            if (purchase_status != null) {
-                register.setPurchaseStatus(purchase_status);
-            }
-            if (deposit_status != null) {
-                register.setDepositStatus(deposit_status);
-            }
+            if (purchase_status.isEmpty()) {
+                register.setPurchaseStatus(null);
+            } else register.setPurchaseStatus(purchase_status);
+            if (deposit_status.isEmpty()) {
+                register.setDepositStatus(null);
+            } else register.setDepositStatus(deposit_status);
             auctionRegisterService.updateRegisterStatus(register);
             return "redirect:/auctioneer/viewRegisterDetail?registerId=" + registerId;
         } else
