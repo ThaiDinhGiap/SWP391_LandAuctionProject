@@ -103,6 +103,11 @@ public class CustomerController {
         return "customer/about";
     }
 
+    @GetMapping("/contact")
+    public String contact() {
+        return "customer/contact";
+    }
+
     @GetMapping("/get_all_news")
     public String getAllNews(Model model) {
         List<News> newsList = newsService.getAllNews();
