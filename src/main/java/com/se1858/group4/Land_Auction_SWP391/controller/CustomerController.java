@@ -1,6 +1,7 @@
 package com.se1858.group4.Land_Auction_SWP391.controller;
 
 import com.se1858.group4.Land_Auction_SWP391.dto.CustomerDTO;
+import com.se1858.group4.Land_Auction_SWP391.dto.NotificationDTO;
 import com.se1858.group4.Land_Auction_SWP391.entity.Account;
 import com.se1858.group4.Land_Auction_SWP391.entity.Customer;
 import com.se1858.group4.Land_Auction_SWP391.entity.Image;
@@ -21,6 +22,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 
@@ -79,27 +83,69 @@ public class CustomerController {
         return "customer/auctionHistory";
     }
 
+    @GetMapping("/viewNotification")
+    public String getNotificationList(Model model) {
+        Account this_user = userDetailsService.accountAuthenticated();
+        List<NotificationDTO> notificationDTOList = notificationService.getNotificationsForAccount(this_user) ;
+        model.addAttribute("notifications", notificationDTOList);
+        return "customer/notificationList";
+    }
+
     @GetMapping("/get_all_asset")
-    public String getAllAsset(Model model) {
-        //lay ra toan bo tai san
-        List<Asset> newsList = assetService.getAllAsset();
-        model.addAttribute("listAsset", newsList);
-//        lay danh sach cac tag
+    public String getAllAsset(
+            @RequestParam(defaultValue = "0") int page,
+            Model model) {
+
+        // Lấy danh sách tài sản đã phân trang
+        Page<Asset> assetPage = assetService.getAssets(page);
+
+        // Lấy danh sách các tag
         List<Tag> tagList = tagService.getAllTag();
-        model.addAttribute("listTag", tagList);
+
+        // Đưa các dữ liệu vào model
+        model.addAttribute("listAsset", assetPage.getContent());    // Danh sách tài sản trên trang hiện tại
+        model.addAttribute("totalPages", assetPage.getTotalPages()); // Tổng số trang
+        model.addAttribute("currentPage", page + 1); // Trang hiện tại (bắt đầu từ 1)
+        model.addAttribute("listTag", tagList);       // Danh sách các tag
+
         return "customer/assetList";
     }
 
+    @GetMapping("/filter_assets")
+    public String filterAssets(
+            @RequestParam(required = false) List<Integer> tagIds,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
+            @RequestParam(defaultValue = "0") int page,
+            Model model) {
+
+        // Gọi phương thức trong service để lấy dữ liệu đã phân trang
+        Page<Asset> filteredAssets = assetService.filterAssets(tagIds, keyword, fromDate, toDate, page);
+
+        // Đưa dữ liệu vào model, bao gồm cả danh sách tài sản và thông tin phân trang
+        model.addAttribute("listAsset", filteredAssets.getContent());
+        model.addAttribute("totalPages", filteredAssets.getTotalPages());
+        model.addAttribute("currentPage", page + 1); // Để trang hiện tại bắt đầu từ 1
+
+        return "customer/assetList :: assetListFragment";
+    }
 
     @GetMapping("/get_all_auction")
-    public String getAllAuction(Model model) {
-        List<AuctionSession> auctionList = auctionService.getAllAutcion();
-        model.addAttribute("listAuction", auctionList);
+    public String getAllAuction(
+            @RequestParam(defaultValue = "0") int page,
+            Model model) {
+        Page<AuctionSession> auctionSessionPage = auctionService.getAuctions(page);
+
+        model.addAttribute("listAuction", auctionSessionPage);
+        model.addAttribute("totalPages", auctionSessionPage.getTotalPages()); // Tổng số trang
+        model.addAttribute("currentPage", page + 1); // Trang hiện tại (bắt đầu từ 1)
+
         return "customer/auctionList";
     }
 
     @GetMapping("/aboutus")
-    public String aboutUs(){
+    public String aboutUs() {
         return "customer/about";
     }
 
@@ -116,29 +162,20 @@ public class CustomerController {
         return "customer/newsList";
     }
 
-    @GetMapping("/filter_assets")
-    public String filterAssets(
-            @RequestParam(required = false) List<Integer> tagIds,
-            @RequestParam(required = false) String keyword,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
-            Model model) {
-
-        List<Asset> filteredAssets = assetService.filterAssets(tagIds, keyword, fromDate, toDate);
-        model.addAttribute("listAsset", filteredAssets);
-        return "customer/assetList :: assetListFragment";
-    }
-
     @GetMapping("/filter_auctions")
     public String filterAuctions(
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
             @RequestParam(required = false) String status,
+            @RequestParam(defaultValue = "0") int page, // Trang mặc định là 0
             Model model) {
 
-        List<AuctionSession> filteredAuctions = auctionService.filterAuctionSessions(keyword, fromDate, toDate, status);
-        model.addAttribute("listAuction", filteredAuctions);
+        Page<AuctionSession> filteredAuctions = auctionService.filterAuctionSessions(keyword, fromDate, toDate, status, page);
+
+        model.addAttribute("listAuction", filteredAuctions.getContent());
+        model.addAttribute("totalPages", filteredAuctions.getTotalPages());
+        model.addAttribute("currentPage", filteredAuctions.getNumber() + 1); // +1 để bắt đầu từ trang 1
         return "customer/auctionList :: auctionListFragment";
     }
 
@@ -146,9 +183,12 @@ public class CustomerController {
     public String filterNews(
             @RequestParam(required = false) List<Integer> tagIds,
             @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = "0") int page,
             Model model) {
-        List<News> filteredNews = newsService.filterNews(tagIds, keyword);
+        Page<News> filteredNews = newsService.filterNews(tagIds, keyword, page);
         model.addAttribute("listNews", filteredNews);
+        model.addAttribute("totalPages", filteredNews.getTotalPages());
+        model.addAttribute("currentPage", filteredNews.getNumber() + 1);
         return "customer/newsList :: newsListFragment";
     }
 
@@ -391,6 +431,7 @@ public class CustomerController {
                 notification.setContent("You have transfer deposit and fee. Please wait while we confirm the transaction, the result will be sent to you via notification");
                 notification.setCreatedDate(LocalDateTime.now());
                 notification.setReadStatus("unread"); // Trạng thái chưa đọc
+                notification.setAuction(auction);
 
                 // Lưu thông báo vào cơ sở dữ liệu và gửi SSE cho client
                 notification.addAccount(this_user);
@@ -404,6 +445,7 @@ public class CustomerController {
                 notification.setContent("Please make sure to transfer the deposit and register fee before the auction registration deadline");
                 notification.setCreatedDate(LocalDateTime.now());
                 notification.setReadStatus("unread"); // Trạng thái chưa đọc
+                notification.setAuction(auction);
 
                 // Lưu thông báo vào cơ sở dữ liệu và gửi SSE cho client
                 notification.addAccount(this_user);

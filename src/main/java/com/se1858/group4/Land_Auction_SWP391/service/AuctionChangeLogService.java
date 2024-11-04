@@ -11,11 +11,13 @@ import java.util.List;
 public class AuctionChangeLogService {
     private AuctionChangeLogRepository auctionChangeLogRepository;
     private AuctionService auctionService;
+
     public AuctionChangeLogService(AuctionChangeLogRepository auctionChangeLogRepository, AuctionService auctionService) {
         this.auctionChangeLogRepository = auctionChangeLogRepository;
         this.auctionService = auctionService;
     }
-    public AuctionChangeLog createAuctionChange(String changeType, String reason, int auctionId){
+
+    public AuctionChangeLog createAuctionChange(String changeType, String reason, int auctionId) {
         AuctionChangeLog auctionChangeLog = new AuctionChangeLog();
         auctionChangeLog.setChangeType(changeType);
         auctionChangeLog.setReason(reason);
@@ -23,9 +25,10 @@ public class AuctionChangeLogService {
         auctionChangeLog.setTime(LocalDateTime.now());
         return auctionChangeLogRepository.save(auctionChangeLog);
     }
-    public List<AuctionChangeLog> getAllAuctionChangeLog(int auctionId){
+
+    public List<AuctionChangeLog> getAllAuctionChangeLog(int auctionId) {
         List<AuctionChangeLog> list = auctionChangeLogRepository.findByAuctionId(auctionId);
-        if(list.isEmpty()){
+        if (list.isEmpty()) {
             return null;
         }
         return list;

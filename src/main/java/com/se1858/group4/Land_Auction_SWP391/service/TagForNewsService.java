@@ -10,13 +10,16 @@ import java.util.List;
 @Service
 public class TagForNewsService {
     private TagForNewsRepository tagForNewsRepository;
+
     @Autowired
     public TagForNewsService(TagForNewsRepository tagForNewsRepository) {
         this.tagForNewsRepository = tagForNewsRepository;
     }
+
     public List<TagForNews> getAllTagsForNews() {
         return tagForNewsRepository.findAll();
     }
+
     public TagForNews getTagForNewsById(int id) {
         return tagForNewsRepository.findById(id).get();
     }

@@ -42,10 +42,12 @@ public class AccountService {
 
     public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
-        
+
     }
+
     public AccountService() {
     }
+
     public String registerUser(String username, String password, String email, Model model) {
         if (accountRepository.findByUsername(username) != null) {
             model.addAttribute("errorMessage", "Username already exists. Please choose another one.");
@@ -183,8 +185,6 @@ public class AccountService {
 //  }
 
 
-
-
 //
 //    @Scheduled(cron = "0 0 0 * * ?")  // Runs daily at midnight
 //    public void removeUnverifiedAccounts() {
@@ -213,6 +213,7 @@ public class AccountService {
         }
         return result;
     }
+
     public List<Account> findAllAccount() {
         return accountRepository.findAll();
     }
@@ -234,7 +235,7 @@ public class AccountService {
         List<Account> listAccount = accountRepository.findAll();
         List<Account> result = null;
         for (Account account : listAccount) {
-            if(account.getStatus() == 1){
+            if (account.getStatus() == 1) {
                 if (result == null) {
                     result = new ArrayList<Account>();
                 }
@@ -261,7 +262,6 @@ public class AccountService {
         // Set current time
         return accountRepository.save(account);
     }
-
 
 
 //    public void update(Account adminId, Account accountId, String reason) {

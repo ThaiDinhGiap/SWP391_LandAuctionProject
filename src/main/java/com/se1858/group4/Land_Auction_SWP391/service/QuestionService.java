@@ -6,17 +6,21 @@ import com.se1858.group4.Land_Auction_SWP391.repository.QuestionRepository;
 import com.se1858.group4.Land_Auction_SWP391.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class QuestionService {
 
-    @Autowired
     private QuestionRepository questionRepository;
+    private TopicRepository topicRepository;
 
     @Autowired
-    private TopicRepository topicRepository;
+    public QuestionService(QuestionRepository questionRepository, TopicRepository topicRepository) {
+        this.questionRepository = questionRepository;
+        this.topicRepository = topicRepository;
+    }
 
     public List<Question> getQuestionsByTopic(int topicId) {
         Topic topic = topicRepository.findById(topicId)

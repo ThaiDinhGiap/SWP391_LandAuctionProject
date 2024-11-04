@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import nl.martijndwars.webpush.PushService;
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
+
 import java.nio.charset.StandardCharsets;
+
 import nl.martijndwars.webpush.Notification;
 
 import java.util.List;

@@ -387,6 +387,8 @@ Author URL: http://w3layouts.com
         <!--/w3l-blopagew3-left-->
         <div class="col-lg-8 blopagew3-left">
           <div th:fragment="auctionListFragment">
+            <input type="hidden" id="totalPages" th:value="${totalPages}" />
+            <input type="hidden" id="currentPage" th:value="${currentPage}" />
             <div class="row" id="auctionListContainer">
               <div class="col-md-6 item" th:each="auction : ${listAuction}" style="margin-bottom: 20px;">
                 <div class="card">
@@ -496,8 +498,8 @@ Author URL: http://w3layouts.com
                         <label for="ongoingStatus">OnGoing</label><br>
                       </div>
                       <div class="form-check">
-                        <input class="form-check-input" type="radio" name="status" value="Ended" id="endedStatus">
-                        <label for="endedStatus">Ended</label><br>
+                        <input class="form-check-input" type="radio" name="status" value="Ending" id="endedStatus">
+                        <label for="endedStatus">Ending</label><br>
                       </div>
                       <button class="btn btn-primary" type="button" onclick="applyAuctionSearch()">Filter</button>
                       <button type="button" class="btn btn-primary" onclick="clearStatusFilters()">Clear</button>
@@ -513,13 +515,8 @@ Author URL: http://w3layouts.com
       </div>
       <!--/page-pagination-->
       <div class="pagination-wrapper mt-5 pt-lg-3">
-        <ul class="page-pagination">
-          <li><span aria-current="page" class="page-numbers current">1</span></li>
-          <li><a class="page-numbers" href="#url">2</a></li>
-          <li><a class="page-numbers" href="#url">3</a></li>
-          <li><a class="page-numbers" href="#url">...</a></li>
-          <li><a class="page-numbers" href="#url">15</a></li>
-          <li><a class="next" href="#url">Next <span class="fa fa-angle-right"></span></a></li>
+        <ul class="page-pagination" id="pagination">
+          <!-- JavaScript sẽ tạo danh sách trang tại đây -->
         </ul>
       </div>
       <!--//page-pagination-->

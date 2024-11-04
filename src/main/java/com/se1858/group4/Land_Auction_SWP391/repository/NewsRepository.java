@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,7 +23,10 @@ public interface NewsRepository extends JpaRepository<News, Integer> {
     @Query("SELECT a FROM News a WHERE "
             + "(:tagIds IS NULL OR (SELECT COUNT(t) FROM a.tags t WHERE t.tagId IN :tagIds) = :#{#tagIds == null ? 0 : #tagIds.size()}) AND "
             + "(:keyword IS NULL OR a.title LIKE %:keyword%)")
-    List<News> filterNews(
+    Page<News> filterNews(
             @Param("tagIds") List<Integer> tagIds,
-            @Param("keyword") String keyword);
+            @Param("keyword") String keyword,
+            Pageable pageable);
+
+    Page<News> findAll(Pageable pageable);
 }

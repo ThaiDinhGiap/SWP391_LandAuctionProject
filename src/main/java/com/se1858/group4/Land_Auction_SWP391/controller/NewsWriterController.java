@@ -34,8 +34,9 @@ public class NewsWriterController {
         this.uploadFile = uploadFile;
         this.userDetailsService = userDetailsService;
     }
+
     @GetMapping("/dashboard")
-    public String dashboard( Model model) {
+    public String dashboard(Model model) {
         return "newsWriter/Dashboard";
     }
 
@@ -65,7 +66,7 @@ public class NewsWriterController {
                           RedirectAttributes redirectAttributes) {
         News news = newsDTO.getNews();
         uploadFile.UploadImagesForNews(images, news);
-        if(selectedTags != null) {
+        if (selectedTags != null) {
             for (Integer tagId : selectedTags) {
                 TagForNews tag = tagForNewsService.getTagForNewsById(tagId);
                 news.addTag(tag);
@@ -104,7 +105,7 @@ public class NewsWriterController {
             return "redirect:/news_writer/get_all_news_list";
         }
         News news = newsService.getNewsById(newsId);
-        if(news==null){
+        if (news == null) {
             return "redirect:/news_writer/get_all_news_list";
         }
         model.addAttribute("news", news);
@@ -118,19 +119,20 @@ public class NewsWriterController {
             return "redirect:/news_writer/get_own_news_list";
         }
         News news = newsService.getNewsById(newsId);
-        if(news==null){
+        if (news == null) {
             return "redirect:/news_writer/get_own_news_list";
         }
-        if(news.getStaff().getAccountId()==account.getAccountId()) {
+        if (news.getStaff().getAccountId() == account.getAccountId()) {
             uploadFile.deleteFile(news.getCover_photo().getPath());
             newsService.deleteNewsById(newsId);
         }
         return "redirect:/news_writer/get_own_news_list";
     }
+
     @PostMapping("/uploadAvatar")
     public String uploadAvatar(@RequestParam("avatar") MultipartFile avatar, Model model) {
         Account account = userDetailsService.accountAuthenticated();
-        if (account != null&&avatar!=null) {
+        if (account != null && avatar != null) {
             uploadFile.UploadAvatar(avatar, account);
         }
         return "redirect:/news_writer/profile";
