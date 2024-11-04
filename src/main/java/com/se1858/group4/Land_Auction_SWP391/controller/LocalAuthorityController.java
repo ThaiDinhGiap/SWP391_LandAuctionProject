@@ -45,13 +45,13 @@ public class LocalAuthorityController {
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
         model.addAttribute("keyword", keyword);
 
-        return "localAuthorityDashboard/dashboard";
+        return "account/dashboard";
     }
 
     @GetMapping("/AddLocalAuthority")
     public String showAddLocalAuthorityForm(Model model) {
         model.addAttribute("authority", new LocalAuthority());
-        return "localAuthorityDashboard/icons";
+        return "account/icons";
     }
     @PostMapping("/AddLocalAuthority")
     public String addLocalAuthority(@ModelAttribute("authority") LocalAuthority authority) {
@@ -63,7 +63,7 @@ public class LocalAuthorityController {
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         LocalAuthority localAuthority = localAuthorityService.findById(id); // Sửa thành Local_authority
         model.addAttribute("localAuthority", localAuthority);
-        return "localAuthorityDashboard/map"; // Tên tệp HTML của trang cập nhật
+        return "account/map"; // Tên tệp HTML của trang cập nhật
     }
 
     @PostMapping("/UpdateLocalAuthority")
@@ -91,7 +91,7 @@ public class LocalAuthorityController {
             staffDTO.setStaff(account.getStaff());
             model.addAttribute("staffDTO", staffDTO);
         }
-        return "localAuthorityDashboard/profile";
+        return "account/profile";
     }
     @PostMapping("/uploadAvatar")
     public String uploadAvatar(@RequestParam("avatar") MultipartFile avatar, Model model) {
