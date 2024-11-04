@@ -56,5 +56,13 @@ public class LocalAuthorityService {
 
         return localAuthorityRepository.findAll(pageable);
     }
+    public void deleteLocalAuthority(Integer id) {
+
+        if (localAuthorityRepository.existsById(id)) {
+            localAuthorityRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Authority không tồn tại với ID: " + id);
+        }
+    }
 
 }
