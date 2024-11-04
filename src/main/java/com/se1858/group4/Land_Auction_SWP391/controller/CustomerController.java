@@ -127,7 +127,7 @@ public class CustomerController {
         model.addAttribute("top3LatestNews", top3News);
 //        lay danh sach cac tag
         List<TagForNews> tagList = tagForNewsService.getAllTagsForNews();
-        model.addAttribute("listTag", tagList);
+        model.addAttribute( "listTag", tagList);
         return "customer/newsList";
     }
 

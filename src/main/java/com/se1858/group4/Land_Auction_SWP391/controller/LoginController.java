@@ -45,7 +45,7 @@ public class LoginController {
             return "redirect:/customer/home";
         }
         if (hasRole("ROLE_Admin")) {
-            return "redirect:/admin/home";
+            return "redirect:/accounts/list";
         }
         if (hasRole("ROLE_Property_Agent")) {
             return "redirect:/property_agent/dashboard";
