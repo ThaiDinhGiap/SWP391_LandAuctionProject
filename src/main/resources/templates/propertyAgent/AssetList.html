@@ -110,7 +110,7 @@
                                class="btn btn-sm">
                                 Failed sold
                             </a>
-                            <h4 class="card-title" th:text="'Asset status: '+${pageTitle}"></h4>
+                            <h4 class="card-title" th:text="'Asset status: '+${pageTitle == null ? 'All' : pageTitle}"></h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
