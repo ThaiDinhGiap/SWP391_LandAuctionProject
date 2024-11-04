@@ -245,6 +245,7 @@ public class AuctioneerController {
         } else return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + auctionId;
     }
 
+
     @GetMapping("/viewRegisterDetail")
     public String getRegisterDetail(@RequestParam("registerId") int registerId, Model model) {
         Account auctioneer = userDetailsService.accountAuthenticated();

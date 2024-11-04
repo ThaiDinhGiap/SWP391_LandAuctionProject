@@ -103,5 +103,15 @@ public class LocalAuthorityController {
         }
         return "redirect:/local-profile";
     }
+    @GetMapping("icon")
+    public String adminHomes() {
+        return "dashboardTemplates/icons";
+    }
+
+    @GetMapping("/DeleteLocalAuthority/{id}")
+    public String deleteLocalAuthority(@PathVariable("id") Integer id) {
+        localAuthorityService.deleteLocalAuthority(id);
+        return "redirect:/LocalAuthority";
+    }
 }
 

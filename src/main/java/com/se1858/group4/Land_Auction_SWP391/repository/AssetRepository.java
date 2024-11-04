@@ -26,7 +26,9 @@ public interface AssetRepository extends JpaRepository<Asset, Integer> {
             @Param("toDate") LocalDateTime toDate,
             Pageable pageable);
 
+
     Page<Asset> findAll(Pageable pageable);
+
 
     List<Asset> findTop3ByOrderByCreatedDateDesc();
 }

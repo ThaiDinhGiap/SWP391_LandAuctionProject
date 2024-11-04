@@ -11,7 +11,9 @@ import com.se1858.group4.Land_Auction_SWP391.repository.AuctionRegisterRepositor
 import com.se1858.group4.Land_Auction_SWP391.repository.AuctionSessionRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +22,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 
 @Service
@@ -40,7 +40,7 @@ public class AuctionService {
 
     // Kiểm tra xem người dùng có được phép truy cập vào phiên đấu giá hay không
     public boolean isUserAllowedToAccessAuction(int auctionId, int accountId) {
-        Optional<AuctionRegister> register = auctionRegisterRepository.findByAuction_AuctionIdAndBuyer_AccountIdAndRegisterStatus(auctionId, accountId, "Confirmed");
+        Optional<AuctionRegister> register = auctionRegisterRepository.findByAuction_AuctionIdAndBuyer_AccountIdAndRegisterStatus(auctionId, accountId, "accepted");
         return register.isPresent();
     }
 
@@ -53,7 +53,7 @@ public class AuctionService {
         }
     }
 
-    public List<AuctionSession> getAllAutcion() {
+    public List<AuctionSession> getAllAutcion(){
         return auctionSessionRepository.findAll();
     }
 
@@ -61,9 +61,11 @@ public class AuctionService {
         LocalDateTime fromDateTime = (fromDate != null) ? fromDate.atStartOfDay() : null;
         LocalDateTime toDateTime = (toDate != null) ? toDate.atTime(23, 59, 59) : null;
 
+
         Pageable pageable = PageRequest.of(page, 4);
         return auctionSessionRepository.filterAuctionSessions(keyword, fromDateTime, toDateTime, status, pageable);
     }
+
 
     public Page<AuctionSession> getAuctions(int page) {
         Pageable pageable = PageRequest.of(page, 4);
@@ -75,22 +77,23 @@ public class AuctionService {
     }
 
     public List<AuctionSession> getAllAuctionSessionsByAuctioneerId(int auctioneerId) {
-        List<AuctionSession> list = auctionSessionRepository.findByAuctioneerId(auctioneerId);
-        if (list.isEmpty()) {
+        List<AuctionSession> list=auctionSessionRepository.findByAuctioneerId(auctioneerId);
+        if(list.isEmpty()){
             return null;
-        } else return list;
+        }
+        else return list;
     }
 
-    public void cancelAuction(int auctionId) {
+    public void cancelAuction(int auctionId){
         AuctionSession auctionSession = getAuctionSessionById(auctionId);
-        if (auctionSession != null) {
+        if(auctionSession != null){
             auctionSession.setStatus("Ending");
         }
     }
 
     public AuctionSession updateAuctionSession(AuctionSessionDTO auctionSessionDTO) {
-        AuctionSession newAuctionSession = auctionSessionDTO.getAuctionSession();
-        AuctionSession existingAuctionSession = getAuctionSessionById(newAuctionSession.getAuctionId());
+        AuctionSession newAuctionSession=auctionSessionDTO.getAuctionSession();
+        AuctionSession existingAuctionSession=getAuctionSessionById(newAuctionSession.getAuctionId());
         existingAuctionSession.setAuctionName(newAuctionSession.getAuctionName());
         existingAuctionSession.setStartTime(newAuctionSession.getStartTime());
         existingAuctionSession.setExpectedEndTime(newAuctionSession.getExpectedEndTime());
