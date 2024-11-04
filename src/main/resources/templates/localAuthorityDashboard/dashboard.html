@@ -92,10 +92,16 @@
             <p>User Profile</p>
           </a>
         </li>
-        <li>
+        <li  class="active ">
           <a th:href="@{/LocalAuthority}">
             <i class="nc-icon nc-tile-56"></i>
             <p>Dashboard</p>
+          </a>
+        </li>
+        <li>
+          <a th:href="@{/AddLocalAuthority}">
+            <i class="nc-simple-add"></i>
+            <p>Add Local Authority</p>
           </a>
         </li>
         <li>
@@ -189,6 +195,7 @@
     </div>
   </div>
 </div>
+
 <script th:src="@{/dashboardStatic/js/core/jquery.min.js}"></script>
 <script th:src="@{/dashboardStatic/js/core/popper.min.js}"></script>
 <script th:src="@{/dashboardStatic/js/core/bootstrap.min.js}"></script>
@@ -197,5 +204,6 @@
 <script th:src="@{/dashboardStatic/js/plugins/bootstrap-notify.js}"></script>
 <script th:src="@{/dashboardStatic/js/paper-dashboard.js?v=2.0.1}"></script>
 <script th:src="@{/dashboardStatic/demo/demo.js}"></script>
+
 </body>
 </html>
