@@ -358,13 +358,14 @@ Author URL: http://w3layouts.com
                 <!--/w3l-blopagew3-left-->
                 <div class="col-lg-8 blopagew3-left">
                     <div th:fragment="assetListFragment">
+                        <input type="hidden" id="totalPages" th:value="${totalPages}" />
+                        <input type="hidden" id="currentPage" th:value="${currentPage}" />
                         <div class="row" id="assetListContainer">
                             <div class="col-md-6 item" th:each="asset : ${listAsset}" style="margin-bottom: 20px;">
                                 <!-- Nội dung của mỗi asset -->
                                 <div class="card">
                                     <div class="card-header p-0 position-relative">
-                                        <a th:href="@{/customer/viewAssetDetail(assetId=${asset.assetId})}"
-                                           class="zoom d-block">
+                                        <a th:href="@{/customer/viewAssetDetail(assetId=${asset.assetId})}" class="zoom d-block">
                                             <img class="card-img-bottom d-block" th:if="${asset.images.size() > 0}"
                                                  th:src="${asset.images.get(0).path}"
                                                  alt="Cover photo" style="height: 250px; width: 100%;">
@@ -399,7 +400,6 @@ Author URL: http://w3layouts.com
                         </div>
                     </div>
                 </div>
-
                 <!--//w3l-blopagew3-left-->
                 <!--/w3l-blopagew3-right-->
                 <div class="sidebar-side col-lg-4 col-md-12 col-sm-12 mt-lg-0 mt-5">
@@ -459,13 +459,8 @@ Author URL: http://w3layouts.com
             </div>
             <!--/page-pagination-->
             <div class="pagination-wrapper mt-5 pt-lg-3">
-                <ul class="page-pagination">
-                    <li><span aria-current="page" class="page-numbers current">1</span></li>
-                    <li><a class="page-numbers" href="#url">2</a></li>
-                    <li><a class="page-numbers" href="#url">3</a></li>
-                    <li><a class="page-numbers" href="#url">...</a></li>
-                    <li><a class="page-numbers" href="#url">15</a></li>
-                    <li><a class="next" href="#url">Next <span class="fa fa-angle-right"></span></a></li>
+                <ul class="page-pagination" id="pagination">
+                    <!-- JavaScript sẽ tạo danh sách trang tại đây -->
                 </ul>
             </div>
             <!--//page-pagination-->

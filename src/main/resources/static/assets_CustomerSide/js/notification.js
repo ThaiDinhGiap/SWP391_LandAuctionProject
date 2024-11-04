@@ -38,6 +38,24 @@ function markAsRead(element) {
     });
 }
 
+function markAsRead2(element) {
+    var notificationId = $(element).data('id'); // Correctly access the 'data-id' attribute
+    $.ajax({
+        url: '/api/notifications/markAsRead', // Existing backend endpoint
+        method: 'POST',
+        data: JSON.stringify({ notificationId: notificationId }),
+        contentType: "application/json",
+        success: function (response) {
+            // Update the UI to reflect the "read" status
+            $(element).closest('tr').find('td:nth-child(3)').text('read').removeClass('text-danger').addClass('text-muted');
+            $(element).remove(); // Remove the "Mark as Read" button after marking as read
+        },
+        error: function (error) {
+            alert("Unable to mark notification as read");
+        }
+    });
+}
+
 function connectSSE() {
     var eventSource = new EventSource('/api/notifications/stream/' + clientId);
 

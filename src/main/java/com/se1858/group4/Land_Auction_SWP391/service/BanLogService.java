@@ -11,6 +11,7 @@ import java.util.List;
 @Service
 public class BanLogService {
     BanLogRepository banLogRepository;
+
     public BanLogService(BanLogRepository banLogRepository) {
         this.banLogRepository = banLogRepository;
     }

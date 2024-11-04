@@ -23,6 +23,7 @@ public class AuctionRegisterService {
         this.registerRepository = registerRepository;
         this.sessionRepository = sessionRepository;
     }
+
     public AuctionRegister getAuctionRegister(int auctionId, int accountId) {
         Optional<AuctionRegister> auctionRegister = registerRepository.findByAuction_AuctionIdAndBuyer_AccountId(auctionId,accountId);
         if(auctionRegister.isPresent()){
@@ -30,6 +31,7 @@ public class AuctionRegisterService {
         }
         else return null;
     }
+
     public AuctionRegister getAuctionRegisterById(int auctionRegisterId) {
         Optional<AuctionRegister> auctionRegister = registerRepository.findById(auctionRegisterId);
         if(auctionRegister.isPresent()){
@@ -37,11 +39,13 @@ public class AuctionRegisterService {
         }
         else return null;
     }
+
     public AuctionRegister createAuctionRegister(AuctionRegister auctionRegister) {
         AuctionRegister register = registerRepository.save(auctionRegister);
         register.setNickName("Anonymous"+register.getRegisterId());
         return registerRepository.save(register);
     }
+
     public AuctionRegister updateRegisterStatus(AuctionRegister auctionRegister) {
         AuctionRegister existingAuctionRegister = getAuctionRegister(auctionRegister.getAuction().getAuctionId(),auctionRegister.getBuyer().getAccountId());
         if(existingAuctionRegister!=null) {
@@ -52,6 +56,7 @@ public class AuctionRegisterService {
         }
         else return null;
     }
+
     public List<AuctionRegister> getAllAuctionRegistersByAuctionId(int auctionId) {
         List<AuctionRegister> registerList = registerRepository.findByAuction_AuctionId(auctionId);
         if(registerList!=null){
@@ -59,6 +64,7 @@ public class AuctionRegisterService {
         }
         else return null;
     }
+
     public void finalizeAuctionSession(int auctionSessionId) {
         // Lấy danh sách đăng ký của phiên đấu giá
         List<AuctionRegister> registers = registerRepository.findByAuction_AuctionIdWithBids(auctionSessionId);
@@ -89,11 +95,11 @@ public class AuctionRegisterService {
 
                     // Cấp quyền mua cho người xếp hạng 1, những người khác không có quyền mua
                     if (rank == 1) {
-                        register.setPurchaseStatus("Allowed");
+                        register.setPurchaseStatus("Eligible to purchase");
                         register.setResult("Winner");
                         auctionSession.setWinner(register.getBuyer());
                     } else {
-                        register.setPurchaseStatus("Not allowed");
+                        register.setPurchaseStatus("Not eligible to purchase");
                         register.setResult("Participant");
                     }
 
@@ -116,7 +122,7 @@ public class AuctionRegisterService {
                     // Cập nhật trạng thái cọc thành "Forfeited" cho người đang bỏ quyền mua
                     register.setDepositStatus("Forfeited");
                     register.setResult("Forfeited");
-                    register.setPurchaseStatus("Not allowed");
+                    register.setPurchaseStatus("Not eligible to purchase");
 
                     // Tìm người tiếp theo để cấp quyền mua nếu họ không bỏ quyền đăng ký
                     registers.stream()
@@ -131,7 +137,6 @@ public class AuctionRegisterService {
         // Lưu các thay đổi vào cơ sở dữ liệu
         registerRepository.saveAll(registers);
     }
-
 
     public List<AuctionRegister> getAllAuctionRegistersByAccountId(int accountId) {
         List<AuctionRegister> registerList = registerRepository.findByBuyer_AccountIdOrderByRegistrationTimeDesc(accountId);

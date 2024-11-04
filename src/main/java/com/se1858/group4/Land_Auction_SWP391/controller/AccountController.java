@@ -32,19 +32,6 @@ public class AccountController {
         this.roleService = roleService;
     }
 
-
-
-
-//    @GetMapping("/list")
-//    public String listAccount(Model theModel) {
-//
-//        // get the employees from db
-//        List<Account> accounts = accountService.findAllAccount();
-//        // add to the spring model
-//        theModel.addAttribute("accounts", accounts);
-//        return "account/list-account";
-//    }
-
     @GetMapping("/list")
     public String listAccount(@RequestParam(value = "page", defaultValue = "1") int page,
                               @RequestParam(value = "size", defaultValue = "5") int size,
@@ -62,9 +49,8 @@ public class AccountController {
         return "account/list-account";
     }
 
-
     @GetMapping("/showFormForAdd")
-    public String showFormForAdd(@ModelAttribute("accounts") Account account, Model theModel ) {
+    public String showFormForAdd(@ModelAttribute("accounts") Account account, Model theModel) {
         // create model attribute to bind form data
         Account accounts = new Account();
         theModel.addAttribute("accounts", accounts);
@@ -170,7 +156,4 @@ public class AccountController {
         accountService.save(account);
         return "redirect:/accounts/list";
     }
-
-
-
 }

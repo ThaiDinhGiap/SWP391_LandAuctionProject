@@ -12,4 +12,5 @@ public class NotificationDTO {
     private String content;
     private LocalDateTime createdDate;
     private String readStatus;
+    private int auctionId;
 }

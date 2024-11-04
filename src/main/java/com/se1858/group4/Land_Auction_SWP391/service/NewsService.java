@@ -8,6 +8,9 @@ import com.se1858.group4.Land_Auction_SWP391.repository.NewsRepository;
 import com.se1858.group4.Land_Auction_SWP391.security.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,9 +32,10 @@ public class NewsService {
         this.imageService = imageService;
         this.userDetailsService = userDetailsService;
     }
+
     public News save(News news) {
         news.setCreatedDate(LocalDateTime.now());
-        if(news.getCover_photo()==null){
+        if (news.getCover_photo() == null) {
             Image img = imageService.findImageById(2); //tim den Image mac dinh auction_hammer.jpg
             news.setCover_photo(img);
         }
@@ -39,26 +43,37 @@ public class NewsService {
         news.setStaff(this_news_writer);
         return newsRepository.save(news);
     }
-    public List<News> getAllNews(){
+
+    public List<News> getAllNews() {
         return newsRepository.findAll();
     }
-    public List<News> getAllNewsByAuthorId(int authorId){
+
+    public List<News> getAllNewsByAuthorId(int authorId) {
         return newsRepository.findByStaff_AccountId(authorId);
     }
+
     public News getNewsById(int id) {
         Optional<News> news = newsRepository.findById(id);
-        if(news.isPresent()){
+        if (news.isPresent()) {
             return news.get();
-        }
-        else return null;
+        } else return null;
     }
+
     public void deleteNewsById(int id) {
         newsRepository.deleteById(id);
     }
-    public List<News> getTop3LatestNews(){
+
+    public List<News> getTop3LatestNews() {
         return newsRepository.findTop3ByOrderByCreatedDateDesc();
     }
-    public List<News> filterNews(List<Integer> tagIds, String keyword) {
-        return newsRepository.filterNews(tagIds, keyword);
+
+    public Page<News> filterNews(List<Integer> tagIds, String keyword, int page) {
+        Pageable pageable = PageRequest.of(page, 4);
+        return newsRepository.filterNews(tagIds, keyword, pageable);
+    }
+
+    public Page<News> getNews(int page) {
+        Pageable pageable = PageRequest.of(page, 4);
+        return newsRepository.findAll(pageable);
     }
 }

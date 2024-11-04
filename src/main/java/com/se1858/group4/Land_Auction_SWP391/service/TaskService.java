@@ -12,33 +12,37 @@ import java.util.Optional;
 public class TaskService {
     private TaskRepository taskRepository;
     private AccountService accountService;
+
     public TaskService(TaskRepository taskRepository, AccountService accountService) {
         this.taskRepository = taskRepository;
         this.accountService = accountService;
     }
+
     public Task save(Task task) {
-        task.setContentTask("Assign scheduling task for the asset with id: "+task.getAsset().getAssetId()+" from property agent: "+task.getPropertyAgent().getStaff().getFullName());
+        task.setContentTask("Assign scheduling task for the asset with id: " + task.getAsset().getAssetId() + " from property agent: " + task.getPropertyAgent().getStaff().getFullName());
         task.setCreatedDate(LocalDateTime.now());
         task.setFinishedDate(null);
         task.setStatus("In progress");
         return taskRepository.save(task);
     }
+
     public List<Task> getAllTasksByAuctioneerId(int auctioneerId, String status) {
         List<Task> list = taskRepository.findByAuctioneer_AccountIdAndStatus(auctioneerId, status);
         return list;
     }
+
     public void changeTaskStatus(int taskId, String status) {
         Task task = findTaskById(taskId);
-        if(task!=null) {
+        if (task != null) {
             task.setStatus(status);
             taskRepository.save(task);
         }
     }
+
     public Task findTaskById(int taskId) {
         Optional<Task> task = taskRepository.findById(taskId);
-        if(task.isPresent()) {
+        if (task.isPresent()) {
             return task.get();
-        }
-        else return null;
+        } else return null;
     }
 }

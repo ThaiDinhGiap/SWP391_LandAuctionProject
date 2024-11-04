@@ -42,8 +42,9 @@ public class AuctionController {
 
     /**
      * Xử lý yêu cầu truy cập trang đấu giá
+     *
      * @param auctionId ID của phiên đấu giá
-     * @param model đối tượng Model để truyền dữ liệu đến View
+     * @param model     đối tượng Model để truyền dữ liệu đến View
      * @return tên của trang đấu giá
      */
     @GetMapping("/auction/{auctionId}")
@@ -85,14 +86,11 @@ public class AuctionController {
     @MessageMapping("/endAuction")
     public void handleEndAuctionMessage(@Payload EndAuctionMessage endAuctionMessage) {
         // Kiểm tra kiểu tin nhắn kết thúc đấu giá
-        if ("Completed".equals(endAuctionMessage.getTypeMessage())) {
+        if ("Ending".equals(endAuctionMessage.getTypeMessage())) {
             // Xử lý logic khi đấu giá kết thúc thành công
             auctionRegisterService.finalizeAuctionSession(endAuctionMessage.getAuctionId());
             auctionService.finalizeAuction(endAuctionMessage.getAuctionId(), endAuctionMessage.getDealPrice());
             // Thông báo tới các người dùng rằng đấu giá đã kết thúc
-        } else if ("Cancelled".equals(endAuctionMessage.getTypeMessage())) {
-            // Logic nếu đấu giá bị hủy
-            // Thông báo hủy đấu giá
         }
     }
 

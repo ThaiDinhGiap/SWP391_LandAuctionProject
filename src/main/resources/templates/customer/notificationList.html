@@ -198,7 +198,7 @@ Author URL: http://w3layouts.com
             padding: 0;
             margin-right: 20px;
             max-height: 300px; /* Giới hạn chiều cao */
-            overflow-y: auto;  /* Thêm thanh cuộn khi có nhiều thông báo */
+            overflow-y: auto; /* Thêm thanh cuộn khi có nhiều thông báo */
             scrollbar-width: none;
             z-index: 1050;
             min-width: 220px; /* Tăng chiều rộng của box notify */
@@ -250,6 +250,23 @@ Author URL: http://w3layouts.com
         #trigger-overlay i {
             color: #ff0000; /* Màu đỏ cho biểu tượng chuông */
             font-size: 20px; /* Kích thước biểu tượng chuông */
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;  /* Center-align horizontally */
+            align-items: center;      /* Center-align vertically */
+            gap: 8px;                 /* Space between buttons */
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;              /* Fixed width for consistent button size */
+            height: 40px;             /* Adjust height as needed */
+            font-size: 14px;          /* Adjust font size as needed */
+            padding: 0;               /* Remove extra padding for consistent button layout */
         }
     </style>
     <!--thu vien cho de zoom anh-->
@@ -332,6 +349,24 @@ Author URL: http://w3layouts.com
             color: black;
         }
     </style>
+    <style>
+        /* Ensure even padding and row height */
+        .table th, .table td {
+            padding: 12px 8px; /* Adjust as needed for consistent padding */
+            vertical-align: middle;
+        }
+
+        /* Center-align buttons in the Action column */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 8px; /* Space between buttons */
+        }
+
+        .btn-outline-primary, .btn-primary {
+            width: 80px; /* Set a consistent button width */
+        }
+    </style>
 </head>
 
 <body>
@@ -376,10 +411,12 @@ Author URL: http://w3layouts.com
 
                 <!--/notify-->
                 <div class="dropdown">
-                    <button id="trigger-overlay" class="searchw3-icon me-xl-4 me-lg-3" type="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="loadNotifications()">
+                    <button id="trigger-overlay" class="searchw3-icon me-xl-4 me-lg-3" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false" onclick="loadNotifications()">
                         <i class="fas fa-bell"></i>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end" id="notification-list" aria-labelledby="trigger-overlay">
+                    <ul class="dropdown-menu dropdown-menu-end" id="notification-list"
+                        aria-labelledby="trigger-overlay">
                         <li><a class="dropdown-item" href="#">Loading...</a></li>
                     </ul>
                 </div>
@@ -411,12 +448,12 @@ Author URL: http://w3layouts.com
             <div class="w3breadcrumb-gids">
                 <div class="w3breadcrumb-left text-left">
                     <h2 class="inner-w3-title mt-sm-5 mt-4">
-                        Auction History </h2>
+                        Notifications </h2>
                 </div>
                 <div class="w3breadcrumb-right">
                     <ul class="breadcrumbs-custom-path">
                         <li><a href="index.html">Home</a></li>
-                        <li class="active"><span class="fas fa-angle-double-right mx-2"></span>Auction History</li>
+                        <li class="active"><span class="fas fa-angle-double-right mx-2"></span>Notifications</li>
                     </ul>
                 </div>
             </div>
@@ -428,6 +465,7 @@ Author URL: http://w3layouts.com
 
 <!--/w3l-blog-->
 <!--/w3l-blog-->
+<!--/w3l-blog-->
 <section class="w3l-blog blog-single-post">
     <div class="blog py-5">
         <div class="container py-lg-5 py-md-4 py-2">
@@ -435,141 +473,41 @@ Author URL: http://w3layouts.com
                 <!--/w3l-blopagew3-left-->
                 <div class="col-lg-12 blopagew3-left">
                     <div class="single-post-content sidebar-widget">
-                        <div class="sidebar-title">
-                            <h4>Auction history</h4>
-                        </div>
                         <table class="table table-hover">
                             <thead style="background-color: #f9351b; color: white; vertical-align: middle; text-align: center;">
                             <tr>
-                                <th>Auction name</th>
-                                <th>Start time</th>
-                                <th>Result</th>
-                                <th>Rank</th>
-                                <th>Register status</th>
-                                <th>Purchase status</th>
-                                <th>Deposit status</th>
-                                <th>Max bid amount</th>
-                                <th>Registration time</th>
-                                <th class="text-right">Action</th>
+                                <th>Content</th>
+                                <th>Time</th>
+                                <th>Read Status</th>
+                                <th class="text-center">Action</th> <!-- Center align Action column -->
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="register:${registerList}">
-                                <td th:text="${register.auction.auctionName}"></td>
-                                <td th:text="${register.auction.startTime}"></td>
-                                <td th:text="${register.result}"></td>
-                                <td th:text="${register.rank}"></td>
-                                <td th:text="${register.registerStatus}"></td>
-                                <td th:text="${register.purchaseStatus}"></td>
-                                <td th:text="${register.depositStatus}"></td>
-                                <td >max bid chua lam</td>
-                                <td th:text="${register.registrationTime}"></td>
-                                <td>
-                                    <a th:href="@{/customer/viewAuctionDetail(auctionId=${register.auction.auctionId})}">
-                                        View
-                                    </a>
+                            <tr th:each="notification : ${notifications}">
+                                <td th:text="${notification.getContent()}"></td>
+                                <td th:text="${notification.getCreatedDate()}"></td>
+                                <td th:text="${notification.getReadStatus()}"></td>
+                                <td class="text-center">
+                                    <div class="action-buttons">
+                                        <button th:if="${notification.getReadStatus() == 'unread'}"
+                                                class="btn btn-sm btn-outline-primary"
+                                                data-id="${notification.notificationId}"
+                                                onclick="markAsRead2(this)">
+                                            Mark as Read
+                                        </button>
+                                        <a th:if="${notification.getAuctionId() != 0}"
+                                           th:href="@{/customer/viewAuctionDetail(auctionId=${notification.getAuctionId()})}"
+                                           class="btn btn-sm btn-outline-primary">
+                                            View
+                                        </a>
+                                    </div>
                                 </td>
+
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <!--//w3l-blopagew3-left-->
-                <!--/w3l-blopagew3-right-->
-                <!--                <div class="sidebar-side col-lg-5 col-md-12 col-sm-12 mt-lg-0 mt-5">-->
-                <!--                    <aside class="sidebar ps-lg-4">-->
-                <!--                        <div class="sidebar-blog-category">-->
-                <!--                            &lt;!&ndash;thong tin tai san&ndash;&gt;-->
-                <!--                            <div class="sidebar-widget popular-posts">-->
-                <!--                                <div class="sidebar-title">-->
-                <!--                                    <h4>Asset Information</h4>-->
-                <!--                                </div>-->
-                <!--&lt;!&ndash;                                <article style=" font-weight: bold; word-wrap: break-word; overflow-wrap: break-word;">&ndash;&gt;-->
-                <!--&lt;!&ndash;                                    <div class="row">&ndash;&gt;-->
-                <!--&lt;!&ndash;                                        <div class="col-md-12">&ndash;&gt;-->
-                <!--&lt;!&ndash;                                            <label>Location: </label>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                            <span th:text="${asset.location}"&ndash;&gt;-->
-                <!--&lt;!&ndash;                                                  style="color: #f9351b;"></span>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                        </div>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                    <div class="row">&ndash;&gt;-->
-                <!--&lt;!&ndash;                                        <div class="col-md-6">&ndash;&gt;-->
-                <!--&lt;!&ndash;                                            <label>Length (m): </label>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                            <span th:text="${asset.length}"&ndash;&gt;-->
-                <!--&lt;!&ndash;                                                  style="color: #f9351b; font-weight: bold"></span>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                        </div>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                        <div class="col-md-6">&ndash;&gt;-->
-                <!--&lt;!&ndash;                                            <label>Width (m): </label>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                            <span th:text="${asset.width}"&ndash;&gt;-->
-                <!--&lt;!&ndash;                                                  style="color: #f9351b; font-weight: bold"></span>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                        </div>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                    <div class="row">&ndash;&gt;-->
-                <!--&lt;!&ndash;                                        <div class="col-md-12">&ndash;&gt;-->
-                <!--&lt;!&ndash;                                            <label>Area <span>(m<sup>2</sup>): </span></label>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                            <span th:text="${asset.area}"&ndash;&gt;-->
-                <!--&lt;!&ndash;                                                  style="color: #f9351b; font-weight: bold"></span>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                        </div>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                    <div class="row">&ndash;&gt;-->
-                <!--&lt;!&ndash;                                        <div class="col-md-12">&ndash;&gt;-->
-                <!--&lt;!&ndash;                                            <label>Local authority: </label>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                            <span th:text="${asset.localAuthority != null ? asset.localAuthority.localAuthorityName : 'null'}"&ndash;&gt;-->
-                <!--&lt;!&ndash;                                                  style="color: #f9351b; font-weight: bold"></span>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                        </div>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                    <div class="row">&ndash;&gt;-->
-                <!--&lt;!&ndash;                                        <div class="col-md-12">&ndash;&gt;-->
-                <!--&lt;!&ndash;                                            <label>Asset tags: </label>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                            <span th:each="tag, iterStat : ${asset.getTags()}"&ndash;&gt;-->
-                <!--&lt;!&ndash;                                                  th:text="${tag.tagName} + (${iterStat.last} ? '' : ', ')"&ndash;&gt;-->
-                <!--&lt;!&ndash;                                                  th:title="${tag.description}"&ndash;&gt;-->
-                <!--&lt;!&ndash;                                                  style="color: #f9351b; font-weight: bold;"></span>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                        </div>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                    <div class="row">&ndash;&gt;-->
-                <!--&lt;!&ndash;                                        <div class="col-md-12">&ndash;&gt;-->
-                <!--&lt;!&ndash;                                            <label>Status: </label>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                            <span th:text="${asset.assetStatus}"&ndash;&gt;-->
-                <!--&lt;!&ndash;                                                  style="color: #f9351b; font-weight: bold"></span>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                        </div>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                    <div class="row">&ndash;&gt;-->
-                <!--&lt;!&ndash;                                        <div class="col-md-12">&ndash;&gt;-->
-                <!--&lt;!&ndash;                                            <label>Upload date: </label>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                            <span th:text="${asset.createdDate}"&ndash;&gt;-->
-                <!--&lt;!&ndash;                                                  style="color: #f9351b; font-weight: bold"></span>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                        </div>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                </article>&ndash;&gt;-->
-                <!--                            </div>-->
-                <!--                            &lt;!&ndash;google map nam ơ day&ndash;&gt;-->
-                <!--                            <div class="sidebar-sticky">-->
-                <!--                                <div class="sidebar-sticky-fix">-->
-                <!--                                    &lt;!&ndash; Tags Widget&ndash;&gt;-->
-                <!--                                    <div class="sidebar-widget popular-tags">-->
-                <!--                                        <div class="sidebar-title">-->
-                <!--                                            <h4>Google Map</h4>-->
-                <!--                                        </div>-->
-                <!--&lt;!&ndash;                                        <div>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                            <iframe&ndash;&gt;-->
-                <!--&lt;!&ndash;                                                    th:src="${embedUrl}"&ndash;&gt;-->
-                <!--&lt;!&ndash;                                                    width=100%&ndash;&gt;-->
-                <!--&lt;!&ndash;                                                    height="300"&ndash;&gt;-->
-                <!--&lt;!&ndash;                                                    style="border:0;"&ndash;&gt;-->
-                <!--&lt;!&ndash;                                                    allowfullscreen=""&ndash;&gt;-->
-                <!--&lt;!&ndash;                                                    loading="lazy"&ndash;&gt;-->
-                <!--&lt;!&ndash;                                                    referrerpolicy="no-referrer-when-downgrade">&ndash;&gt;-->
-                <!--&lt;!&ndash;                                            </iframe>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                        </div>&ndash;&gt;-->
-                <!--                                    </div>-->
-
-                <!--                                </div>-->
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!--                    </aside>-->
-                <!--                </div>-->
-                <!--//w3l-blopagew3-right-->
             </div>
 
         </div>
@@ -885,6 +823,23 @@ Author URL: http://w3layouts.com
         descriptionButton.classList.remove('active');
         documentButton.classList.remove('active');
     });
+
+    function markAsRead(element) {
+        var notificationId = $(element).data('id'); // Get the notificationId from data attribute
+        $.ajax({
+            url: '/api/notifications/markAsRead', // Existing backend endpoint
+            method: 'POST',
+            data: { notificationId: notificationId },
+            success: function (response) {
+                // Update the UI to reflect the "read" status
+                $(element).closest('tr').find('span').text('read').removeClass('text-danger').addClass('text-muted');
+                $(element).remove(); // Remove the "Mark as Read" button after marking as read
+            },
+            error: function (error) {
+                alert("Unable to mark notification as read");
+            }
+        });
+    }
 </script>
 <!-- Đổi màu chữ nút đăng ký tham gia đấu giá khi di chuột đến -->
 

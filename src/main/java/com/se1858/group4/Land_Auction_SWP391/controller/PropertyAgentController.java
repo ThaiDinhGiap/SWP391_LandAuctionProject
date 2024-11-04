@@ -153,7 +153,7 @@ public class PropertyAgentController {
             return "redirect:/property_agent/get_all_asset";
         }
         Asset asset = assetService.getAssetById(assetId);
-        if(asset==null){
+        if (asset == null) {
             return "redirect:/property_agent/get_all_asset";
         }
         String embedUrl = GetSrcInGoogleMapEmbededURLUtil.extractSrcFromIframe(asset.getCoordinatesOnMap());

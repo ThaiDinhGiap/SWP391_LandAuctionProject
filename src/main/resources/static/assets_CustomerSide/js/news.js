@@ -1,4 +1,4 @@
-function applyNewsSearch() {
+function applyNewsSearch(page = 1) {
     // Lấy giá trị từ form tìm kiếm
     const keyword = $('input[name="keyword"]').val();
 
@@ -8,22 +8,47 @@ function applyNewsSearch() {
         selectedTags.push($(this).val());
     });
 
-    // Gửi yêu cầu AJAX để lấy danh sách phiên đấu giá đã lọc
+    // Gửi yêu cầu AJAX để lấy danh sách tin tức đã lọc
     $.ajax({
         url: '/customer/filter_news', // URL của controller xử lý lọc và tìm kiếm
         type: 'GET',
         data: {
             tagIds: selectedTags,
-            keyword: keyword
+            keyword: keyword,
+            page: page - 1 // Truyền trang hiện tại (trừ 1 vì trang đầu tiên là 0)
         },
         success: function (response) {
-            // Cập nhật danh sách phiên đấu giá trong phần tử có id 'auctionListContainer'
-            $('#newsListContainer').html(response);
+            // Cập nhật danh sách tin tức trong phần tử có id 'newsListContainer'
+            $('#newsListContainer').html($(response).find('#newsListContainer').html());
+
+            // Lấy totalPages và currentPage từ các thẻ ẩn
+            const totalPages = parseInt($(response).find('#totalPages').val());
+            const currentPage = parseInt($(response).find('#currentPage').val());
+
+            // Cập nhật thanh phân trang
+            updatePagination(totalPages, currentPage);
         },
         error: function (xhr, status, error) {
             console.error('Error occurred:', error);
         }
     });
+}
+
+function updatePagination(totalPages, currentPage) {
+    const paginationWrapper = $('#pagination'); // Đảm bảo có phần tử với id "pagination"
+    paginationWrapper.html(''); // Xóa thanh phân trang cũ
+
+    // Tạo danh sách số trang
+    for (let i = 1; i <= totalPages; i++) {
+        const pageItem = `<li><a class="page-numbers ${i === currentPage ? "current" : ""}" href="javascript:void(0);" onclick="applyNewsSearch(${i})">${i}</a></li>`;
+        paginationWrapper.append(pageItem);
+    }
+
+    // Thêm nút "Next" nếu chưa ở trang cuối
+    if (currentPage < totalPages) {
+        const nextItem = `<li><a class="next" href="javascript:void(0);" onclick="applyNewsSearch(${currentPage + 1})">Next <span class="fa fa-angle-right"></span></a></li>`;
+        paginationWrapper.append(nextItem);
+    }
 }
 
 function clearSearchNewsFilters() {
@@ -37,3 +62,8 @@ function clearTagNewsFilters() {
     document.getElementById("tagFilterNewsForm").reset();
     applyNewsSearch();
 }
+
+// Tải trang đầu tiên khi mở trang
+$(document).ready(function () {
+    applyNewsSearch();
+});

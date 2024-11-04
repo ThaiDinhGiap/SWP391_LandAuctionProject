@@ -11,30 +11,37 @@ public class DashboardController {
     public String dashboard() {
         return "dashboardTemplates/dashboard";
     }
+
     @GetMapping("/icons")
     public String icons() {
         return "dashboardTemplates/icons";
     }
+
     @GetMapping("/map")
     public String map() {
         return "dashboardTemplates/map";
     }
+
     @GetMapping("/notifications")
     public String notifications() {
         return "dashboardTemplates/notifications";
     }
+
     @GetMapping("/tables")
     public String tables() {
         return "dashboardTemplates/tables";
     }
+
     @GetMapping("/typography")
     public String typography() {
         return "dashboardTemplates/typography";
     }
+
     @GetMapping("/upgrade")
     public String upgrade() {
         return "dashboardTemplates/upgrade";
     }
+
     @GetMapping("/user")
     public String user() {
         return "dashboardTemplates/user";

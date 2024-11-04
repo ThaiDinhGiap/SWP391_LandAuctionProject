@@ -53,6 +53,7 @@ public class LocalAuthorityController {
         model.addAttribute("authority", new LocalAuthority());
         return "localAuthorityDashboard/icons";
     }
+
     @PostMapping("/AddLocalAuthority")
     public String addLocalAuthority(@ModelAttribute("authority") LocalAuthority authority) {
         localAuthorityService.saveAuthority(authority);
@@ -93,10 +94,11 @@ public class LocalAuthorityController {
         }
         return "localAuthorityDashboard/profile";
     }
+
     @PostMapping("/uploadAvatar")
     public String uploadAvatar(@RequestParam("avatar") MultipartFile avatar, Model model) {
         Account account = userDetailsService.accountAuthenticated();
-        if (account != null&&avatar!=null) {
+        if (account != null && avatar != null) {
             uploadFile.UploadAvatar(avatar, account);
         }
         return "redirect:/local-profile";
