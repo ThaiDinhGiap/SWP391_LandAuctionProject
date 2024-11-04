@@ -8,6 +8,9 @@ import com.se1858.group4.Land_Auction_SWP391.repository.NewsRepository;
 import com.se1858.group4.Land_Auction_SWP391.security.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -58,7 +61,14 @@ public class NewsService {
     public List<News> getTop3LatestNews(){
         return newsRepository.findTop3ByOrderByCreatedDateDesc();
     }
-    public List<News> filterNews(List<Integer> tagIds, String keyword) {
-        return newsRepository.filterNews(tagIds, keyword);
+    public Page<News> filterNews(List<Integer> tagIds, String keyword, int page) {
+        Pageable pageable = PageRequest.of(page, 4);
+        return newsRepository.filterNews(tagIds, keyword, pageable);
+    }
+
+
+    public Page<News> getNews(int page) {
+        Pageable pageable = PageRequest.of(page, 4);
+        return newsRepository.findAll(pageable);
     }
 }
