@@ -68,6 +68,7 @@
       background-color: #007bff;
       color: white;
     }
+
   </style>
 </head>
 <body class="">
@@ -141,11 +142,16 @@
             <td th:text="${authority.email}"></td>
             <td th:text="${authority.localAuthorityAddress}"></td>
             <td th:text="${authority.createdDate}"></td>
-            <td>
+            <td style="display: flex">
               <button type="button"
                       th:onclick="'window.location.href=\'/UpdateLocalAuthority/' + ' ' + ${authority.localAuthorityId} + '\';'"
                       style="padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 5px;">
                 Update
+              </button>
+              <button type="button"
+                      th:onclick="'if(confirm(\'Are you sure you want to delete this authority?\')) window.location.href=\'/DeleteLocalAuthority/' + ${authority.localAuthorityId} + '\';'"
+                      style="padding: 5px 10px; background-color: #e74c3c; color: white; border: none; border-radius: 5px;">
+                Delete
               </button>
             </td>
           </tr>
