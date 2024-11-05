@@ -280,19 +280,22 @@ public class CustomerController {
         }
         //lay ra nguoi dang ky
         Account this_user = userDetailsService.accountAuthenticated();
+        if(this_user!=null){
+            qrCode.setAmount(auction.getDeposit() + auction.getRegisterFee() + "");
+            qrCode.setDescription("UserId " + this_user.getAccountId() + " deposit fee AuctionId " + auction.getAuctionId());
+            model.addAttribute("qrCode", qrCode);
+
+            AuctionRegister register = auctionRegisterService.getAuctionRegister(auctionId, this_user.getAccountId());
+            if (register != null) {
+                model.addAttribute("auction_register", register);
+            }
+            if (error != null) {
+                model.addAttribute("error", error);
+            }
+        }
         String embedUrl = GetSrcInGoogleMapEmbededURLUtil.extractSrcFromIframe(auction.getAsset().getCoordinatesOnMap());
         model.addAttribute("embedUrl", embedUrl);
         model.addAttribute("auction", auction);
-        qrCode.setAmount(auction.getDeposit() + auction.getRegisterFee() + "");
-        qrCode.setDescription("UserId " + this_user.getAccountId() + " deposit fee AuctionId " + auction.getAuctionId());
-        model.addAttribute("qrCode", qrCode);
-        AuctionRegister register = auctionRegisterService.getAuctionRegister(auctionId, this_user.getAccountId());
-        if (register != null) {
-            model.addAttribute("auction_register", register);
-        }
-        if (error != null) {
-            model.addAttribute("error", error);
-        }
         return "customer/auctionDetail";
     }
 
