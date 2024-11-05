@@ -57,8 +57,14 @@ public class AuctioneerController {
         return "auctioneer/Dashboard";
     }
 
-    //@GetMapping("/get_auction_list")
-    //AuctionList.html trong auctioneer
+    @GetMapping("/get_auction_list")
+    public String getAuctionList(Model model) {
+        Account auctioneer = userDetailsService.accountAuthenticated();
+        List<AuctionSession> list = auctionService.getAllAuctionSessionsByAuctioneerId(auctioneer.getAccountId());
+        model.addAttribute("listAuction", list);
+        return "auctioneer/AuctionList";
+    }
+
 
     @GetMapping("/awaiting_list")
     public String getAssetAwaitingSchedulingList(Model model) {
