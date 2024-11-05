@@ -288,12 +288,13 @@
                     <button class="btn btn-toggle" id="view_description" style="width: 100%;">Asset description</button>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <button class="btn btn-toggle" id="view_auction_info" style="width: 100%;">Auction information
-                    </button>
+                    <button class="btn btn-toggle" id="view_auction_info" style="width: 100%;">Auction information</button>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <button class="btn btn-toggle" id="view_register" style="width: 100%;">Register list
-                    </button>
+                    <button class="btn btn-toggle" id="view_register" style="width: 100%;">Register list</button>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <button class="btn btn-toggle" id="view_result" style="width: 100%;">Result</button>
                 </div>
             </div>
             <!--      <div class="single-post-content sidebar-widget" id="asset_description">-->
@@ -319,6 +320,18 @@
                         </div>
                         <div class="card-body">
                             <a th:href="@{/auctioneer/viewRegisterList(auctionId=${auction.auctionId})}">View register list here</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="result">
+                <div class="col-md-12">
+                    <div class="card card-user">
+                        <div class="card-header">
+                            <h4 class="card-title">Result</h4>
+                        </div>
+                        <div class="card-body">
+                            <a th:href="@{/auctioneer/viewResult(auctionId=${auction.auctionId})}">View result</a>
                         </div>
                     </div>
                 </div>
@@ -535,15 +548,18 @@
     const descriptionButton = document.getElementById('view_description');
     const auctionInfoButton = document.getElementById('view_auction_info');
     const registerListButton = document.getElementById('view_register');
+    const resultButton = document.getElementById('view_result');
     const assetDescription = document.getElementById('asset_description');
     const auctionInfo = document.getElementById('auction_info');
     const registerList = document.getElementById('register_list');
+    const result = document.getElementById('result');
 
     // Mặc định khi tải trang, chỉ hiển thị asset_description và active button
     window.onload = function () {
         assetDescription.style.display = 'block';  // Hiển thị khối mô tả
         auctionInfo.style.display = 'none';  // Ẩn khối tài liệu
         registerList.style.display = 'none';
+        result.style.display = 'none';
         descriptionButton.classList.add('changeColor');  // Đặt nút "Description" là active
     };
 
@@ -552,11 +568,13 @@
         assetDescription.style.display = 'block';  // Hiển thị khối mô tả
         auctionInfo.style.display = 'none';  // Ẩn khối tài liệu
         registerList.style.display = 'none';
+        result.style.display = 'none';
 
         // Đổi trạng thái active của các nút
         descriptionButton.classList.add('changeColor');
         auctionInfoButton.classList.remove('changeColor');
         registerListButton.classList.remove('changeColor');
+        resultButton.classList.remove('changeColor')
     });
 
     // Khi nhấn vào nút "Map"
@@ -564,11 +582,13 @@
         auctionInfo.style.display = 'block';  // Hiển thị khối tài liệu
         assetDescription.style.display = 'none';  // Ẩn khối mô tả
         registerList.style.display = 'none';
+        result.style.display = 'none';
 
         // Đổi trạng thái active của các nút
         auctionInfoButton.classList.add('changeColor');
         descriptionButton.classList.remove('changeColor');
         registerListButton.classList.remove('changeColor');
+        resultButton.classList.remove('changeColor')
     });
 
     // Khi nhấn vào nút "Map"
@@ -576,11 +596,27 @@
         registerList.style.display = 'block';  // Hiển thị khối tài liệu
         assetDescription.style.display = 'none';  // Ẩn khối mô tả
         auctionInfo.style.display = 'none';
+        result.style.display = 'none';
 
         // Đổi trạng thái active của các nút
         registerListButton.classList.add('changeColor');
         descriptionButton.classList.remove('changeColor');
         auctionInfoButton.classList.remove('changeColor');
+        resultButton.classList.remove('changeColor')
+    });
+
+    // Khi nhấn vào nút "Map"
+    resultButton.addEventListener('click', function () {
+        registerList.style.display = 'none';  // Hiển thị khối tài liệu
+        assetDescription.style.display = 'none';  // Ẩn khối mô tả
+        auctionInfo.style.display = 'none';
+        result.style.display = 'block';
+
+        // Đổi trạng thái active của các nút
+        registerListButton.classList.remove('changeColor');
+        descriptionButton.classList.remove('changeColor');
+        auctionInfoButton.classList.remove('changeColor');
+        resultButton.classList.add('changeColor')
     });
 </script>
 <!--check xem thứ tự thời gian của các trường đã hợp lý chưa-->
