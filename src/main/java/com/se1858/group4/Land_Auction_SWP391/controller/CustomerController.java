@@ -73,6 +73,7 @@ public class CustomerController {
         this.bidService = bidService;
     }
 
+
     @GetMapping("/viewAuctionHistory")
     public String getAuctionHistory(Model model) {
         Account this_user = userDetailsService.accountAuthenticated();
@@ -80,6 +81,7 @@ public class CustomerController {
         model.addAttribute("registerList", registerList);
         return "customer/auctionHistory";
     }
+
 
     @GetMapping("/get_all_asset")
     public String getAllAsset(
@@ -254,7 +256,9 @@ public class CustomerController {
         if (account != null && customer != null) {
             // Update account and customer details
             accountService.updateAccountDetails(account);
+            customer.setAccount(account);
             customerService.updateCustomerDetails(customer);
+            System.out.println(customer.getUpdateStatus());
             // Handle file uploads
             if (!idCardFrontImage.isEmpty() || !idCardBackImage.isEmpty()) {
                 uploadFile.UploadImagesForCustomer(idCardFrontImage, idCardBackImage, customer);

@@ -15,7 +15,7 @@ public class Customer {
     @Column(name = "customer_id")
     private int customerId;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "account_id")
     private Account account;
 
@@ -68,6 +68,8 @@ public class Customer {
     @Column(name = "bank_owner", length = 255)
     private String bankOwner;
 
+    @Column(name = "update_status", length = 255)
+    private String updateStatus;
 
     public Customer() {
     }
@@ -90,6 +92,27 @@ public class Customer {
         this.fullName = fullName;
         this.account = account;
         this.customerId = customerId;
+    }
+
+    public Customer(int customerId, Account account, String fullName, String gender, LocalDate dateOfBirth, String address, String phoneNumber, String taxIdentificationNumber, String citizenIdentification, LocalDate idIssuanceDate, String idIssuancePlace, Image idCardFrontImage, Image idCardBackImage, String bankAccountNumber, String bankName, String bankBranch, String bankOwner, String updateStatus) {
+        this.customerId = customerId;
+        this.account = account;
+        this.fullName = fullName;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.taxIdentificationNumber = taxIdentificationNumber;
+        this.citizenIdentification = citizenIdentification;
+        this.idIssuanceDate = idIssuanceDate;
+        this.idIssuancePlace = idIssuancePlace;
+        this.idCardFrontImage = idCardFrontImage;
+        this.idCardBackImage = idCardBackImage;
+        this.bankAccountNumber = bankAccountNumber;
+        this.bankName = bankName;
+        this.bankBranch = bankBranch;
+        this.bankOwner = bankOwner;
+        this.updateStatus = updateStatus;
     }
 
     public Customer(Account account, String fullName, String gender, String phoneNumber, String address, LocalDate dateOfBirth, String citizenIdentification, Image idCardBackImage, Image idCardFrontImage, LocalDate idIssuanceDate, String idIssuancePlace, String taxIdentificationNumber, String bankOwner, String bankName, String bankBranch, String bankAccountNumber) {
@@ -247,7 +270,12 @@ public class Customer {
     public void setTaxIdentificationNumber(String taxIdentificationNumber) {
         this.taxIdentificationNumber = taxIdentificationNumber;
     }
-
+public String getUpdateStatus() {
+        return updateStatus;
+    }
+  public void setUpdateStatus(String updateStatus) {
+        this.updateStatus = updateStatus;
+    }
     @Override
     public String toString() {
         return "Customer{" +

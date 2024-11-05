@@ -6,7 +6,7 @@
     <link rel="icon" type="image/png" th:href="@{/dashboardStatic/img/favicon.png}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>
-        Asset awaiting scheduling list
+        Auction register list
     </title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
           name='viewport'/>
@@ -49,19 +49,13 @@
         </div>
         <div class="sidebar-wrapper">
             <ul class="nav">
-                <li >
-                    <a th:href="@{/auctioneer/profile}">
-                        <i class="nc-icon nc-single-02"></i>
-                        <p>User Profile</p>
-                    </a>
-                </li>
                 <li>
                     <a th:href="@{/auctioneer/dashboard}">
                         <i class="nc-icon nc-bank"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="active ">
+                <li>
                     <a th:href="@{/auctioneer/awaiting_list}">
                         <i class="nc-icon nc-single-copy-04"></i>
                         <p>Asset awaiting scheduling list</p>
@@ -71,12 +65,6 @@
                     <a th:href="@{/auctioneer/get_auction_list}">
                         <i class="nc-icon nc-bullet-list-67"></i>
                         <p>Auction session list</p>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/logout}">
-                        <i class="nc-icon nc-user-run"></i>
-                        <p>Logout</p>
                     </a>
                 </li>
             </ul>
@@ -97,15 +85,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <!--              <a th:href="@{/property_agent/list_unsuccessful_sale_asset}"-->
-                            <!--                 class="btn btn-sm">-->
-                            <!--                Unsuccessful sale assets-->
-                            <!--              </a>-->
-                            <!--              <a th:href="@{/property_agent/get_all_verified_asset}"-->
-                            <!--                 class="btn btn-sm">-->
-                            <!--                All verified assets-->
-                            <!--              </a>-->
-                            <h4 class="card-title">Asset Awaiting Scheduling List</h4>
+                            <h4 class="card-title">Auction register list</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -113,28 +93,41 @@
                                     <thead class=" text-primary">
                                     <tr>
                                         <th>Id</th>
-                                        <th>Location</th>
-                                        <th>Local authority</th>
-                                        <th>Status</th>
-                                        <th>Create date</th>
-                                        <th>Property agent</th>
+                                        <th>Auction name</th>
+                                        <th>Register name</th>
+                                        <th>Nick name</th>
+                                        <th>Register status</th>
+                                        <th>Purchase status</th>
+                                        <th>Deposit status</th>
+                                        <th>Result</th>
+                                        <th>Rank</th>
+                                        <th style="display: none;">Registration time</th>
                                         <th class="text-right">Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="task:${listTask}">
-                                        <td th:text="${task.asset.assetId}"></td>
-                                        <td th:text="${task.asset.location.length() > 40 ? task.asset.location.substring(0, 40) + '...' : task.asset.location}"
-                                            th:title="${task.asset.location}"></td>
-                                        <td th:text="${task.asset.localAuthority != null ? task.asset.localAuthority.localAuthorityName : 'null'}"></td>
-                                        <td th:text="${task.asset.assetStatus}"></td>
-                                        <td th:text="${task.asset.createdDate}"></td>
-                                        <td th:text="${task.propertyAgent.staff.fullName}"></td>
+                                    <tr th:each="register : ${registerList}">
+                                        <td th:text="${register.registerId}"></td>
+                                        <td th:text="${register.auction.auctionName.length() > 40 ? register.auction.auctionName.substring(0, 40) + '...' : register.auction.auctionName}"
+                                            th:title="${register.auction.auctionName}"></td>
+                                        <td th:text="${register.buyer.customer.fullName}"></td>
+                                        <td th:text="${register.nickName != null ? register.nickName : 'null'}"></td>
+                                        <td th:text="${register.registerStatus != null ? register.registerStatus : 'null'}"></td>
+                                        <td th:text="${register.purchaseStatus != null ? register.purchaseStatus : 'null'}"></td>
+                                        <td th:text="${register.depositStatus != null ? register.depositStatus : 'null'}"></td>
+                                        <td th:text="${register.result != null ? register.result : 'null'}"></td>
+                                        <td th:text="${register.rank != null ? register.rank : 'null'}"></td>
+                                        <td style="display: none;" th:text="${register.registrationTime}"></td>
                                         <td class="text-right">
-                                            <a th:href="@{/auctioneer/viewAssetDetail(taskId=${task.taskId})}"
-                                               class="btn btn-sm">
-                                                <i class="bi bi-eye-fill"></i>
-                                            </a>
+                                            <!-- Chỉ hiển thị nút nếu purchaseStatus là "Eligible to purchase" -->
+                                            <span th:if="${register.purchaseStatus == 'Eligible to purchase'}">
+                                                <button type="button" class="btn btn-sm" onclick="sendScheduleMail(this)">
+                                                    <i class="bi bi-send"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm" onclick="cancelRightBuy(this)">
+                                                    <i class="bi bi-slash-circle"></i>
+                                                </button>
+                                            </span>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -166,6 +159,66 @@
 <script>
     function confirmDelete() {
         return confirm("Are you sure you want to delete this asset?");
+    }
+
+    function sendScheduleMail(button) {
+        // Tìm phần tử tr chứa nút
+        const registerRow = button.closest("tr");
+
+        // Lấy giá trị registerId từ ô td đầu tiên
+        const registerId = registerRow.querySelector("td").textContent.trim();
+
+        // Confirm action from the user
+        if (confirm("Are you sure you want to send the schedule?")) {
+            // Perform AJAX request without page reload
+            fetch(`/auctioneer/sendScheduleMail?registerId=` + registerId, {
+                method: 'POST', // Or 'GET' if your endpoint only requires GET
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Schedule sent successfully!");
+                    } else {
+                        alert("Failed to send schedule, please try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error("An error occurred:", error);
+                    alert("An error occurred while sending the schedule.");
+                });
+        }
+    }
+
+    function cancelRightBuy(button) {
+        // Tìm phần tử tr chứa nút
+        const registerRow = button.closest("tr");
+
+        // Lấy giá trị registerId từ ô td đầu tiên
+        const registerId = registerRow.querySelector("td").textContent.trim();
+
+        // Confirm action from the user
+        if (confirm("Are you sure you want to cancel this user's right to buy asset?")) {
+            // Perform AJAX request without page reload
+            fetch(`/auctioneer/cancelRight?registerId=` + registerId, {
+                method: 'POST', // Or 'GET' if your endpoint only requires GET
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Cancel right successfully!");
+                    } else {
+                        alert("Failed to cancel right, please try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error("An error occurred:", error);
+                    alert("An error occurred while cancel right.");
+                });
+        }
     }
 </script>
 </body>

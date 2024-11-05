@@ -40,7 +40,7 @@ public class AuctionService {
 
     // Kiểm tra xem người dùng có được phép truy cập vào phiên đấu giá hay không
     public boolean isUserAllowedToAccessAuction(int auctionId, int accountId) {
-        Optional<AuctionRegister> register = auctionRegisterRepository.findByAuction_AuctionIdAndBuyer_AccountIdAndRegisterStatus(auctionId, accountId, "accepted");
+        Optional<AuctionRegister> register = auctionRegisterRepository.findByAuction_AuctionIdAndBuyer_AccountIdAndRegisterStatus(auctionId, accountId, "Confirmed");
         return register.isPresent();
     }
 
@@ -65,7 +65,6 @@ public class AuctionService {
         Pageable pageable = PageRequest.of(page, 4);
         return auctionSessionRepository.filterAuctionSessions(keyword, fromDateTime, toDateTime, status, pageable);
     }
-
 
     public Page<AuctionSession> getAuctions(int page) {
         Pageable pageable = PageRequest.of(page, 4);
