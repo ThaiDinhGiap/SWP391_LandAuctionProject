@@ -72,13 +72,8 @@ public class CustomerController {
         this.bidService = bidService;
     }
 
-    @GetMapping("/viewAuctionHistory")
-    public String getAuctionHistory(Model model) {
-        Account this_user = userDetailsService.accountAuthenticated();
-        List<AuctionRegister> registerList = auctionRegisterService.getAllAuctionRegistersByAccountId(this_user.getAccountId());
-        model.addAttribute("registerList", registerList);
-        return "customer/auctionHistory";
-    }
+//    @GetMapping("/viewAuctionHistory")
+    //auctionHistory.html
 
     @GetMapping("/get_all_asset")
     public String getAllAsset(
