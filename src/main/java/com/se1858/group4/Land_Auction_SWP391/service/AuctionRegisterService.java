@@ -5,6 +5,10 @@ import com.se1858.group4.Land_Auction_SWP391.entity.AuctionSession;
 import com.se1858.group4.Land_Auction_SWP391.repository.AuctionRegisterRepository;
 import com.se1858.group4.Land_Auction_SWP391.repository.AuctionSessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.se1858.group4.Land_Auction_SWP391.entity.Bid;
 
@@ -145,4 +149,31 @@ public class AuctionRegisterService {
         }
         else return null;
     }
+    public List<AuctionRegister> searchAuctionRegistersByAccountIdAndAuctionName(int accountId, String auctionName) {
+        return registerRepository.findByBuyer_AccountIdAndAuction_AuctionNameContainingIgnoreCase(accountId, auctionName);
+    }
+
+    public List<AuctionRegister> searchAndSortAuctionRegisters(int accountId, String auctionName, String sortField, String sortDir) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortField);
+        return registerRepository.findByBuyer_AccountIdAndAuction_AuctionNameContainingIgnoreCase(accountId, auctionName, sort);
+    }
+
+    public List<AuctionRegister> getAllSortedAuctionRegistersByAccountId(int accountId, String sortField, String sortDir) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortField);
+        return registerRepository.findByBuyer_AccountId(accountId, sort);
+    }
+
+    public Page<AuctionRegister> searchAndSortAuctionRegisters(int accountId, String auctionName, String sortField, String sortDir, int page, int size) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortField);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return registerRepository.findByBuyer_AccountIdAndAuction_AuctionNameContainingIgnoreCase(accountId, auctionName, pageable);
+    }
+
+    public Page<AuctionRegister> getAllSortedAuctionRegistersByAccountId(int accountId, String sortField, String sortDir, int page, int size) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortField);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return registerRepository.findByBuyer_AccountId(accountId, pageable);
+    }
+
+
 }
