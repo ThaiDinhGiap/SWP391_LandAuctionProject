@@ -59,7 +59,7 @@ public class RegisterController {
     public String verifyOtp(@RequestParam String otp, Model model) {
         if (accountService.verifyOtp(otp)) {
             model.addAttribute("message", "OTP is correct! You can now log in.");
-            return "verify";
+            return "showMyLoginPage";
         } else {
             model.addAttribute("error", "Invalid OTP. Please try again.");
             return "verify";

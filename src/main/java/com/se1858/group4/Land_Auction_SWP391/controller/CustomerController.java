@@ -247,7 +247,9 @@ public class CustomerController {
         if (account != null && customer != null) {
             // Update account and customer details
             accountService.updateAccountDetails(account);
+            customer.setAccount(account);
             customerService.updateCustomerDetails(customer);
+            System.out.println(customer.getUpdateStatus());
             // Handle file uploads
             if (!idCardFrontImage.isEmpty() || !idCardBackImage.isEmpty()) {
                 uploadFile.UploadImagesForCustomer(idCardFrontImage, idCardBackImage, customer);

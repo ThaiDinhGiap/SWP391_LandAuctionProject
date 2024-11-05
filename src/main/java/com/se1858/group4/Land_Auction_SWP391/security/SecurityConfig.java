@@ -78,8 +78,8 @@ public class SecurityConfig {
 
                 .exceptionHandling(configurer -> configurer
                         .accessDeniedPage("/access-denied")
-                );
-//                .csrf(csrf -> csrf.disable()); // Optional CSRF disabling
+                )
+                .csrf(csrf -> csrf.disable()); // Optional CSRF disabling
 
         return http.build();
     }
