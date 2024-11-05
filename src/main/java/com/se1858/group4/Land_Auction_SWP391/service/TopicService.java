@@ -10,8 +10,12 @@ import java.util.Optional;
 @Service
 public class TopicService {
 
-    @Autowired
     private TopicRepository topicRepository;
+
+    @Autowired
+    public TopicService(TopicRepository topicRepository) {
+        this.topicRepository = topicRepository;
+    }
 
     public List<Topic> getMainTopics() {
         return topicRepository.findByParentTopicIsNull();

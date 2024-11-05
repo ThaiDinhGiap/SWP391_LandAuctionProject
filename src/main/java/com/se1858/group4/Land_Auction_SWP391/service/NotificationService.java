@@ -26,12 +26,15 @@ public class NotificationService {
         this.subscriptionNotificationService = subscriptionNotificationService;
     }
 
-    // Chuyển đổi Notification sang NotificationDTO
+    // Convert Notification to NotificationDTO
     private NotificationDTO convertToDTO(Notification notification) {
-        return new NotificationDTO(notification.getNotificationId(),
+        return new NotificationDTO(
+                notification.getNotificationId(),
                 notification.getContent(),
                 notification.getCreatedDate(),
-                notification.getReadStatus());
+                notification.getReadStatus(),
+                notification.getAuction() != null ? notification.getAuction().getAuctionId() : 0 // Handle potential null value
+        );
     }
 
     public void saveNotification(Notification notification) {

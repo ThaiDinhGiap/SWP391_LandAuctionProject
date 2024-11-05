@@ -17,10 +17,12 @@ import java.util.Optional;
 @Service
 public class LocalAuthorityService {
     private LocalAuthorityRepository localAuthorityRepository;
+
     @Autowired
     public LocalAuthorityService(LocalAuthorityRepository localAuthorityRepository) {
         this.localAuthorityRepository = localAuthorityRepository;
     }
+
     public List<LocalAuthority> findAll() {
         return localAuthorityRepository.findAll();
     }
@@ -29,11 +31,11 @@ public class LocalAuthorityService {
         return localAuthorityRepository.findAll();
     }
 
-    public List<LocalAuthority> getAllLocalAuthority(){
+    public List<LocalAuthority> getAllLocalAuthority() {
         return localAuthorityRepository.findAll();
     }
 
-    public LocalAuthority getLocalAuthorityById(int id){
+    public LocalAuthority getLocalAuthorityById(int id) {
         return localAuthorityRepository.findById(id).get();
     }
 

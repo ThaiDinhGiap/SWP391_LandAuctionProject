@@ -25,23 +25,6 @@ public class RegisterController {
         return "verify";
     }
 
-
-
-//    @GetMapping("/otp-success")
-// public String showOtpSuccessPage() {
-//        return "otp-success";
-//    }
-
-
-
-//    @PostMapping("/register")
-//    public String registerUser(@RequestParam String username,
-//                               @RequestParam String password,
-//                               @RequestParam String email) {
-//        accountService.registerUser(username, password, email);
-//        return "redirect:/verify-otp";  // After registration, redirect to OTP verification
-//    }
-
     @PostMapping("/register")
     public String registerUser(@RequestParam String username,
                                @RequestParam String password,
@@ -58,20 +41,18 @@ public class RegisterController {
             model.addAttribute("errorEmailMessage", "Email already exists. Please use another one.");
             return "register";
         }
-        if(username.length() < 6){
+        if (username.length() < 6) {
             model.addAttribute("errorUsernameMessage", "Username must be at least 6 character.");
             return "register";
         }
-        if(password.length() < 6){
+        if (password.length() < 6) {
             model.addAttribute("errorPasswordMessage", "Password must be at least 6 character.");
             return "register";
         }
-
         // Register the user if no issues
         accountService.registerUser(username, password, email, model);
         return "redirect:/verify-otp";  // After registration, redirect to OTP verification
     }
-
 
 
     @PostMapping("/verify-otp")
@@ -85,12 +66,9 @@ public class RegisterController {
         }
     }
 
-
     @PostMapping("/resend-otp")
     public String resendOtp() {
         accountService.resendOtp();
         return "redirect:/verify-otp";  // Redirect back to OTP page
     }
-
-
 }

@@ -368,8 +368,7 @@ Author URL: http://w3layouts.com
                                 <!-- Nội dung của mỗi asset -->
                                 <div class="card">
                                     <div class="card-header p-0 position-relative">
-                                        <a th:href="@{/customer/viewAssetDetail(assetId=${asset.assetId})}"
-                                           class="zoom d-block">
+                                        <a th:href="@{/customer/viewAssetDetail(assetId=${asset.assetId})}" class="zoom d-block">
                                             <img class="card-img-bottom d-block" th:if="${asset.images.size() > 0}"
                                                  th:src="${asset.images.get(0).path}"
                                                  alt="Cover photo" style="height: 250px; width: 100%;">
@@ -404,7 +403,6 @@ Author URL: http://w3layouts.com
                         </div>
                     </div>
                 </div>
-
                 <!--//w3l-blopagew3-left-->
                 <!--/w3l-blopagew3-right-->
                 <div class="sidebar-side col-lg-4 col-md-12 col-sm-12 mt-lg-0 mt-5">

@@ -5,7 +5,6 @@ Author URL: http://w3layouts.com
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -15,7 +14,6 @@ Author URL: http://w3layouts.com
     <link href="//fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- Template CSS -->
     <link rel="stylesheet" th:href="@{/assets_CustomerSide/css/style-liberty.css}">
-
 
     <script th:src="@{/assets_CustomerSide/js/monetization.js}" type="text/javascript"></script>
     <link rel="stylesheet" th:href="@{/assets_CustomerSide/css/font-awesome.min.css}">
@@ -32,8 +30,6 @@ Author URL: http://w3layouts.com
         }
 
 
-
-
         #w3lDemoBar.w3l-demo-bar {
             top: 0;
             right: 0;
@@ -47,7 +43,6 @@ Author URL: http://w3layouts.com
             border-bottom-left-radius: 9px;
         }
 
-
         #w3lDemoBar.w3l-demo-bar a {
             display: block;
             color: #e6ebff;
@@ -58,21 +53,17 @@ Author URL: http://w3layouts.com
             text-align: center;
         }
 
-
         #w3lDemoBar.w3l-demo-bar span.w3l-icon {
             display: block;
         }
-
 
         #w3lDemoBar.w3l-demo-bar a:hover {
             opacity: 1;
         }
 
-
         #w3lDemoBar.w3l-demo-bar .w3l-icon svg {
             color: #e6ebff;
         }
-
 
         #w3lDemoBar.w3l-demo-bar .responsive-icons {
             margin-top: 30px;
@@ -80,22 +71,18 @@ Author URL: http://w3layouts.com
             padding-top: 40px;
         }
 
-
         #w3lDemoBar.w3l-demo-bar .demo-btns {
             border-top: 1px solid #41414d;
             padding-top: 30px;
         }
 
-
         #w3lDemoBar.w3l-demo-bar .responsive-icons a span.fa {
             font-size: 26px;
         }
 
-
         #w3lDemoBar.w3l-demo-bar .no-margin-bottom {
             margin-bottom: 0;
         }
-
 
         .toggle-right-sidebar span {
             background: #0D1326;
@@ -110,7 +97,6 @@ Author URL: http://w3layouts.com
             opacity: .5;
         }
 
-
         .pull-right {
             float: right;
             position: fixed;
@@ -121,11 +107,9 @@ Author URL: http://w3layouts.com
             text-align: center;
         }
 
-
         /* ============================================================
         RIGHT SIDEBAR SECTION
         ============================================================ */
-
 
         #right-sidebar {
             width: 90px;
@@ -143,12 +127,9 @@ Author URL: http://w3layouts.com
         }
 
 
-
-
         /* ============================================================
         RIGHT SIDEBAR TOGGLE SECTION
         ============================================================ */
-
 
         .hide-right-bar-notifications {
             margin-right: -300px !important;
@@ -159,31 +140,24 @@ Author URL: http://w3layouts.com
         }
 
 
-
-
         @media (max-width: 992px) {
             #w3lDemoBar.w3l-demo-bar a.desktop-mode {
                 display: none;
 
-
             }
         }
-
 
         @media (max-width: 767px) {
             #w3lDemoBar.w3l-demo-bar a.tablet-mode {
                 display: none;
 
-
             }
         }
-
 
         @media (max-width: 568px) {
             #w3lDemoBar.w3l-demo-bar a.mobile-mode {
                 display: none;
             }
-
 
             #w3lDemoBar.w3l-demo-bar .responsive-icons {
                 margin-top: 0px;
@@ -191,11 +165,9 @@ Author URL: http://w3layouts.com
                 padding-top: 0px;
             }
 
-
             #right-sidebar, .pull-right {
                 width: 90px;
             }
-
 
             #w3lDemoBar.w3l-demo-bar .no-margin-bottom-mobile {
                 margin-bottom: 0;
@@ -213,16 +185,13 @@ Author URL: http://w3layouts.com
             line-height: 0.4;
         }
 
-
         #time {
             font-size: 25px;
         }
 
-
         #date {
             font-size: 15px;
         }
-
 
         /* Điều chỉnh thanh thông báo */
         .dropdown-menu {
@@ -235,7 +204,6 @@ Author URL: http://w3layouts.com
             min-width: 220px; /* Tăng chiều rộng của box notify */
         }
 
-
         /* Cỡ chữ nhỏ hơn và tự động xuống dòng */
         .dropdown-menu .dropdown-item {
             width: 95%;
@@ -245,14 +213,12 @@ Author URL: http://w3layouts.com
             padding: 10px; /* Điều chỉnh padding nếu cần */
         }
 
-
         /* Các thông báo chưa đọc sẽ có màu đậm và có chấm xanh */
         .notification-unread {
             font-weight: bold; /* Chữ đậm */
             background-color: #f9f9f9; /* Màu nền nhạt hơn cho thông báo chưa đọc */
             position: relative; /* Để có thể định vị chấm xanh */
         }
-
 
         /* Chấm xanh cho thông báo chưa đọc */
         .notification-unread::after {
@@ -267,13 +233,11 @@ Author URL: http://w3layouts.com
             border-radius: 50%;
         }
 
-
         /* Các thông báo đã đọc sẽ có màu nhạt và không có chấm */
         .notification-read {
             font-weight: normal; /* Chữ bình thường */
             background-color: #eaeaea; /* Màu nền cho thông báo đã đọc */
         }
-
 
         /* Cài đặt cho nút chuông thông báo */
         #trigger-overlay {
@@ -282,13 +246,11 @@ Author URL: http://w3layouts.com
             cursor: pointer;
         }
 
-
         /* Màu và kích thước cho biểu tượng chuông */
         #trigger-overlay i {
             color: #ff0000; /* Màu đỏ cho biểu tượng chuông */
             font-size: 20px; /* Kích thước biểu tượng chuông */
         }
-
 
         .action-buttons {
             display: flex;
@@ -296,7 +258,6 @@ Author URL: http://w3layouts.com
             align-items: center;      /* Center-align vertically */
             gap: 8px;                 /* Space between buttons */
         }
-
 
         .btn {
             display: flex;
@@ -339,12 +300,10 @@ Author URL: http://w3layouts.com
             align-items: center;
         }
 
-
         .main-image img {
             width: 100%; /* Hoặc một giá trị cụ thể như 600px */
             height: auto; /* Giữ tỷ lệ ảnh */
         }
-
 
         .thumbnail-images {
             display: flex;
@@ -353,11 +312,9 @@ Author URL: http://w3layouts.com
             margin-top: 10px; /* Khoảng cách giữa ảnh chính và thumbnail */
         }
 
-
         .thumbnail {
             margin: 5px; /* Khoảng cách giữa các thumbnail */
         }
-
 
         .thumbnail img {
             width: 100%; /* Kích thước thumbnail */
@@ -376,19 +333,16 @@ Author URL: http://w3layouts.com
             font-weight: bold;
         }
 
-
         /* Nút khi được nhấn */
         .btn-toggle.active {
             background-color: #f9351b;
             color: white;
         }
 
-
         .register-btn {
             color: white;
             transition: color 0.3s ease;
         }
-
 
         /* Khi di chuột qua nút, màu chữ đổi thành đen */
         .register-btn:hover {
@@ -402,7 +356,6 @@ Author URL: http://w3layouts.com
             vertical-align: middle;
         }
 
-
         /* Center-align buttons in the Action column */
         .action-buttons {
             display: flex;
@@ -410,13 +363,11 @@ Author URL: http://w3layouts.com
             gap: 8px; /* Space between buttons */
         }
 
-
         .btn-outline-primary, .btn-primary {
             width: 80px; /* Set a consistent button width */
         }
     </style>
 </head>
-
 
 <body>
 <!--/Header-->
@@ -452,14 +403,11 @@ Author URL: http://w3layouts.com
                 </ul>
 
 
-
-
                 <!--/clock-->
                 <div class="navbar-nav" id="clock-container">
                     <span class="nav-link" id="time"></span>
                     <span class="nav-link" id="date"></span>
                 </div>
-
 
                 <!--/notify-->
                 <div class="dropdown">
@@ -472,7 +420,6 @@ Author URL: http://w3layouts.com
                         <li><a class="dropdown-item" href="#">Loading...</a></li>
                     </ul>
                 </div>
-
 
             </div>
             <!-- toggle switch for light and dark theme -->
@@ -511,12 +458,10 @@ Author URL: http://w3layouts.com
                 </div>
             </div>
 
-
         </div>
     </section>
 </div>
 <!--//inner-page-->
-
 
 <!--/w3l-blog-->
 <!--/w3l-blog-->
@@ -558,7 +503,6 @@ Author URL: http://w3layouts.com
                                     </div>
                                 </td>
 
-
                             </tr>
                             </tbody>
                         </table>
@@ -566,11 +510,9 @@ Author URL: http://w3layouts.com
                 </div>
             </div>
 
-
         </div>
     </div>
 </section>
-
 
 <!-- Chatbot -->
 <div id="chatbot">
@@ -588,12 +530,10 @@ Author URL: http://w3layouts.com
                     <i class="fas fa-sync-alt"></i>
                 </button>
 
-
                 <button id="endChat" class="btn btn-sm btn-light refBtn" onclick="disconnectWebSocket()"
                         style="display: none;">
                     <i class="fas fa-sign-out-alt"></i>
                 </button>
-
 
             </div>
         </div>
@@ -615,7 +555,6 @@ Author URL: http://w3layouts.com
         <button class="moralButton" id="confirmReject">Reject</button>
     </div>
 </div>
-
 
 <!--//w3l-blog-->
 <!--/footer-9-->
@@ -639,14 +578,12 @@ Author URL: http://w3layouts.com
                                 <li><a href="#google"><span class="fab fa-google-plus-g"></span></a>
                                 </li>
 
-
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-2 sub-two-right">
                         <h6>Company</h6>
                         <ul>
-
 
                             <li><a href="#why"><i class="fas fa-angle-right"></i> Why Us</a>
                             </li>
@@ -656,9 +593,7 @@ Author URL: http://w3layouts.com
                             <li><a href="#log"><i class="fas fa-angle-right"></i>Our Offers
                             </a></li>
 
-
                             <li><a href="#career"><i class="fas fa-angle-right"></i> Careers</a></li>
-
 
                         </ul>
                     </div>
@@ -673,8 +608,6 @@ Author URL: http://w3layouts.com
                             </li>
                             <li><a href="#metal"><i class="fas fa-angle-right"></i> Property Search</a>
                             </li>
-
-
 
 
                         </ul>
@@ -692,8 +625,6 @@ Author URL: http://w3layouts.com
                             </li>
 
 
-
-
                         </ul>
                     </div>
                     <div class="col-lg-3 sub-one-left ps-lg-5">
@@ -708,8 +639,6 @@ Author URL: http://w3layouts.com
                                 </div>
                             </form>
                         </div>
-
-
 
 
                     </div>
@@ -730,11 +659,9 @@ Author URL: http://w3layouts.com
                     </ul>
                 </div>
 
-
             </div>
         </div>
     </section>
-
 
     <!-- Js scripts -->
     <!-- move top -->
@@ -748,7 +675,6 @@ Author URL: http://w3layouts.com
             scrollFunction()
         };
 
-
         function scrollFunction() {
             if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
                 document.getElementById("movetop").style.display = "block";
@@ -757,13 +683,11 @@ Author URL: http://w3layouts.com
             }
         }
 
-
         // When the user clicks on the button, scroll to the top of the document
         function topFunction() {
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
         }
-
 
     </script>
     <!-- //move top -->
@@ -776,12 +700,10 @@ Author URL: http://w3layouts.com
 <script th:src="@{/assets_CustomerSide/js/jquery-3.3.1.min.js}"></script>
 <script th:src="@{/assets_CustomerSide/js/theme-change.js}"></script>
 
-
 <!--/search-->
 <script th:src="@{/assets_CustomerSide/js/modernizr.custom.js}"></script>
 <script th:src="@{/assets_CustomerSide/js/classie.js}"></script>
 <script th:src="@{/assets_CustomerSide/js/demo1.js}"></script>
-
 
 <!-- //bootstrap -->
 <script th:src="@{/assets_CustomerSide/js/bootstrap.min.js}"></script>
@@ -791,14 +713,12 @@ Author URL: http://w3layouts.com
     $(window).on("scroll", function () {
         var scroll = $(window).scrollTop();
 
-
         if (scroll >= 80) {
             $("#site-header").addClass("nav-fixed");
         } else {
             $("#site-header").removeClass("nav-fixed");
         }
     });
-
 
     //Main navigation Active Class Add Remove
     $(".navbar-toggler").on("click", function () {
@@ -815,10 +735,8 @@ Author URL: http://w3layouts.com
         });
     });
 
-
 </script>
 <!-- //MENU-JS -->
-
 
 <!-- disable body scroll which navbar is in active -->
 <script>
@@ -828,36 +746,29 @@ Author URL: http://w3layouts.com
         })
     });
 
-
     function updateClock() {
         var now = new Date();
-
 
         // Lấy giờ, phút, giây với định dạng 2 chữ số
         var hours = now.getHours().toString().padStart(2, '0');
         var minutes = now.getMinutes().toString().padStart(2, '0');
         var seconds = now.getSeconds().toString().padStart(2, '0');
 
-
         // Lấy ngày với định dạng tiếng Anh
         var day = now.toLocaleDateString('en-US', {weekday: 'long'});
         var date = now.toLocaleDateString('en-US'); // Hiển thị ngày tháng năm theo định dạng US (MM/DD/YYYY)
-
 
         // Hiển thị thời gian vào phần tử HTML
         document.getElementById('time').innerText = `${hours}:${minutes}:${seconds}`;
         document.getElementById('date').innerText = `${day}, ${date}`;
     }
 
-
     // Cập nhật thời gian mỗi giây
     setInterval(updateClock, 1000);
     updateClock();
 
-
 </script>
 <!-- //disable body scroll which navbar is in active -->
-
 
 <!-- script de hien thi tuy chon description va document -->
 <script>
@@ -869,7 +780,6 @@ Author URL: http://w3layouts.com
     const assetDocument = document.getElementById('asset_document');
     const auctionRule = document.getElementById('auction_rule');
 
-
     // Mặc định khi tải trang, chỉ hiển thị asset_description và active button
     window.onload = function () {
         assetDescription.style.display = 'block';  // Hiển thị khối mô tả
@@ -878,13 +788,11 @@ Author URL: http://w3layouts.com
         descriptionButton.classList.add('active');  // Đặt nút "Description" là active
     };
 
-
     // Khi nhấn vào nút "Description"
     descriptionButton.addEventListener('click', function () {
         assetDescription.style.display = 'block';  // Hiển thị khối mô tả
         assetDocument.style.display = 'none';  // Ẩn khối tài liệu
         auctionRule.style.display = 'none';  // Ẩn khối mô tả
-
 
         // Đổi trạng thái active của các nút
         descriptionButton.classList.add('active');
@@ -892,13 +800,11 @@ Author URL: http://w3layouts.com
         ruleButton.classList.remove('active');
     });
 
-
     // Khi nhấn vào nút "Document"
     documentButton.addEventListener('click', function () {
         assetDocument.style.display = 'block';  // Hiển thị khối tài liệu
         assetDescription.style.display = 'none';  // Ẩn khối mô tả
         auctionRule.style.display = 'none';  // Ẩn khối mô tả
-
 
         // Đổi trạng thái active của các nút
         documentButton.classList.add('active');
@@ -906,20 +812,17 @@ Author URL: http://w3layouts.com
         ruleButton.classList.remove('active');
     });
 
-
     // Khi nhấn vào nút "Rule"
     ruleButton.addEventListener('click', function () {
         auctionRule.style.display = 'block';  // Hiển thị khối tài liệu
         assetDescription.style.display = 'none'; // Ẩn khối mô tả
         assetDocument.style.display = 'none'; // Ẩn khối mô tả
 
-
         // Đổi trạng thái active của các nút
         ruleButton.classList.add('active');
         descriptionButton.classList.remove('active');
         documentButton.classList.remove('active');
     });
-
 
     function markAsRead(element) {
         var notificationId = $(element).data('id'); // Get the notificationId from data attribute
@@ -940,18 +843,12 @@ Author URL: http://w3layouts.com
 </script>
 <!-- Đổi màu chữ nút đăng ký tham gia đấu giá khi di chuột đến -->
 
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script th:src="@{/assets_CustomerSide/js/chatbot.js}"></script>
 <script th:src="@{/assets_CustomerSide/js/notification.js}"></script>
 
-
 </body>
 
-
 </html>
-
-
-

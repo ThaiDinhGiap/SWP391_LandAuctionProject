@@ -17,36 +17,44 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/customercare")
 public class CustomerCareController {
     private FileUploadUtil uploadFile;
-    @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    public CustomerCareController(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @GetMapping("/direct-chat")
     public String directChat() {
         return "customerCare/direct-chat";
     }
+
     @GetMapping("/history-chat")
     public String historyChat() {
         return "customerCare/history-chat";
     }
+
     @GetMapping("/chatbot-settings")
     public String chatbotSettings() {
         return "customerCare/chatbot-settings";
     }
+
     @GetMapping("/profile")
     public String profile(Model model) {
-            Account account = userDetailsService.accountAuthenticated();
-            if (account != null) {
-                StaffDTO staffDTO = new StaffDTO();
-                staffDTO.setAccount(account);
-                staffDTO.setStaff(account.getStaff());
-                model.addAttribute("staffDTO", staffDTO);
-            }
+        Account account = userDetailsService.accountAuthenticated();
+        if (account != null) {
+            StaffDTO staffDTO = new StaffDTO();
+            staffDTO.setAccount(account);
+            staffDTO.setStaff(account.getStaff());
+            model.addAttribute("staffDTO", staffDTO);
+        }
         return "customerCare/profile";
     }
+
     @PostMapping("/uploadAvatar")
     public String uploadAvatar(@RequestParam("avatar") MultipartFile avatar, Model model) {
         Account account = userDetailsService.accountAuthenticated();
-        if (account != null&&avatar!=null) {
+        if (account != null && avatar != null) {
             uploadFile.UploadAvatar(avatar, account);
         }
         return "redirect:/customercare/profile";

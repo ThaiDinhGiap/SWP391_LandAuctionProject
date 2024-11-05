@@ -65,6 +65,7 @@ public class AuctioneerController {
         return "auctioneer/AuctionList";
     }
 
+
     @GetMapping("/awaiting_list")
     public String getAssetAwaitingSchedulingList(Model model) {
         Account auctioneer = userDetailsService.accountAuthenticated();
@@ -72,6 +73,7 @@ public class AuctioneerController {
         model.addAttribute("listTask", listTask);
         return "auctioneer/AssetAwaitingSchedulingList";
     }
+
 
     @GetMapping("/viewAssetDetail")
     public String getAssetById(@RequestParam("taskId") int taskId, Model model) {
@@ -246,6 +248,7 @@ public class AuctioneerController {
     }
 
 
+
     @GetMapping("/viewRegisterDetail")
     public String getRegisterDetail(@RequestParam("registerId") int registerId, Model model) {
         Account auctioneer = userDetailsService.accountAuthenticated();
@@ -276,23 +279,23 @@ public class AuctioneerController {
         Account auctioneer = userDetailsService.accountAuthenticated();
         if (register != null && register.getAuction().getAuctioneer().getAccountId() == auctioneer.getAccountId()) {
             if (register_status != null) {
-                Notification notification = new Notification();
-                notification.setContent("The auction " + register.getAuction().getAuctionName() + " has ended.");
-                notification.setCreatedDate(LocalDateTime.now());
-                notification.setReadStatus("unread");
+                if (register_status.equals("Confirmed")) {
+                    Notification notification = new Notification();
+                    notification.setContent("Auction registration confirmed successfully!");
+                    notification.setCreatedDate(LocalDateTime.now());
+                    notification.setReadStatus("unread");
+                    notification.setAuction(register.getAuction());
 
-                if ("Winner".equals(register.getResult())) {
-                    notification.setContent("Congratulations! You are the winner of the auction " + register.getAuction().getAuctionName() + ". We will send contract for you as soon as by email. Please check carefully!");
+                    Account buyer = accountRepository.findById(register.getBuyer().getAccountId())
+                            .orElseThrow(() -> new RuntimeException("Account not found"));
+
+                    notification.addAccount(buyer);
+                    notificationService.saveNotification(notification);
+                    buyer.addNotification(notification);
+                    accountRepository.save(buyer);
+                    notificationService.sendNotification(notification);
                 }
-
-                Account buyer = accountRepository.findById(register.getBuyer().getAccountId())
-                        .orElseThrow(() -> new RuntimeException("Account not found"));
-
-                notification.addAccount(buyer);
-                notificationService.saveNotification(notification);
-                buyer.addNotification(notification);
-                accountRepository.save(buyer);
-                notificationService.sendNotification(notification);
+                register.setRegisterStatus(register_status);
             }
             if (purchase_status.isEmpty()) {
                 register.setPurchaseStatus(null);

@@ -27,6 +27,10 @@ public class Notification {
     @ManyToMany(mappedBy = "notifications", fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.DETACH})
     private List<Account> accounts;
 
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "auction_id")
+    private AuctionSession auction;
+
     public Notification() {
     }
 
@@ -35,6 +39,15 @@ public class Notification {
         this.content = content;
         this.createdDate = createdDate;
         this.readStatus = readStatus;
+    }
+
+    public Notification(int notificationId, String content, LocalDateTime createdDate, String readStatus, List<Account> accounts, AuctionSession auction) {
+        this.notificationId = notificationId;
+        this.content = content;
+        this.createdDate = createdDate;
+        this.readStatus = readStatus;
+        this.accounts = accounts;
+        this.auction = auction;
     }
 
     public List<Account> getAccounts() {
@@ -75,6 +88,14 @@ public class Notification {
 
     public void setReadStatus(String readStatus) {
         this.readStatus = readStatus;
+    }
+
+    public AuctionSession getAuction() {
+        return auction;
+    }
+
+    public void setAuction(AuctionSession auction) {
+        this.auction = auction;
     }
 
     @Override

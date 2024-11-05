@@ -7,15 +7,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
+
 @Service
 public class CustomerService {
 
-    @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
+
     public CustomerService() {
     }
 

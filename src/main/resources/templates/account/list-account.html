@@ -104,92 +104,120 @@
         </div>
         <div class="sidebar-wrapper">
             <ul class="nav">
-                <li>
-                    <a th:href="@{/staff/user}">
-                        <i class="nc-icon nc-single-02"></i>
-                        <p>User Profile</p>
+                <li >
+                    <a th:href="@{/LocalAuthority}">
+                        <i class="nc-icon nc-tile-56"></i>
+                        <p>Dashboard</p>
                     </a>
                 </li>
                 <li>
+                    <a th:href="@{/AddLocalAuthority}">
+                        <i class="nc-simple-add"></i>
+                        <p>Add Local Authority</p>
+                    </a>
+                </li>
+                <li class="active">
                     <a th:href="@{/accounts/list}">
                         <i class="nc-icon nc-circle-10"></i>
                         <p>Manage Account</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/logout}">
+                        <i class="nc-icon nc-user-run"></i>
+                        <p>Logout</p>
                     </a>
                 </li>
             </ul>
         </div>
     </div>
     <!--  End side navbar  -->
-    <div class="main-panel"> <!--  Day la phan ben phai cua trang  -->
-        <!-- Top Navbar, SUA TIEU DE TRANG CHO PHU HOP -->
+
+    <div class="main-panel">
         <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+            <div class="container-fluid">
+                <span class="navbar-brand">VietLand Auction</span>
+            </div>
         </nav>
-        <!-- End Top Navbar -->
-        <div class="container-fluid">
-
-            <h3>List Account</h3>
-            <hr>
-            <a th:href="@{/accounts/showFormForAdd}" class="btn btn-primary btn-sm mb-3 ml-2">
-                Add New Account
-            </a>
-            <a th:href="@{/banLog/list}" class="btn btn-primary btn-sm mb-3">BanLog History</a>
+        <div class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
 
 
 
-            <table class="table table-bordered table-striped ml-2">
-                <thead class="table table-dark">
+                                <!-- Pagination Controls -->
+                                <h3>List Account</h3>
+                                <hr>
+                                <a th:href="@{/accounts/showFormForAdd}" class="btn btn-primary btn-sm mb-3 ml-2">
+                                    Add New Account
+                                </a>
+                                <a th:href="@{/banLog/list}" class="btn btn-primary btn-sm mb-3">BanLog History</a>
 
-                <tr>
-                    <th>Account ID</th>
-                    <th>User Name</th>
-                    <th>Password</th>
-                    <th>Status</th>
-                    <th>Verify</th>
-                    <th>Email</th>
-                    <th>Role Name</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="tempAccount : ${accounts}">
-                    <td th:text="${tempAccount.accountId}"></td>
-                    <td th:text="${tempAccount.username}"></td>
-                    <td th:text="${tempAccount.password}"></td>
-                    <td>
-                        <span class="text" th:text="${tempAccount.status == 1 ? 'Active' : 'Banned'}"></span>
-                    </td>
-                    <td>
-                        <span th:text="${tempAccount.verify == 1 ? 'Verified' : 'Unverified'}"></span>
-                    </td>
-                    <td th:text="${tempAccount.email}"></td>
-                    <td th:text="${tempAccount.role.roleName}"></td>
-                    <td>
-                        <a th:href="@{/accounts/showFormForUpdate(accountId=${tempAccount.accountId})}" class="btn btn-info btn-sm">
-                            Detail
-                        </a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
 
-            <!-- Pagination controls -->
-            <nav aria-label="Page navigation">
-                <ul class="pagination">
-                    <li class="page-item " th:classappend="${currentPage == 1} ? 'disabled'">
-                        <a class="page-link ml-2" th:href="@{/accounts/list(page=${currentPage - 1}, size=5)}">Previous</a>
-                    </li>
-                    <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}"
-                        th:classappend="${i == currentPage} ? 'active'">
-                        <a class="page-link" th:href="@{/accounts/list(page=${i}, size=5)}" th:text="${i}">1</a>
-                    </li>
-                    <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                        <a class="page-link" th:href="@{/accounts/list(page=${currentPage + 1}, size=5)}">Next</a>
-                    </li>
-                </ul>
-            </nav>
-        <!-- Het phan noi dung cua trang -->
+
+                                <table class="table table-bordered table-striped ml-2">
+                                    <thead class="table table" style="background-color: red">
+
+                                    <tr >
+                                        <th  style="background-color: red; color: white">Account ID</th>
+                                        <th  style="background-color: red; color: white">User Name</th>
+                                        <th  style="background-color: red; color: white">Password</th>
+                                        <th  style="background-color: red; color: white">Status</th>
+                                        <th  style="background-color: red; color: white">Verify</th>
+                                        <th  style="background-color: red; color: white">Email</th>
+                                        <th  style="background-color: red; color: white">Role Name</th>
+                                        <th  style="background-color: red; color: white">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="tempAccount : ${accounts}">
+                                        <td th:text="${tempAccount.accountId}"></td>
+                                        <td th:text="${tempAccount.username}"></td>
+                                        <td th:text="${tempAccount.password}"></td>
+                                        <td>
+                                            <span class="text" th:text="${tempAccount.status == 1 ? 'Active' : 'Banned'}"></span>
+                                        </td>
+                                        <td>
+                                            <span th:text="${tempAccount.verify == 1 ? 'Verified' : 'Unverified'}"></span>
+                                        </td>
+                                        <td th:text="${tempAccount.email}"></td>
+                                        <td th:text="${tempAccount.role.roleName}"></td>
+                                        <td>
+                                            <a th:href="@{/accounts/showFormForUpdate(accountId=${tempAccount.accountId})}" class="btn btn-info btn-sm">
+                                                Detail
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <!-- Pagination controls -->
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination">
+                                        <li class="page-item " th:classappend="${currentPage == 1} ? 'disabled'">
+                                            <a class="page-link ml-2" th:href="@{/accounts/list(page=${currentPage - 1}, size=5)}">Previous</a>
+                                        </li>
+                                        <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}"
+                                            th:classappend="${i == currentPage} ? 'active'">
+                                            <a class="page-link" th:href="@{/accounts/list(page=${i}, size=5)}" th:text="${i}">1</a>
+                                        </li>
+                                        <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                                            <a class="page-link" th:href="@{/accounts/list(page=${currentPage + 1}, size=5)}">Next</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <!-- Pagination Controls -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 <!---------------------------------------KHONG DUOC SUA------------------------------------------------------>
 <!--   Core JS Files   -->
 <script th:src="@{/dashboardStatic/js/core/jquery.min.js}"></script>

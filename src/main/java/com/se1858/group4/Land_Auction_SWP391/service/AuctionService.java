@@ -133,12 +133,13 @@ public class AuctionService {
 
         for (AuctionRegister register : registers) {
             Notification notification = new Notification();
-            notification.setContent("The auction " + auctionSession.getAuctionName() + " has ended.");
+            notification.setContent("The auction has ended.");
             notification.setCreatedDate(LocalDateTime.now());
             notification.setReadStatus("unread");
+            notification.setAuction(register.getAuction());
 
             if ("Winner".equals(register.getResult())) {
-                notification.setContent("Congratulations! You are the winner of the auction " + auctionSession.getAuctionName() + ". We will send contract for you as soon as by email. Please check carefully!");
+                notification.setContent("Congratulations! You are the winner of the auction! We will send contract for you as soon as by email. Please check carefully!");
             }
 
             Account buyer = accountRepository.findById(register.getBuyer().getAccountId())

@@ -11,14 +11,17 @@ import java.util.Optional;
 @Service
 public class TagService {
     private TagRepository tagRepository;
+
     @Autowired
     public TagService(TagRepository tagRepository) {
         this.tagRepository = tagRepository;
     }
-    public List<Tag> getAllTag(){
+
+    public List<Tag> getAllTag() {
         return tagRepository.findAll();
     }
-    public Tag getTagById(int id){
+
+    public Tag getTagById(int id) {
         return tagRepository.findById(id).get();
     }
 }

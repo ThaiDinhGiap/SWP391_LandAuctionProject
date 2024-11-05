@@ -43,7 +43,7 @@ public class BidService {
         AuctionRegister auctionRegister = optionalRegister.get();
 
 
-        Optional<AuctionSession> optionalAuctionSession= auctionSessionRepository.findById(bidRequestDTO.getAuctionId());
+        Optional<AuctionSession> optionalAuctionSession = auctionSessionRepository.findById(bidRequestDTO.getAuctionId());
         AuctionSession auctionSession = optionalAuctionSession.get();
 
         // Validate the bid amount against the minimum increment

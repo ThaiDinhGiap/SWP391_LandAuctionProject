@@ -72,6 +72,7 @@ public class CustomerController {
         this.bidService = bidService;
     }
 
+
     @GetMapping("/viewAuctionHistory")
     public String getAuctionHistory(Model model) {
         Account this_user = userDetailsService.accountAuthenticated();
@@ -79,6 +80,7 @@ public class CustomerController {
         model.addAttribute("registerList", registerList);
         return "customer/auctionHistory";
     }
+
 
     @GetMapping("/get_all_asset")
     public String getAllAsset(
@@ -426,7 +428,7 @@ public class CustomerController {
                 notification.setContent("You have transfer deposit and fee. Please wait while we confirm the transaction, the result will be sent to you via notification");
                 notification.setCreatedDate(LocalDateTime.now());
                 notification.setReadStatus("unread"); // Trạng thái chưa đọc
-    
+
                 // Lưu thông báo vào cơ sở dữ liệu và gửi SSE cho client
                 notification.addAccount(this_user);
                 this_user.addNotification(notification);
