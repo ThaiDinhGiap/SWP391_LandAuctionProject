@@ -12,6 +12,7 @@ import com.se1858.group4.Land_Auction_SWP391.service.AuctionService;
 import com.se1858.group4.Land_Auction_SWP391.service.TaskService;
 import com.se1858.group4.Land_Auction_SWP391.utility.FileUploadUtil;
 import com.se1858.group4.Land_Auction_SWP391.utility.GetSrcInGoogleMapEmbededURLUtil;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,13 +36,15 @@ public class AuctioneerController {
     private AuctionRegisterService auctionRegisterService;
     private NotificationService notificationService;
     private AccountRepository accountRepository;
+    private AccountService accountService;
 
     public AuctioneerController(TaskService taskService, UserDetailsService userDetailsService,
                                 AssetService assetService, AuctionService auctionService,
                                 AuctionChangeLogService auctionChangeLogService,
                                 AuctionRegisterService auctionRegisterService,
                                 NotificationService notificationService,
-                                AccountRepository accountRepository) {
+                                AccountRepository accountRepository,
+                                AccountService accountService) {
         this.taskService = taskService;
         this.userDetailsService = userDetailsService;
         this.assetService = assetService;
@@ -50,6 +53,7 @@ public class AuctioneerController {
         this.auctionRegisterService = auctionRegisterService;
         this.notificationService = notificationService;
         this.accountRepository = accountRepository;
+        this.accountService = accountService;
     }
 
     @GetMapping("/dashboard")
@@ -247,6 +251,22 @@ public class AuctioneerController {
         } else return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + auctionId;
     }
 
+    @GetMapping("/viewResult")
+    public String getResult(@RequestParam("auctionId") int auctionId, Model model) {
+        Account auctioneer = userDetailsService.accountAuthenticated();
+        if (auctionId <= 0) {
+            return "redirect:/auctioneer/get_auction_list";
+        }
+        AuctionSession auctionSession = auctionService.getAuctionSessionById(auctionId);
+        if (auctionSession == null) {
+            return "redirect:/auctioneer/get_auction_list";
+        }
+        if (auctionSession != null && auctionSession.getAuctioneer().getAccountId() == auctioneer.getAccountId()) {
+            List<AuctionRegister> registerList = auctionRegisterService.resultOfAuction(auctionId, "Confirmed");
+            model.addAttribute("registerList", registerList);
+            return "auctioneer/Result";
+        } else return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + auctionId;
+    }
 
 
     @GetMapping("/viewRegisterDetail")
@@ -264,6 +284,18 @@ public class AuctioneerController {
             return "auctioneer/RegisterDetail";
         } else
             return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + register.getAuction().getAuctioneer().getAccountId();
+    }
+
+    @PostMapping("/sendScheduleMail")
+    public ResponseEntity<String> sendScheduleMail(@RequestParam("registerId") int registerId){
+        accountService.sendScheduleMail(registerId);
+        return ResponseEntity.ok("Schedule sent successfully!");
+    }
+
+    @PostMapping("/cancelRight")
+    public ResponseEntity<String> cancelRight(@RequestParam("registerId") int registerId){
+        accountService.cancelRight(registerId);
+        return ResponseEntity.ok("Cancel right successfully!");
     }
 
     @PostMapping("/updateRegister")

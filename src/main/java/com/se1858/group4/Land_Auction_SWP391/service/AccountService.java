@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -33,6 +34,10 @@ public class AccountService {
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private BanLogRepository banLogRepository;
+    @Autowired
+    private AuctionRegisterService auctionRegisterService;
+    @Autowired
+    private NotificationService notificationService;
 
     private String storedOtp; // store OTP temporarily in memory or use a database.
     private String storedEmail; // Store the email temporarily for verification
@@ -105,6 +110,26 @@ public class AccountService {
         mailSender.send(message);
     }
 
+    private void sendScheduleMail(AuctionRegister register) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(register.getBuyer().getEmail());
+        message.setSubject("VietLand Auction: Successful Auction Announcement");
+        message.setText("Due date of payment for auction " + register.getAuction().getAuctionName() + ": " + LocalDate.now());
+        mailSender.send(message);
+
+        Notification notification = new Notification();
+        notification.setContent("We have sent mail about schedule of the auction " + register.getAuction().getAuctionName() + ". Please check soon!");
+        notification.setCreatedDate(LocalDateTime.now());
+        notification.setReadStatus("unread");
+        notification.setAuction(register.getAuction());
+
+        notification.addAccount(register.getBuyer());
+        notificationService.saveNotification(notification);
+        register.getBuyer().addNotification(notification);
+        accountRepository.save(register.getBuyer());
+        notificationService.sendNotification(notification);
+    }
+
     private String generateOTP() {
         // Generate a random 6-digit OTP
         return String.format("%06d", new Random().nextInt(999999));
@@ -115,6 +140,15 @@ public class AccountService {
         sendOtpEmail(storedEmail, storedOtp);  // Resend OTP to the user's email
     }
 
+    public void sendScheduleMail(int registerId) {
+        AuctionRegister auctionRegister = auctionRegisterService.getAuctionRegisterById(registerId);
+        sendScheduleMail(auctionRegister);
+    }
+
+    public void cancelRight(int registerId) {
+        AuctionRegister auctionRegister = auctionRegisterService.getAuctionRegisterById(registerId);
+        auctionRegisterService.handleDepositForfeiture(auctionRegister.getAuction().getAuctionId(), auctionRegister.getRank());
+    }
 
     public void processForgotPassword(String email, Model model) {
         Account account = accountRepository.findByEmail(email);
@@ -143,7 +177,6 @@ public class AccountService {
         message.setText("Your new password is: " + newPassword + "\nPlease change it after logging in.");
         mailSender.send(message);
     }
-
 
     public void updateAccountDetails(Account account) {
         Optional<Account> existingAccountOpt = accountRepository.findById(account.getAccountId());
