@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function sendEndAuctionMessage() {
         var endAuctionMessage = {
             auctionId: auctionId,
-            typeMessage: 'Completed', // Hoặc 'Cancelled' tùy thuộc vào tình huống
+            typeMessage: 'Ending', // Hoặc 'Cancelled' tùy thuộc vào tình huống
             dealPrice: currentHighestPrice, // Giá cuối cùng đã đấu giá
         };
 

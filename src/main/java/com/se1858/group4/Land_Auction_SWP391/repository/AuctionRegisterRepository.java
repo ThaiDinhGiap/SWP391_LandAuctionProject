@@ -28,4 +28,6 @@ public interface AuctionRegisterRepository extends JpaRepository<AuctionRegister
     @Query("SELECT ar FROM AuctionRegister ar LEFT JOIN FETCH ar.buyer b LEFT JOIN FETCH b.notifications WHERE ar.auction.auctionId = :auctionId")
     List<AuctionRegister> findByAuctionIdWithNotifications(@Param("auctionId") int auctionId);
     List<AuctionRegister> findByBuyer_AccountIdOrderByRegistrationTimeDesc(int accountId);
+
+    List<AuctionRegister> findByAuction_AuctionIdAndRegisterStatusOrderByRankAsc(int auctionId, String registerStatus);
 }
