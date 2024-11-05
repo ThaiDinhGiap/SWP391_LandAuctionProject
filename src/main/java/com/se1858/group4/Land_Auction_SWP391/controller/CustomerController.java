@@ -72,6 +72,7 @@ public class CustomerController {
         this.bidService = bidService;
     }
 
+
     @GetMapping("/viewAuctionHistory")
     public String getAuctionHistory(Model model) {
         Account this_user = userDetailsService.accountAuthenticated();
@@ -79,6 +80,7 @@ public class CustomerController {
         model.addAttribute("registerList", registerList);
         return "customer/auctionHistory";
     }
+
 
     @GetMapping("/get_all_asset")
     public String getAllAsset(

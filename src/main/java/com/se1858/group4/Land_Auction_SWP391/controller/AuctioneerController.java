@@ -69,6 +69,7 @@ public class AuctioneerController {
         return "auctioneer/AuctionList";
     }
 
+
     @GetMapping("/awaiting_list")
     public String getAssetAwaitingSchedulingList(Model model) {
         Account auctioneer = userDetailsService.accountAuthenticated();
@@ -76,6 +77,7 @@ public class AuctioneerController {
         model.addAttribute("listTask", listTask);
         return "auctioneer/AssetAwaitingSchedulingList";
     }
+
 
     @GetMapping("/viewAssetDetail")
     public String getAssetById(@RequestParam("taskId") int taskId, Model model) {
@@ -265,6 +267,7 @@ public class AuctioneerController {
             return "auctioneer/Result";
         } else return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + auctionId;
     }
+
 
     @GetMapping("/viewRegisterDetail")
     public String getRegisterDetail(@RequestParam("registerId") int registerId, Model model) {
