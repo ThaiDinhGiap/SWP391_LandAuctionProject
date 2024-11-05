@@ -105,6 +105,12 @@
           </a>
         </li>
         <li>
+          <a th:href="@{/accounts/listUnverify}">
+            <i class="nc-icon nc-vector"></i>
+            <p>Unverify Account</p>
+          </a>
+        </li>
+        <li>
           <a th:href="@{/logout}">
             <i class="nc-icon nc-user-run"></i>
             <p>Logout</p>
@@ -140,8 +146,8 @@
                   </button>
                 </div>
 
-                <table>
-                  <thead>
+                <table class="table table-bordered table-striped">
+                  <thead class="table table-dark">
                   <tr>
                     <th><a th:href="@{/LocalAuthority(sortField='localAuthorityId', sortDir=${reverseSortDir}, keyword=${keyword})}">ID</a></th>
                     <th><a th:href="@{/LocalAuthority(sortField='localAuthorityName', sortDir=${reverseSortDir}, keyword=${keyword})}">Authority Name</a></th>

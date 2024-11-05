@@ -60,7 +60,7 @@
     <link rel="icon" type="image/png" th:href="@{/dashboardStatic/img/favicon.png}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>
-        Paper Dashboard 2 by Creative Tim
+        Manage Account
     </title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
@@ -123,6 +123,12 @@
                     </a>
                 </li>
                 <li>
+                    <a th:href="@{/accounts/listUnverify}">
+                        <i class="nc-icon nc-circle-10"></i>
+                        <p>Unverify Account</p>
+                    </a>
+                </li>
+                <li>
                     <a th:href="@{/logout}">
                         <i class="nc-icon nc-user-run"></i>
                         <p>Logout</p>
@@ -146,37 +152,28 @@
                         <div class="card-body">
                             <div class="table-responsive">
 
-
-
-                                <!-- Pagination Controls -->
                                 <h3>List Account</h3>
                                 <hr>
                                 <a th:href="@{/accounts/showFormForAdd}" class="btn btn-primary btn-sm mb-3 ml-2">
                                     Add New Account
                                 </a>
                                 <a th:href="@{/banLog/list}" class="btn btn-primary btn-sm mb-3">BanLog History</a>
-
-
-
                                 <table class="table table-bordered table-striped ml-2">
-                                    <thead class="table table" style="background-color: red">
-
+                                    <thead class="table table-dark" >
                                     <tr >
-                                        <th  style="background-color: red; color: white">Account ID</th>
-                                        <th  style="background-color: red; color: white">User Name</th>
-                                        <th  style="background-color: red; color: white">Password</th>
-                                        <th  style="background-color: red; color: white">Status</th>
-                                        <th  style="background-color: red; color: white">Verify</th>
-                                        <th  style="background-color: red; color: white">Email</th>
-                                        <th  style="background-color: red; color: white">Role Name</th>
-                                        <th  style="background-color: red; color: white">Action</th>
+                                        <th>Account ID</th>
+                                        <th>User Name</th>
+                                        <th>Status</th>
+                                        <th>Verify</th>
+                                        <th>Email</th>
+                                        <th>Role Name</th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr th:each="tempAccount : ${accounts}">
                                         <td th:text="${tempAccount.accountId}"></td>
                                         <td th:text="${tempAccount.username}"></td>
-                                        <td th:text="${tempAccount.password}"></td>
                                         <td>
                                             <span class="text" th:text="${tempAccount.status == 1 ? 'Active' : 'Banned'}"></span>
                                         </td>

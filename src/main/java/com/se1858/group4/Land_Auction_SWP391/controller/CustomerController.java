@@ -22,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.se1858.group4.Land_Auction_SWP391.dto.NotificationDTO;
 
 import java.time.LocalDateTime;
 
@@ -129,6 +130,14 @@ public class CustomerController {
         List<TagForNews> tagList = tagForNewsService.getAllTagsForNews();
         model.addAttribute( "listTag", tagList);
         return "customer/newsList";
+    }
+
+    @GetMapping("/viewNotification")
+    public String getNotificationList(Model model) {
+        Account this_user = userDetailsService.accountAuthenticated();
+        List<NotificationDTO> notificationDTOList = notificationService.getNotificationsForAccount(this_user) ;
+        model.addAttribute("notifications", notificationDTOList);
+        return "customer/notificationList";
     }
 
     @GetMapping("/filter_assets")

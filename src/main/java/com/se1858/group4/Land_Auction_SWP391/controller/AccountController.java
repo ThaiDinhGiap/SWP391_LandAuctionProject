@@ -49,6 +49,23 @@ public class AccountController {
         return "account/list-account";
     }
 
+    @GetMapping("/listUnverify")
+    public String listAccountUnverify(@RequestParam(value = "page", defaultValue = "1") int page,
+                              @RequestParam(value = "size", defaultValue = "5") int size,
+                              @RequestParam(value = "status", required = false) Integer status,
+                              @RequestParam(value = "verify", required = false) Integer verify,
+                              Model theModel) {
+
+        Page<Account> accountPage = accountService.findPaginatedWithFilters(page, size, status, verify);
+        theModel.addAttribute("accounts", accountPage.getContent());
+        theModel.addAttribute("currentPage", page);
+        theModel.addAttribute("totalPages", accountPage.getTotalPages());
+        theModel.addAttribute("totalItems", accountPage.getTotalElements());
+        theModel.addAttribute("statusFilter", status);
+        theModel.addAttribute("verifyFilter", verify);
+        return "account/list-account-unverify";
+    }
+
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(@ModelAttribute("accounts") Account account, Model theModel) {
         // create model attribute to bind form data
