@@ -66,13 +66,8 @@ public class AuctioneerController {
     }
 
 
-    @GetMapping("/awaiting_list")
-    public String getAssetAwaitingSchedulingList(Model model) {
-        Account auctioneer = userDetailsService.accountAuthenticated();
-        List<Task> listTask = taskService.getAllTasksByAuctioneerId(auctioneer.getAccountId(), "In progress");
-        model.addAttribute("listTask", listTask);
-        return "auctioneer/AssetAwaitingSchedulingList";
-    }
+//    @GetMapping("/awaiting_list")
+    //AssetAwaitingSchedulingList
 
     @GetMapping("/viewAssetDetail")
     public String getAssetById(@RequestParam("taskId") int taskId, Model model) {
