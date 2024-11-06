@@ -4,13 +4,12 @@ import com.se1858.group4.Land_Auction_SWP391.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
 @Controller
+@SessionAttributes("verificationCode") // Sử dụng @SessionAttributes để lưu mã OTP vào session
 public class ContactController {
 
     @Autowired
@@ -23,9 +22,8 @@ public class ContactController {
 
         emailService.sendVerificationEmail(email, verificationCode);
 
-
         model.addAttribute("email", email);
-        model.addAttribute("verificationCode", verificationCode); // Thêm mã xác minh để kiểm tra
+        model.addAttribute("verificationCode", verificationCode); // Lưu mã OTP vào session
         return "customer/verify-email";
     }
 
@@ -36,31 +34,23 @@ public class ContactController {
     }
 
     @PostMapping("/verify-email")
-    public String verifyEmail(@RequestParam String verificationCode, @RequestParam String email, Model model) {
-
-        if (isValidVerificationCode(verificationCode)) {
-
+    public String verifyEmail(@RequestParam String verificationCode, @RequestParam String email,
+                              @ModelAttribute("verificationCode") String correctCode, Model model) {
+        if (verificationCode.equals(correctCode)) {
             emailService.sendContactConfirmationEmail(email);
-
 
             model.addAttribute("verificationSuccess", true);
             model.addAttribute("email", email);
             return "customer/verify-email";
         } else {
-
             model.addAttribute("error", true);
             model.addAttribute("email", email);
             return "customer/verify-email";
         }
     }
 
-
     private String generateVerificationCode() {
         return UUID.randomUUID().toString().substring(0, 6);
     }
-
-    private boolean isValidVerificationCode(String code) {
-
-        return true;
-    }
 }
+

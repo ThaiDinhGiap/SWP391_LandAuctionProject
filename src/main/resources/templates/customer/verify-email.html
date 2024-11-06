@@ -155,26 +155,26 @@
 </head>
 <body>
 <div class="container">
-    <h2>Xác minh email</h2>
-    <p>Chúng tôi đã gửi mã xác minh vào email của bạn. Vui lòng nhập mã xác minh để tiếp tục.</p>
+    <h2>Verify email</h2>
+    <p>We've sent a verification code to your email. Please enter the verification code to continue.</p>
 
     <form action="/verify-email" method="post">
         <input type="hidden" name="email" th:value="${email}">
-        <input type="text" name="verificationCode" placeholder="Nhập mã xác minh" required>
-        <button type="submit">Xác minh</button>
+        <input type="text" name="verificationCode" placeholder="Enter verification code" required>
+        <button type="submit">Verify</button>
     </form>
 
-    <!-- Link về trang chủ -->
-    <a class="home-link" th:href="@{/}">Quay lại trang chủ</a>
+    <!-- Link to home page -->
+    <a class="home-link" th:href="@{/}">Return to home page</a>
 
-    <!-- Hiển thị thông báo nếu mã xác minh thành công -->
+    <!-- Show message if verification code is successful -->
     <div th:if="${verificationSuccess}" class="success-message">
-        <p>Xác minh thành công! Chúng tôi sẽ liên hệ bạn sau.</p>
+        <p>Verification successful! We'll contact you later.</p>
     </div>
 
-    <!-- Hiển thị lỗi nếu mã xác minh không hợp lệ -->
+    <!-- Show error if verification code is invalid -->
     <div th:if="${error}" class="error-message">
-        <p>Mã xác minh không hợp lệ. Vui lòng thử lại.</p>
+        <p>Verification code is invalid. Please try again.</p>
     </div>
 </div>
 
@@ -182,10 +182,22 @@
 <div id="myModal" class="modal" th:if="${verificationSuccess}">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <h3>Xác minh thành công!</h3>
-        <p>Chúng tôi sẽ liên hệ bạn sau.</p>
+        <h3>Verification successful!</h3>
+        <p>We'll contact you soon.</p>
     </div>
 </div>
+
+
+<div class="modal">
+    <div class="modal-content" >
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div th:if="${error}" class="error-message">
+            <p>The verification code is incorrect. Please try again.</p>
+        </div>
+    </div>
+</div>
+
+
 
 <script>
     var modal = document.getElementById("myModal");
