@@ -588,21 +588,25 @@ Author URL: http://w3layouts.com
                     </ul>
                 </div>
             </div>
-            <!-- toggle switch for light and dark theme -->
-            <div class="mobile-position">
-                <nav class="navigation">
-                    <div class="theme-switch-wrapper">
-                        <label class="theme-switch" for="checkbox">
-                            <input type="checkbox" id="checkbox">
-                            <div class="mode-container">
-                                <i class="gg-sun"></i>
-                                <i class="gg-moon"></i>
-                            </div>
-                        </label>
+            <!-- Register and Login Buttons -->
+            <div class="auth-buttons">
+                <div th:if="${#authentication.name == 'anonymousUser'}">
+                    <a class="btn btn-login btn-primary" th:href="@{/showMyLoginPage}" style="font-size: 20px;font-weight:600 ">LOG IN</a>
+                </div>
+                <div th:if="${#authentication.name != 'anonymousUser'}">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-user"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li><a class="dropdown-item" th:href="@{/customer/profile}">Profile</a></li>
+                            <li><a class="dropdown-item" th:href="@{/customer/viewAuctionHistory}">Auction History</a></li>
+                            <li><a class="dropdown-item" th:href="@{/customer/viewNotification}">Notifications</a></li>
+                            <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+                        </ul>
                     </div>
-                </nav>
+                </div>
             </div>
-            <!-- //toggle switch for light and dark theme -->
         </nav>
     </div>
 </header>
@@ -614,14 +618,14 @@ Author URL: http://w3layouts.com
             <div class="w3breadcrumb-gids">
                 <div class="w3breadcrumb-left text-left">
                     <h2 class="inner-w3-title mt-sm-5 mt-4">
-                        Auction Page </h2>
+                       About us </h2>
 
 
                 </div>
                 <div class="w3breadcrumb-right">
                     <ul class="breadcrumbs-custom-path">
-                        <li><a href="index.html">Home</a></li>
-                        <li class="active"><span class="fas fa-angle-double-right mx-2"></span> Auction Page</li>
+                        <li><a th:href="@{/}">Home</a></li>
+                        <li class="active"><span class="fas fa-angle-double-right mx-2"></span> About us</li>
                     </ul>
                 </div>
             </div>

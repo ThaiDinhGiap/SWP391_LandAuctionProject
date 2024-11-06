@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in/up Form</title>
+    <link href="/assets_CustomerSide/css/styleLoginRegister.css" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- Thêm điều kiện Thymeleaf vào lớp CSS của container -->
+<div th:classappend="${isRegister} ? ' right-panel-active' : ''" class="container" id="container">
+    <div class="form-container sign-up-container">
+        <form action="/register" method="POST">
+            <h1>Create Account</h1>
+            <input type="text" name="username" placeholder="Name" required/>
+            <input type="email" name="email" placeholder="Email" required/>
+            <input type="password" name="password" placeholder="Password" required/>
+
+            <!-- Display error message for username if exists and less than 6 characters -->
+            <div th:if="${errorMessage}" style="color: red;">
+                <p th:text="${errorMessage}"></p>
+            </div>
+
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+
+    <div class="form-container sign-in-container">
+        <form th:action="@{/authenticateTheUser}" method="POST">
+            <h1>Sign In</h1>
+            <input type="text" name="username" placeholder="User name" required/>
+            <input type="password" name="password" placeholder="Password" required/>
+
+            <!-- Display login error message -->
+            <div th:if="${param.error}" style="color: red;">
+                Invalid username or password, please try again.
+            </div>
+
+            <a href="forgot-password">Forgot your password?</a>
+            <button type="submit">Sign In</button>
+        </form>
+    </div>
+
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>Welcome back!</h1><br>
+                <p>Sign in to continue your journey with us</p>
+                <button class="ghost" id="signIn">Login</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Hello, Friend!</h1>
+                <p>Enter your personal details and start your journey with us</p>
+                <button class="ghost" id="signUp">Sign up</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Inline JavaScript -->
+<script>
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container = document.getElementById('container');
+
+    signUpButton.addEventListener('click', () => {
+        container.classList.add("right-panel-active");
+    });
+
+    signInButton.addEventListener('click', () => {
+        container.classList.remove("right-panel-active");
+    });
+</script>
+
+</body>
+</html>

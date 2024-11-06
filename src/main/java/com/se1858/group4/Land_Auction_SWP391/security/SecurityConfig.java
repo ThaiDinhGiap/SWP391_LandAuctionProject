@@ -16,7 +16,6 @@ import javax.sql.DataSource;
 @Configuration
 public class SecurityConfig {
 
-    private static final String REMEMBER_ME_KEY = "uniqueAndSecret";
 
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
@@ -36,29 +35,23 @@ public class SecurityConfig {
     }
 
     // Configure Remember Me service
-    @Bean
-    public TokenBasedRememberMeServices rememberMeServices(UserDetailsManager userDetailsManager) {
-        TokenBasedRememberMeServices rememberMeServices = new TokenBasedRememberMeServices(REMEMBER_ME_KEY, userDetailsManager);
-        rememberMeServices.setCookieName("remember-me");
-        rememberMeServices.setTokenValiditySeconds(604800); // Valid for 7 days
-//        rememberMeServices.setAlwaysRemember(true);
-        return rememberMeServices;
-    }
-
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, TokenBasedRememberMeServices rememberMeServices) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(configurer -> configurer
                         .requestMatchers("/css/**", "/js/**", "/image/**", "/assets_CustomerSide/**", "/assets_CustomerSide/webfonts").permitAll()
-                        .requestMatchers("/", "/showMyLoginPage", "/access-denied", "/register", "/verify-otp", "/resend-otp", "/otp-success", "/forgot-password",
+                        .requestMatchers("/", "/showMyLoginPage", "/access-denied", "/register", "/verify-otp",
+                                "/resend-otp", "/otp-success", "/forgot-password",
                                 "/customer/get_all_auction", "/customer/get_all_asset", "/customer/get_all_news",
-                                "/customer/viewNewsDetail", "/customer/viewAssetDetail", "/customer/viewAuctionDetail").permitAll()
+                                "/customer/viewNewsDetail", "/customer/viewAssetDetail", "/customer/viewAuctionDetail",
+                                "/customer/aboutus","/customer/contact").permitAll()
+                        .requestMatchers("/api/chat/**").permitAll()
                         .requestMatchers("/customer/**").hasRole("Customer")
                         .requestMatchers("/admin/**").hasRole("Admin")
                         .requestMatchers("/property_agent/**").hasRole("Property_Agent")
                         .requestMatchers("/auctioneer/**").hasRole("Auctioneer")
-                        .requestMatchers("/customer_care/**").hasRole("Customer_Care")
+                        .requestMatchers("/customercare/**").hasRole("Customer_Care")
                         .requestMatchers("/news_writer/**").hasRole("News_Writer")
                         .anyRequest().authenticated()
                 )
@@ -69,13 +62,7 @@ public class SecurityConfig {
                         .permitAll()
                         .defaultSuccessUrl("/default", true)
                 )
-                .rememberMe(rememberMeConfigurer -> rememberMeConfigurer
-                        .rememberMeServices(rememberMeServices)
-                        .key(REMEMBER_ME_KEY)
 
-
-                )
-                //logout keep remember me
                 .logout(logout -> logout.permitAll())
 
                 .exceptionHandling(configurer -> configurer
