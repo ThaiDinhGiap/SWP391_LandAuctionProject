@@ -56,7 +56,6 @@ public class CustomerService {
 
 
     public void updateCustomerDetails(Customer customer) {
-        // Cập nhật trực tiếp các thông tin cho customer
 
         // Bank details
         customer.setUpdateStatus("completed");
