@@ -1,14 +1,9 @@
 package com.se1858.group4.Land_Auction_SWP391.security;
 
-import com.se1858.group4.Land_Auction_SWP391.service.AccountService;
-import java.security.Security;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
@@ -21,10 +16,7 @@ import javax.sql.DataSource;
 @Configuration
 public class SecurityConfig {
 
-    private static final String REMEMBER_ME_KEY = "rememberMeKey123";
-    static {
-        Security.addProvider(new BouncyCastleProvider());
-    }
+    private static final String REMEMBER_ME_KEY = "uniqueAndSecret";
 
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
@@ -47,10 +39,12 @@ public class SecurityConfig {
     @Bean
     public TokenBasedRememberMeServices rememberMeServices(UserDetailsManager userDetailsManager) {
         TokenBasedRememberMeServices rememberMeServices = new TokenBasedRememberMeServices(REMEMBER_ME_KEY, userDetailsManager);
-        rememberMeServices.setCookieName("remember-me-cookie");
+        rememberMeServices.setCookieName("remember-me");
         rememberMeServices.setTokenValiditySeconds(604800); // Valid for 7 days
+//        rememberMeServices.setAlwaysRemember(true);
         return rememberMeServices;
     }
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, TokenBasedRememberMeServices rememberMeServices) throws Exception {
@@ -78,8 +72,12 @@ public class SecurityConfig {
                 .rememberMe(rememberMeConfigurer -> rememberMeConfigurer
                         .rememberMeServices(rememberMeServices)
                         .key(REMEMBER_ME_KEY)
+
+
                 )
+                //logout keep remember me
                 .logout(logout -> logout.permitAll())
+
                 .exceptionHandling(configurer -> configurer
                         .accessDeniedPage("/access-denied")
                 )

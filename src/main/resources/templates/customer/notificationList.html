@@ -491,7 +491,7 @@ Author URL: http://w3layouts.com
                                     <div class="action-buttons">
                                         <button th:if="${notification.getReadStatus() == 'unread'}"
                                                 class="btn btn-sm btn-outline-primary"
-                                                data-id="${notification.notificationId}"
+                                                th:data-id="${notification.notificationId}"
                                                 onclick="markAsRead2(this)">
                                             Mark as Read
                                         </button>

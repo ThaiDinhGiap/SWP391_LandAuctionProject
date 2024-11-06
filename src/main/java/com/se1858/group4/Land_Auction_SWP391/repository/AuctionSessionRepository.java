@@ -28,7 +28,19 @@ public interface AuctionSessionRepository extends JpaRepository<AuctionSession, 
 
 
     @Query("SELECT a FROM AuctionSession a WHERE a.auctioneer.accountId = :auctioneerId")
+
     List<AuctionSession> findByAuctioneerId(@Param("auctioneerId") int auctioneerId);
 
     List<AuctionSession> findByStatus(String status);
+
+    @Query("SELECT a FROM AuctionSession a WHERE a.auctioneer.accountId = :auctioneerId AND LOWER(a.auctionName) LIKE LOWER(CONCAT('%', :auctionName, '%'))")
+    List<AuctionSession> findByAuctioneerIdAndAuctionNameContainingIgnoreCase(@Param("auctioneerId") int auctioneerId, @Param("auctionName") String auctionName);
+
+    @Query("SELECT a FROM AuctionSession a WHERE a.auctioneer.accountId = :auctioneerId")
+    Page<AuctionSession> findByAuctioneerId(@Param("auctioneerId") int auctioneerId, Pageable pageable);
+
+    @Query("SELECT a FROM AuctionSession a WHERE a.auctioneer.accountId = :auctioneerId AND LOWER(a.auctionName) LIKE LOWER(CONCAT('%', :auctionName, '%'))")
+    Page<AuctionSession> findByAuctioneerIdAndAuctionNameContainingIgnoreCase(@Param("auctioneerId") int auctioneerId, @Param("auctionName") String auctionName, Pageable pageable);
+
+
 }

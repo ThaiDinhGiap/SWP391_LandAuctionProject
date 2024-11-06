@@ -6,6 +6,7 @@ import com.se1858.group4.Land_Auction_SWP391.entity.News;
 import com.se1858.group4.Land_Auction_SWP391.security.UserDetailsService;
 import com.se1858.group4.Land_Auction_SWP391.service.AssetService;
 import com.se1858.group4.Land_Auction_SWP391.service.NewsService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -109,4 +110,12 @@ public class LoginController {
     public String customerCareHome() {
         return "redirect:/customercare/profile";
     }
+
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/showMyLoginPage";
+    }
+
 }
