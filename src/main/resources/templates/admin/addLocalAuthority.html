@@ -6,7 +6,7 @@
   <link rel="icon" type="image/png" th:href="@{/dashboardStatic/img/favicon.png}">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Paper Dashboard 2 by Creative Tim
+    Add Local Authority
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -100,21 +100,27 @@
     <div class="sidebar-wrapper">
       <ul class="nav">
         <li >
-          <a th:href="@{/LocalAuthority}">
+          <a th:href="@{/admin/localAuthorityList}">
             <i class="nc-icon nc-tile-56"></i>
-            <p>Dashboard</p>
+            <p>Local Authority List</p>
           </a>
         </li>
         <li class="active">
-          <a th:href="@{/AddLocalAuthority}">
-            <i class="nc-simple-add"></i>
+          <a th:href="@{/admin/AddLocalAuthority}">
+            <i class="nc-icon nc-simple-add"></i>
             <p>Add Local Authority</p>
           </a>
         </li>
         <li>
-          <a th:href="@{/accounts/list}">
+          <a th:href="@{/admin/list}">
             <i class="nc-icon nc-circle-10"></i>
             <p>Manage Account</p>
+          </a>
+        </li>
+        <li>
+          <a th:href="@{/admin/listUnverifiedAccount}">
+            <i class="nc-icon nc-vector"></i>
+            <p>Unverified Account</p>
           </a>
         </li>
         <li>
@@ -130,7 +136,7 @@
     <!-- Top Navbar, SUA TIEU DE TRANG CHO PHU HOP -->
     <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
       <div class="container-fluid">
-        <span class="navbar-brand">Paper Dashboard 2</span>
+        <span class="navbar-brand">VietLand Auction</span>
       </div>
     </nav>
     <!-- End Top Navbar -->
@@ -140,12 +146,12 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <h4 class="card-title">Manager Local Authority</h4>
+              <h4 class="card-title">Add Local Authority</h4>
             </div>
             <div class="card-body">
               <div class="table-responsive">
                 <div>
-                  <form th:action="@{/AddLocalAuthority}" th:object="${authority}" method="post">
+                  <form th:action="@{/admin/AddLocalAuthority}" th:object="${authority}" th:method="POST">
                     <input type="text" th:field="*{localAuthorityName}" placeholder="Authority Name" required />
                     <input type="text" th:field="*{contactPerson}" placeholder="Contact Person" required />
                     <input type="text" th:field="*{phoneNumber}" placeholder="Phone Number" required />

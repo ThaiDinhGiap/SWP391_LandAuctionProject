@@ -12,23 +12,23 @@ import java.util.List;
 @Controller
 @RequestMapping("/banLog")
 public class BanLogController {
-    BanLogService banLogService;
-
-    public BanLogController(){
-    }
-
-    @Autowired
-    public BanLogController(BanLogService banLogService) {
-        this.banLogService = banLogService;
-    }
-
-    @GetMapping("/list")
-    public String listBanLog(Model theModel) {
-
-        // get the employees from db
-        List<BanLog> banLogs = banLogService.findAllBanLog();
-        // add to the spring model
-        theModel.addAttribute("banLogs", banLogs);
-        return "account/list-ban-log";
-    }
+//    BanLogService banLogService;
+//
+//    public BanLogController(){
+//    }
+//
+//    @Autowired
+//    public BanLogController(BanLogService banLogService) {
+//        this.banLogService = banLogService;
+//    }
+//
+//    @GetMapping("/list")
+//    public String listBanLog(Model theModel) {
+//
+//        // get the employees from db
+//        List<BanLog> banLogs = banLogService.findAllBanLog();
+//        // add to the spring model
+//        theModel.addAttribute("banLogs", banLogs);
+//        return "account/list-ban-log";
+//    }
 }

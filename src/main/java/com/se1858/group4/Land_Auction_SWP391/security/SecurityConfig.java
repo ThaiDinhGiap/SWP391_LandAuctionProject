@@ -41,7 +41,9 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(configurer -> configurer
                         .requestMatchers("/css/**", "/js/**", "/image/**", "/assets_CustomerSide/**", "/assets_CustomerSide/webfonts").permitAll()
-                        .requestMatchers("/", "/showMyLoginPage", "/access-denied", "/register", "/verify-otp", "/resend-otp", "/otp-success", "/forgot-password", "/customer/get_all_auction", "/customer/get_all_asset", "/customer/get_all_news").permitAll()
+                        .requestMatchers("/", "/showMyLoginPage", "/access-denied", "/register", "/verify-otp", "/resend-otp", "/otp-success", "/forgot-password",
+                                "/customer/get_all_auction", "/customer/get_all_asset", "/customer/get_all_news",
+                                "/customer/viewNewsDetail", "/customer/viewAssetDetail", "/customer/viewAuctionDetail").permitAll()
                         .requestMatchers("/customer/**").hasRole("Customer")
                         .requestMatchers("/admin/**").hasRole("Admin")
                         .requestMatchers("/property_agent/**").hasRole("Property_Agent")

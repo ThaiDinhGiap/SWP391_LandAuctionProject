@@ -1,10 +1,12 @@
 package com.se1858.group4.Land_Auction_SWP391.service;
 
+import com.se1858.group4.Land_Auction_SWP391.entity.Account;
 import com.se1858.group4.Land_Auction_SWP391.entity.Customer;
 import com.se1858.group4.Land_Auction_SWP391.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -64,4 +66,13 @@ public class CustomerService {
         customerRepository.save(customer);
     }
 
+    public List<Customer> findCustomerByUpdateStatus(String updateStatus) {
+        return customerRepository.findByUpdateStatus(updateStatus);
+    }
+    public Customer findCustomerByID(int id) {
+        return customerRepository.findById(id).get();
+    }
+    public Customer save(Customer customer) {
+        return customerRepository.save(customer);
+    }
 }

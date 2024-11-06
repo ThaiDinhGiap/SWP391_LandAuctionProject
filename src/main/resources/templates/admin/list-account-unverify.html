@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" th:href="@{/dashboardStatic/img/apple-icon.png}">
+  <link rel="icon" type="image/png" th:href="@{/dashboardStatic/img/favicon.png}">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Unverified Account
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <link th:href="@{/dashboardStatic/css/bootstrap.min.css}" rel="stylesheet" />
+  <link th:href="@{/dashboardStatic/css/paper-dashboard.css?v=2.0.1}" rel="stylesheet" />
+  <link th:href="@{/dashboardStatic/demo/demo.css}" rel="stylesheet" />
+
+</head>
+<body class="">
+<div class="wrapper ">
+  <div class="sidebar" data-color="white" data-active-color="danger">
+    <div class="logo">
+      <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-mini">
+        <div class="logo-image-small">
+          <img th:src="@{/dashboardStatic/img/logo-small.png}">
+        </div>
+      </a>
+      <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-normal">
+        VietLand Auction
+      </a>
+    </div>
+    <div class="sidebar-wrapper">
+      <ul class="nav">
+        <li >
+          <a th:href="@{/admin/localAuthorityList}">
+            <i class="nc-icon nc-tile-56"></i>
+            <p>Local Authority List</p>
+          </a>
+        </li>
+        <li>
+          <a th:href="@{/admin/AddLocalAuthority}">
+            <i class="nc-icon nc-simple-add"></i>
+            <p>Add Local Authority</p>
+          </a>
+        </li>
+        <li>
+          <a th:href="@{/admin/list}">
+            <i class="nc-icon nc-circle-10"></i>
+            <p>Manage Account</p>
+          </a>
+        </li>
+        <li class="active ">
+          <a th:href="@{/admin/listUnverifiedAccount}">
+            <i class="nc-icon nc-vector"></i>
+            <p>Unverified Account</p>
+          </a>
+        </li>
+        <li>
+          <a th:href="@{/logout}">
+            <i class="nc-icon nc-user-run"></i>
+            <p>Logout</p>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+  <div class="main-panel">
+    <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+      <div class="container-fluid">
+        <span class="navbar-brand">VietLand Auction</span>
+      </div>
+    </nav>
+    <div class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <h3>Unverify Account</h3>
+                <hr>
+                <table class="table table-bordered  ml-2">
+                  <thead class="table table-dark" >
+                  <tr>
+                    <th style="width: 120px">Customer ID</th>
+                    <th style="width: 200px">Full Name</th>
+                    <th style="width: 60px">Gender</th>
+                    <th style="width: 120px">DOB</th>
+                    <th style="width: 200px">Address</th>
+                    <th style="width: 120px">Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr th:each="tempCustomer : ${customers}">
+                    <td th:text="${tempCustomer.customerId}"></td>
+                    <td th:text="${tempCustomer.fullName}"></td>
+                    <td th:text="${tempCustomer.gender}"></td>
+                    <td th:text="${tempCustomer.dateOfBirth}"></td>
+                    <td th:text="${tempCustomer.address}"></td>
+                    <!--                    <td>-->
+                    <!--                      <span class="text" th:text="${tempAccount.status == 1 ? 'Active' : 'Banned'}"></span>-->
+                    <!--                    </td>-->
+                    <!--                    <td>-->
+                    <!--                      <span th:text="${tempAccount.verify == 1 ? 'Verified' : 'Unverified'}"></span>-->
+                    <!--                    </td>-->
+                    <!--                    <td th:text="${tempAccount.email}"></td>-->
+                    <!--                    <td th:text="${tempAccount.role.roleName}"></td>-->
+                    <td>
+                      <a th:href="@{/admin/showFormForVerify(customerId=${tempCustomer.customerId})}" class="btn btn-info btn-sm">
+                        Verify
+                      </a>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+
+                <!-- Pagination controls -->
+                <!--                <nav aria-label="Page navigation">-->
+                <!--                  <ul class="pagination">-->
+                <!--                    <li class="page-item " th:classappend="${currentPage == 1} ? 'disabled'">-->
+                <!--                      <a class="page-link ml-2" th:href="@{/accounts/list(page=${currentPage - 1}, size=5)}">Previous</a>-->
+                <!--                    </li>-->
+                <!--                    <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}"-->
+                <!--                        th:classappend="${i == currentPage} ? 'active'">-->
+                <!--                      <a class="page-link" th:href="@{/accounts/list(page=${i}, size=5)}" th:text="${i}">1</a>-->
+                <!--                    </li>-->
+                <!--                    <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">-->
+                <!--                      <a class="page-link" th:href="@{/accounts/list(page=${currentPage + 1}, size=5)}">Next</a>-->
+                <!--                    </li>-->
+                <!--                  </ul>-->
+                <!--                </nav>-->
+                <!-- Pagination Controls -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script th:src="@{/dashboardStatic/js/core/jquery.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/core/popper.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/core/bootstrap.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/plugins/perfect-scrollbar.jquery.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/plugins/chartjs.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/plugins/bootstrap-notify.js}"></script>
+<script th:src="@{/dashboardStatic/js/paper-dashboard.js?v=2.0.1}"></script>
+<script th:src="@{/dashboardStatic/demo/demo.js}"></script>
+
+</body>
+</html>
