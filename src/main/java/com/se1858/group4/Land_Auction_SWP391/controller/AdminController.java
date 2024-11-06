@@ -97,27 +97,6 @@ public class AdminController {
         return "redirect:/admin/localAuthorityList"; // Chuyển hướng về trang dashboard
     }
 
-    @GetMapping("/local-profile")
-    public String profile(Model model) {
-        Account account = userDetailsService.accountAuthenticated();
-        if (account != null) {
-            StaffDTO staffDTO = new StaffDTO();
-            staffDTO.setAccount(account);
-            staffDTO.setStaff(account.getStaff());
-            model.addAttribute("staffDTO", staffDTO);
-        }
-        return "admin/profile";
-    }
-
-    @PostMapping("/uploadAvatar")
-    public String uploadAvatar(@RequestParam("avatar") MultipartFile avatar, Model model) {
-        Account account = userDetailsService.accountAuthenticated();
-        if (account != null && avatar != null) {
-            uploadFile.UploadAvatar(avatar, account);
-        }
-        return "redirect:/admin/local-profile";
-    }
-
     @GetMapping("/DeleteLocalAuthority/{id}")
     public String deleteLocalAuthority(@PathVariable("id") Integer id) {
         localAuthorityService.deleteLocalAuthority(id);
