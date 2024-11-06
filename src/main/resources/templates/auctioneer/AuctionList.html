@@ -228,10 +228,17 @@
                                 </table>
 
                                 <div class="pagination">
-                                    <span>Page</span>
                                     <ul>
-                                        <li th:each="i : ${#numbers.sequence(1, totalPages)}" th:class="${i == currentPage + 1 ? 'active' : ''}">
-                                            <a th:href="@{/auctioneer/get_auction_list(page=${i - 1}, sort=${sort}, search=${search})}" th:text="${i}"></a>
+                                        <li th:if="${currentPage > 0}">
+                                            <a th:href="@{/auctioneer/get_auction_list(page=${currentPage - 1}, sortDir=${sortDir}, search=${search})}">Previous</a>
+                                        </li>
+                                        <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                                            th:classappend="${i == currentPage} ? 'active'">
+                                            <a th:href="@{/auctioneer/get_auction_list(page=${i}, sortDir=${sortDir}, search=${search})}"
+                                               th:text="${i + 1}">1</a>
+                                        </li>
+                                        <li th:if="${currentPage < totalPages - 1}">
+                                            <a th:href="@{/auctioneer/get_auction_list(page=${currentPage + 1}, sortDir=${sortDir}, search=${search})}">Next</a>
                                         </li>
                                     </ul>
                                 </div>

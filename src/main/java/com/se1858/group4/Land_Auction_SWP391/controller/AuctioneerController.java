@@ -90,12 +90,27 @@ public class AuctioneerController {
 
 
     @GetMapping("/awaiting_list")
-    public String getAssetAwaitingSchedulingList(Model model) {
+    public String getAssetAwaitingSchedulingList(
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "5") int size,
+            Model model) {
+
         Account auctioneer = userDetailsService.accountAuthenticated();
-        List<Task> listTask = taskService.getAllTasksByAuctioneerId(auctioneer.getAccountId(), "In progress");
-        model.addAttribute("listTask", listTask);
+        Page<Task> taskPage = taskService.getAllTasksByAuctioneerIdAndSearchAndSort(auctioneer.getAccountId(), "In progress", search, sortDir, page, size);
+
+        model.addAttribute("taskPage", taskPage);
+        model.addAttribute("search", search);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", taskPage.getTotalPages());
         return "auctioneer/AssetAwaitingSchedulingList";
     }
+
+
+
+
 
 
     @GetMapping("/viewAssetDetail")

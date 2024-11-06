@@ -2,6 +2,10 @@ package com.se1858.group4.Land_Auction_SWP391.service;
 
 import com.se1858.group4.Land_Auction_SWP391.entity.Task;
 import com.se1858.group4.Land_Auction_SWP391.repository.TaskRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -26,10 +30,21 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public List<Task> getAllTasksByAuctioneerId(int auctioneerId, String status) {
-        List<Task> list = taskRepository.findByAuctioneer_AccountIdAndStatus(auctioneerId, status);
-        return list;
+
+
+    public Page<Task> getAllTasksByAuctioneerIdAndSearchAndSort(int auctioneerId, String status, String search, String sortDir, int page, int size) {
+        Sort sort = Sort.by("createdDate");
+        sort = sortDir.equalsIgnoreCase("asc") ? sort.ascending() : sort.descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        if (search == null || search.isEmpty()) {
+            return taskRepository.findByAuctioneer_AccountIdAndStatus(auctioneerId, status, pageable);
+        } else {
+            return taskRepository.findByAuctioneer_AccountIdAndStatusAndAsset_LocationContainingOrPropertyAgent_Staff_FullNameContaining(
+                    auctioneerId, status, search, search, pageable);
+        }
     }
+
 
     public void changeTaskStatus(int taskId, String status) {
         Task task = findTaskById(taskId);
