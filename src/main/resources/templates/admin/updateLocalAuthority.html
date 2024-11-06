@@ -72,28 +72,28 @@
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li  class="active ">
-            <a th:href="@{/LocalAuthority}">
+          <li >
+            <a th:href="@{/admin/localAuthorityList}">
               <i class="nc-icon nc-tile-56"></i>
-              <p>Dashboard</p>
+              <p>Local Authority List</p>
             </a>
           </li>
           <li>
-            <a th:href="@{/AddLocalAuthority}">
-              <i class="nc-simple-add"></i>
+            <a th:href="@{/admin/AddLocalAuthority}">
+              <i class="nc-icon nc-simple-add"></i>
               <p>Add Local Authority</p>
             </a>
           </li>
           <li>
-            <a th:href="@{/accounts/list}">
+            <a th:href="@{/admin/list}">
               <i class="nc-icon nc-circle-10"></i>
               <p>Manage Account</p>
             </a>
           </li>
           <li>
-            <a th:href="@{/accounts/listUnverifiedAccount}">
+            <a th:href="@{/admin/listUnverifiedAccount}">
               <i class="nc-icon nc-vector"></i>
-              <p>Unverify Account</p>
+              <p>Unverified Account</p>
             </a>
           </li>
           <li>
@@ -120,30 +120,23 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">Manager Local Authority</h4>
+                <h4 class="card-title">Update Local Authority</h4>
               </div>
               <div class="card-body">
                 <div class="table-responsive">
                   <div class="form-update">
-                    <form method="post" th:action="@{/UpdateLocalAuthority}">
+                    <form th:action="@{/admin/UpdateLocalAuthority}" th:method="POST">
                       <input type="hidden" name="localAuthorityId" th:value="${localAuthority.localAuthorityId}"/>
-
-
                       <label for="name">Name:</label>
                       <input type="text" id="name" name="localAuthorityName" th:value="${localAuthority.localAuthorityName}" required/>
-
                       <label for="contactPerson">Contact Person:</label>
                       <input type="text" id="contactPerson" name="contactPerson" th:value="${localAuthority.contactPerson}" required/>
-
                       <label for="phoneNumber">Phone Number:</label>
                       <input type="text" id="phoneNumber" name="phoneNumber" th:value="${localAuthority.phoneNumber}" required/>
-
                       <label for="email">Email:</label>
                       <input type="email" id="email" name="email" th:value="${localAuthority.email}" required/>
-
                       <label for="address">Address:</label>
                       <input type="text" id="address" name="localAuthorityAddress" th:value="${localAuthority.localAuthorityAddress}" required/>
-
                       <button type="submit">Update</button>
                     </form>
                   </div>
@@ -152,9 +145,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div style="margin-top: 66px">
-
       </div>
       <!-- Het phan noi dung cua trang -->
     </div>

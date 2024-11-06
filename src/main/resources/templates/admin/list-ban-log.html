@@ -51,27 +51,27 @@
     <div class="sidebar-wrapper">
       <ul class="nav">
         <li >
-          <a th:href="@{/LocalAuthority}">
+          <a th:href="@{/admin/localAuthorityList}">
             <i class="nc-icon nc-tile-56"></i>
-            <p>Dashboard</p>
+            <p>Local Authority List</p>
           </a>
         </li>
         <li>
-          <a th:href="@{/AddLocalAuthority}">
-            <i class="nc-simple-add"></i>
+          <a th:href="@{/admin/AddLocalAuthority}">
+            <i class="nc-icon nc-simple-add"></i>
             <p>Add Local Authority</p>
           </a>
         </li>
         <li class="active">
-          <a th:href="@{/accounts/list}">
+          <a th:href="@{/admin/list}">
             <i class="nc-icon nc-circle-10"></i>
             <p>Manage Account</p>
           </a>
         </li>
         <li>
-          <a th:href="@{/accounts/listUnverifiedAccount}">
+          <a th:href="@{/admin/listUnverifiedAccount}">
             <i class="nc-icon nc-vector"></i>
-            <p>Unverify Account</p>
+            <p>Unverified Account</p>
           </a>
         </li>
         <li>
@@ -121,7 +121,7 @@
                 </tbody>
               </table>
               <div class="pt-2">
-                <a class="btn btn-outline-info" th:href="@{/accounts/list}">Back to Account List</a>
+                <a class="btn btn-outline-info" th:href="@{/admin/list}">Back to Account List</a>
               </div>
 
             </div>
@@ -129,6 +129,7 @@
         </div>
       </div>
     </div>
+  </div>
     <!---------------------------------------KHONG DUOC SUA------------------------------------------------------>
     <!--   Core JS Files   -->
     <script th:src="@{/dashboardStatic/js/core/jquery.min.js}"></script>

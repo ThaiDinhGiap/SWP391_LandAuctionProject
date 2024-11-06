@@ -50,26 +50,26 @@
         </div>
         <div class="sidebar-wrapper">
             <ul class="nav">
-                <li >
-                    <a th:href="@{/LocalAuthority}">
+                <li>
+                    <a th:href="@{/admin/localAuthorityList}">
                         <i class="nc-icon nc-tile-56"></i>
-                        <p>Dashboard</p>
+                        <p>Local Authority List</p>
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/AddLocalAuthority}">
-                        <i class="nc-simple-add"></i>
+                    <a th:href="@{/admin/AddLocalAuthority}">
+                        <i class="nc-icon nc-simple-add"></i>
                         <p>Add Local Authority</p>
                     </a>
                 </li>
                 <li class="active">
-                    <a th:href="@{/accounts/list}">
+                    <a th:href="@{/admin/list}">
                         <i class="nc-icon nc-circle-10"></i>
                         <p>Manage Account</p>
                     </a>
                 </li>
                 <li class="active">
-                    <a th:href="@{/accounts/listUnverifiedAccount}">
+                    <a th:href="@{/admin/listUnverifiedAccount}">
                         <i class="nc-icon nc-vector"></i>
                         <p>Unverify Account</p>
                     </a>
@@ -251,19 +251,19 @@
                                            </div>
                                        </div>
                                         <div class="mt-1 text-end">
-                                            <form th:action="@{/accounts/rejectVerifyCustomer}" method="post">
+                                            <form th:action="@{/admin/rejectVerifyCustomer}" method="post">
                                                 <input type="hidden" name="customerId" th:value="${customer.customerId}">
                                                 <button type="submit" class="btn btn-outline-danger w-25" onclick="verifyAccount()">Reject</button>
                                             </form>
                                         </div>
                                         <div class="mt-1 text-end">
-                                            <form th:action="@{/accounts/verifyCustomer}" method="post">
+                                            <form th:action="@{/admin/verifyCustomer}" method="post">
                                                 <input type="hidden" name="customerId" th:value="${customer.customerId}">
                                                 <button type="submit" class="btn btn-outline-info w-25" onclick="rejectAccountInformation()">Verify</button>
                                             </form>
                                         </div>
                                         <div class="text-end mt-1">
-                                            <a class="btn btn-outline-info" th:href="@{/accounts/listUnverifiedAccount}">Back to Unverified Account List</a>
+                                            <a class="btn btn-outline-info" th:href="@{/admin/listUnverifiedAccount}">Back to Unverified Account List</a>
                                         </div>
                                     </div>
                                     </div>

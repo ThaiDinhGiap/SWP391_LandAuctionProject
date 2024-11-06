@@ -86,28 +86,28 @@
     </div>
     <div class="sidebar-wrapper">
       <ul class="nav">
-        <li  class="active ">
-          <a th:href="@{/LocalAuthority}">
+        <li class="active">
+          <a th:href="@{/admin/localAuthorityList}">
             <i class="nc-icon nc-tile-56"></i>
-            <p>Dashboard</p>
+            <p>Local Authority List</p>
           </a>
         </li>
         <li>
-          <a th:href="@{/AddLocalAuthority}">
-            <i class="nc-simple-add"></i>
+          <a th:href="@{/admin/AddLocalAuthority}">
+            <i class="nc-icon nc-simple-add"></i>
             <p>Add Local Authority</p>
           </a>
         </li>
         <li>
-          <a th:href="@{/accounts/list}">
+          <a th:href="@{/admin/list}">
             <i class="nc-icon nc-circle-10"></i>
             <p>Manage Account</p>
           </a>
         </li>
         <li>
-          <a th:href="@{/accounts/listUnverifiedAccount}">
+          <a th:href="@{/admin/listUnverifiedAccount}">
             <i class="nc-icon nc-vector"></i>
-            <p>Unverify Account</p>
+            <p>Unverified Account</p>
           </a>
         </li>
         <li>
@@ -116,7 +116,6 @@
             <p>Logout</p>
           </a>
         </li>
-
       </ul>
     </div>
   </div>
@@ -135,13 +134,13 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <form th:action="@{/LocalAuthority}" method="get" style="margin-bottom: 15px;">
+                <form th:action="@{/admin/localAuthorityList}" method="get" style="margin-bottom: 15px;">
                   <input type="text" name="keyword" th:value="${keyword}" placeholder="Search..." />
                   <button type="submit">Search</button>
                 </form>
 
                 <div style="margin-top: 20px; text-align: center;">
-                  <button type="button" onclick="window.location.href='/AddLocalAuthority'" style="padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 5px;">
+                  <button type="button" onclick="window.location.href='/admin/AddLocalAuthority'" style="padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 5px;">
                     Add New Authority
                   </button>
                 </div>
@@ -149,13 +148,13 @@
                 <table class="table table-bordered table-striped">
                   <thead class="table table-dark">
                   <tr>
-                    <th><a th:href="@{/LocalAuthority(sortField='localAuthorityId', sortDir=${reverseSortDir}, keyword=${keyword})}">ID</a></th>
-                    <th><a th:href="@{/LocalAuthority(sortField='localAuthorityName', sortDir=${reverseSortDir}, keyword=${keyword})}">Authority Name</a></th>
+                    <th><a th:href="@{/admin/localAuthorityList(sortField='localAuthorityId', sortDir=${reverseSortDir}, keyword=${keyword})}">ID</a></th>
+                    <th><a th:href="@{/admin/localAuthorityList(sortField='localAuthorityName', sortDir=${reverseSortDir}, keyword=${keyword})}">Authority Name</a></th>
                     <th>Contact Person</th>
                     <th>Phone Number</th>
                     <th>Email</th>
                     <th>Address</th>
-                    <th><a th:href="@{/LocalAuthority(sortField='createdDate', sortDir=${reverseSortDir}, keyword=${keyword})}">Creation Date</a></th>
+                    <th><a th:href="@{/admin/localAuthorityList(sortField='createdDate', sortDir=${reverseSortDir}, keyword=${keyword})}">Creation Date</a></th>
                     <th>Actions</th>
                   </tr>
                   </thead>
@@ -170,12 +169,12 @@
                     <td th:text="${authority.createdDate}"></td>
                     <td style="display: flex">
                       <button type="button"
-                              th:onclick="'window.location.href=\'/UpdateLocalAuthority/' + ' ' + ${authority.localAuthorityId} + '\';'"
+                              th:onclick="'window.location.href=\'/admin/UpdateLocalAuthority/' + ' ' + ${authority.localAuthorityId} + '\';'"
                               style="padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 5px;">
                         Update
                       </button>
                       <button type="button"
-                              th:onclick="'if(confirm(\'Are you sure you want to delete this authority?\')) window.location.href=\'/DeleteLocalAuthority/' + ${authority.localAuthorityId} + '\';'"
+                              th:onclick="'if(confirm(\'Are you sure you want to delete this authority?\')) window.location.href=\'/admin/DeleteLocalAuthority/' + ${authority.localAuthorityId} + '\';'"
                               style="padding: 5px 10px; background-color: #e74c3c; color: white; border: none; border-radius: 5px;">
                         Delete
                       </button>
@@ -189,7 +188,7 @@
                 <div class="pagination">
                   <span>Page</span>
                   <li th:each="i : ${#numbers.sequence(1, totalPages)}" th:class="${i == currentPage ? 'active' : ''}">
-                    <a th:href="@{/LocalAuthority(page=${i}, sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword})}"
+                    <a th:href="@{/admin/localAuthorityList(page=${i}, sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword})}"
                        th:text="${i}"></a>
                   </li>
                 </div>
