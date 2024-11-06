@@ -9,48 +9,29 @@
     Unverify Account
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-  <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <!-- CSS Files -->
-  <!-- CHI SUA CAC DUONG DAN CSS O DUOI DAY -->
   <link th:href="@{/dashboardStatic/css/bootstrap.min.css}" rel="stylesheet" />
   <link th:href="@{/dashboardStatic/css/paper-dashboard.css?v=2.0.1}" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
   <link th:href="@{/dashboardStatic/demo/demo.css}" rel="stylesheet" />
+
 </head>
-<!---------------------------------------THÔNG TIN VỀ DASHBOARD------------------------------------------------------>
-<!--
- - Phan dashboardStatic khong duoc sua
- - Phan dashboardTemplates moi nguoi cop ra rieng cho tung role, de y sua cac the th: cho phu hop, co gi thac mac cu hoi Bui Minh Chien
--->
-<!--------------------------------------------------------------------------------------------->
 <body class="">
 <div class="wrapper ">
-  <!--  Side navbar: chua lien ket den cac trang tuy chon cua minh  -->
   <div class="sidebar" data-color="white" data-active-color="danger">
     <div class="logo">
-      <!--     Đường dẫn đến web chính của dự án     -->
       <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-mini">
-        <!--     Avatar người dùng ở đây     -->
         <div class="logo-image-small">
           <img th:src="@{/dashboardStatic/img/logo-small.png}">
         </div>
-        <!-- <p>CT</p> -->
       </a>
-      <!--     Đường dẫn đến web chính của dự án     -->
       <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-normal">
         VietLand Auction
-        <!--     Thêm logo dự án ở đây     -->
-        <!--           <div class="logo-image-big">-->
-        <!--            <img src="../assets/img/logo-big.png">-->
-        <!--          </div>-->
       </a>
     </div>
     <div class="sidebar-wrapper">
       <ul class="nav">
-        <li >
+        <li>
           <a th:href="@{/LocalAuthority}">
             <i class="nc-icon nc-tile-56"></i>
             <p>Dashboard</p>
@@ -62,15 +43,15 @@
             <p>Add Local Authority</p>
           </a>
         </li>
-        <li class="active">
+        <li>
           <a th:href="@{/accounts/list}">
             <i class="nc-icon nc-circle-10"></i>
             <p>Manage Account</p>
           </a>
         </li>
-        <li>
-          <a th:href="@{/accounts/listUnverify}">
-            <i class="nc-icon nc-circle-10"></i>
+        <li class="active ">
+          <a th:href="@{/accounts/listUnverifiedAccount}">
+            <i class="nc-icon nc-vector"></i>
             <p>Unverify Account</p>
           </a>
         </li>
@@ -80,11 +61,10 @@
             <p>Logout</p>
           </a>
         </li>
+
       </ul>
     </div>
   </div>
-  <!--  End side navbar  -->
-
   <div class="main-panel">
     <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
       <div class="container-fluid">
@@ -95,42 +75,41 @@
       <div class="row">
         <div class="col-md-12">
           <div class="card">
+            <div class="card-header">
+            </div>
             <div class="card-body">
               <div class="table-responsive">
-
                 <h3>Unverify Account</h3>
                 <hr>
-                <a th:href="@{/accounts/showFormForAdd}" class="btn btn-primary btn-sm mb-3 ml-2">
-                  Add New Account
-                </a>
-                <a th:href="@{/banLog/list}" class="btn btn-primary btn-sm mb-3">BanLog History</a>
-                <table class="table table-bordered table-striped ml-2">
+                <table class="table table-bordered  ml-2">
                   <thead class="table table-dark" >
-                  <tr >
-                    <th>Account ID</th>
-                    <th>User Name</th>
-                    <th>Status</th>
-                    <th>Verify</th>
-                    <th>Email</th>
-                    <th>Role Name</th>
-                    <th>Action</th>
+                  <tr>
+                    <th style="width: 120px">Customer ID</th>
+                    <th style="width: 200px">Full Name</th>
+                    <th style="width: 60px">Gender</th>
+                    <th style="width: 120px">DOB</th>
+                    <th style="width: 200px">Address</th>
+                    <th style="width: 120px">Action</th>
                   </tr>
                   </thead>
                   <tbody>
-                  <tr th:each="tempAccount : ${accounts}">
-                    <td th:text="${tempAccount.accountId}"></td>
-                    <td th:text="${tempAccount.username}"></td>
+                  <tr th:each="tempCustomer : ${customers}">
+                    <td th:text="${tempCustomer.customerId}"></td>
+                    <td th:text="${tempCustomer.fullName}"></td>
+                    <td th:text="${tempCustomer.gender}"></td>
+                    <td th:text="${tempCustomer.dateOfBirth}"></td>
+                    <td th:text="${tempCustomer.address}"></td>
+                    <!--                    <td>-->
+                    <!--                      <span class="text" th:text="${tempAccount.status == 1 ? 'Active' : 'Banned'}"></span>-->
+                    <!--                    </td>-->
+                    <!--                    <td>-->
+                    <!--                      <span th:text="${tempAccount.verify == 1 ? 'Verified' : 'Unverified'}"></span>-->
+                    <!--                    </td>-->
+                    <!--                    <td th:text="${tempAccount.email}"></td>-->
+                    <!--                    <td th:text="${tempAccount.role.roleName}"></td>-->
                     <td>
-                      <span class="text" th:text="${tempAccount.status == 1 ? 'Active' : 'Banned'}"></span>
-                    </td>
-                    <td>
-                      <span th:text="${tempAccount.verify == 1 ? 'Verified' : 'Unverified'}"></span>
-                    </td>
-                    <td th:text="${tempAccount.email}"></td>
-                    <td th:text="${tempAccount.role.roleName}"></td>
-                    <td>
-                      <a th:href="@{/accounts/showFormForUpdate(accountId=${tempAccount.accountId})}" class="btn btn-info btn-sm">
-                        Detail
+                      <a th:href="@{/accounts/showFormForVerify(customerId=${tempCustomer.customerId})}" class="btn btn-info btn-sm">
+                        Verify
                       </a>
                     </td>
                   </tr>
@@ -138,22 +117,21 @@
                 </table>
 
                 <!-- Pagination controls -->
-                <nav aria-label="Page navigation">
-                  <ul class="pagination">
-                    <li class="page-item " th:classappend="${currentPage == 1} ? 'disabled'">
-                      <a class="page-link ml-2" th:href="@{/accounts/list(page=${currentPage - 1}, size=5)}">Previous</a>
-                    </li>
-                    <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}"
-                        th:classappend="${i == currentPage} ? 'active'">
-                      <a class="page-link" th:href="@{/accounts/list(page=${i}, size=5)}" th:text="${i}">1</a>
-                    </li>
-                    <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                      <a class="page-link" th:href="@{/accounts/list(page=${currentPage + 1}, size=5)}">Next</a>
-                    </li>
-                  </ul>
-                </nav>
+                <!--                <nav aria-label="Page navigation">-->
+                <!--                  <ul class="pagination">-->
+                <!--                    <li class="page-item " th:classappend="${currentPage == 1} ? 'disabled'">-->
+                <!--                      <a class="page-link ml-2" th:href="@{/accounts/list(page=${currentPage - 1}, size=5)}">Previous</a>-->
+                <!--                    </li>-->
+                <!--                    <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}"-->
+                <!--                        th:classappend="${i == currentPage} ? 'active'">-->
+                <!--                      <a class="page-link" th:href="@{/accounts/list(page=${i}, size=5)}" th:text="${i}">1</a>-->
+                <!--                    </li>-->
+                <!--                    <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">-->
+                <!--                      <a class="page-link" th:href="@{/accounts/list(page=${currentPage + 1}, size=5)}">Next</a>-->
+                <!--                    </li>-->
+                <!--                  </ul>-->
+                <!--                </nav>-->
                 <!-- Pagination Controls -->
-
               </div>
             </div>
           </div>
@@ -161,25 +139,17 @@
       </div>
     </div>
   </div>
-  <!---------------------------------------KHONG DUOC SUA------------------------------------------------------>
-  <!--   Core JS Files   -->
-  <script th:src="@{/dashboardStatic/js/core/jquery.min.js}"></script>
-  <script th:src="@{/dashboardStatic/js/core/popper.min.js}"></script>
-  <script th:src="@{/dashboardStatic/js/core/bootstrap.min.js}"></script>
-  <script th:src="@{/dashboardStatic/js/plugins/perfect-scrollbar.jquery.min.js}"></script>
-  <!-- Chart JS -->
-  <script th:src="@{/dashboardStatic/js/plugins/chartjs.min.js}"></script>
-  <!--  Notifications Plugin    -->
-  <script th:src="@{/dashboardStatic/js/plugins/bootstrap-notify.js}"></script>
-  <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
-  <script th:src="@{/dashboardStatic/js/paper-dashboard.min.js?v=2.0.1}" type="text/javascript"></script><!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-  <script th:src="@{/dashboardStatic/demo/demo.js}"></script>
-  <script>
-    $(document).ready(function() {
-      // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
-      demo.initChartsPages();
-    });
-  </script>
 </div>
+</div>
+
+<script th:src="@{/dashboardStatic/js/core/jquery.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/core/popper.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/core/bootstrap.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/plugins/perfect-scrollbar.jquery.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/plugins/chartjs.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/plugins/bootstrap-notify.js}"></script>
+<script th:src="@{/dashboardStatic/js/paper-dashboard.js?v=2.0.1}"></script>
+<script th:src="@{/dashboardStatic/demo/demo.js}"></script>
+
 </body>
 </html>

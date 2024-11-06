@@ -68,9 +68,9 @@
                         <p>Manage Account</p>
                     </a>
                 </li>
-                <li>
-                    <a th:href="@{/accounts/listUnverify}">
-                        <i class="nc-icon nc-circle-10"></i>
+                <li class="active">
+                    <a th:href="@{/accounts/listUnverifiedAccount}">
+                        <i class="nc-icon nc-vector"></i>
                         <p>Unverify Account</p>
                     </a>
                 </li>
@@ -97,88 +97,175 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <div class="container mt-5">
-                                <div class="row">
-                                    <div class="col-md-8 mx-auto">
-                                        <!-- Thẻ card để trang trí -->
-                                        <div class="card shadow-sm p-4">
-                                            <p class="h4 mb-4">Detail And Verify</p>
-                                            <form action="#" th:action="@{/accounts/save}" th:object="${accounts}" method="post">
-                                                <!-- Add hidden form field to handle the update -->
-                                                <input type="hidden" th:field="*{accountId}">
+                            <div class="col-md-8">
+                                <div class="card card-user">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Personal Information</h5>
+                                    </div>
+                                    <div class="card-body sidebar-widget">
 
-                                                <div class="mb-3">
-                                                    <label for="username" class="form-label">User name</label>
-                                                    <input type="text" th:field="*{username}" id="username" class="form-control" placeholder="Username" readonly>
+                                       <div th:object="${customer}" class="form-group">
+                                            <!-- Account fields -->
+                                            <div class="row">
+                                                <input type="hidden" class="form-control" th:field="*{account}" name="accountId">
+                                                <div class="col-md-6 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Username</label>
+                                                        <input type="text" class="form-control" th:field="*{fullName}" readonly="" name="username" placeholder="Username">
+                                                    </div>
                                                 </div>
-
-                                                <div class="mb-3">
-                                                    <label for="password" class="form-label">Password</label>
-                                                    <input type="text" th:field="*{password}" id="password" class="form-control" placeholder="Password" readonly>
+                                                <div class="col-md-6 pl-1">
+                                                    <div class="form-group">
+                                                        <label>Email address</label>
+                                                        <input type="email" class="form-control" th:field="*{account.email}" readonly="" name="email" placeholder="Email">
+                                                    </div>
                                                 </div>
+                                            </div>
 
-                                                <div class="mb-3">
-                                                    <label for="email" class="form-label">Email Address</label>
-                                                    <input type="text" th:field="*{email}" id="email" class="form-control" placeholder="Email" readonly>
+                                            <!-- Customer fields -->
+                                            <div class="row">
+                                                <input type="hidden" class="form-control" readonly="" th:field="*{customerId}">
+                                                <input type="hidden" class="form-control" readonly="" th:field="*{account}">
+                                                <input type="hidden" class="form-control" readonly="" th:field="*{updateStatus}">
+                                                <div class="col-md-6 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Gender</label>
+                                                        <select class="form-control" th:field="*{gender}" name="gender" readonly="">
+                                                            <option value="M">Male</option>
+                                                            <option value="F">Female</option>
+                                                            <option value="O">Other</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-
-                                                <div class="mb-3">
-                                                    <label for="status" class="form-label">Status</label>
-                                                    <input type="text" th:field="*{status}" id="status" class="form-control" placeholder="Status" readonly>
+                                                <div class="col-md-6 pl-1">
+                                                    <div class="form-group">
+                                                        <label>Date of Birth</label>
+                                                        <input type="date" class="form-control" th:field="*{dateOfBirth}" name="dateOfBirth" readonly="">
+                                                    </div>
                                                 </div>
+                                            </div>
 
-                                                <div class="mb-3">
-                                                    <label for="verify" class="form-label">Verify</label>
-                                                    <input type="text" th:field="*{verify}" id="verify" class="form-control" placeholder="Verify">
+                                            <!-- Additional customer fields -->
+                                            <div class="row">
+                                                <div class="col-md-6 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Phone Number</label>
+                                                        <input type="text" class="form-control" required th:field="*{phoneNumber}" name="phoneNumber" placeholder="Phone Number" readonly="">
+                                                    </div>
                                                 </div>
-
-                                                <div class="mb-3">
-                                                    <label for="role" class="form-label">Role</label>
-                                                    <!--                        <input type="text" th:field="*{role}" id="role" class="form-control" placeholder="Role">-->
-                                                    <select th:field="*{role}" id="role" class="form-control">
-                                                        <option value="2" th:selected="${accounts.role == '2'}">Admin</option>
-                                                        <option value="3" th:selected="${accounts.role == '3'}">Property_Agent</option>
-                                                        <option value="4" th:selected="${accounts.role == '4'}">Auctioneer</option>
-                                                        <option value="5" th:selected="${accounts.role == '5'}">Customer_Care</option>
-                                                        <option value="6" th:selected="${accounts.role == '6'}">News_Writer</option>
-                                                    </select>
+                                                <div class="col-md-6 pl-1">
+                                                    <div class="form-group">
+                                                        <label>Full Name</label>
+                                                        <input type="text" class="form-control" required th:field="*{fullName}" name="fullName" placeholder="Full Name" readonly="">
+                                                    </div>
                                                 </div>
+                                            </div>
 
-                                                <button type="submit" class="btn btn-info w-100 mb-3">Update</button>
+                                            <!-- Address, Bank, ID, etc. -->
+                                            <div class="row">
+                                                <div class="col-md-6 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Citizen Identification</label>
+                                                        <input type="text" class="form-control" required th:field="*{citizenIdentification}" name="citizenIdentification" placeholder="Citizen ID" readonly="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 pl-1">
+                                                    <div class="form-group">
+                                                        <label>ID Issuance Date</label>
+                                                        <input type="date" class="form-control" required th:field="*{idIssuanceDate}" name="idIssuanceDate" readonly="">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 pr-1">
+                                                    <div class="form-group">
+                                                        <label>ID Issuance Place</label>
+                                                        <input type="text" class="form-control" required th:field="*{idIssuancePlace}" name="idIssuancePlace" placeholder="Issuance Place" readonly="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 pl-1">
+                                                    <div class="form-group">
+                                                        <label>Bank Account Number</label>
+                                                        <input type="text" class="form-control" required th:field="*{bankAccountNumber}" name="bankAccountNumber" placeholder="Bank Account Number" readonly="">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Bank Name</label>
+                                                        <input type="text" class="form-control" required th:field="*{bankName}" name="bankName" placeholder="Bank Name" readonly="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 pl-1">
+                                                    <div class="form-group">
+                                                        <label>Bank Branch</label>
+                                                        <input type="text" class="form-control" required th:field="*{bankBranch}" name="bankBranch" placeholder="Bank Branch" readonly="">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Bank Account Owner</label>
+                                                        <input type="text" class="form-control" required th:field="*{bankOwner}" name="bankOwner" placeholder="Bank Account Owner" readonly="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 pl-1">
+                                                    <div class="form-group">
+                                                        <label>Tax Identification Number (TIN)</label>
+                                                        <input type="text" class="form-control" required th:field="*{taxIdentificationNumber}" name="taxIdentificationNumber" placeholder="Tax ID" readonly="">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Address</label>
+                                                        <input type="text" class="form-control" required th:field="*{address}" name="address" placeholder="Home Address" readonly="">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                           <div class="row">
+                                               <div class="col-md-6 pr-1">
+                                                   <div class="form-group">
+                                                       <label for="idCardFrontImage">ID Card Front Image</label>
+                                                       <input type="file" required name="idCardFrontImage" id="idCardFrontImage" class="form-control" accept="image/png, image/jpeg, image/jpg" onchange="updateImagePreview(this, 'idCardFrontPreview')" readonly="">
+                                                       <img th:src="${customer.idCardFrontImage.path}" class="card-img-top" alt="Cover Photo"
+                                                            style="height: 200px; object-fit: cover; border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                                                   </div>
+                                               </div>
+                                               <div class="col-md-6 pl-1">
+                                                   <div class="form-group">
+                                                       <label for="idCardBackImage">ID Card Back Image</label>
+                                                       <input type="file" required name="idCardBackImage" id="idCardBackImage" class="form-control" accept="image/png, image/jpeg, image/jpg" onchange="updateImagePreview(this, 'idCardBackPreview')" readonly="">
+                                                       <img th:src="${customer.idCardBackImage.path}" class="card-img-top" alt="Cover Photo"
+                                                            style="height: 200px; object-fit: cover; border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                        <div class="mt-1 text-end">
+                                            <form th:action="@{/accounts/rejectVerifyCustomer}" method="post">
+                                                <input type="hidden" name="customerId" th:value="${customer.customerId}">
+                                                <button type="submit" class="btn btn-outline-danger w-25" onclick="verifyAccount()">Reject</button>
                                             </form>
                                         </div>
-
-                                        <!--            <div class="mt-4 text-end">-->
-                                        <!--                <form th:action="@{/accounts/unBan}" method="post">-->
-                                        <!--                    <input type="hidden" name="accountId" th:value="${accounts.accountId}">-->
-                                        <!--                    <input type="text" name="reason" class="form-control mb-3 w-50 d-inline pr-3" placeholder="Enter unban reason">-->
-                                        <!--                    <button type="submit" class="btn btn-outline-success pl-2">Unban</button>-->
-                                        <!--                </form>-->
-                                        <!--            </div>-->
-
-                                        <div class="mt-4 text-end">
-                                            <form th:if="${accounts.verify == 0}" th:action="@{/accounts/verify}" method="post">
-                                                <input type="hidden" name="accountId" th:value="${accounts.accountId}">
-                                                <button type="submit" class="btn btn-outline-info w-25" onclick="verifyAccount()">Verify</button>
+                                        <div class="mt-1 text-end">
+                                            <form th:action="@{/accounts/verifyCustomer}" method="post">
+                                                <input type="hidden" name="customerId" th:value="${customer.customerId}">
+                                                <button type="submit" class="btn btn-outline-info w-25" onclick="rejectAccountInformation()">Verify</button>
                                             </form>
                                         </div>
-
-                                        <div class="mt-4 text-end">
-                                            <form th:if="${accounts.status == 1}" th:action="@{/accounts/ban}" method="post">
-                                                <input type="hidden" name="accountId" th:value="${accounts.accountId}">
-                                                <input type="text" name="reason" class="form-control mb-3 w-50 d-inline-block" placeholder="Enter ban reason">
-                                                <button type="submit" class="btn btn-danger" onclick="banAccount()">Ban</button>
-                                            </form>
-
-                                            <form th:if="${accounts.status == 0}" th:action="@{/accounts/unBan}" method="post">
-                                                <input type="hidden" name="accountId" th:value="${accounts.accountId}">
-                                                <input type="text" name="reason" class="form-control mb-3 w-50 d-inline-block" placeholder="Enter unban reason">
-                                                <button type="submit" class="btn btn-success" onclick="unbanAccount()">Unban</button>
-                                            </form>
+                                        <div class="text-end mt-1">
+                                            <a class="btn btn-outline-info" th:href="@{/accounts/listUnverifiedAccount}">Back to Unverified Account List</a>
                                         </div>
-                                        <div class="text-end mt-4 pb-3">
-                                            <a class="btn btn-outline-info" th:href="@{/accounts/list}">Back to Account List</a>
-                                        </div>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -211,7 +298,12 @@
 // Implement your ban logic here, e.g., AJAX call to ban the account
                 alert('Account verified!');
             }
+            function rejectAccountInformation() {
+// Implement your ban logic here, e.g., AJAX call to ban the account
+                alert('Rejected account information!');
+            }
         </script>
     </div>
 </body>
 </html>
+

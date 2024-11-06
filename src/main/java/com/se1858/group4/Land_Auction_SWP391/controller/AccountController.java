@@ -2,9 +2,11 @@ package com.se1858.group4.Land_Auction_SWP391.controller;
 
 import com.se1858.group4.Land_Auction_SWP391.entity.Account;
 import com.se1858.group4.Land_Auction_SWP391.entity.BanLog;
+import com.se1858.group4.Land_Auction_SWP391.entity.Customer;
 import com.se1858.group4.Land_Auction_SWP391.entity.Role;
 import com.se1858.group4.Land_Auction_SWP391.service.AccountService;
 import com.se1858.group4.Land_Auction_SWP391.service.BanLogService;
+import com.se1858.group4.Land_Auction_SWP391.service.CustomerService;
 import com.se1858.group4.Land_Auction_SWP391.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,12 +26,14 @@ public class AccountController {
     AccountService accountService;
     BanLogService banLogService;
     RoleService roleService;
+    CustomerService customerService;
 
     @Autowired
-    public AccountController(AccountService accountService, BanLogService banLogService, RoleService roleService) {
+    public AccountController(AccountService accountService, BanLogService banLogService, RoleService roleService, CustomerService customerService) {
         this.accountService = accountService;
         this.banLogService = banLogService;
         this.roleService = roleService;
+        this.customerService = customerService;
     }
 
     @GetMapping("/list")
@@ -49,21 +53,24 @@ public class AccountController {
         return "account/list-account";
     }
 
-    @GetMapping("/listUnverify")
-    public String listAccountUnverify(@RequestParam(value = "page", defaultValue = "1") int page,
-                              @RequestParam(value = "size", defaultValue = "5") int size,
-                              @RequestParam(value = "status", required = false) Integer status,
-                              @RequestParam(value = "verify", required = false) Integer verify,
-                              Model theModel) {
+    @GetMapping("/listUnverifiedAccount")
+    public String listUnverifiedAccount(Model theModel) {
 
-        Page<Account> accountPage = accountService.findPaginatedWithFilters(page, size, status, verify);
-        theModel.addAttribute("accounts", accountPage.getContent());
-        theModel.addAttribute("currentPage", page);
-        theModel.addAttribute("totalPages", accountPage.getTotalPages());
-        theModel.addAttribute("totalItems", accountPage.getTotalElements());
-        theModel.addAttribute("statusFilter", status);
-        theModel.addAttribute("verifyFilter", verify);
+        // get the employees from db
+        List<Customer> customers = customerService.findCustomerByUpdateStatus("completed");
+        // add to the spring model
+        theModel.addAttribute("customers", customers);
         return "account/list-account-unverify";
+    }
+
+    @GetMapping("/showFormForVerify")
+    public String showFormForVerify(@RequestParam("customerId") int theId, Model theModel) {
+        // get the employee from the service
+        Customer customer = customerService.findCustomerByID(theId);
+        // set employee in the model to prepopulate the form
+        theModel.addAttribute("customer", customer);
+        // send over our form
+        return "account/show-form-verify-account";
     }
 
     @GetMapping("/showFormForAdd")
@@ -92,6 +99,32 @@ public class AccountController {
         //use a redirect to prevent duplicate submisstion
         return "redirect:list";
     }
+
+    @PostMapping("/verifyCustomer")
+    public String verifyCustomer(@RequestParam("customerId") int customerId, Model theModel) {
+        // Lấy customer dựa vào ID
+        Customer customer = customerService.findCustomerByID(customerId);
+        if (customer != null) {
+            customer.setUpdateStatus("confirmed");
+            customerService.save(customer);
+        }
+
+        // Dùng redirect để tránh việc submit trùng lặp
+        return "redirect:listUnverifiedAccount";
+    }
+
+    @PostMapping("/rejectVerifyCustomer")
+    public String rejectVerifyCustomer(@RequestParam("customerId") int customerId, Model theModel) {
+        // Lấy customer dựa vào ID
+        Customer customer = customerService.findCustomerByID(customerId);
+        if (customer != null) {
+            customer.setUpdateStatus("incomplete");
+            customerService.save(customer);
+        }
+        // Dùng redirect để tránh việc submit trùng lặp
+        return "redirect:listUnverifiedAccount";
+    }
+
 
     @PostMapping("/add")
     public String addAccount(@ModelAttribute("accounts") Account account, Model theModel) {
