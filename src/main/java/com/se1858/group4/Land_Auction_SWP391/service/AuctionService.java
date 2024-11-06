@@ -75,13 +75,17 @@ public class AuctionService {
         return auctionSessionRepository.save(auctionSession);
     }
 
-    public List<AuctionSession> getAllAuctionSessionsByAuctioneerId(int auctioneerId) {
-        List<AuctionSession> list=auctionSessionRepository.findByAuctioneerId(auctioneerId);
-        if(list.isEmpty()){
-            return null;
-        }
-        else return list;
+
+
+    public Page<AuctionSession> getAllAuctionSessionsByAuctioneerId(int auctioneerId, Pageable pageable) {
+        return auctionSessionRepository.findByAuctioneerId(auctioneerId, pageable);
     }
+
+    public Page<AuctionSession> searchAuctionSessionsByAuctioneerIdAndName(int auctioneerId, String auctionName, Pageable pageable) {
+        return auctionSessionRepository.findByAuctioneerIdAndAuctionNameContainingIgnoreCase(auctioneerId, auctionName, pageable);
+    }
+
+
 
     public void cancelAuction(int auctionId){
         AuctionSession auctionSession = getAuctionSessionById(auctionId);

@@ -1,5 +1,8 @@
 package com.se1858.group4.Land_Auction_SWP391.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -27,7 +30,17 @@ public interface AuctionRegisterRepository extends JpaRepository<AuctionRegister
 
     @Query("SELECT ar FROM AuctionRegister ar LEFT JOIN FETCH ar.buyer b LEFT JOIN FETCH b.notifications WHERE ar.auction.auctionId = :auctionId")
     List<AuctionRegister> findByAuctionIdWithNotifications(@Param("auctionId") int auctionId);
+
     List<AuctionRegister> findByBuyer_AccountIdOrderByRegistrationTimeDesc(int accountId);
 
-    List<AuctionRegister> findByAuction_AuctionIdAndRegisterStatusOrderByRankAsc(int auctionId, String registerStatus);
+    List<AuctionRegister> findByBuyer_AccountIdAndAuction_AuctionNameContainingIgnoreCase(int accountId, String auctionName);
+
+    List<AuctionRegister> findByBuyer_AccountIdAndAuction_AuctionNameContainingIgnoreCase(int accountId, String auctionName, Sort sort);
+    List<AuctionRegister> findByBuyer_AccountId(int accountId, Sort sort);
+
+    Page<AuctionRegister> findByBuyer_AccountIdAndAuction_AuctionNameContainingIgnoreCase(int accountId, String auctionName, Pageable pageable);
+    Page<AuctionRegister> findByBuyer_AccountId(int accountId, Pageable pageable);
+
+
+
 }

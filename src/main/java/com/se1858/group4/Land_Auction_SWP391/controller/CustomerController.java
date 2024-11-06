@@ -75,12 +75,34 @@ public class CustomerController {
 
 
     @GetMapping("/viewAuctionHistory")
-    public String getAuctionHistory(Model model) {
+    public String getAuctionHistory(
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "sortField", defaultValue = "registrationTime") String sortField,
+            @RequestParam(value = "sortDir", defaultValue = "desc") String sortDir,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "5") int size,
+            Model model) {
+
         Account this_user = userDetailsService.accountAuthenticated();
-        List<AuctionRegister> registerList = auctionRegisterService.getAllAuctionRegistersByAccountId(this_user.getAccountId());
-        model.addAttribute("registerList", registerList);
+        Page<AuctionRegister> registerPage;
+
+        if (search != null && !search.isEmpty()) {
+            registerPage = auctionRegisterService.searchAndSortAuctionRegisters(this_user.getAccountId(), search, sortField, sortDir, page, size);
+        } else {
+            registerPage = auctionRegisterService.getAllSortedAuctionRegistersByAccountId(this_user.getAccountId(), sortField, sortDir, page, size);
+        }
+
+        model.addAttribute("registerPage", registerPage);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", registerPage.getTotalPages());
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("search", search);
         return "customer/auctionHistory";
     }
+
+
+
 
 
     @GetMapping("/get_all_asset")
