@@ -255,24 +255,24 @@ Author URL: http://w3layouts.com
 
         /* Nút Xem chi tiết */
         .card-footer .btn-primary {
-            background-color: red;
-            border-color: black;
-        }
-
-        .card-footer .btn-primary:hover {
             background-color: orangered;
             border-color: white;
         }
 
-        /* Nút Chia sẻ */
-        .card-footer .btn-secondary {
-            background-color: #b1b3b5;
+        .card-footer .btn-primary:hover {
+            background-color: #f18054;
             border-color: black;
         }
 
+        /* Nút Chia sẻ */
+        .card-footer .btn-secondary {
+            background-color: orangered;
+            border-color: white;
+        }
+
         .card-footer .btn-secondary:hover {
-            background-color: #5a6268;
-            border-color: #545b62;
+            background-color: #f18054;
+            border-color: black;
         }
 
         .card-footer .btn i {
@@ -496,10 +496,10 @@ Author URL: http://w3layouts.com
                         </div>
                         <div class="card-footer d-flex justify-content-between">
                             <a th:href="@{/customer/viewAssetDetail(assetId=${asset.assetId})}" class="btn btn-primary btn-sm">
-                                Xem chi tiết
+                                Show Detail
                             </a>
-                            <button class="btn btn-secondary btn-sm">
-                                <i class="fas fa-share-alt"></i> Chia sẻ
+                            <button class="btn btn-secondary btn-sm" style="color: white">
+                                <i class="fas fa-share-alt"></i> Share
                             </button>
                         </div>
                     </div>
@@ -508,7 +508,7 @@ Author URL: http://w3layouts.com
 
             <div class="row" style="margin-top: 40px">
                 <div class="col-2">
-                    <a style="height: 60px; width: 140px" th:href="@{/customer/get_all_auction}" class="btn btn-outline-primary btn-sm">Xem tất cả</a>
+                    <a style="height: 60px; width: 140px" th:href="@{/customer/get_all_auction}" class="btn btn-outline-primary btn-sm">Show All</a>
                 </div>
                 <div class="col-4">
                     <div class="divider"></div>
@@ -560,10 +560,10 @@ Author URL: http://w3layouts.com
                         </div>
                         <div class="card-footer d-flex justify-content-between">
                             <a th:href="@{/customer/viewNewsDetail(newsId=${news.newsId})}" class="btn btn-primary btn-sm">
-                                Xem chi tiết
+                                Show Detail
                             </a>
-                            <button class="btn btn-secondary btn-sm">
-                                <i class="fas fa-share-alt"></i> Chia sẻ
+                            <button class="btn btn-secondary btn-sm" style="color: white">
+                                <i class="fas fa-share-alt"></i> Share
                             </button>
                         </div>
                     </div>
@@ -572,7 +572,7 @@ Author URL: http://w3layouts.com
 
             <div class="row" style="margin-top: 40px">
                 <div class="col-2">
-                    <a style="height: 60px; width: 140px" th:href="@{/customer/get_all_news}" class="btn btn-outline-primary btn-sm">Xem tất cả</a>
+                    <a style="height: 60px; width: 140px" th:href="@{/customer/get_all_news}" class="btn btn-outline-primary btn-sm">Show All</a>
                 </div>
                 <div class="col-4">
                     <div class="divider"></div>
