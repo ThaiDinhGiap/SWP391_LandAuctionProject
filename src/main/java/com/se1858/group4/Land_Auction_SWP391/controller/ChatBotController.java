@@ -1,6 +1,9 @@
 package com.se1858.group4.Land_Auction_SWP391.controller;
 
+import com.se1858.group4.Land_Auction_SWP391.dto.MainTopicDTO;
+import com.se1858.group4.Land_Auction_SWP391.dto.QuestionDTO;
 import com.se1858.group4.Land_Auction_SWP391.dto.StaffDTO;
+import com.se1858.group4.Land_Auction_SWP391.dto.SubTopicDTO;
 import com.se1858.group4.Land_Auction_SWP391.entity.Question;
 import com.se1858.group4.Land_Auction_SWP391.entity.Staff;
 import com.se1858.group4.Land_Auction_SWP391.entity.Topic;
@@ -64,6 +67,45 @@ public class ChatBotController {
     @GetMapping("/topics")
     public List<Topic> getMainTopics() {
         return topicService.getMainTopics();
+    }
+
+    @PostMapping("/insert/mainTopic")
+    public ResponseEntity<String> insertMainTopic(@RequestBody MainTopicDTO mainTopicDTO){
+        if (topicService.saveMainTopic(mainTopicDTO.getTopicName())) {
+            return ResponseEntity.ok("Topic saved successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
+
+    @PostMapping("/insert/subTopic")
+    public ResponseEntity<String> insertSubTopic(@RequestBody SubTopicDTO subTopicDTO){
+        if (topicService.saveSubTopic(subTopicDTO.getMainTopicId(), subTopicDTO.getTopicName())) {
+            return ResponseEntity.ok("Topic saved successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
+
+    @PostMapping("/insert/question")
+    public ResponseEntity<String> insertQuestion(@RequestBody QuestionDTO questionDTO){
+        if (questionService.saveQuestion(questionDTO.getSubTopicId(), questionDTO.getQuestion(), questionDTO.getAnswer())) {
+            return ResponseEntity.ok("Question saved successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
+
+    @GetMapping("/get/mainTopics")
+    public ResponseEntity<List<Topic>> getAllMainTopics() {
+        List<Topic> mainTopics = topicService.getMainTopics();
+        return ResponseEntity.ok(mainTopics);
+    }
+
+    @GetMapping("/get/subTopics")
+    public ResponseEntity<List<Topic>> getAllSubTopics() {
+        List<Topic> subTopics = topicService.getAllSubTopics();
+        return ResponseEntity.ok(subTopics);
     }
 
     @PutMapping("/topics/update/{topicId}")

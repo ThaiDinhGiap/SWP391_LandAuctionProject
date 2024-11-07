@@ -17,8 +17,38 @@ public class TopicService {
         this.topicRepository = topicRepository;
     }
 
+    public boolean saveMainTopic(String topicName) {
+        try {
+            Topic topic = new Topic();
+            topic.setTopicName(topicName);
+            topicRepository.save(topic);
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean saveSubTopic(int parentId, String subTopicName) {
+        try {
+            Topic topic = new Topic();
+            Topic parentTopic = topicRepository.findById(parentId).get();
+            topic.setParentTopic(parentTopic);
+            topic.setTopicName(subTopicName);
+            topicRepository.save(topic);
+            parentTopic.addSubTopic(topic);
+            topicRepository.save(parentTopic);
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<Topic> getMainTopics() {
         return topicRepository.findByParentTopicIsNull();
+    }
+
+    public List<Topic> getAllSubTopics() {
+        return topicRepository.findBySubTopicsIsEmpty();
     }
 
     public List<Topic> getSubTopics(int parentId) {

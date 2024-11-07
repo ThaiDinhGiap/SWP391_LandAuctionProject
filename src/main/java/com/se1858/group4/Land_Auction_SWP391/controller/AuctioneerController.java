@@ -263,6 +263,7 @@ public class AuctioneerController {
         }
         if (auctionSession != null && auctionSession.getAuctioneer().getAccountId() == auctioneer.getAccountId()) {
             List<AuctionRegister> registerList = auctionRegisterService.resultOfAuction(auctionId, "Confirmed");
+            model.addAttribute("auctionId", auctionId);
             model.addAttribute("registerList", registerList);
             return "auctioneer/Result";
         } else return "redirect:/auctioneer/viewAuctionDetail?auctionId=" + auctionId;
@@ -296,6 +297,20 @@ public class AuctioneerController {
     public ResponseEntity<String> cancelRight(@RequestParam("registerId") int registerId){
         accountService.cancelRight(registerId);
         return ResponseEntity.ok("Cancel right successfully!");
+    }
+
+    @PostMapping("/markAsSuccessfulSold")
+    public ResponseEntity<String> successfulSold(@RequestParam("auctionId") int auctionId){
+        AuctionSession auctionSession = auctionService.getAuctionSessionById(auctionId);
+        assetService.setSuccessSoldForAsset(auctionSession.getAsset());
+        return ResponseEntity.ok("Sold asset successfully!");
+    }
+
+    @PostMapping("/markAsFailedSold")
+    public ResponseEntity<String> failedSold(@RequestParam("auctionId") int auctionId){
+        AuctionSession auctionSession = auctionService.getAuctionSessionById(auctionId);
+        assetService.setFailedSoldForAsset(auctionSession.getAsset());
+        return ResponseEntity.ok("Sold asset failed!");
     }
 
     @PostMapping("/updateRegister")

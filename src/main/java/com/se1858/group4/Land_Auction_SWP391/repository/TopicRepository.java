@@ -12,6 +12,9 @@ public interface TopicRepository extends JpaRepository<Topic, Integer> {
 
     // Tìm các sub-topic theo parent_topic_id
     List<Topic> findByParentTopic_TopicId(int parentId);
+
+    // Tìm tất cả các subtopic không là parent của topic nào khác
+    List<Topic> findBySubTopicsIsEmpty();
 }
 
 

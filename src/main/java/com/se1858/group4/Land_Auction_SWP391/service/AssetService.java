@@ -100,4 +100,24 @@ public class AssetService {
     public List<Asset> getTop3LastestAssets() {
         return assetRepository.findTop3ByOrderByCreatedDateDesc();
     }
+
+    public boolean setSuccessSoldForAsset(Asset asset) {
+        try {
+            asset.setAssetStatus("Successfully sold");
+            assetRepository.save(asset);
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean setFailedSoldForAsset(Asset asset) {
+        try {
+            asset.setAssetStatus("Failed sold");
+            assetRepository.save(asset);
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

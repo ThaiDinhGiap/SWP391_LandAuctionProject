@@ -79,25 +79,64 @@
 
     <div class="main-panel">
         <div class="chatbot-settings-container">
+
             <div class="table-header">
-                <h2>Main Topics</h2>
-                <a href="/customercare/insertContent" class="btn btn-primary">Insert</a>
+                <h2>Insert Content</h2>
+                <a th:href="@{/customercare/chatbot-settings}" class="btn btn-light" >Return Chatbot Setting</a>
             </div>
-            <table id="mainTopicsTable">
-                <thead class="text-primary">
-                <tr>
-                    <th>TOPIC ID</th>
-                    <th>TOPIC NAME</th>
-                    <th>ACTIONS</th>
-                </tr>
-                </thead>
-                <tbody id="mainTopics">
-                <!-- Danh sách main topics sẽ được load ở đây -->
-                </tbody>
-            </table>
-        </div>
-        <div id="subTopicsContainer">
-            <!-- Các bảng Sub-Topics sẽ được tạo động tại đây -->
+
+            <div>
+                <button class="btn btn-default btn-primary" onclick="showMainTopicInput()">Main Topic</button>
+                <button class="btn btn-default btn-primary" onclick="showSubTopicInput()">Sub Topic</button>
+                <button class="btn btn-default btn-primary" onclick="showQuestionInput()">Question</button>
+            </div>
+
+            <!-- Input cho Main Topic (ban đầu ẩn) -->
+            <div id="mainTopicInputContainer" style="display: none; margin-top: 20px;">
+                <label for="topicName">Topic Name:</label>
+                <input type="text" id="topicName" class="form-control" placeholder="Enter topic name" style="width: 50%; display: inline-block;">
+                <button class="btn btn-primary" onclick="saveMainTopic()">Save</button>
+                <button class="btn btn-secondary" onclick="cancelMainTopic()">Cancel</button>
+            </div>
+
+            <!-- Input cho Sub Topic (ban đầu ẩn) -->
+            <div id="subTopicInputContainer" style="display: none; margin-top: 20px;">
+                <label for="selectMainTopic">Select Main Topic:</label>
+                <select id="selectMainTopic" class="form-control" style="width: 50%; display: inline-block;">
+                    <!-- Sử dụng Thymeleaf để hiển thị danh sách mainTopics từ model -->
+                    <option th:each="mainTopic : ${mainTopics}"
+                            th:value="${mainTopic.topicId}"
+                            th:text="${mainTopic.topicName}">
+                    </option>
+                </select>
+                <br><br>
+                <label for="subTopicName">Sub Topic Name:</label>
+                <input type="text" id="subTopicName" class="form-control" placeholder="Enter sub topic name" style="width: 50%; display: inline-block;">
+                <button class="btn btn-primary" onclick="saveSubTopic()">Save</button>
+                <button class="btn btn-secondary" onclick="cancelSubTopic()">Cancel</button>
+            </div>
+
+            <!-- Input cho Question (ban đầu ẩn) -->
+            <div id="questionInputContainer" style="display: none; margin-top: 20px;">
+                <label for="selectSubTopic">Select Subtopic:</label>
+                <select id="selectSubTopic" class="form-control" style="width: 50%; display: inline-block;">
+                    <!-- Sử dụng Thymeleaf để hiển thị danh sách subTopics từ model -->
+                    <option th:each="subTopic : ${subTopics}"
+                            th:value="${subTopic.topicId}"
+                            th:text="${subTopic.topicName}">
+                    </option>
+                </select>
+                <br><br>
+                <label for="questionText">Question:</label>
+                <input type="text" id="questionText" class="form-control" placeholder="Enter question" style="width: 50%; display: inline-block;">
+                <br><br>
+                <label for="answerText">Answer:</label>
+                <textarea id="answerText" class="form-control" placeholder="Enter answer" style="width: 50%; display: inline-block;"></textarea>
+                <br><br>
+                <button class="btn btn-primary" onclick="saveQuestion()">Save</button>
+                <button class="btn btn-secondary" onclick="cancelQuestion()">Cancel</button>
+            </div>
+
         </div>
     </div>
 </div>
@@ -111,7 +150,7 @@
 <!-- Notifications Plugin -->
 <script th:src="@{/dashboardStatic/js/plugins/bootstrap-notify.js}"></script>
 <script th:src="@{/dashboardStatic/js/paper-dashboard.min.js?v=2.0.1}" type="text/javascript"></script>
-<script th:src="@{/dashboardStatic/js/customercare/chatbotSettings.js}"></script>
+<script th:src="@{/dashboardStatic/js/customercare/insertContent.js}"></script>
 </body>
 
 </html>
