@@ -161,7 +161,8 @@ CREATE TABLE Customer (
     bank_account_number VARCHAR(255),                      
     bank_name NVARCHAR(max),                       
     bank_branch NVARCHAR(max),                    
-    bank_owner NVARCHAR(max)
+    bank_owner NVARCHAR(max),
+    update_status VARCHAR(100)
 );
 CREATE TABLE Topic (
     topic_id INT PRIMARY KEY IDENTITY(1,1),
@@ -291,8 +292,8 @@ VALUES (1, 'John Doe', 'M', '1990-01-01 00:00:00', '123 Main St, Hanoi', '012345
 (4, 'Banh My', 'M', '1990-01-01 00:00:00', '123 Main St, Hanoi', '0123456789'),
 (5, 'Meo Meo', 'F', '1990-01-01 00:00:00', '123 Main St, Hanoi', '0123456789');
 
-INSERT INTO Customer (account_id, full_name, gender, date_of_birth, address, phone_number, tax_identification_number, citizen_identification, id_issuance_date, id_issuance_place, id_card_front_image_id, id_card_back_image_id, bank_account_number, bank_name, bank_branch, bank_owner) 
-VALUES (6, 'Alex Peter', 'M', '1985-05-05', '456 Buyer St, Hanoi', '0987654321', 'TAX123456', 'ID123456789', '2010-01-01', 'Hanoi', 1, 1, '1234567890', 'Bank of Hanoi', 'Hanoi Main Branch', 'Alex Peter');
+INSERT INTO Customer (account_id, full_name, gender, date_of_birth, address, phone_number, tax_identification_number, citizen_identification, id_issuance_date, id_issuance_place, id_card_front_image_id, id_card_back_image_id, bank_account_number, bank_name, bank_branch, bank_owner, status)
+VALUES (6, 'Alex Peter', 'M', '1985-05-05', '456 Buyer St, Hanoi', '0987654321', 'TAX123456', 'ID123456789', '2010-01-01', 'Hanoi', 1, 1, '1234567890', 'Bank of Hanoi', 'Hanoi Main Branch', 'Alex Peter', 'incomplete');
 
 INSERT INTO Account_Notification (notification_id, account_id) VALUES (1, 2);
 
