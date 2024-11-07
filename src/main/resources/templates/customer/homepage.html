@@ -9,7 +9,7 @@ Author URL: http://w3layouts.com
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>RealHouzing - Real Estate Category Bootstrap Responsive Template | Home :: W3layouts</title>
+    <title>VietLand Auction</title>
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- google fonts -->
@@ -115,6 +115,208 @@ Author URL: http://w3layouts.com
             color: #ff0000; /* Màu đỏ cho biểu tượng chuông */
             font-size: 20px; /* Kích thước biểu tượng chuông */
         }
+
+        .body11 {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 70vh; /* Giảm chiều cao */
+        }
+        .container1 {
+            text-align: center;
+        }
+        .title1 {
+            font-size: 40px;
+            color: #333;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+        .title1::before, .title1::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 20px;
+            height: 2px;
+            background-color: #d32f2f;
+        }
+        .title1::before { left: -30px; }
+        .title1::after { right: -30px; }
+        .title1 span { color: #d32f2f; }
+        .logos1 {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .logo-group1 {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .logo-item1 {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 200px; /* Tăng kích thước logo */
+            height: 120px; /* Tăng kích thước logo */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .logo-item1 img { max-width: 100%; max-height: 100%; }
+        .pagination1 {
+            margin-top: 20px;
+        }
+        .pagination1 .dot1 {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin: 0 5px;
+            background-color: #333;
+            border-radius: 50%;
+        }
+        .pagination1 .dot1.active1 { background-color: #d32f2f; }
+
+        /* Cải tiến kiểu chữ cho toàn bộ card */
+        .asset-card {
+            font-family: 'Arial', sans-serif;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .asset-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Chữ ngày tải lên */
+        .date {
+            font-size: 18px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .date span:first-child {
+            font-weight: 600;
+        }
+
+        .date span:last-child {
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* Chữ mô tả ở phần blog-desc */
+        .card-body .blog-desc {
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+            line-height: 1.6;
+            text-decoration: none;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .card-body .blog-desc:hover {
+            color: #007bff;
+            text-decoration: underline;
+        }
+
+        /* Cải tiến chữ thông tin chiều dài, chiều rộng, và diện tích */
+        .card-footer .meta-value {
+            font-size: 14px;
+            color: #777;
+            font-weight: 500;
+        }
+
+        /* Giá trị chiều dài, chiều rộng, diện tích */
+        .card-footer span[style="font-weight: bold;"] {
+            font-size: 18px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Chữ nút Xem chi tiết và Chia sẻ */
+        .card-footer .btn {
+            font-size: 18px;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Nút Xem chi tiết */
+        .card-footer .btn-primary {
+            background-color: orangered;
+            border-color: white;
+        }
+
+        .card-footer .btn-primary:hover {
+            background-color: #f18054;
+            border-color: black;
+        }
+
+        /* Nút Chia sẻ */
+        .card-footer .btn-secondary {
+            background-color: orangered;
+            border-color: white;
+        }
+
+        .card-footer .btn-secondary:hover {
+            background-color: #f18054;
+            border-color: black;
+        }
+
+        .card-footer .btn i {
+            margin-right: 5px;
+        }
+
+        /* Cải tiến hình ảnh trong card */
+        .card-img-bottom {
+            object-fit: cover;
+            height: 250px;
+            width: 100%;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .card-img-bottom:hover {
+            transform: scale(1.05);
+        }
+
+        /* Tạo khoảng cách giữa các phần tử */
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-footer {
+            padding: 10px;
+            background-color: #f8f9fa;
+        }
+
+        .card-footer .d-flex {
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Tạo khoảng cách giữa các phần tử thông tin chiều dài, chiều rộng, diện tích */
+        .card-footer div {
+            margin-bottom: 5px;
+        }
+        /* Đường gạch ngang (divider) */
+        .divider {
+            border-top: 2px solid #707070; /* Đặt màu sắc của gạch ngang là màu đen */
+            margin-top: 20px;
+        }
+
     </style>
 </head>
 
@@ -123,7 +325,7 @@ Author URL: http://w3layouts.com
 <header id="site-header" class="fixed-top">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light stroke py-lg-0">
-            <h1><a class="navbar-brand" th:href="@{/customer/home}">
+            <h1><a class="navbar-brand" th:href="@{/}">
                 Viet<span class="sub-color">Land</span>
             </a></h1>
             <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
@@ -257,62 +459,88 @@ Author URL: http://w3layouts.com
     <div class="blog py-5 py-5">
         <div class="container py-lg-5 py-md-4 py-2">
             <div class="title-content text-center mb-lg-3 mb-4">
-                <h6 class="title-subw3hny mb-1">Our Assets</h6>
-                <h3 class="title-w3l mb-3">Latest Assets</h3>
+<!--                <h6 class="title-subw3hny mb-1">Our Assets</h6>-->
+<!--                <h3 class="title-w3l mb-3">Latest Assets</h3>-->
+                <div class="title1"><span>Upcoming Assets</span></div>
             </div>
+
             <div class="row justify-content-center">
                 <div class="col-lg-4 col-md-6 item" th:each="asset: ${top3Assets}">
-                    <div class="card">
+                    <div class="card asset-card">
+                        <div class="date" style="text-align: center">
+                            <span>Upload date</span></br>
+                            <span th:text="${asset.createdDate}"></span>
+                        </div>
                         <div class="card-header p-0 position-relative">
-                            <a th:href="@{/customer/viewAssetDetail(assetId=${asset.assetId})}"
-                               class="zoom d-block">
-                                <img class="card-img-bottom d-block" th:if="${asset.images.size() > 0}"
-                                     th:src="${asset.images.get(0).path}"
+                            <a th:href="@{/customer/viewAssetDetail(assetId=${asset.assetId})}" class="zoom d-block">
+                                <img class="card-img-bottom d-block" th:if="${asset.images.size() > 0}" th:src="${asset.images.get(0).path}"
                                      alt="Cover photo" style="height: 250px; width: 100%;">
                             </a>
                         </div>
                         <div class="card-body blog-details">
-                            <a th:href="@{/customer/viewAssetDetail(assetId=${asset.assetId})}"
-                               class="blog-desc"
+                            <a th:href="@{/customer/viewAssetDetail(assetId=${asset.assetId})}" class="blog-desc"
                                th:text="${asset.location.length() > 40 ? asset.location.substring(0, 40) + '...' : asset.location}"
                                th:title="${asset.location}"></a>
                         </div>
-                        <div class="card-footer">
+                        <div class="card-footer d-flex justify-content-between">
                             <div>
-                                <div>
-                                    <span class="meta-value">Length (m): </span>
-                                    <span th:text="${asset.length}" style="font-weight: bold;"></span>
-                                    <span class="meta-value">Width (m): </span>
-                                    <span th:text="${asset.width}" style="font-weight: bold;"></span>
-                                </div>
-                                <div>
-                                    <span class="meta-value">Area (m<sup>2</sup>): </span>
-                                    <span th:text="${asset.area}" style="font-weight: bold;"></span>
-                                </div>
-                                <div class="date">
-                                    <span>Upload date:</span>
-                                    <span th:text="${asset.createdDate}"></span>
-                                </div>
+                                <span class="meta-value">Length (m): </span>
+                                <span th:text="${asset.length}" style="font-weight: bold;"></span></br>
+                                <span class="meta-value">Width (m): </span>
+                                <span th:text="${asset.width}" style="font-weight: bold;"></span></br>
                             </div>
+                            <div>
+                                <span class="meta-value">Area (m<sup>2</sup>): </span>
+                                <span th:text="${asset.area}" style="font-weight: bold;"></span>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <a th:href="@{/customer/viewAssetDetail(assetId=${asset.assetId})}" class="btn btn-primary btn-sm">
+                                Show Detail
+                            </a>
+                            <button class="btn btn-secondary btn-sm" style="color: white">
+                                <i class="fas fa-share-alt"></i> Share
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="row" style="margin-top: 40px">
+                <div class="col-2">
+                    <a style="height: 60px; width: 140px" th:href="@{/customer/get_all_auction}" class="btn btn-outline-primary btn-sm">Show All</a>
+                </div>
+                <div class="col-4">
+                    <div class="divider"></div>
+                </div>
+                <div class="col-2">
+                </div>
+                <div class="col-4">
+                    <div class="divider"></div>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </section>
 <!--//properties-->
 <!--/w3l-blog-->
-<section class="w3l-blog">
+<section class="w3l-blog" style="margin-top: -50px">
     <div class="blog py-5" id="Newsblog">
         <div class="container py-lg-5 py-md-4 py-2">
             <div class="title-content text-center mb-lg-3 mb-4">
-                <h6 class="title-subw3hny mb-1">Our News</h6>
-                <h3 class="title-w3l mb-5">Stay Updated with Our <br>News Feed</h3>
+<!--                <h6 class="title-subw3hny mb-1">Our News</h6>-->
+<!--                <h3 class="title-w3l mb-5">Stay Updated with Our <br>News Feed</h3>-->
+                <div class="title1"><span>Auctioned Assets</span></div>
             </div>
             <div class="row justify-content-center">
                 <div class="col-lg-4 col-md-6 item" th:each="news: ${top3LatestNews}">
-                    <div class="card">
+                    <div class="card asset-card">
+                        <div class="date" style="text-align: center">
+                            <span>Upload date</span></br>
+                            <p th:text="${news.createdDate}"></p>
+                        </div>
                         <div class="card-header p-0 position-relative">
                             <a th:href="@{/customer/viewNewsDetail(newsId=${news.newsId})}" class="zoom d-block">
                                 <img class="card-img-bottom d-block" th:src="${news.cover_photo.path}" alt="Card image cap"
@@ -328,12 +556,31 @@ Author URL: http://w3layouts.com
                             <div class="author align-items-center">
                                 <span class="meta-value">by</span>
                                 <span th:text="${news.staff.staff.fullName}" style="font-weight: bold;"></span>
-                                <div class="date">
-                                    <p th:text="${news.createdDate}"></p>
-                                </div>
                             </div>
                         </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <a th:href="@{/customer/viewNewsDetail(newsId=${news.newsId})}" class="btn btn-primary btn-sm">
+                                Show Detail
+                            </a>
+                            <button class="btn btn-secondary btn-sm" style="color: white">
+                                <i class="fas fa-share-alt"></i> Share
+                            </button>
+                        </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 40px">
+                <div class="col-2">
+                    <a style="height: 60px; width: 140px" th:href="@{/customer/get_all_news}" class="btn btn-outline-primary btn-sm">Show All</a>
+                </div>
+                <div class="col-4">
+                    <div class="divider"></div>
+                </div>
+                <div class="col-2">
+                </div>
+                <div class="col-4">
+                    <div class="divider"></div>
                 </div>
             </div>
         </div>
@@ -341,6 +588,55 @@ Author URL: http://w3layouts.com
 </section>
 <!--//w3l-blog-->
 <!--/footer-9-->
+<div class="body11">
+    <div class="container1">
+        <div class="title1"><span>Khách hàng &amp; đối tác tiêu biểu</span></div>
+        <div class="logos1">
+            <!-- Nhóm dưới 5 logo -->
+            <div class="logo-group1">
+                <div class="logo-item1">
+                    <img alt="VietinBank logo" src="https://storage.googleapis.com/a1aa/image/dtvwfebscduDhEebIopM8vcvBvfanjLbwbVQvhoS20qQxR5OB.jpg" />
+                </div>
+                <div class="logo-item1">
+                    <img alt="VPBank logo" src="https://storage.googleapis.com/a1aa/image/lej0E7GCPr2iS6I7VzF4mMk7RdLKBfT1wBIf4xfVZyTIxR5OB.jpg" />
+                </div>
+                <div class="logo-item1">
+                    <img alt="VIB logo" src="https://storage.googleapis.com/a1aa/image/FAeLV3rk0yTKBqrc6ZDAcUzL9weWbyPGLjzuQ5SeOH9a4ocnA.jpg" />
+                </div>
+                <div class="logo-item1">
+                    <img alt="SHB logo" src="https://storage.googleapis.com/a1aa/image/y6hBApLvMr66I92xx2GENvMULmTUqCBJUf1IXTG117xKOK3JA.jpg" />
+                </div>
+                <div class="logo-item1">
+                    <img alt="HUD logo" src="https://storage.googleapis.com/a1aa/image/ypecPkxLVHStfEWgAa3dOv0RDbX9jd1zzgKh4yjKwmOMcUuTA.jpg" />
+                </div>
+            </div>
+
+            <!-- Nhóm trên 5 logo -->
+            <div class="logo-group1">
+                <div class="logo-item1">
+                    <img alt="EVN logo" src="https://storage.googleapis.com/a1aa/image/GSVutZoReRxhbCucOxoFoSdWHOtVDqYeFs8vsDvYFfRj4ocnA.jpg" />
+                </div>
+                <div class="logo-item1">
+                    <img alt="Vietnam Customs logo" src="https://storage.googleapis.com/a1aa/image/4wlOkmxavzptKx8hbL7Uc9drfhhcH3lGJGS1oqDevTZQcUuTA.jpg" />
+                </div>
+                <div class="logo-item1">
+                    <img alt="Tax Department logo" src="https://storage.googleapis.com/a1aa/image/hccE2R3I7Y7oHVAY2dgNm104xeHJOqLYPMkmkeK3bDLKcUuTA.jpg" />
+                </div>
+                <div class="logo-item1">
+                    <img alt="Samsung logo" src="https://storage.googleapis.com/a1aa/image/vtEsf6NFwxTifUxsiQ0zogv4uH5eeI3SP78qFinnfKT2hjydC.jpg" />
+                </div>
+                <div class="logo-item1">
+                    <img alt="VPS logo" src="https://storage.googleapis.com/a1aa/image/PEX3YKizSkZvEVLIE8S1aswFPBjnefcreXekQHEA25TcxR5OB.jpg" />
+                </div>
+            </div>
+        </div>
+        <div class="pagination1">
+            <span class="dot1 active1"></span>
+            <span class="dot1"></span>
+        </div>
+    </div>
+</div>
+
 <footer class="w3l-footer9">
     <section class="footer-inner-main py-5">
         <div class="container py-md-4">
@@ -588,6 +884,6 @@ Author URL: http://w3layouts.com
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script th:src="@{/assets_CustomerSide/js/chatbot.js}"></script>
 <script th:src="@{/assets_CustomerSide/js/notification.js}"></script>
-<script th:src="@{/assets_CustomerSide/js/main.js}"></script>
+
 </body>
 </html>

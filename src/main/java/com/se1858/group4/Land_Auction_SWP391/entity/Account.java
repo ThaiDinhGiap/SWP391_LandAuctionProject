@@ -57,7 +57,7 @@ public class Account {
     @OneToOne(mappedBy = "account", cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     private Staff staff;
 
-    @OneToOne(mappedBy = "account", cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @OneToOne(mappedBy = "account", cascade={CascadeType.REFRESH, CascadeType.PERSIST})
     private Customer customer;
 
     @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY,

@@ -22,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.se1858.group4.Land_Auction_SWP391.dto.NotificationDTO;
 
 import java.time.LocalDateTime;
 
@@ -74,12 +75,34 @@ public class CustomerController {
 
 
     @GetMapping("/viewAuctionHistory")
-    public String getAuctionHistory(Model model) {
+    public String getAuctionHistory(
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "sortField", defaultValue = "registrationTime") String sortField,
+            @RequestParam(value = "sortDir", defaultValue = "desc") String sortDir,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "5") int size,
+            Model model) {
+
         Account this_user = userDetailsService.accountAuthenticated();
-        List<AuctionRegister> registerList = auctionRegisterService.getAllAuctionRegistersByAccountId(this_user.getAccountId());
-        model.addAttribute("registerList", registerList);
+        Page<AuctionRegister> registerPage;
+
+        if (search != null && !search.isEmpty()) {
+            registerPage = auctionRegisterService.searchAndSortAuctionRegisters(this_user.getAccountId(), search, sortField, sortDir, page, size);
+        } else {
+            registerPage = auctionRegisterService.getAllSortedAuctionRegistersByAccountId(this_user.getAccountId(), sortField, sortDir, page, size);
+        }
+
+        model.addAttribute("registerPage", registerPage);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", registerPage.getTotalPages());
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("search", search);
         return "customer/auctionHistory";
     }
+
+
+
 
 
     @GetMapping("/get_all_asset")
@@ -131,6 +154,14 @@ public class CustomerController {
         List<TagForNews> tagList = tagForNewsService.getAllTagsForNews();
         model.addAttribute( "listTag", tagList);
         return "customer/newsList";
+    }
+
+    @GetMapping("/viewNotification")
+    public String getNotificationList(Model model) {
+        Account this_user = userDetailsService.accountAuthenticated();
+        List<NotificationDTO> notificationDTOList = notificationService.getNotificationsForAccount(this_user) ;
+        model.addAttribute("notifications", notificationDTOList);
+        return "customer/notificationList";
     }
 
     @GetMapping("/filter_assets")
@@ -247,7 +278,9 @@ public class CustomerController {
         if (account != null && customer != null) {
             // Update account and customer details
             accountService.updateAccountDetails(account);
+            customer.setAccount(account);
             customerService.updateCustomerDetails(customer);
+            System.out.println(customer.getUpdateStatus());
             // Handle file uploads
             if (!idCardFrontImage.isEmpty() || !idCardBackImage.isEmpty()) {
                 uploadFile.UploadImagesForCustomer(idCardFrontImage, idCardBackImage, customer);
@@ -280,19 +313,22 @@ public class CustomerController {
         }
         //lay ra nguoi dang ky
         Account this_user = userDetailsService.accountAuthenticated();
+        if(this_user!=null){
+            qrCode.setAmount(auction.getDeposit() + auction.getRegisterFee() + "");
+            qrCode.setDescription("UserId " + this_user.getAccountId() + " deposit fee AuctionId " + auction.getAuctionId());
+            model.addAttribute("qrCode", qrCode);
+
+            AuctionRegister register = auctionRegisterService.getAuctionRegister(auctionId, this_user.getAccountId());
+            if (register != null) {
+                model.addAttribute("auction_register", register);
+            }
+            if (error != null) {
+                model.addAttribute("error", error);
+            }
+        }
         String embedUrl = GetSrcInGoogleMapEmbededURLUtil.extractSrcFromIframe(auction.getAsset().getCoordinatesOnMap());
         model.addAttribute("embedUrl", embedUrl);
         model.addAttribute("auction", auction);
-        qrCode.setAmount(auction.getDeposit() + auction.getRegisterFee() + "");
-        qrCode.setDescription("UserId " + this_user.getAccountId() + " deposit fee AuctionId " + auction.getAuctionId());
-        model.addAttribute("qrCode", qrCode);
-        AuctionRegister register = auctionRegisterService.getAuctionRegister(auctionId, this_user.getAccountId());
-        if (register != null) {
-            model.addAttribute("auction_register", register);
-        }
-        if (error != null) {
-            model.addAttribute("error", error);
-        }
         return "customer/auctionDetail";
     }
 

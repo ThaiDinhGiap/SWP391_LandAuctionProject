@@ -184,98 +184,71 @@ Author URL: http://w3layouts.com
             <h1><a class="navbar-brand" th:href="@{/customer/home}">
                 Viet<span class="sub-color">Land</span>
             </a></h1>
-            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false"
-                    aria-label="Toggle navigation">
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon fa icon-expand fa-bars"></span>
                 <span class="navbar-toggler-icon fa icon-close fa-times"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarScroll">
                 <ul class="navbar-nav mx-lg-auto my-2 my-lg-0 navbar-nav-scroll">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" th:href="@{/}">Home</a>
+                        <a class="nav-link active" th:href="@{/}" style="font-size: 20px;">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="about.html">About</a>
+                        <a class="nav-link" th:href="@{/customer/get_all_asset}" style="font-size: 20px;">Asset</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="services.html">Services</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active" href="#Pages" id="navbarDropdown" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            Pages <span class="fa fa-angle-down ms-1"></span>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item pt-2" href="newsList.html">Blog Page</a></li>
-                            <li><a class="dropdown-item" href="newsDetail.html">Blog Single</a></li>
-
-                            <li><a class="dropdown-item" href="email.html">Email Page</a></li>
-                            <li><a class="dropdown-item" href="elements.html">Elements</a></li>
-
-                            <li><a class="dropdown-item" href="landing.html">Landing Page</a></li>
-
-                            <li><a class="dropdown-item" href="error.html">Error Page</a></li>
-                        </ul>
+                        <a class="nav-link" th:href="@{/customer/get_all_auction}" style="font-size: 20px;">Auction</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact</a>
+                        <a class="nav-link" th:href="@{/customer/get_all_news}" style="font-size: 20px;">News</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/aboutus}" style="font-size: 20px;">About us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/contact}" style="font-size: 20px;">Contact</a>
                     </li>
                 </ul>
-                <!--/search-->
-                <button id="trigger-overlay" class="searchw3-icon me-xl-4 me-lg-3" type="button"><i
-                        class="fas fa-search"></i></button>
+
+                <div class="navbar-nav" id="clock-container">
+                    <span class="nav-link" id="time"></span>
+                    <span class="nav-link" id="date"></span>
+                </div>
+
+                <!--/notify-->
+                <div class="dropdown">
+                    <button id="trigger-overlay" class="searchw3-icon me-xl-4 me-lg-3" type="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="loadNotifications()">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="notification-list" aria-labelledby="trigger-overlay">
+                        <li><a class="dropdown-item" href="#">Loading...</a></li>
+                    </ul>
+                </div>
                 <!-- open/close -->
-                <div class="overlay overlay-slidedown">
-                    <button type="button" class="overlay-close"><i class="fas fa-times"></i></button>
-                    <nav class="w3l-formhny">
-                        <h5 class="mb-3">Search here</h5>
-                        <form action="#" method="GET" class="d-sm-flex search-header">
-                            <input class="form-control me-2" type="search" placeholder="Search here..."
-                                   aria-label="Search" required>
-                            <button class="btn btn-style btn-primary" type="submit">Search</button>
-                        </form>
-                    </nav>
-                </div>
-                <!--//search-->
+                <!--//notify-->
 
-            </div>
+                <!-- Register and Login Buttons -->
+                <div class="auth-buttons">
+                    <div th:if="${#authentication.name == 'anonymousUser'}">
+                        <a class="btn btn-login btn-primary" th:href="@{/showMyLoginPage}" style="font-size: 20px">LOG IN</a>
+                    </div>
+                    <div th:if="${#authentication.name != 'anonymousUser'}">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-user"></i>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item" th:href="@{/customer/profile}">Profile</a></li>
+                                <li><a class="dropdown-item" th:href="@{/customer/viewAuctionHistory}">Auction History</a></li>
+                                <li><a class="dropdown-item" th:href="@{/customer/viewNotification}">Notifications</a></li>
+                                <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+                            </ul>
+                        </div>
 
-            <!-- Register and Login Buttons -->
-            <div class="auth-buttons" style="margin-right: 20px">
-                <div th:if="${#authentication.name == 'anonymousUser'}">
-                    <a class="btn btn-login btn-primary" th:href="@{/showMyLoginPage}" style="font-size: 20px">LOG IN</a>
-                </div>
-                <div th:if="${#authentication.name != 'anonymousUser'}">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-user"></i>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" th:href="@{/customer/profile}">Profile</a></li>
-                            <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
-                        </ul>
                     </div>
                 </div>
+
             </div>
-
-            <!-- toggle switch for light and dark theme -->
-            <div class="mobile-position">
-                <nav class="navigation">
-                    <div class="theme-switch-wrapper">
-                        <label class="theme-switch" for="checkbox">
-                            <input type="checkbox" id="checkbox">
-                            <div class="mode-container">
-                                <i class="gg-sun"></i>
-                                <i class="gg-moon"></i>
-                            </div>
-                        </label>
-                    </div>
-                </nav>
-            </div>
-            <!-- //toggle switch for light and dark theme -->
-
-
 
         </nav>
     </div>
@@ -380,7 +353,7 @@ Author URL: http://w3layouts.com
                                 <div class="row">
                                     <input type="hidden" class="form-control" readonly="" th:field="*{customer.customerId}">
                                     <input type="hidden" class="form-control" readonly="" th:field="*{customer.account.accountId}">
-
+                                     <input type="hidden" class="form-control" readonly="" th:field="*{customer.updateStatus}">
                                     <div class="col-md-6 pr-1">
                                         <div class="form-group">
                                             <label>Gender</label>
@@ -394,7 +367,7 @@ Author URL: http://w3layouts.com
                                     <div class="col-md-6 pl-1">
                                         <div class="form-group">
                                             <label>Date of Birth</label>
-                                            <input type="date" class="form-control" th:field="*{customer.dateOfBirth}" name="dateOfBirth">
+                                            <input type="date" class="form-control" th:field="*{customer.dateOfBirth}" name="dateOfBirth" required>
 
                                         </div>
                                     </div>
@@ -405,13 +378,13 @@ Author URL: http://w3layouts.com
                                     <div class="col-md-6 pr-1">
                                         <div class="form-group">
                                             <label>Phone Number</label>
-                                            <input type="text" class="form-control" th:field="*{customer.phoneNumber}" name="phoneNumber" placeholder="Phone Number">
+                                            <input type="text" class="form-control" required th:field="*{customer.phoneNumber}" name="phoneNumber" placeholder="Phone Number">
                                         </div>
                                     </div>
                                     <div class="col-md-6 pl-1">
                                         <div class="form-group">
                                             <label>Full Name</label>
-                                            <input type="text" class="form-control" th:field="*{customer.fullName}" name="fullName" placeholder="Full Name">
+                                            <input type="text" class="form-control" required th:field="*{customer.fullName}" name="fullName" placeholder="Full Name">
                                         </div>
                                     </div>
                                 </div>
@@ -421,13 +394,13 @@ Author URL: http://w3layouts.com
                                     <div class="col-md-6 pr-1">
                                         <div class="form-group">
                                             <label>Citizen Identification</label>
-                                            <input type="text" class="form-control" th:field="*{customer.citizenIdentification}" name="citizenIdentification" placeholder="Citizen ID">
+                                            <input type="text" class="form-control" required th:field="*{customer.citizenIdentification}" name="citizenIdentification" placeholder="Citizen ID">
                                         </div>
                                     </div>
                                     <div class="col-md-6 pl-1">
                                         <div class="form-group">
                                             <label>ID Issuance Date</label>
-                                            <input type="date" class="form-control" th:field="*{customer.idIssuanceDate}" name="idIssuanceDate">
+                                            <input type="date" class="form-control" required th:field="*{customer.idIssuanceDate}" name="idIssuanceDate">
                                         </div>
                                     </div>
                                 </div>
@@ -436,13 +409,13 @@ Author URL: http://w3layouts.com
                                     <div class="col-md-6 pr-1">
                                         <div class="form-group">
                                             <label>ID Issuance Place</label>
-                                            <input type="text" class="form-control" th:field="*{customer.idIssuancePlace}" name="idIssuancePlace" placeholder="Issuance Place">
+                                            <input type="text" class="form-control" required th:field="*{customer.idIssuancePlace}" name="idIssuancePlace" placeholder="Issuance Place">
                                         </div>
                                     </div>
                                     <div class="col-md-6 pl-1">
                                         <div class="form-group">
                                             <label>Bank Account Number</label>
-                                            <input type="text" class="form-control" th:field="*{customer.bankAccountNumber}" name="bankAccountNumber" placeholder="Bank Account Number">
+                                            <input type="text" class="form-control" required th:field="*{customer.bankAccountNumber}" name="bankAccountNumber" placeholder="Bank Account Number">
                                         </div>
                                     </div>
                                 </div>
@@ -451,13 +424,13 @@ Author URL: http://w3layouts.com
                                     <div class="col-md-6 pr-1">
                                         <div class="form-group">
                                             <label>Bank Name</label>
-                                            <input type="text" class="form-control" th:field="*{customer.bankName}" name="bankName" placeholder="Bank Name">
+                                            <input type="text" class="form-control" required th:field="*{customer.bankName}" name="bankName" placeholder="Bank Name">
                                         </div>
                                     </div>
                                     <div class="col-md-6 pl-1">
                                         <div class="form-group">
                                             <label>Bank Branch</label>
-                                            <input type="text" class="form-control" th:field="*{customer.bankBranch}" name="bankBranch" placeholder="Bank Branch">
+                                            <input type="text" class="form-control" required th:field="*{customer.bankBranch}" name="bankBranch" placeholder="Bank Branch">
                                         </div>
                                     </div>
                                 </div>
@@ -466,13 +439,13 @@ Author URL: http://w3layouts.com
                                     <div class="col-md-6 pr-1">
                                         <div class="form-group">
                                             <label>Bank Account Owner</label>
-                                            <input type="text" class="form-control" th:field="*{customer.bankOwner}" name="bankOwner" placeholder="Bank Account Owner">
+                                            <input type="text" class="form-control" required th:field="*{customer.bankOwner}" name="bankOwner" placeholder="Bank Account Owner">
                                         </div>
                                     </div>
                                     <div class="col-md-6 pl-1">
                                         <div class="form-group">
                                             <label>Tax Identification Number (TIN)</label>
-                                            <input type="text" class="form-control" th:field="*{customer.taxIdentificationNumber}" name="taxIdentificationNumber" placeholder="Tax ID">
+                                            <input type="text" class="form-control" required th:field="*{customer.taxIdentificationNumber}" name="taxIdentificationNumber" placeholder="Tax ID">
                                         </div>
                                     </div>
                                 </div>
@@ -481,41 +454,23 @@ Author URL: http://w3layouts.com
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Address</label>
-                                            <input type="text" class="form-control" th:field="*{customer.address}" name="address" placeholder="Home Address">
+                                            <input type="text" class="form-control" required th:field="*{customer.address}" name="address" placeholder="Home Address">
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- ID Card images -->
-
-<!--                                <div class="row">-->
-<!--                                    <div class="col-md-6 pr-1">-->
-<!--                                        <div>-->
-<!--                                            <label for="idCardFrontImage">ID Card Front Image</label>-->
-<!--                                        <input type="file" name="idCardFrontImage" id="idCardFrontImage"  class="form-control" accept="image/png, image/jpeg, image/jpg">-->
-<!--                                          </div>-->
-
-
-<!--                                    </div>-->
-<!--                                    <div class="col-md-6 pl-1">-->
-<!--                                        <div>-->
-<!--                                            <label for="idCardBackImage">ID Card Back Image</label>-->
-<!--                                            <input type="file" name="idCardBackImage"  id="idCardBackImage" class="form-control" accept="image/png, image/jpeg, image/jpg">-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
                                 <div class="row">
                                     <div class="col-md-6 pr-1">
                                         <div class="form-group">
                                             <label for="idCardFrontImage">ID Card Front Image</label>
-                                            <input type="file" name="idCardFrontImage" id="idCardFrontImage" class="form-control" accept="image/png, image/jpeg, image/jpg" onchange="updateImagePreview(this, 'idCardFrontPreview')">
+                                            <input type="file" required name="idCardFrontImage" id="idCardFrontImage" class="form-control" accept="image/png, image/jpeg, image/jpg" onchange="updateImagePreview(this, 'idCardFrontPreview')">
                                             <img id="idCardFrontPreview" alt="ID Card Front Preview" style="max-width: 300px; margin-top: 10px; display: none;">
                                         </div>
                                     </div>
                                     <div class="col-md-6 pl-1">
                                         <div class="form-group">
                                             <label for="idCardBackImage">ID Card Back Image</label>
-                                            <input type="file" name="idCardBackImage" id="idCardBackImage" class="form-control" accept="image/png, image/jpeg, image/jpg" onchange="updateImagePreview(this, 'idCardBackPreview')">
+                                            <input required type="file" name="idCardBackImage" id="idCardBackImage" class="form-control" accept="image/png, image/jpeg, image/jpg" onchange="updateImagePreview(this, 'idCardBackPreview')">
                                             <img id="idCardBackPreview" alt="ID Card Back Preview" style="max-width: 300px; margin-top: 10px; display: none;">
                                         </div>
                                     </div>
@@ -592,38 +547,7 @@ Author URL: http://w3layouts.com
                                     </div>
                                 </div>
 
-                                <script>
-                                    document.getElementById('changePasswordForm').addEventListener('submit', function(event) {
-                                        event.preventDefault();
 
-                                        const form = event.target;
-                                        const formData = new FormData(form);
-
-                                        fetch('/profile/change-password', {
-                                            method: 'POST',
-                                            body: formData
-                                        })
-                                            .then(response => response.json())
-                                            .then(data => {
-                                                const errorDisplay = document.getElementById("passwordError");
-                                                const successDisplay = document.getElementById("passwordSuccess");
-
-                                                if (data.status === 'success') {
-                                                    successDisplay.style.display = 'block';
-                                                    errorDisplay.style.display = 'none';
-                                                    successDisplay.innerText = data.message;
-                                                    form.reset();
-                                                } else {
-                                                    successDisplay.style.display = 'none';
-                                                    errorDisplay.style.display = 'block';
-                                                    errorDisplay.innerText = data.message;
-                                                }
-                                            })
-                                            .catch(error => {
-                                                console.error('Error:', error);
-                                            });
-                                    });
-                                </script>
 
 
                         </form>
@@ -641,46 +565,46 @@ Author URL: http://w3layouts.com
 </section>
 
 <!-- Chatbot -->
-<div id="chatbot">
-    <div id="chatbox">
-        <div class="chat-header">
-            <div class="h-child">
-                <img th:src="@{/assets_CustomerSide/images/chatbot.jpg}" alt="avatar" id="avatar">
-                <div>
-                    <span class="name">Chat Box</span>
-                </div>
-            </div>
-            <div>
-                <button id="resetChat" class="btn btn-sm btn-light refBtn" onclick="initChat()"
-                        style="display: inline-block;">
-                    <i class="fas fa-sync-alt"></i>
-                </button>
+<!--<div id="chatbot">-->
+<!--    <div id="chatbox">-->
+<!--        <div class="chat-header">-->
+<!--            <div class="h-child">-->
+<!--                <img th:src="@{/assets_CustomerSide/images/chatbot.jpg}" alt="avatar" id="avatar">-->
+<!--                <div>-->
+<!--                    <span class="name">Chat Box</span>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <button id="resetChat" class="btn btn-sm btn-light refBtn" onclick="initChat()"-->
+<!--                        style="display: inline-block;">-->
+<!--                    <i class="fas fa-sync-alt"></i>-->
+<!--                </button>-->
 
-                <button id="endChat" class="btn btn-sm btn-light refBtn" onclick="disconnectWebSocket()"
-                        style="display: none;">
-                    <i class="fas fa-sign-out-alt"></i>
-                </button>
+<!--                <button id="endChat" class="btn btn-sm btn-light refBtn" onclick="disconnectWebSocket()"-->
+<!--                        style="display: none;">-->
+<!--                    <i class="fas fa-sign-out-alt"></i>-->
+<!--                </button>-->
 
-            </div>
-        </div>
-        <div class="chat-body" id="chat-box">
-            <!-- Chat content goes here -->
-        </div>
-        <div class="chat-footer">
-            <input id="messageField" type="text" placeholder="Type your message here..." readonly>
-            <button onclick="sendButtonPressed()"><i class="fas fa-paper-plane"></i></button>
-        </div>
-    </div>
-    <button id="init" class="btn btn-primary chat-btn"><i class="fas fa-headset"></i></button>
-</div>
-<!-- Modal cho hộp thoại xác nhận -->
-<div id="confirmModal">
-    <div>
-        <p id="confirmMessage"></p>
-        <button class="moralButton" id="confirmApprove">Approve</button>
-        <button class="moralButton" id="confirmReject">Reject</button>
-    </div>
-</div>
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="chat-body" id="chat-box">-->
+<!--            &lt;!&ndash; Chat content goes here &ndash;&gt;-->
+<!--        </div>-->
+<!--        <div class="chat-footer">-->
+<!--            <input id="messageField" type="text" placeholder="Type your message here..." readonly>-->
+<!--            <button onclick="sendButtonPressed()"><i class="fas fa-paper-plane"></i></button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <button id="init" class="btn btn-primary chat-btn"><i class="fas fa-headset"></i></button>-->
+<!--</div>-->
+<!--&lt;!&ndash; Modal cho hộp thoại xác nhận &ndash;&gt;-->
+<!--<div id="confirmModal">-->
+<!--    <div>-->
+<!--        <p id="confirmMessage"></p>-->
+<!--        <button class="moralButton" id="confirmApprove">Approve</button>-->
+<!--        <button class="moralButton" id="confirmReject">Reject</button>-->
+<!--    </div>-->
+<!--</div>-->
 
 <!--/footer-9-->
 <footer class="w3l-footer9">
@@ -881,6 +805,42 @@ Author URL: http://w3layouts.com
     });
 
 </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.getElementById('changePasswordForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const formData = new FormData(form);
+
+        fetch('/profile/change-password', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                const errorDisplay = document.getElementById("passwordError");
+                const successDisplay = document.getElementById("passwordSuccess");
+
+                if (data.status === 'success') {
+                    successDisplay.style.display = 'block';
+                    errorDisplay.style.display = 'none';
+                    successDisplay.innerText = data.message;
+                    form.reset();
+                } else {
+                    successDisplay.style.display = 'none';
+                    errorDisplay.style.display = 'block';
+                    errorDisplay.innerText = data.message;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+</script>
 <!-- //MENU-JS -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
@@ -974,7 +934,7 @@ Author URL: http://w3layouts.com
 <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
 <script th:src="@{/dashboardStatic/demo/demo.js}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script th:src="@{/assets_CustomerSide/js/chatbot.js}"></script>
+<!--<script th:src="@{/assets_CustomerSide/js/chatbot.js}"></script>-->
 </body>
 
 </html>

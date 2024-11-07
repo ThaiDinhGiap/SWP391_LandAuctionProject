@@ -9,7 +9,7 @@ Author URL: http://w3layouts.com
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>RealHouzing - Real Estate Category Bootstrap Responsive Template | Home :: W3layouts</title>
+    <title>VietLand Auction</title>
     <!-- google fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -148,7 +148,7 @@ Author URL: http://w3layouts.com
 <header id="site-header" class="fixed-top">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light stroke py-lg-0">
-            <h1><a class="navbar-brand" th:href="@{/customer/home}">
+            <h1><a class="navbar-brand" th:href="@{/}">
                 Viet<span class="sub-color">Land</span>
             </a></h1>
             <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
@@ -195,21 +195,25 @@ Author URL: http://w3layouts.com
                     </ul>
                 </div>
             </div>
-            <!-- toggle switch for light and dark theme -->
-            <div class="mobile-position">
-                <nav class="navigation">
-                    <div class="theme-switch-wrapper">
-                        <label class="theme-switch" for="checkbox">
-                            <input type="checkbox" id="checkbox">
-                            <div class="mode-container">
-                                <i class="gg-sun"></i>
-                                <i class="gg-moon"></i>
-                            </div>
-                        </label>
+            <!-- Register and Login Buttons -->
+            <div class="auth-buttons">
+                <div th:if="${#authentication.name == 'anonymousUser'}">
+                    <a class="btn btn-login btn-primary" th:href="@{/showMyLoginPage}" style="font-size: 20px">LOG IN</a>
+                </div>
+                <div th:if="${#authentication.name != 'anonymousUser'}">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-user"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li><a class="dropdown-item" th:href="@{/customer/profile}">Profile</a></li>
+                            <li><a class="dropdown-item" th:href="@{/customer/viewAuctionHistory}">Auction History</a></li>
+                            <li><a class="dropdown-item" th:href="@{/customer/viewNotification}">Notifications</a></li>
+                            <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+                        </ul>
                     </div>
-                </nav>
+                </div>
             </div>
-            <!-- //toggle switch for light and dark theme -->
         </nav>
     </div>
 </header>
@@ -220,15 +224,15 @@ Author URL: http://w3layouts.com
         <div class="container">
             <div class="w3breadcrumb-gids">
                 <div class="w3breadcrumb-left text-left">
-                    <h2 class="inner-w3-title mt-sm-5 mt-4">
-                        Auction Page </h2>
+                    <h2 class="inner-w3-title mt-sm-5 mt-4" style="text-align: center">
+                        Contact us </h2>
 
 
                 </div>
                 <div class="w3breadcrumb-right">
                     <ul class="breadcrumbs-custom-path">
                         <li><a href="index.html">Home</a></li>
-                        <li class="active"><span class="fas fa-angle-double-right mx-2"></span> Auction Page</li>
+                        <li class="active"><span class="fas fa-angle-double-right mx-2"></span> Contact</li>
                     </ul>
                 </div>
             </div>
@@ -252,12 +256,12 @@ Author URL: http://w3layouts.com
     <div class="contact-info">
         <div>
             <i class="fas fa-map-marker-alt"></i>
-            <h3>Địa chỉ</h3>
-            <p>Số 49 Văn Cao, phường Liễu Giai, quận Ba Đình, TP. Hà Nội.</p>
+            <h3>Address</h3>
+            <p>No. 49 Van Cao, Lieu Giai Ward, Ba Dinh District, City. Hanoi.</p>
         </div>
         <div>
             <i class="fas fa-phone-alt"></i>
-            <h3>Số điện thoại</h3>
+            <h3>Phone number</h3>
             <p>024.32.115.234<br>0867.523.488</p>
         </div>
         <div>
@@ -267,31 +271,13 @@ Author URL: http://w3layouts.com
         </div>
     </div>
     <div class="contact-form">
-        <h2>Liên hệ</h2>
-        <p>Vui lòng điền thông tin vào các ô bên dưới, chúng tôi sẽ liên lạc và phản hồi lại quý khách</p>
-        <form>
+        <h2>Contact</h2>
+        <p>Please fill in the information in the boxes below, we will contact and respond to you</p>
+        <form action="/send-contact-form" method="post">
             <div class="form-group">
-                <input type="text" placeholder="Họ tên :">
+                <input type="text" name="name" placeholder="Full name:" required>
             </div>
-            <div class="form-group">
-                <input type="email" placeholder="Email :">
-            </div>
-            <div class="form-group">
-                <input type="text" placeholder="Số điện thoại :">
-            </div>
-            <div class="form-group">
-                <input type="text" placeholder="Nơi công tác :">
-            </div>
-            <div class="form-group" style="flex: 1 100%;">
-                <textarea placeholder="Tin nhắn :"></textarea>
-            </div>
-            <div class="form-group" style="flex: 1 100%; text-align: center;">
-                <button type="submit">Gửi Yêu Cầu</button>
-            </div>
-        </form>
-    </div>
-    <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.702509964276!2d105.8121743154021!3d21.00311799397364!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab3a1b1b1b1b%3A0x1b1b1b1b1b1b1b1b!2s49%20V%C4%83n%20Cao%2C%20Ng%E1%BB%8Dc%20H%E1%BB%93%2C%20Ba%20%C4%90%C3%ACnh%2C%20H%C3%A0%20N%E1%BB%99i!5e0!3m2!1sen!2s!4v1634567890123!5m2!1sen!2s" allowfullscreen="" loading="lazy"></iframe>
-</div>
+            <div class="form-group"> <input type="email" name="email" placeholder="Email :" required> </div> <div class="form-group"> <input type="text" name="phone" placeholder="Phone number :" required> </div> <div class="form-group"> <input type="text" name="job" placeholder="Work place :" required> </div> <div class="form-group" style="flex: 100%; "> <textarea name="message" placeholder="Message :" required></textarea> </div> <div class="form-group" style="flex: 1 100%; text-align: center;"> <button type="submit">Send Request</button> </div> </form> </div> <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.702509964276!2d105.8121743154021!3d21.00311799397364!2m3!1f0!2f0!3f0!3m2!1i1024 !2i768!4f13.1!3m3!1m2!1s0x3135ab3a1 b1b1b1b%3A0x1b1b1b1b1b1b1b1b!2s49%20V%C4%83n%20Cao%2C%20Ng%E1%BB%8Dc%20H%E1%BB%93%2C%20Ba%20%C4%90%C3%ACnh%2C%20H%C3%A0%20N%E1%BB% 99i!5e0!3m2!1sen!2s!4v1634567890123!5m2!1sen!2s" allowfullscreen="" loading="lazy"></iframe> </div>
 <!--//properties-->
 <!--/w3l-blog-->
 

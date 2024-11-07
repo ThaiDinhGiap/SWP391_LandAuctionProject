@@ -12,7 +12,9 @@ import com.se1858.group4.Land_Auction_SWP391.service.AuctionService;
 import com.se1858.group4.Land_Auction_SWP391.service.TaskService;
 import com.se1858.group4.Land_Auction_SWP391.utility.FileUploadUtil;
 import com.se1858.group4.Land_Auction_SWP391.utility.GetSrcInGoogleMapEmbededURLUtil;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -62,19 +64,48 @@ public class AuctioneerController {
     }
 
     @GetMapping("/get_auction_list")
-    public String getAuctionList(Model model) {
+    public String getAuctionList(
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "5") int size,
+            @RequestParam(value = "sort", defaultValue = "auctionId") String sort,
+            Model model) {
+
         Account auctioneer = userDetailsService.accountAuthenticated();
-        List<AuctionSession> list = auctionService.getAllAuctionSessionsByAuctioneerId(auctioneer.getAccountId());
-        model.addAttribute("listAuction", list);
+        Page<AuctionSession> auctionPage;
+
+        if (search != null && !search.isEmpty()) {
+            auctionPage = auctionService.searchAuctionSessionsByAuctioneerIdAndName(auctioneer.getAccountId(), search, PageRequest.of(page, size, Sort.by(sort)));
+        } else {
+            auctionPage = auctionService.getAllAuctionSessionsByAuctioneerId(auctioneer.getAccountId(), PageRequest.of(page, size, Sort.by(sort)));
+        }
+
+        model.addAttribute("listAuction", auctionPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", auctionPage.getTotalPages());
+        model.addAttribute("search", search);
+        model.addAttribute("sort", sort);
+
         return "auctioneer/AuctionList";
     }
 
 
     @GetMapping("/awaiting_list")
-    public String getAssetAwaitingSchedulingList(Model model) {
+    public String getAssetAwaitingSchedulingList(
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "5") int size,
+            Model model) {
+
         Account auctioneer = userDetailsService.accountAuthenticated();
-        List<Task> listTask = taskService.getAllTasksByAuctioneerId(auctioneer.getAccountId(), "In progress");
-        model.addAttribute("listTask", listTask);
+        Page<Task> taskPage = taskService.getAllTasksByAuctioneerIdAndSearchAndSort(auctioneer.getAccountId(), "In progress", search, sortDir, page, size);
+
+        model.addAttribute("taskPage", taskPage);
+        model.addAttribute("search", search);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", taskPage.getTotalPages());
         return "auctioneer/AssetAwaitingSchedulingList";
     }
 

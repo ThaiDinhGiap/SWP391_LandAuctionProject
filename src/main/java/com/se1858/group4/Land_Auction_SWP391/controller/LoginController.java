@@ -6,13 +6,16 @@ import com.se1858.group4.Land_Auction_SWP391.entity.News;
 import com.se1858.group4.Land_Auction_SWP391.security.UserDetailsService;
 import com.se1858.group4.Land_Auction_SWP391.service.AssetService;
 import com.se1858.group4.Land_Auction_SWP391.service.NewsService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -41,36 +44,21 @@ public class LoginController {
 
     @GetMapping("/default")
     public String defaultAfterLogin() {
-        if (hasRole("ROLE_Customer")) {
-            return "redirect:/customer/home";
-        }
-        if (hasRole("ROLE_Admin")) {
-            return "redirect:/LocalAuthority";
-        }
-        if (hasRole("ROLE_Property_Agent")) {
-            return "redirect:/property_agent/dashboard";
-        }
-        if (hasRole("ROLE_Auctioneer")) {
-            return "redirect:/auctioneer/dashboard";
-        }
-        if (hasRole("ROLE_Customer_Care")) {
-            return "redirect:/customer-care/home";
-        }
-        if (hasRole("ROLE_News_Writer")) {
-            return "redirect:/news_writer/dashboard";
-        }
-
-
+        if (hasRole("ROLE_Customer")) return "redirect:/customer/home";
+        if (hasRole("ROLE_Admin")) return "redirect:/admin/localAuthorityList";
+        if (hasRole("ROLE_Property_Agent")) return "redirect:/property_agent/dashboard";
+        if (hasRole("ROLE_Auctioneer")) return "redirect:/auctioneer/dashboard";
+        if (hasRole("ROLE_Customer_Care")) return "redirect:/customer-care/home";
+        if (hasRole("ROLE_News_Writer")) return "redirect:/news_writer/dashboard";
         return "redirect:/";
     }
 
     private boolean hasRole(String role) {
-        return org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+        return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(role));
     }
 
-
-    @GetMapping({"/"})
+    @GetMapping("/")
     public String hompage(Model model) {
         List<News> top3News = newsService.getTop3LatestNews();
         model.addAttribute("top3LatestNews", top3News);
@@ -80,9 +68,15 @@ public class LoginController {
         return "customer/homepage";
     }
 
-    @GetMapping({"/showMyLoginPage"})
-    public String showLoginPage() {
-        return "showMyLoginPage";
+    @GetMapping("/showMyLoginPage")
+    public String showLoginPage(@RequestParam(value = "isRegister", required = false) Boolean isRegister,
+                                @RequestParam(value = "error", required = false) String error,
+                                Model model) {
+        model.addAttribute("isRegister", isRegister != null && isRegister);
+        if (error != null) {
+            model.addAttribute("errorMessage", "Invalid username or password.");
+        }
+        return "login_register";
     }
 
     @GetMapping("/access-denied")
@@ -100,13 +94,10 @@ public class LoginController {
         return "customer/homepage";
     }
 
-    @GetMapping("/admin/home")
-    public String adminHome() {
-        return "homepage/homepage";
-    }
-
-    @GetMapping("/customer-care/home")
-    public String customerCareHome() {
-        return "redirect:/customercare/profile";
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        SecurityContextHolder.clearContext();
+        return "redirect:/showMyLoginPage";
     }
 }

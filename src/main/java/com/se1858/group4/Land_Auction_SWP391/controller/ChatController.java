@@ -1,5 +1,6 @@
 package com.se1858.group4.Land_Auction_SWP391.controller;
 
+
 import com.se1858.group4.Land_Auction_SWP391.entity.Staff;
 import com.se1858.group4.Land_Auction_SWP391.service.FirebaseChatService;
 import com.se1858.group4.Land_Auction_SWP391.service.StaffService;
@@ -18,10 +19,12 @@ public class ChatController {
     private final StaffService staffService;
     private final FirebaseChatService firebaseChatService;
 
+
     @Autowired
     public ChatController(StaffService staffService, FirebaseChatService firebaseChatService) {
         this.staffService = staffService;
         this.firebaseChatService = firebaseChatService;
+
     }
 
     @PostMapping("/connect/{staffId}")
@@ -56,5 +59,8 @@ public class ChatController {
     public List<Map<String, Object>> getAllChatHistoryByStaffId(@PathVariable Integer staffId) throws InterruptedException {
         return firebaseChatService.getChatSessionsByStaffId(staffId);
     }
+
+
+
 
 }

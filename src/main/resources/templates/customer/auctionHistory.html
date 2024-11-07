@@ -6,7 +6,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Auction history</title>
+    <title>VietLand Aution</title>
     <!-- google fonts -->
     <link href="//fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- Template CSS -->
@@ -371,6 +371,85 @@
         .register-btn:hover {
             color: black;
         }
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 20px;
+        }
+
+        .pagination span {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .pagination ul {
+            list-style-type: none;
+            display: flex; /* Đảm bảo các mục trong danh sách nằm ngang */
+            gap: 5px; /* Khoảng cách giữa các ô số trang */
+            padding: 0;
+            margin: 0;
+        }
+
+        .pagination ul li {
+            margin: 0;
+        }
+
+        .pagination ul li a {
+            display: block;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .pagination ul li a:hover {
+            background-color: #f0f0f0;
+            border-color: #ccc;
+        }
+
+        .pagination ul li.active a {
+            background-color: #f9351b;
+            color: white;
+            border-color: #f9351b;
+        }
+        .search-container {
+            display: flex;
+            justify-content: center; /* Nằm giữa trang */
+            margin: 20px 0;
+        }
+
+        .search-form {
+            display: flex;
+            width: 50%; /* Tăng độ dài của thanh tìm kiếm */
+            max-width: 600px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            outline: none;
+        }
+
+        .search-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #f9351b;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .search-button:hover {
+            background-color: #d32f2f;
+        }
+
+
     </style>
 </head>
 
@@ -380,7 +459,7 @@
 <header id="site-header" class="fixed-top">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light stroke py-lg-0">
-            <h1><a class="navbar-brand" th:href="@{/customer/home}">
+            <h1><a class="navbar-brand" th:href="@{/}">
                 Viet<span class="sub-color">Land</span>
             </a></h1>
             <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
@@ -404,7 +483,7 @@
                         <a class="nav-link" th:href="@{/customer/get_all_news}" style="font-size: 20px;">News</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.html" style="font-size: 20px;">About us</a>
+                        <a class="nav-link" th:href="@{/customer/contact}" style="font-size: 20px;">Contact</a>
                     </li>
                 </ul>
 
@@ -430,21 +509,25 @@
 
 
             </div>
-            <!-- toggle switch for light and dark theme -->
-            <div class="mobile-position">
-                <nav class="navigation">
-                    <div class="theme-switch-wrapper">
-                        <label class="theme-switch" for="checkbox">
-                            <input type="checkbox" id="checkbox">
-                            <div class="mode-container">
-                                <i class="gg-sun"></i>
-                                <i class="gg-moon"></i>
-                            </div>
-                        </label>
+            <!-- Register and Login Buttons -->
+            <div class="auth-buttons">
+                <div th:if="${#authentication.name == 'anonymousUser'}">
+                    <a class="btn btn-login btn-primary" th:href="@{/showMyLoginPage}" style="font-size: 20px;font-weight:600 ">LOG IN</a>
+                </div>
+                <div th:if="${#authentication.name != 'anonymousUser'}">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-user"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li><a class="dropdown-item" th:href="@{/customer/profile}">Profile</a></li>
+                            <li><a class="dropdown-item" th:href="@{/customer/viewAuctionHistory}">Auction History</a></li>
+                            <li><a class="dropdown-item" th:href="@{/customer/viewNotification}">Notifications</a></li>
+                            <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+                        </ul>
                     </div>
-                </nav>
+                </div>
             </div>
-            <!-- //toggle switch for light and dark theme -->
         </nav>
     </div>
 </header>
@@ -460,7 +543,7 @@
                 </div>
                 <div class="w3breadcrumb-right">
                     <ul class="breadcrumbs-custom-path">
-                        <li><a href="index.html">Home</a></li>
+                        <li><a th:href="@{/}">Home</a></li>
                         <li class="active"><span class="fas fa-angle-double-right mx-2"></span>Auction History</li>
                     </ul>
                 </div>
@@ -485,23 +568,31 @@
                         <div class="sidebar-title">
                             <h4>Auction history</h4>
                         </div>
+
+                        <div class="search-container">
+                            <form th:action="@{/customer/viewAuctionHistory}" method="get" class="search-form">
+                                <input type="text" name="search" placeholder="Search by auction name" class="search-input"/>
+                                <button type="submit" class="search-button">Search</button>
+                            </form>
+                        </div>
+
                         <table class="table table-hover">
                             <thead style="background-color: #f9351b; color: white; vertical-align: middle; text-align: center;">
                             <tr>
                                 <th>Auction name</th>
                                 <th>Start time</th>
                                 <th>Result</th>
-                                <th>Rank</th>
+                                <th><a th:href="@{/customer/viewAuctionHistory(sortField='rank', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'})}">Rank</a></th>
                                 <th>Register status</th>
                                 <th>Purchase status</th>
                                 <th>Deposit status</th>
                                 <th>Max bid amount</th>
-                                <th>Registration time</th>
+                                <th><a th:href="@{/customer/viewAuctionHistory(sortField='registrationTime', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'})}">Registration time</a></th>
                                 <th class="text-right">Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="register:${registerList}">
+                            <tr th:each="register : ${registerPage.getContent()}">
                                 <td th:text="${register.auction.auctionName}"></td>
                                 <td th:text="${register.auction.startTime}"></td>
                                 <td th:text="${register.result}"></td>
@@ -509,7 +600,7 @@
                                 <td th:text="${register.registerStatus}"></td>
                                 <td th:text="${register.purchaseStatus}"></td>
                                 <td th:text="${register.depositStatus}"></td>
-                                <td >max bid chua lam</td>
+                                <td>max bid chua lam</td>
                                 <td th:text="${register.registrationTime}"></td>
                                 <td>
                                     <a th:href="@{/customer/viewAuctionDetail(auctionId=${register.auction.auctionId})}">
@@ -518,7 +609,21 @@
                                 </td>
                             </tr>
                             </tbody>
+
                         </table>
+
+                        <div class="pagination">
+                            <span>Page</span>
+                            <ul>
+                                <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == currentPage ? 'active' : ''}">
+                                    <a th:href="@{/customer/viewAuctionHistory(page=${i}, sortField=${sortField}, sortDir=${sortDir}, search=${search})}"
+                                       th:text="${i + 1}"></a>
+                                </li>
+                            </ul>
+                        </div>
+
+
+
                     </div>
                 </div>
                 <!--//w3l-blopagew3-left-->

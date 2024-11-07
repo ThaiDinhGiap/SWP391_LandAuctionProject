@@ -89,6 +89,7 @@ public class AccountService {
                 account.setStatus(1);  // Enable the account
                 account.setAvatar_image(imageService.getDefaultAvatar());
                 Customer customer = new Customer();
+                customer.setUpdateStatus("incomplete");
                 account.setCustomer(customer);
                 accountRepository.save(account);
                 customer.setAccount(account);
