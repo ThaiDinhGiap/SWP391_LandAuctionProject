@@ -31,5 +31,16 @@ public class EmailService {
         message.setText(text);
         mailSender.send(message);
     }
+    public void sendContactFormDetails(String toEmail, String name, String email, String phone, String job, String message) {
+        String subject = "Thông tin đăng ký liên hệ mới";
+        String text = "Thông tin đăng ký liên hệ:\n\n" +
+                "Họ tên: " + name + "\n" +
+                "Email: " + email + "\n" +
+                "Số điện thoại: " + phone + "\n" +
+                "Nơi làm việc: " + job + "\n" +
+                "Tin nhắn: " + message;
+        sendEmail(toEmail, subject, text);
+    }
+
 }
 
