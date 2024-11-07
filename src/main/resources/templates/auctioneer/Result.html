@@ -36,29 +36,21 @@
     <!--  Side navbar: chua lien ket den cac trang tuy chon cua minh  -->
     <div class="sidebar" data-color="white" data-active-color="danger">
         <div class="logo">
-            <!--     Đường dẫn đến web chính của dự án     -->
             <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-mini">
-                <!--     Avatar người dùng ở đây     -->
                 <div class="logo-image-small">
                     <img th:src="@{/dashboardStatic/img/logo-small.png}">
                 </div>
-                <!-- <p>CT</p> -->
             </a>
-            <!--     Đường dẫn đến web chính của dự án     -->
             <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-normal">
                 Bui Minh Chien
-                <!--     Thêm logo dự án ở đây     -->
-                <!--           <div class="logo-image-big">-->
-                <!--            <img src="../assets/img/logo-big.png">-->
-                <!--          </div>-->
             </a>
         </div>
         <div class="sidebar-wrapper">
             <ul class="nav">
-                <li>
-                    <a th:href="@{/auctioneer/dashboard}">
-                        <i class="nc-icon nc-bank"></i>
-                        <p>Dashboard</p>
+                <li class="active">
+                    <a th:href="@{/auctioneer/profile}">
+                        <i class="nc-icon nc-single-02"></i>
+                        <p>User Profile</p>
                     </a>
                 </li>
                 <li>
@@ -71,6 +63,12 @@
                     <a th:href="@{/auctioneer/get_auction_list}">
                         <i class="nc-icon nc-bullet-list-67"></i>
                         <p>Auction session list</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/logout}">
+                        <i class="nc-icon nc-user-run"></i>
+                        <p>Logout</p>
                     </a>
                 </li>
             </ul>
@@ -91,21 +89,21 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title" th:text="'Result of Auction: ' + ${registerList.get(0).auction.auctionName}"></h4>
+                            <h4 class="card-title" th:text="'Result of Auction: ' + ${currentAuction.auctionName}"></h4>
 <!--                            <a th:href="@{/auctioneer/viewAuctionDetai(auctionId=${registerList.get(0).auction.auctionId})}" class="btn btn-light">Return Auction Detail</a>-->
                         </div>
                         <div class="card-body">
                             <!-- Phần hiện nút "Set asset's status" khi trạng thái là "Ongoing" -->
-                            <div th:if="${registerList.get(0).auction.asset.assetStatus == 'Ongoing'}" class="d-flex justify-content-center align-items-center mt-3 mb-3">
+                            <div th:if="${currentAuction.asset.assetStatus == 'Ongoing'}" class="d-flex justify-content-center align-items-center mt-3 mb-3">
                                 <h5 class="mt-2 mr-3">Set asset's status:</h5>
                                 <button class="btn btn-outline-primary mx-2" onclick="markAsSuccessfulSold()">Successful Sold</button>
                                 <button class="btn btn-outline-secondary mx-2" onclick="markAsFailedSold()">Failed Sold</button>
                             </div>
 
                             <!-- Thanh trạng thái khi asset đã được bán hoặc thất bại -->
-                            <div th:if="${registerList.get(0).auction.asset.assetStatus == 'Successfully sold' || registerList.get(0).auction.asset.assetStatus == 'Failed sold'}" class="d-flex justify-content-center align-items-center mt-3 mb-3">
+                            <div th:if="${currentAuction.asset.assetStatus == 'Successfully sold' || currentAuction.asset.assetStatus == 'Failed sold'}" class="d-flex justify-content-center align-items-center mt-3 mb-3">
                                 <h5 class="mt-2 mr-3">Asset Status:</h5>
-                                <span th:text="${registerList.get(0).auction.asset.assetStatus}" class="badge badge-success mx-2 custom-badge" th:classappend="${registerList.get(0).auction.asset.assetStatus == 'Failed sold' ? 'badge-danger' : 'badge-success'}"></span>
+                                <span th:text="${currentAuction.asset.assetStatus}" class="badge badge-success mx-2 custom-badge" th:classappend="${currentAuction.asset.assetStatus == 'Failed sold' ? 'badge-danger' : 'badge-success'}"></span>
                             </div>
                             <div class="table-responsive">
                                 <table class="table">

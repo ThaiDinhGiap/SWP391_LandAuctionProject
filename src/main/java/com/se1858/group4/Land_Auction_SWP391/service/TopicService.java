@@ -51,6 +51,10 @@ public class TopicService {
         return topicRepository.findBySubTopicsIsEmpty();
     }
 
+    public List<Topic> findAllTopicsWithoutQuestions() {
+        return topicRepository.findTopicsWithoutQuestions();
+    }
+
     public List<Topic> getSubTopics(int parentId) {
         return topicRepository.findByParentTopic_TopicId(parentId);
     }

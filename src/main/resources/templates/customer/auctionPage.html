@@ -284,23 +284,19 @@ Author URL: http://w3layouts.com
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/customer/contact}" style="font-size: 20px;">About us</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/contact}" style="font-size: 20px;">Contact</a>
+                    </li>
                 </ul>
-                <!--/search-->
-                <button id="trigger-overlay" class="searchw3-icon me-xl-4 me-lg-3" type="button"><i
-                        class="fas fa-search"></i></button>
-                <!-- open/close -->
-                <div class="overlay overlay-slidedown">
-                    <button type="button" class="overlay-close"><i class="fas fa-times"></i></button>
-                    <nav class="w3l-formhny">
-                        <h5 class="mb-3">Search here</h5>
-                        <form action="#" method="GET" class="d-sm-flex search-header">
-                            <input class="form-control me-2" type="search" placeholder="Search here..."
-                                   aria-label="Search" required>
-                            <button class="btn btn-style btn-primary" type="submit">Search</button>
-                        </form>
-                    </nav>
+                <!--/notify-->
+                <div class="dropdown">
+                    <button id="trigger-overlay" class="searchw3-icon me-xl-4 me-lg-3" type="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="loadNotifications()">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="notification-list" aria-labelledby="trigger-overlay">
+                        <li><a class="dropdown-item" href="#">Loading...</a></li>
+                    </ul>
                 </div>
-                <!--//search-->
             </div>
             <!-- Register and Login Buttons -->
             <div class="auth-buttons">
@@ -711,6 +707,20 @@ Author URL: http://w3layouts.com
         </div>
     </div>
 </section>
+<!-- Modal hiển thị thông báo lỗi -->
+<div class="modal fade" id="inform_error" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="color: #f9351b;">Warning</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <span id="error-message" style="color: #000000; font-style: italic;"></span>
+            </div>
+        </div>
+    </div>
+</div>
 <!--//w3l-blog-->
 <!--/footer-9-->
 <footer class="w3l-footer9">
@@ -990,6 +1000,7 @@ Author URL: http://w3layouts.com
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script th:src="@{/assets_CustomerSide/js/bid.js}"></script>
+<script th:src="@{/assets_CustomerSide/js/notification.js}"></script>
 </body>
 
 </html>

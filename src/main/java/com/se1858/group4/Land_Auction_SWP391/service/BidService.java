@@ -5,6 +5,7 @@ import com.se1858.group4.Land_Auction_SWP391.dto.BidResponseDTO;
 import com.se1858.group4.Land_Auction_SWP391.entity.AuctionRegister;
 import com.se1858.group4.Land_Auction_SWP391.entity.AuctionSession;
 import com.se1858.group4.Land_Auction_SWP391.entity.Bid;
+import com.se1858.group4.Land_Auction_SWP391.exception.BidAmountInsufficientException;
 import com.se1858.group4.Land_Auction_SWP391.repository.AccountRepository;
 import com.se1858.group4.Land_Auction_SWP391.repository.AuctionRegisterRepository;
 import com.se1858.group4.Land_Auction_SWP391.repository.AuctionSessionRepository;
@@ -51,7 +52,7 @@ public class BidService {
         Long minimumBidIncrement = auctionSession.getMinimumBidIncrement();
 
         if (bidRequestDTO.getContent() < currentHighestBid + minimumBidIncrement) {
-            throw new IllegalArgumentException("Bid amount is insufficient.");
+            throw new BidAmountInsufficientException("Bid amount is insufficient.", bidRequestDTO.getSender());
         }
 
         // Create a new bid entity and save it

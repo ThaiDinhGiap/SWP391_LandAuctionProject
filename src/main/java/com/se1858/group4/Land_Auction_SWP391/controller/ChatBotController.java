@@ -98,7 +98,7 @@ public class ChatBotController {
 
     @GetMapping("/get/mainTopics")
     public ResponseEntity<List<Topic>> getAllMainTopics() {
-        List<Topic> mainTopics = topicService.getMainTopics();
+        List<Topic> mainTopics = topicService.findAllTopicsWithoutQuestions();
         return ResponseEntity.ok(mainTopics);
     }
 

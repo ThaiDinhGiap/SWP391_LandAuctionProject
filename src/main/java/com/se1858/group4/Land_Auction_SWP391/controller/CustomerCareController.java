@@ -68,7 +68,7 @@ public class CustomerCareController {
 
     @GetMapping("insertContent")
     public String insertContent(Model model) {
-        List<Topic> mainTopics = topicService.getMainTopics();
+        List<Topic> mainTopics = topicService.findAllTopicsWithoutQuestions();
         List<Topic> subTopics = topicService.getAllSubTopics();
 
         model.addAttribute("mainTopics", mainTopics);

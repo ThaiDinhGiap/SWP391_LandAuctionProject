@@ -15,6 +15,7 @@ import com.se1858.group4.Land_Auction_SWP391.utility.GetSrcInGoogleMapEmbededURL
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -56,11 +57,6 @@ public class AuctioneerController {
         this.notificationService = notificationService;
         this.accountRepository = accountRepository;
         this.accountService = accountService;
-    }
-
-    @GetMapping("/dashboard")
-    public String dashboard() {
-        return "auctioneer/Dashboard";
     }
 
     @GetMapping("/get_auction_list")
@@ -294,6 +290,7 @@ public class AuctioneerController {
         }
         if (auctionSession != null && auctionSession.getAuctioneer().getAccountId() == auctioneer.getAccountId()) {
             List<AuctionRegister> registerList = auctionRegisterService.resultOfAuction(auctionId, "Confirmed");
+            model.addAttribute("currentAuction", auctionSession);
             model.addAttribute("auctionId", auctionId);
             model.addAttribute("registerList", registerList);
             return "auctioneer/Result";

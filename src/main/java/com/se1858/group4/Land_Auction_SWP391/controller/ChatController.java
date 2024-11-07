@@ -7,7 +7,9 @@ import com.se1858.group4.Land_Auction_SWP391.service.StaffService;
 import com.se1858.group4.Land_Auction_SWP391.websocket.ConnectMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +52,15 @@ public class ChatController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/updateAvailability")
+    public ResponseEntity<String> updateAvailability(@RequestBody Map<String, Object> request) {
+        Integer staffId = (Integer) request.get("staffId");
+        Boolean available = (Boolean) request.get("available");
+
+        staffService.setStaffAvailability(staffId, available);
+        return ResponseEntity.ok("Staff availability updated successfully");
+    }
+
     @GetMapping("/messages/{sessionId}")
     public List<Map<String, Object>> getChatMessages(@PathVariable String sessionId) throws InterruptedException {
         return firebaseChatService.getChatMessages(sessionId);
@@ -59,8 +70,4 @@ public class ChatController {
     public List<Map<String, Object>> getAllChatHistoryByStaffId(@PathVariable Integer staffId) throws InterruptedException {
         return firebaseChatService.getChatSessionsByStaffId(staffId);
     }
-
-
-
-
 }

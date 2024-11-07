@@ -40,13 +40,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(configurer -> configurer
-                        .requestMatchers("/css/**", "/js/**", "/image/**", "/assets_CustomerSide/**", "/assets_CustomerSide/webfonts").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/image/**", "/assets_CustomerSide/**", "/assets_CustomerSide/webfonts/**").permitAll()
                         .requestMatchers("/", "/showMyLoginPage", "/access-denied", "/register", "/verify-otp",
                                 "/resend-otp", "/otp-success", "/forgot-password",
                                 "/customer/get_all_auction", "/customer/get_all_asset", "/customer/get_all_news",
                                 "/customer/viewNewsDetail", "/customer/viewAssetDetail", "/customer/viewAuctionDetail",
                                 "/customer/aboutus","/customer/contact").permitAll()
-
 
                         .requestMatchers("/customer/**").hasRole("Customer")
                         .requestMatchers("/admin/**").hasRole("Admin")
