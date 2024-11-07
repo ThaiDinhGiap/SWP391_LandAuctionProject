@@ -45,7 +45,7 @@ public class LoginController {
     @GetMapping("/default")
     public String defaultAfterLogin() {
         if (hasRole("ROLE_Customer")) return "redirect:/customer/home";
-        if (hasRole("ROLE_Admin")) return "redirect:/LocalAuthority";
+        if (hasRole("ROLE_Admin")) return "redirect:/admin/localAuthorityList";
         if (hasRole("ROLE_Property_Agent")) return "redirect:/property_agent/dashboard";
         if (hasRole("ROLE_Auctioneer")) return "redirect:/auctioneer/dashboard";
         if (hasRole("ROLE_Customer_Care")) return "redirect:/customer-care/home";

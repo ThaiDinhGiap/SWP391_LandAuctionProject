@@ -46,7 +46,8 @@ public class SecurityConfig {
                                 "/customer/get_all_auction", "/customer/get_all_asset", "/customer/get_all_news",
                                 "/customer/viewNewsDetail", "/customer/viewAssetDetail", "/customer/viewAuctionDetail",
                                 "/customer/aboutus","/customer/contact").permitAll()
-                        .requestMatchers("/api/chat/**").permitAll()
+
+
                         .requestMatchers("/customer/**").hasRole("Customer")
                         .requestMatchers("/admin/**").hasRole("Admin")
                         .requestMatchers("/property_agent/**").hasRole("Property_Agent")
