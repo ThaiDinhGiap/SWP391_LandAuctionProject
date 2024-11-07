@@ -98,7 +98,7 @@ public class LoginController {
         List<Asset> top3Assets = assetService.getTop3LastestAssets();
         model.addAttribute("top3Assets", top3Assets);
         return "customer/homepage";
-    
+    }
 
     @GetMapping("/admin/home")
     public String adminHome() {
