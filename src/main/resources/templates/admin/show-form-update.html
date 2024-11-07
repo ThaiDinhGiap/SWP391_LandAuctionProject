@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" th:href="@{/dashboardStatic/img/apple-icon.png}">
+    <link rel="icon" type="image/png" th:href="@{/dashboardStatic/img/favicon.png}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        Paper Dashboard 2 by Creative Tim
+    </title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- CSS Files -->
+    <!-- CHI SUA CAC DUONG DAN CSS O DUOI DAY -->
+    <link th:href="@{/dashboardStatic/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/dashboardStatic/css/paper-dashboard.css?v=2.0.1}" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link th:href="@{/dashboardStatic/demo/demo.css}" rel="stylesheet" />
+</head>
+<!---------------------------------------THÔNG TIN VỀ DASHBOARD------------------------------------------------------>
+<!--
+ - Phan dashboardStatic khong duoc sua
+ - Phan dashboardTemplates moi nguoi cop ra rieng cho tung role, de y sua cac the th: cho phu hop, co gi thac mac cu hoi Bui Minh Chien
+-->
+<!--------------------------------------------------------------------------------------------->
+<body class="">
+<div class="wrapper ">
+    <!--  Side navbar: chua lien ket den cac trang tuy chon cua minh  -->
+    <div class="sidebar" data-color="white" data-active-color="danger">
+        <div class="logo">
+            <!--     Đường dẫn đến web chính của dự án     -->
+            <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-mini">
+                <!--     Avatar người dùng ở đây     -->
+                <div class="logo-image-small">
+                    <img th:src="@{/dashboardStatic/img/logo-small.png}">
+                </div>
+                <!-- <p>CT</p> -->
+            </a>
+            <!--     Đường dẫn đến web chính của dự án     -->
+            <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-normal">
+                VietLand Auction
+                <!--     Thêm logo dự án ở đây     -->
+                <!--           <div class="logo-image-big">-->
+                <!--            <img src="../assets/img/logo-big.png">-->
+                <!--          </div>-->
+            </a>
+        </div>
+        <div class="sidebar-wrapper">
+            <ul class="nav">
+                <li>
+                    <a th:href="@{/admin/localAuthorityList}">
+                        <i class="nc-icon nc-tile-56"></i>
+                        <p>Local Authority List</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/AddLocalAuthority}">
+                        <i class="nc-icon nc-simple-add"></i>
+                        <p>Add Local Authority</p>
+                    </a>
+                </li>
+                <li class="active">
+                    <a th:href="@{/admin/list}">
+                        <i class="nc-icon nc-circle-10"></i>
+                        <p>Manage Account</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/listUnverifiedAccount}">
+                        <i class="nc-icon nc-vector"></i>
+                        <p>Unverify Account</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/logout}">
+                        <i class="nc-icon nc-user-run"></i>
+                        <p>Logout</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--  End side navbar  -->
+
+    <div class="main-panel">
+        <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+            <div class="container-fluid">
+                <span class="navbar-brand">VietLand Auction</span>
+            </div>
+        </nav>
+        <div class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="container mt-5">
+                                <div class="row">
+                                    <div class="col-md-8 mx-auto">
+                                        <!-- Thẻ card để trang trí -->
+                                        <div class="card shadow-sm p-4">
+                                            <p class="h4 mb-4">Detail And Verify</p>
+                                            <form action="#" th:action="@{/admin/save}" th:object="${accounts}" method="post">
+                                                <!-- Add hidden form field to handle the update -->
+                                                <input type="hidden" th:field="*{accountId}">
+
+                                                <div class="mb-3">
+                                                    <label for="username" class="form-label">User name</label>
+                                                    <input type="text" th:field="*{username}" id="username" class="form-control" placeholder="Username" readonly>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="password" class="form-label">Password</label>
+                                                    <input type="text" th:field="*{password}" id="password" class="form-control" placeholder="Password" readonly>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="email" class="form-label">Email Address</label>
+                                                    <input type="text" th:field="*{email}" id="email" class="form-control" placeholder="Email" readonly>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="status" class="form-label">Status</label>
+                                                    <input type="text" th:field="*{status}" id="status" class="form-control" placeholder="Status" readonly>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="verify" class="form-label">Verify</label>
+                                                    <input type="text" th:field="*{verify}" id="verify" class="form-control" placeholder="Verify">
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="role" class="form-label">Role</label>
+                                                    <!--                        <input type="text" th:field="*{role}" id="role" class="form-control" placeholder="Role">-->
+                                                    <select th:field="*{role}" id="role" class="form-control">
+                                                        <option value="2" th:selected="${accounts.role == '2'}">Admin</option>
+                                                        <option value="3" th:selected="${accounts.role == '3'}">Property_Agent</option>
+                                                        <option value="4" th:selected="${accounts.role == '4'}">Auctioneer</option>
+                                                        <option value="5" th:selected="${accounts.role == '5'}">Customer_Care</option>
+                                                        <option value="6" th:selected="${accounts.role == '6'}">News_Writer</option>
+                                                    </select>
+                                                </div>
+
+                                                <button type="submit" class="btn btn-info w-100 mb-3">Update</button>
+                                            </form>
+                                        </div>
+
+                                        <!--            <div class="mt-4 text-end">-->
+                                        <!--                <form th:action="@{/accounts/unBan}" method="post">-->
+                                        <!--                    <input type="hidden" name="accountId" th:value="${accounts.accountId}">-->
+                                        <!--                    <input type="text" name="reason" class="form-control mb-3 w-50 d-inline pr-3" placeholder="Enter unban reason">-->
+                                        <!--                    <button type="submit" class="btn btn-outline-success pl-2">Unban</button>-->
+                                        <!--                </form>-->
+                                        <!--            </div>-->
+
+                                        <div class="mt-4 text-end">
+                                            <form th:if="${accounts.verify == 0}" th:action="@{/admin/verify}" method="post">
+                                                <input type="hidden" name="accountId" th:value="${accounts.accountId}">
+                                                <button type="submit" class="btn btn-outline-info w-25" onclick="verifyAccount()">Verify</button>
+                                            </form>
+                                        </div>
+
+                                        <div class="mt-4 text-end">
+                                            <form th:if="${accounts.status == 1}" th:action="@{/admin/ban}" method="post">
+                                                <input type="hidden" name="accountId" th:value="${accounts.accountId}">
+                                                <input type="text" name="reason" class="form-control mb-3 w-50 d-inline-block" placeholder="Enter ban reason">
+                                                <button type="submit" class="btn btn-danger" onclick="banAccount()">Ban</button>
+                                            </form>
+
+                                            <form th:if="${accounts.status == 0}" th:action="@{/admin/unBan}" method="post">
+                                                <input type="hidden" name="accountId" th:value="${accounts.accountId}">
+                                                <input type="text" name="reason" class="form-control mb-3 w-50 d-inline-block" placeholder="Enter unban reason">
+                                                <button type="submit" class="btn btn-success" onclick="unbanAccount()">Unban</button>
+                                            </form>
+                                        </div>
+                                        <div class="text-end mt-4 pb-3">
+                                            <a class="btn btn-outline-info" th:href="@{/admin/list}">Back to Account List</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!---------------------------------------KHONG DUOC SUA------------------------------------------------------>
+        <!--   Core JS Files   -->
+        <script th:src="@{/dashboardStatic/js/core/jquery.min.js}"></script>
+        <script th:src="@{/dashboardStatic/js/core/popper.min.js}"></script>
+        <script th:src="@{/dashboardStatic/js/core/bootstrap.min.js}"></script>
+        <script th:src="@{/dashboardStatic/js/plugins/perfect-scrollbar.jquery.min.js}"></script>
+        <!-- Chart JS -->
+        <script th:src="@{/dashboardStatic/js/plugins/chartjs.min.js}"></script>
+        <!--  Notifications Plugin    -->
+        <script th:src="@{/dashboardStatic/js/plugins/bootstrap-notify.js}"></script>
+        <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+        <script th:src="@{/dashboardStatic/js/paper-dashboard.min.js?v=2.0.1}" type="text/javascript"></script><!-- Paper Dashboard DEMO methods, don't include it in your project! -->
+        <script th:src="@{/dashboardStatic/demo/demo.js}"></script>
+        <script>
+            $(document).ready(function() {
+                // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
+                demo.initChartsPages();
+            });
+        </script>
+        <script>
+            function banAccount() {
+// Implement your ban logic here, e.g., AJAX call to ban the account
+                alert('Account banned!');
+            }
+
+            function unbanAccount() {
+// Implement your unban logic here, e.g., AJAX call to unban the account
+                alert('Account unbanned!');
+            }
+            function verifyAccount() {
+// Implement your ban logic here, e.g., AJAX call to ban the account
+                alert('Account verified!');
+            }
+        </script>
+    </div>
+</body>
+</html>

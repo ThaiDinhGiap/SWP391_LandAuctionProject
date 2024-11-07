@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác minh email</title>
+    <style>
+        /* Đặt font chữ và màu nền cho toàn bộ trang */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Tạo phần khung cho form */
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* Các trường input và button */
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: red;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: red;
+        }
+
+        /* Thông báo thành công */
+        .success-message {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Thông báo lỗi */
+        .error-message {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Modal - thiết kế hộp thoại */
+        .modal {
+            display: none; /* Ẩn modal mặc định */
+            position: fixed;
+            z-index: 1; /* Đảm bảo modal nổi lên trên cùng */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4); /* Nền mờ */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .modal .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .modal .close:hover,
+        .modal .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Link về trang chủ */
+        .home-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .home-link:hover {
+            text-decoration: underline;
+            color: #0056b3;
+        }
+
+        /* Responsive design cho điện thoại */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Verify email</h2>
+    <p>We've sent a verification code to your email. Please enter the verification code to continue.</p>
+
+    <form action="/verify-email" method="post">
+        <input type="hidden" name="email" th:value="${email}">
+        <input type="text" name="verificationCode" placeholder="Enter verification code" required>
+        <button type="submit">Verify</button>
+    </form>
+
+    <!-- Link to home page -->
+    <a class="home-link" th:href="@{/}">Return to home page</a>
+
+    <!-- Show message if verification code is successful -->
+    <div th:if="${verificationSuccess}" class="success-message">
+        <p>Verification successful! We'll contact you later.</p>
+    </div>
+
+    <!-- Show error if verification code is invalid -->
+    <div th:if="${error}" class="error-message">
+        <p>Verification code is invalid. Please try again.</p>
+    </div>
+</div>
+
+<!-- Modal - Thông báo xác minh thành công -->
+<div id="myModal" class="modal" th:if="${verificationSuccess}">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3>Verification successful!</h3>
+        <p>We'll contact you soon.</p>
+    </div>
+</div>
+
+
+<div class="modal">
+    <div class="modal-content" >
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div th:if="${error}" class="error-message">
+            <p>The verification code is incorrect. Please try again.</p>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    var modal = document.getElementById("myModal");
+
+    function closeModal() {
+        modal.style.display = "none";
+    }
+
+    if ([[${verificationSuccess}]] === true) {
+        modal.style.display = "flex";
+    }
+</script>
+
+</body>
+</html>
