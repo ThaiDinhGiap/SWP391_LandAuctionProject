@@ -479,7 +479,7 @@ Author URL: http://w3layouts.com
                         </div>
                         <div class="card-body blog-details">
                             <a th:href="@{/customer/viewAssetDetail(assetId=${asset.assetId})}" class="blog-desc"
-                               th:text="${asset.location.length() > 40 ? asset.location.substring(0, 40) + '...' : asset.location}"
+                               th:text="${asset.location.length() > 20 ? asset.location.substring(0, 20) + '...' : asset.location}"
                                th:title="${asset.location}"></a>
                         </div>
                         <div class="card-footer d-flex justify-content-between">
