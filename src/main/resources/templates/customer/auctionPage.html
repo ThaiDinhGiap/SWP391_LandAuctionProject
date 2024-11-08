@@ -290,8 +290,9 @@ Author URL: http://w3layouts.com
                 </ul>
                 <!--/notify-->
                 <div class="dropdown">
-                    <button id="trigger-overlay" class="searchw3-icon me-xl-4 me-lg-3" type="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="loadNotifications()">
+                    <button id="trigger-overlay" class="searchw3-icon me-xl-4 me-lg-3 position-relative" type="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="loadNotifications()">
                         <i class="fas fa-bell"></i>
+                        <span id="notification-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" id="notification-list" aria-labelledby="trigger-overlay">
                         <li><a class="dropdown-item" href="#">Loading...</a></li>
@@ -858,7 +859,9 @@ Author URL: http://w3layouts.com
     <!-- //move top -->
 </footer>
 <!--//footer-9 -->
-
+<script th:inline="javascript">
+    var clientId = [[${accountId}]];
+</script>
 <!-- Template JavaScript -->
 <script th:src="@{/assets_CustomerSide/js/jquery-3.3.1.min.js}"></script>
 <script th:src="@{/assets_CustomerSide/js/theme-change.js}"></script>
@@ -999,6 +1002,7 @@ Author URL: http://w3layouts.com
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script th:src="@{/assets_CustomerSide/js/bid.js}"></script>
 <script th:src="@{/assets_CustomerSide/js/notification.js}"></script>
 </body>

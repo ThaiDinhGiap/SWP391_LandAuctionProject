@@ -15,11 +15,10 @@ public class WebSocketExceptionHandler {
 
     @MessageExceptionHandler(BidAmountInsufficientException.class)
     public void handleBidAmountInsufficientException(BidAmountInsufficientException ex) {
-        // Chuyển đổi thông báo lỗi đến user dựa trên username của họ qua queue cá nhân
         messagingTemplate.convertAndSendToUser(
-                ex.getUsername(),          // Lấy username từ exception
-                "/queue/errors",           // destination riêng cho người dùng
-                ex.getMessage()             // nội dung thông báo lỗi
+                ex.getUsername(),
+                "/queue/errors",
+                ex.getMessage()
         );
     }
 }

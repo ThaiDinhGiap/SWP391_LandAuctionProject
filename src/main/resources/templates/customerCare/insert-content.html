@@ -24,6 +24,37 @@
     <link th:href="@{/dashboardStatic/css/bootstrap.min.css}" rel="stylesheet"/>
     <link th:href="@{/dashboardStatic/css/paper-dashboard.css?v=2.0.1}" rel="stylesheet"/>
     <link rel="stylesheet" th:href="@{/dashboardStatic/css/styleCustomerCare.css}">
+    <style>
+        /* Căn chỉnh nhãn (label) và các ô input */
+        .chatbot-settings-container label {
+            width: 150px;
+            display: inline-block;
+            vertical-align: top;
+            text-align: right;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .chatbot-settings-container .form-control {
+            width: 50%;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        /* Căn chỉnh vị trí các nút Save và Cancel */
+        #mainTopicInputContainer button,
+        #subTopicInputContainer button,
+        #questionInputContainer button {
+            margin-left: 10px;
+        }
+
+        /* Giãn cách giữa các phần nhập liệu */
+        #mainTopicInputContainer,
+        #subTopicInputContainer,
+        #questionInputContainer {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 
 <body class="">
@@ -93,7 +124,7 @@
 
             <!-- Input cho Main Topic (ban đầu ẩn) -->
             <div id="mainTopicInputContainer" style="display: none; margin-top: 20px;">
-                <label for="topicName">Topic Name:</label>
+                <label for="topicName" style="margin-top: 7px;">Topic Name:</label>
                 <input type="text" id="topicName" class="form-control" placeholder="Enter topic name" style="width: 50%; display: inline-block;">
                 <button class="btn btn-primary" onclick="saveMainTopic()">Save</button>
                 <button class="btn btn-secondary" onclick="cancelMainTopic()">Cancel</button>
@@ -110,7 +141,7 @@
                     </option>
                 </select>
                 <br><br>
-                <label for="subTopicName">Sub Topic Name:</label>
+                <label for="subTopicName" style="margin-top: 7px;">Sub Topic Name:</label>
                 <input type="text" id="subTopicName" class="form-control" placeholder="Enter sub topic name" style="width: 50%; display: inline-block;">
                 <button class="btn btn-primary" onclick="saveSubTopic()">Save</button>
                 <button class="btn btn-secondary" onclick="cancelSubTopic()">Cancel</button>
@@ -128,10 +159,10 @@
                 </select>
                 <br><br>
                 <label for="questionText">Question:</label>
-                <input type="text" id="questionText" class="form-control" placeholder="Enter question" style="width: 50%; display: inline-block;">
+                <input type="text" id="questionText" class="form-control" placeholder=" Enter question" style="width: 50%; display: inline-block;">
                 <br><br>
                 <label for="answerText">Answer:</label>
-                <textarea id="answerText" class="form-control" placeholder="Enter answer" style="width: 50%; display: inline-block;"></textarea>
+                <textarea id="answerText" class="form-control" placeholder="    Enter answer" style="width: 50%; display: inline-block;"></textarea>
                 <br><br>
                 <button class="btn btn-primary" onclick="saveQuestion()">Save</button>
                 <button class="btn btn-secondary" onclick="cancelQuestion()">Cancel</button>

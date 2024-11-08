@@ -48,15 +48,7 @@ public class WebSocketChatController {
     @MessageMapping("/chat.addUser")
     public void addUser(@RequestBody Map<String, Object> request, SimpMessageHeaderAccessor headerAccessor) {
         Integer staffId = (Integer) request.get("staffId");
-
-        System.out.println(staffId);
-
-        // Lưu staffId vào session attributes
         headerAccessor.getSessionAttributes().put("staffId", staffId);
-
-        System.out.println(111111);
-
-        // Đánh dấu staff là "available"
         staffService.setStaffAvailability(staffId, true);
     }
 }
