@@ -12,7 +12,7 @@
 
 <div th:classappend="${isRegister} ? ' right-panel-active' : ''" class="container" id="container">
     <div class="form-container sign-up-container">
-        <form action="/register" method="POST">
+        <form th:action="@{/register}" method="POST">
             <h1>Create Account</h1>
             <input type="text" name="username" placeholder="Name" required/>
             <input type="email" name="email" placeholder="Email" required/>

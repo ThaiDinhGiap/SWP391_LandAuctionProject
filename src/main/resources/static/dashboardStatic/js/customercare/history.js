@@ -21,7 +21,15 @@ document.addEventListener("DOMContentLoaded", function () {
             data.forEach(session => {
                 const sessionItem = document.createElement('div');
                 sessionItem.classList.add('session-item');
-                sessionItem.textContent = `Session ID: ${session.sessionId}`;
+                const createdAt = new Date(session.created_at).toLocaleString('en-GB', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+                sessionItem.textContent = `Client: ${session.clientName}`;
+                const createdAtText = document.createElement('div');
+                createdAtText.textContent = `${createdAt}`;
+                sessionItem.appendChild(createdAtText);
 
                 // Thêm sự kiện click để chọn session
                 sessionItem.addEventListener('click', function () {
@@ -84,11 +92,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     messageDiv.textContent = message.content;
 
                     if (message.sender === 'Staff') {
-                        messageWrapper.appendChild(timeDiv);    // Thời gian ở bên trái tin nhắn
-                        messageWrapper.appendChild(messageDiv); // Tin nhắn của Staff
+                        messageWrapper.appendChild(timeDiv);
+                        messageWrapper.appendChild(messageDiv);
                     } else {
-                        messageWrapper.appendChild(messageDiv); // Tin nhắn của Client
-                        messageWrapper.appendChild(timeDiv);    // Thời gian ở bên phải tin nhắn
+                        messageWrapper.appendChild(messageDiv);
+                        messageWrapper.appendChild(timeDiv);
                     }
 
                     chatHistoryBox.appendChild(messageWrapper);

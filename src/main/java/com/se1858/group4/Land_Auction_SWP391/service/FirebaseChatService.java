@@ -13,9 +13,11 @@ import java.util.concurrent.CountDownLatch;
 public class FirebaseChatService {
 
     private final FirebaseDatabase firebaseDatabase;
+    private final AccountService accountService;
 
-    public FirebaseChatService(FirebaseDatabase firebaseDatabase) {
+    public FirebaseChatService(FirebaseDatabase firebaseDatabase, AccountService accountService) {
         this.firebaseDatabase = firebaseDatabase;
+        this.accountService = accountService;
     }
 
     public void saveChatMessage(String sessionId, String sender, String content) {
@@ -81,6 +83,8 @@ public class FirebaseChatService {
                     Map<String, Object> sessionData = (Map<String, Object>) sessionSnapshot.getValue();
                     if (sessionData != null && sessionData.get("staffId") != null && sessionData.get("staffId").toString().equals(staffId.toString())) {
                         sessionData.put("sessionId", sessionSnapshot.getKey());
+                        Integer clientId = sessionData.get("clientId") != null ? Integer.parseInt(sessionData.get("clientId").toString()) : null;
+                        sessionData.put("clientName", accountService.findAccountById(clientId).getUsername());
                         sessions.add(sessionData);
                     }
                 }

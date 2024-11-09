@@ -395,6 +395,7 @@ public class CustomerController {
                 notification.setContent("You have registered to participate in the auction, please transfer money to complete the procedure.");
                 notification.setCreatedDate(LocalDateTime.now());
                 notification.setReadStatus("unread"); // Trạng thái chưa đọc
+                notification.setAuction(register.getAuction());
 
                 // Lưu thông báo vào cơ sở dữ liệu và gửi SSE cho client
                 notification.addAccount(this_user);
@@ -461,6 +462,7 @@ public class CustomerController {
                 notification.setContent("You have transfer deposit and fee. Please wait while we confirm the transaction, the result will be sent to you via notification");
                 notification.setCreatedDate(LocalDateTime.now());
                 notification.setReadStatus("unread"); // Trạng thái chưa đọc
+                notification.setAuction(auction);
 
                 // Lưu thông báo vào cơ sở dữ liệu và gửi SSE cho client
                 notification.addAccount(this_user);

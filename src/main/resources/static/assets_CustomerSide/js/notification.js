@@ -17,11 +17,11 @@ function loadNotifications() {
                     }
                 });
             } else {
-                notificationList.append('<li class="dropdown-item notification-read">Không có thông báo</li>');
+                notificationList.append('<li class="dropdown-item notification-read">No notifications</li>');
             }
         },
         error: function (error) {
-            alert("Không thể tải thông báo");
+            alert("Can not load notification");
         }
     });
 }
@@ -37,7 +37,7 @@ function markAsRead(element) {
             $(element).removeClass('notification-unread').addClass('notification-read');
         },
         error: function (error) {
-            alert("Không thể đánh dấu thông báo là đã đọc");
+            alert("Can not mark notification as read");
         }
     });
 }
