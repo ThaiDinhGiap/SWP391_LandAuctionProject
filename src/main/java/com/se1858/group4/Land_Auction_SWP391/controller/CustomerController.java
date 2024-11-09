@@ -455,7 +455,7 @@ public class CustomerController {
             //check xem nguoi dung da chuyen tien chua
             if (transfer != null) {
                 AuctionRegister auctionRegister = auctionRegisterService.getAuctionRegisterById(auctionRegisterId);
-                auctionRegister.setRegisterStatus("dang cho xac nhan chuyen tien");
+                auctionRegister.setRegisterStatus("Waiting for confirmation");
                 auctionRegisterService.updateRegisterStatus(auctionRegister);
                 redirectAttributes.addFlashAttribute("error", "Please wait while we confirm the transaction, the result will be sent to you via notification");
 
