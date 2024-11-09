@@ -1,57 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>List Account</title>-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
-
-<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">-->
-
-<!--</head>-->
-<!--<body>-->
-<!--<div class="container">-->
-
-<!--    <h3>List Account</h3>-->
-<!--    <hr>-->
-<!--    <a th:href="@{/accounts/showFormForAdd}" class="btn btn-primary btn-sm mb-3">-->
-<!--        Add New Account-->
-<!--    </a>-->
-<!--    <a th:href="@{/banLog/list}" class="btn btn-primary btn-sm mb-3">BanLog History</a>-->
-<!--    <table class="table table-bordered table-striped">-->
-<!--        <thead class="table-dark">-->
-<!--        <tr>-->
-<!--            <th>Account ID</th>-->
-<!--            <th>User Name</th>-->
-<!--            <th>Password</th>-->
-<!--            <th>Status</th>-->
-<!--            <th>Verify</th>-->
-<!--            <th>Email</th>-->
-<!--            <th>Role Name</th>-->
-<!--            <th>Action</th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-<!--        <tr th:each="tempAccount : ${accounts}">-->
-<!--            <td th:text="${tempAccount.accountId}"></td>-->
-<!--            <td th:text="${tempAccount.username}"></td>-->
-<!--            <td th:text="${tempAccount.password}"></td>-->
-<!--            <td th:text="${tempAccount.status}"></td>-->
-<!--            <td th:text="${tempAccount.verify}"></td>-->
-<!--            <td th:text="${tempAccount.email}"></td>-->
-<!--            <td th:text="${tempAccount.role.roleName}"></td>-->
-<!--            <td>-->
-<!--                <a th:href="@{/accounts/showFormForUpdate(accountId=${tempAccount.accountId})}" class="btn btn-info btn-sm">-->
-<!--                    Update-->
-<!--                </a>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--    </table>-->
-<!--</div>-->
-
-<!--</body>-->
-<!--</html>-->
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -60,7 +6,7 @@
     <link rel="icon" type="image/png" th:href="@{/dashboardStatic/img/favicon.png}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>
-        Manage Account
+        Account List
     </title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
@@ -86,13 +32,13 @@
     <div class="sidebar" data-color="white" data-active-color="danger">
         <div class="logo">
             <!--     Đường dẫn đến web chính của dự án     -->
-            <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-mini">
-                <!--     Avatar người dùng ở đây     -->
-                <div class="logo-image-small">
-                    <img th:src="@{/dashboardStatic/img/logo-small.png}">
-                </div>
-                <!-- <p>CT</p> -->
-            </a>
+<!--            <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-mini">-->
+<!--                &lt;!&ndash;     Avatar người dùng ở đây     &ndash;&gt;-->
+<!--                <div class="logo-image-small">-->
+<!--                    <img th:src="@{/dashboardStatic/img/logo-small.png}">-->
+<!--                </div>-->
+<!--                &lt;!&ndash; <p>CT</p> &ndash;&gt;-->
+<!--            </a>-->
             <!--     Đường dẫn đến web chính của dự án     -->
             <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-normal">
                 VietLand Auction
@@ -142,7 +88,7 @@
     <div class="main-panel">
         <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
             <div class="container-fluid">
-                <span class="navbar-brand">VietLand Auction</span>
+                <span class="navbar-brand">Stay focused, stay driven, and success will follow</span>
             </div>
         </nav>
         <div class="content">
