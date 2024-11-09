@@ -48,28 +48,53 @@ public class AuctionService {
     public AuctionSession getAuctionSessionById(int auctionId) {
         Optional<AuctionSession> auctionSessionOptional = auctionSessionRepository.findById(auctionId);
         if (auctionSessionOptional.isPresent()) {
-            return auctionSessionOptional.get();
+            AuctionSession auctionSession = auctionSessionOptional.get();
+//            return auctionSession;
+            if(LocalDateTime.now().isAfter(auctionSession.getStartTime())&&auctionSession.getStatus().equals("Upcoming")) {
+                AuctionSessionDTO auctionSessionDTO = new AuctionSessionDTO();
+                auctionSessionDTO.setAuctionSession(auctionSession);
+                auctionSessionDTO.getAuctionSession().setStatus("Ongoing");
+                return updateAuctionSession(auctionSessionDTO);
+            }
+            else return auctionSession;
         } else {
             return null;
         }
     }
 
     public List<AuctionSession> getAllAutcion(){
-        return auctionSessionRepository.findAll();
+        List<AuctionSession> list = auctionSessionRepository.findAll();
+        for(AuctionSession auctionSession : list) {
+            if(LocalDateTime.now().isAfter(auctionSession.getStartTime())&&auctionSession.getStatus().equals("Upcoming")) {
+                AuctionSessionDTO auctionSessionDTO = new AuctionSessionDTO();
+                auctionSessionDTO.setAuctionSession(auctionSession);
+                auctionSessionDTO.getAuctionSession().setStatus("Ongoing");
+                updateAuctionSession(auctionSessionDTO);
+            }
+        }
+        return list;
     }
 
     public Page<AuctionSession> filterAuctionSessions(String keyword, LocalDate fromDate, LocalDate toDate, String status, int page) {
         LocalDateTime fromDateTime = (fromDate != null) ? fromDate.atStartOfDay() : null;
         LocalDateTime toDateTime = (toDate != null) ? toDate.atTime(23, 59, 59) : null;
-
-
         Pageable pageable = PageRequest.of(page, 4);
         return auctionSessionRepository.filterAuctionSessions(keyword, fromDateTime, toDateTime, status, pageable);
     }
 
     public Page<AuctionSession> getAuctions(int page) {
         Pageable pageable = PageRequest.of(page, 4);
-        return auctionSessionRepository.findAll(pageable);
+//        return auctionSessionRepository.findAll(pageable);
+        Page<AuctionSession> list = auctionSessionRepository.findAll(pageable);
+        for(AuctionSession auctionSession : list.stream().toList()) {
+            if(LocalDateTime.now().isAfter(auctionSession.getStartTime())&&auctionSession.getStatus().equals("Upcoming")) {
+                AuctionSessionDTO auctionSessionDTO = new AuctionSessionDTO();
+                auctionSessionDTO.setAuctionSession(auctionSession);
+                auctionSessionDTO.getAuctionSession().setStatus("Ongoing");
+                updateAuctionSession(auctionSessionDTO);
+            }
+        }
+        return list;
     }
 
     public AuctionSession createAuctionSession(AuctionSession auctionSession) {
@@ -79,11 +104,31 @@ public class AuctionService {
 
 
     public Page<AuctionSession> getAllAuctionSessionsByAuctioneerId(int auctioneerId, Pageable pageable) {
-        return auctionSessionRepository.findByAuctioneerId(auctioneerId, pageable);
+//        return auctionSessionRepository.findByAuctioneerId(auctioneerId, pageable);
+        Page<AuctionSession> list = auctionSessionRepository.findByAuctioneerId(auctioneerId, pageable);
+        for(AuctionSession auctionSession : list.stream().toList()) {
+            if(LocalDateTime.now().isAfter(auctionSession.getStartTime())&&auctionSession.getStatus().equals("Upcoming")) {
+                AuctionSessionDTO auctionSessionDTO = new AuctionSessionDTO();
+                auctionSessionDTO.setAuctionSession(auctionSession);
+                auctionSessionDTO.getAuctionSession().setStatus("Ongoing");
+                updateAuctionSession(auctionSessionDTO);
+            }
+        }
+        return list;
     }
 
     public Page<AuctionSession> searchAuctionSessionsByAuctioneerIdAndName(int auctioneerId, String auctionName, Pageable pageable) {
-        return auctionSessionRepository.findByAuctioneerIdAndAuctionNameContainingIgnoreCase(auctioneerId, auctionName, pageable);
+//        return auctionSessionRepository.findByAuctioneerIdAndAuctionNameContainingIgnoreCase(auctioneerId, auctionName, pageable);
+        Page<AuctionSession> list = auctionSessionRepository.findByAuctioneerIdAndAuctionNameContainingIgnoreCase(auctioneerId, auctionName, pageable);
+        for(AuctionSession auctionSession : list.stream().toList()) {
+            if(LocalDateTime.now().isAfter(auctionSession.getStartTime())&&auctionSession.getStatus().equals("Upcoming")) {
+                AuctionSessionDTO auctionSessionDTO = new AuctionSessionDTO();
+                auctionSessionDTO.setAuctionSession(auctionSession);
+                auctionSessionDTO.getAuctionSession().setStatus("Ongoing");
+                updateAuctionSession(auctionSessionDTO);
+            }
+        }
+        return list;
     }
 
 
@@ -112,43 +157,28 @@ public class AuctionService {
     }
 
     public void finalizeAuction(int auctionSessionId, Long dealPrice) {
-        // Tìm phiên đấu giá
         AuctionSession auctionSession = auctionSessionRepository.findById(auctionSessionId)
                 .orElseThrow(() -> new RuntimeException("Auction session not found"));
-
-        // Cập nhật thời gian kết thúc thực tế
         auctionSession.setActualEndTime(LocalDateTime.now());
-
-        // Cập nhật trạng thái đăng ký đấu giá
         auctionSession.setStatus("Ending");
-
-        // Cap nhat deal price
         auctionSession.setDealedPrice(dealPrice);
-
-        // Lưu lại thông tin cập nhật
         auctionSessionRepository.save(auctionSession);
-
-        // Gửi thông báo kết thúc đấu giá
         sendAuctionEndNotifications(auctionSession);
     }
 
     public void sendAuctionEndNotifications(AuctionSession auctionSession) {
         List<AuctionRegister> registers = auctionRegisterRepository.findByAuctionIdWithNotifications(auctionSession.getAuctionId());
-
         for (AuctionRegister register : registers) {
             Notification notification = new Notification();
             notification.setContent("The auction has ended.");
             notification.setCreatedDate(LocalDateTime.now());
             notification.setReadStatus("unread");
             notification.setAuction(register.getAuction());
-
             if ("Winner".equals(register.getResult())) {
                 notification.setContent("Congratulations! You are the winner of the auction! We will send contract for you as soon as by email. Please check carefully!");
             }
-
             Account buyer = accountRepository.findById(register.getBuyer().getAccountId())
                     .orElseThrow(() -> new RuntimeException("Account not found"));
-
             notification.addAccount(buyer);
             notificationService.saveNotification(notification);
             buyer.addNotification(notification);
