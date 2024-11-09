@@ -19,21 +19,18 @@ public class NotificationService {
 
     private final NotificationRepository notificationRepository;
     private final Map<Integer, SseEmitter> emitters = new ConcurrentHashMap<>();
-    private final SubscriptionNotificationService subscriptionNotificationService;
 
-    public NotificationService(NotificationRepository notificationRepository, SubscriptionNotificationService subscriptionNotificationService) {
+    public NotificationService(NotificationRepository notificationRepository) {
         this.notificationRepository = notificationRepository;
-        this.subscriptionNotificationService = subscriptionNotificationService;
     }
 
-    // Convert Notification to NotificationDTO
     private NotificationDTO convertToDTO(Notification notification) {
         return new NotificationDTO(
                 notification.getNotificationId(),
                 notification.getContent(),
                 notification.getCreatedDate(),
                 notification.getReadStatus(),
-                notification.getAuction() != null ? notification.getAuction().getAuctionId() : 0 // Handle potential null value
+                notification.getAuction() != null ? notification.getAuction().getAuctionId() : 0
         );
     }
 
@@ -54,32 +51,24 @@ public class NotificationService {
         notificationRepository.save(notification);
     }
 
-    // Thêm emitter mới cho client
     public void addEmitter(int clientId, SseEmitter emitter) {
         emitters.put(clientId, emitter);
     }
 
-    // Xóa emitter khi client ngắt kết nối
     public void removeEmitter(int clientId) {
         emitters.remove(clientId);
     }
 
-    // Gửi thông báo mới cho tất cả các client liên quan
     public void sendNotification(Notification notification) {
-        // Chuyển đổi đối tượng Notification sang DTO
         NotificationDTO notificationDTO = convertToDTO(notification);
-
         notification.getAccounts().forEach(account -> {
             SseEmitter emitter = emitters.get(account.getAccountId());
             if (emitter != null) {
                 try {
-                    // Gửi NotificationDTO thay vì đối tượng Notification
                     emitter.send(SseEmitter.event().name("newNotification").data(notificationDTO));
                 } catch (IOException e) {
                     emitters.remove(account.getAccountId());
                 }
-            } else {
-                subscriptionNotificationService.sendWebPushNotification(notificationDTO, account.getAccountId());
             }
         });
     }

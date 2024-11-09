@@ -7,6 +7,9 @@ var subscriptions = new Map();
 stompClient.connect({}, function (frame) {
     console.log('Connected: ' + frame);
 
+    // Khi kết nối, gửi staffId lên server để lưu trữ
+    stompClient.send("/app/chat.addUser", {}, JSON.stringify({ staffId: staffId }));
+
     // Lắng nghe yêu cầu kết nối từ client
     stompClient.subscribe('/topic/staff/' + staffId, function (message) {
         const request = JSON.parse(message.body);
@@ -88,7 +91,7 @@ function addClientToLocalStorage(clientId, sessionId) {
     const clients = JSON.parse(localStorage.getItem('clientList')) || [];
 
     // Thêm client mới vào mảng client
-    clients.push({ clientId: clientId, sessionId: sessionId });
+    clients.push({clientId: clientId, sessionId: sessionId});
 
     // Cập nhật lại localStorage với danh sách client mới
     localStorage.setItem('clientList', JSON.stringify(clients));
@@ -216,4 +219,5 @@ function sendMessage(content) {
         document.getElementById('messageField').value = ''; // Clear input field after sending
     }
 }
+
 

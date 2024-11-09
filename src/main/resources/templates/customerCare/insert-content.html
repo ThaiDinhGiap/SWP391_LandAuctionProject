@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <link rel="apple-touch-icon" sizes="76x76" th:href="@{/dashboardStatic/img/apple-icon.png}">
+    <link rel="icon" type="image/png" th:href="@{/dashboardStatic/img/favicon.png}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Chatbot Settings</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+          name='viewport'/>
+    <!-- Fonts and icons -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Ínert-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- SockJS-->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <!-- CSS Files -->
+    <link th:href="@{/dashboardStatic/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/dashboardStatic/css/paper-dashboard.css?v=2.0.1}" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/dashboardStatic/css/styleCustomerCare.css}">
+    <style>
+        /* Căn chỉnh nhãn (label) và các ô input */
+        .chatbot-settings-container label {
+            width: 150px;
+            display: inline-block;
+            vertical-align: top;
+            text-align: right;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .chatbot-settings-container .form-control {
+            width: 50%;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        /* Căn chỉnh vị trí các nút Save và Cancel */
+        #mainTopicInputContainer button,
+        #subTopicInputContainer button,
+        #questionInputContainer button {
+            margin-left: 10px;
+        }
+
+        /* Giãn cách giữa các phần nhập liệu */
+        #mainTopicInputContainer,
+        #subTopicInputContainer,
+        #questionInputContainer {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body class="">
+<div class="wrapper ">
+    <!-- Side navbar -->
+    <div class="sidebar" data-color="white" data-active-color="danger">
+        <div class="logo">
+            <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-mini">
+                <div class="logo-image-small">
+                    <img th:src="@{/dashboardStatic/img/logo-small.png}">
+                </div>
+            </a>
+            <a th:href="@{https://www.creative-tim.com}" class="simple-text logo-normal">
+                VietLand Auction
+            </a>
+        </div>
+        <div class="sidebar-wrapper">
+            <ul class="nav">
+                <li>
+                    <a th:href="@{/customercare/profile}">
+                        <i class="nc-icon nc-single-02"></i>
+                        <p>User Profile</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/customercare/direct-chat}">
+                        <i class="nc-icon nc-send"></i>
+                        <p>Direct Chat</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/customercare/history-chat}">
+                        <i class="nc-icon nc-tile-56"></i>
+                        <p>History Chat</p>
+                    </a>
+                </li>
+                <li class="active">
+                    <a th:href="@{/customercare/chatbot-settings}">
+                        <i class="nc-icon nc-settings-gear-65"></i>
+                        <p>Chatbot Settings</p>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/logout}">
+                        <i class="nc-icon nc-user-run"></i>
+                        <p>Logout</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- End side navbar -->
+
+    <div class="main-panel">
+        <div class="chatbot-settings-container">
+
+            <div class="table-header">
+                <h2>Insert Content</h2>
+                <a th:href="@{/customercare/chatbot-settings}" class="btn btn-light" >Return Chatbot Setting</a>
+            </div>
+
+            <div>
+                <button class="btn btn-default btn-primary" onclick="showMainTopicInput()">Main Topic</button>
+                <button class="btn btn-default btn-primary" onclick="showSubTopicInput()">Sub Topic</button>
+                <button class="btn btn-default btn-primary" onclick="showQuestionInput()">Question</button>
+            </div>
+
+            <!-- Input cho Main Topic (ban đầu ẩn) -->
+            <div id="mainTopicInputContainer" style="display: none; margin-top: 20px;">
+                <label for="topicName" style="margin-top: 7px;">Topic Name:</label>
+                <input type="text" id="topicName" class="form-control" placeholder="Enter topic name" style="width: 50%; display: inline-block;">
+                <button class="btn btn-primary" onclick="saveMainTopic()">Save</button>
+                <button class="btn btn-secondary" onclick="cancelMainTopic()">Cancel</button>
+            </div>
+
+            <!-- Input cho Sub Topic (ban đầu ẩn) -->
+            <div id="subTopicInputContainer" style="display: none; margin-top: 20px;">
+                <label for="selectMainTopic">Select Main Topic:</label>
+                <select id="selectMainTopic" class="form-control" style="width: 50%; display: inline-block;">
+                    <!-- Sử dụng Thymeleaf để hiển thị danh sách mainTopics từ model -->
+                    <option th:each="mainTopic : ${mainTopics}"
+                            th:value="${mainTopic.topicId}"
+                            th:text="${mainTopic.topicName}">
+                    </option>
+                </select>
+                <br><br>
+                <label for="subTopicName" style="margin-top: 7px;">Sub Topic Name:</label>
+                <input type="text" id="subTopicName" class="form-control" placeholder="Enter sub topic name" style="width: 50%; display: inline-block;">
+                <button class="btn btn-primary" onclick="saveSubTopic()">Save</button>
+                <button class="btn btn-secondary" onclick="cancelSubTopic()">Cancel</button>
+            </div>
+
+            <!-- Input cho Question (ban đầu ẩn) -->
+            <div id="questionInputContainer" style="display: none; margin-top: 20px;">
+                <label for="selectSubTopic">Select Subtopic:</label>
+                <select id="selectSubTopic" class="form-control" style="width: 50%; display: inline-block;">
+                    <!-- Sử dụng Thymeleaf để hiển thị danh sách subTopics từ model -->
+                    <option th:each="subTopic : ${subTopics}"
+                            th:value="${subTopic.topicId}"
+                            th:text="${subTopic.topicName}">
+                    </option>
+                </select>
+                <br><br>
+                <label for="questionText">Question:</label>
+                <input type="text" id="questionText" class="form-control" placeholder=" Enter question" style="width: 50%; display: inline-block;">
+                <br><br>
+                <label for="answerText">Answer:</label>
+                <textarea id="answerText" class="form-control" placeholder="    Enter answer" style="width: 50%; display: inline-block;"></textarea>
+                <br><br>
+                <button class="btn btn-primary" onclick="saveQuestion()">Save</button>
+                <button class="btn btn-secondary" onclick="cancelQuestion()">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Core JS Files -->
+<script th:src="@{/dashboardStatic/js/core/jquery.min.js}"></script>
+
+<script th:src="@{/dashboardStatic/js/core/popper.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/core/bootstrap.min.js}"></script>
+<script th:src="@{/dashboardStatic/js/plugins/perfect-scrollbar.jquery.min.js}"></script>
+<!-- Notifications Plugin -->
+<script th:src="@{/dashboardStatic/js/plugins/bootstrap-notify.js}"></script>
+<script th:src="@{/dashboardStatic/js/paper-dashboard.min.js?v=2.0.1}" type="text/javascript"></script>
+<script th:src="@{/dashboardStatic/js/customercare/insertContent.js}"></script>
+</body>
+
+</html>

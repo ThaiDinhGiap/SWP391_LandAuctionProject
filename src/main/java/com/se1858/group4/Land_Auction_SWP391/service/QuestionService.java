@@ -40,6 +40,22 @@ public class QuestionService {
         return false;
     }
 
+    public boolean saveQuestion(int topicId, String question, String answer) {
+        try {
+            Question questionEntity = new Question();
+            Topic topic = topicRepository.findById(topicId).get();
+            questionEntity.setTopic(topic);
+            questionEntity.setQuestion(question);
+            questionEntity.setAnswer(answer);
+            questionRepository.save(questionEntity);
+            topic.addQuestion(questionEntity);
+            topicRepository.save(topic);
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void deleteQuestion(int questionId) {
         questionRepository.deleteById(questionId);
     }

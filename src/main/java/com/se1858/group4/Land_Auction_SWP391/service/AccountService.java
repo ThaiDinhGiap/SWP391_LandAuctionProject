@@ -283,6 +283,11 @@ public class AccountService {
         account.setStatus(1);
         account.setVerify(1);
         account.setPassword(passwordEncoder.encode(account.getPassword()));
+        account.setAvatar_image(imageService.getDefaultAvatar());
+        Staff staff = new Staff();
+        account.setStaff(staff);
+        accountRepository.save(account);
+        staff.setAccount(account);
         // Set current time
         account.setRegistrationDate(LocalDateTime.now());
         return accountRepository.save(account);

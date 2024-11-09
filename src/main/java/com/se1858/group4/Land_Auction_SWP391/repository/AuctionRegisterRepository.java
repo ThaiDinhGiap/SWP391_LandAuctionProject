@@ -41,6 +41,5 @@ public interface AuctionRegisterRepository extends JpaRepository<AuctionRegister
     Page<AuctionRegister> findByBuyer_AccountIdAndAuction_AuctionNameContainingIgnoreCase(int accountId, String auctionName, Pageable pageable);
     Page<AuctionRegister> findByBuyer_AccountId(int accountId, Pageable pageable);
 
-
-
+    List<AuctionRegister> findByAuction_AuctionIdAndRegisterStatusOrderByRankAsc(int auctionId, String registerStatus);
 }
