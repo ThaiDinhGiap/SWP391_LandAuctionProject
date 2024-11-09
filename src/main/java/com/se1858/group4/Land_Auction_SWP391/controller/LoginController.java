@@ -46,9 +46,9 @@ public class LoginController {
     public String defaultAfterLogin() {
         if (hasRole("ROLE_Customer")) return "redirect:/customer/home";
         if (hasRole("ROLE_Admin")) return "redirect:/admin/localAuthorityList";
-        if (hasRole("ROLE_Property_Agent")) return "redirect:/property_agent/dashboard";
-        if (hasRole("ROLE_Auctioneer")) return "redirect:/auctioneer/dashboard";
-        if (hasRole("ROLE_Customer_Care")) return "redirect:/customercare/profile";
+        if (hasRole("ROLE_Property_Agent")) return "redirect:/property_agent/profile";
+        if (hasRole("ROLE_Auctioneer")) return "redirect:/auctioneer/profile";
+        if (hasRole("ROLE_Customer_Care")) return "redirect:/customer-care/home";
         if (hasRole("ROLE_News_Writer")) return "redirect:/news_writer/dashboard";
         return "redirect:/";
     }
@@ -99,5 +99,10 @@ public class LoginController {
         session.invalidate();
         SecurityContextHolder.clearContext();
         return "redirect:/showMyLoginPage";
+    }
+
+    @GetMapping("/customer-care/home")
+    public String customerCareHome() {
+        return "redirect:/customercare/profile";
     }
 }

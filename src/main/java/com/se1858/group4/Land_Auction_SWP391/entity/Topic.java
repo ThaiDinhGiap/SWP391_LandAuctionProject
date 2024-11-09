@@ -3,6 +3,8 @@ package com.se1858.group4.Land_Auction_SWP391.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -71,6 +73,20 @@ public class Topic {
 
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
+    }
+
+    public void addSubTopic(Topic topic) {
+        if (this.subTopics == null) {
+            this.subTopics = new ArrayList<>();
+        }
+        this.subTopics.add(topic);
+    }
+
+    public void addQuestion(Question question) {
+        if (this.questions == null) {
+            this.questions = new ArrayList<>();
+        }
+        this.questions.add(question);
     }
 }
 

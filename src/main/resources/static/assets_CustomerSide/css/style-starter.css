@@ -21636,3 +21636,20 @@ section.footer-inner-main {
 
 /*--//Footer-9--*/
 /*# sourceMappingURL=style-freedom.css.map */
+
+
+#notification-count {
+    display: none; /* Ẩn đi cho đến khi có thông báo */
+    font-size: 0.7em;
+    padding: 2px 6px;
+    position: absolute;
+    top: 50%; /* Đặt badge nằm ở trung tâm theo chiều dọc của icon */
+    right: 5px; /* Đặt badge bên phải icon */
+    transform: translate(50%, -50%); /* Điều chỉnh để badge nằm bên trong icon */
+    background-color: #dc3545;
+    color: white;
+    border-radius: 50%;
+    min-width: 18px;
+    text-align: center;
+    line-height: 1;
+}

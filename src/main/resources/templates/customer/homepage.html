@@ -361,8 +361,9 @@ Author URL: http://w3layouts.com
 
                 <!--/notify-->
                 <div class="dropdown">
-                    <button id="trigger-overlay" class="searchw3-icon me-xl-4 me-lg-3" type="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="loadNotifications()">
+                    <button id="trigger-overlay" class="searchw3-icon me-xl-4 me-lg-3 position-relative" type="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="loadNotifications()">
                         <i class="fas fa-bell"></i>
+                        <span id="notification-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" id="notification-list" aria-labelledby="trigger-overlay">
                         <li><a class="dropdown-item" href="#">Loading...</a></li>
@@ -408,7 +409,7 @@ Author URL: http://w3layouts.com
                         <p class="w3hny-tag" style="font-size: 1.5rem; color: #FF5722; font-weight: bold; margin-bottom: 10px;">VietLand Auction</p>
                         <!-- Màu #e91e63 là màu hồng đậm tạo điểm nhấn -->
                         <h3 class="title-hero-19" style="font-size: 2.5rem; font-weight: bold; line-height: 1.2; margin-bottom: 20px;">A Trusted Platform for Land Auctions with Transparent Deals</h3>
-                        <a href="about.html" class="btn btn-style btn-primary mt-3" style="padding: 10px 20px; font-size: 1rem;">Read More <i class="fas fa-angle-double-right ms-2"></i></a>
+                        <a th:href="@{/customer/aboutus}" class="btn btn-style btn-primary mt-3" style="padding: 10px 20px; font-size: 1rem;">Read More <i class="fas fa-angle-double-right ms-2"></i></a>
                     </div>
                 </div>
             </div>
@@ -880,7 +881,6 @@ Author URL: http://w3layouts.com
 <!-- //bootstrap -->
 <script th:src="@{/assets_CustomerSide/js/bootstrap.min.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script th:src="@{/assets_CustomerSide/js/chatbot.js}"></script>
 <script th:src="@{/assets_CustomerSide/js/notification.js}"></script>

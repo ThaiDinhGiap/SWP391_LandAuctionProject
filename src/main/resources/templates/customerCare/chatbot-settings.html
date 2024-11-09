@@ -13,6 +13,10 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Ínert-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- SockJS-->
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
@@ -77,6 +81,7 @@
         <div class="chatbot-settings-container">
             <div class="table-header">
                 <h2>Main Topics</h2>
+                <a href="/customercare/insertContent" class="btn btn-primary">Insert</a>
             </div>
             <table id="mainTopicsTable">
                 <thead class="text-primary">
@@ -87,18 +92,14 @@
                 </tr>
                 </thead>
                 <tbody id="mainTopics">
-                <!-- Danh sách main topics sẽ được load ở đây -->
+
                 </tbody>
             </table>
         </div>
         <div id="subTopicsContainer">
-            <!-- Các bảng Sub-Topics sẽ được tạo động tại đây -->
+
         </div>
     </div>
-
-</div>
-
-
 </div>
 
 <!-- Core JS Files -->

@@ -5,12 +5,16 @@ function loadNotifications() {
         success: function (data) {
             var notificationList = $('#notification-list');
             notificationList.empty(); // Xóa các thông báo cũ
+            resetNotificationCount();
 
             if (data.length > 0) {
                 data.forEach(function (notification) {
                     var listItemClass = notification.readStatus === 'unread' ? 'notification-unread' : 'notification-read';
                     var listItem = `<li class="dropdown-item ${listItemClass}" data-id="${notification.notificationId}" onclick="markAsRead(this)">${notification.content}</li>`;
                     notificationList.append(listItem);
+                    if (notification.readStatus === 'unread') {
+                        updateNotificationCount(1); // Tăng số lượng chưa đọc
+                    }
                 });
             } else {
                 notificationList.append('<li class="dropdown-item notification-read">Không có thông báo</li>');
@@ -47,6 +51,7 @@ function connectSSE() {
         var listItemClass = notification.readStatus === 'unread' ? 'notification-unread' : 'notification-read';
         var listItem = `<li class="dropdown-item ${listItemClass}" data-id="${notification.notificationId}" onclick="markAsRead(event, this)">${notification.content}</li>`;
         notificationList.prepend(listItem); // Thêm thông báo mới lên đầu danh sách
+        updateNotificationCount(1);
     });
 
     eventSource.onerror = function () {
@@ -58,6 +63,7 @@ function connectSSE() {
 // Gọi hàm connectSSE khi load trang
 $(document).ready(function () {
     connectSSE();
+    countNotifies();
 });
 
 function markAsRead2(element) {
@@ -75,5 +81,36 @@ function markAsRead2(element) {
         error: function (error) {
             alert("Unable to mark notification as read");
         }
+    });
+}
+
+function updateNotificationCount(increment) {
+    var countElement = $('#notification-count');
+    var currentCount = parseInt(countElement.text(), 10);
+    countElement.text(currentCount + increment);
+    countElement.show(); // Hiển thị badge khi có thông báo chưa đọc
+}
+
+function resetNotificationCount() {
+    $('#notification-count').text('0').hide(); // Ẩn badge khi không có thông báo chưa đọc
+}
+
+function countNotifies() {
+    $.ajax({
+        url: '/api/notifications/get?clientId=' + clientId, // Truyền clientId vào URL
+        method: 'GET',
+        success: function (data) {
+            var notificationList = $('#notification-list');
+            notificationList.empty(); // Xóa các thông báo cũ
+            resetNotificationCount();
+
+            if (data.length > 0) {
+                data.forEach(function (notification) {
+                    if (notification.readStatus === 'unread') {
+                        updateNotificationCount(1); // Tăng số lượng chưa đọc
+                    }
+                });
+            }
+        },
     });
 }

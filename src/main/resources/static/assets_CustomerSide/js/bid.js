@@ -11,6 +11,13 @@ document.addEventListener('DOMContentLoaded', function () {
         // Subscribe to the specific auction topic
         stompClient.subscribe('/topic/auction/' + auctionId, onMessageReceived);
 
+        stompClient.subscribe('/user/queue/errors', function (errorMessage) {
+            document.getElementById('error-message').textContent = errorMessage.body + " The bid must be at least " + minimumBidIncrement + " higher than the current bid." ;
+
+            var errorModal = new bootstrap.Modal(document.getElementById('inform_error'));
+            errorModal.show();
+        });
+
         // Notify server that the user has joined
         stompClient.send("/app/chat.addUser", {}, JSON.stringify({sender: username, type: 'JOIN'}));
     }

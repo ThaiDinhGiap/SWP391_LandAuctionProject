@@ -7,7 +7,11 @@ import com.se1858.group4.Land_Auction_SWP391.websocket.ConnectMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.Map;
 
 @Controller
 public class WebSocketChatController {
@@ -39,5 +43,12 @@ public class WebSocketChatController {
     public void cancelSession(@Payload ChatMessage message) {
         // Gửi tin nhắn đến topic tương ứng với sessionId
         webSocketService.endChatSession(message);
+    }
+
+    @MessageMapping("/chat.addUser")
+    public void addUser(@RequestBody Map<String, Object> request, SimpMessageHeaderAccessor headerAccessor) {
+        Integer staffId = (Integer) request.get("staffId");
+        headerAccessor.getSessionAttributes().put("staffId", staffId);
+        staffService.setStaffAvailability(staffId, true);
     }
 }

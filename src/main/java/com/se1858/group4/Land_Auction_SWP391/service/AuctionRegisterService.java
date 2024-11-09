@@ -2,6 +2,8 @@ package com.se1858.group4.Land_Auction_SWP391.service;
 
 import com.se1858.group4.Land_Auction_SWP391.entity.AuctionRegister;
 import com.se1858.group4.Land_Auction_SWP391.entity.AuctionSession;
+import com.se1858.group4.Land_Auction_SWP391.entity.Notification;
+import com.se1858.group4.Land_Auction_SWP391.repository.AccountRepository;
 import com.se1858.group4.Land_Auction_SWP391.repository.AuctionRegisterRepository;
 import com.se1858.group4.Land_Auction_SWP391.repository.AuctionSessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.se1858.group4.Land_Auction_SWP391.entity.Bid;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -21,11 +24,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AuctionRegisterService {
     private AuctionRegisterRepository registerRepository;
     private AuctionSessionRepository sessionRepository;
+    private NotificationService notificationService;
+    private AccountRepository accountRepository;
 
     @Autowired
-    public AuctionRegisterService(AuctionRegisterRepository registerRepository, AuctionSessionRepository sessionRepository) {
+    public AuctionRegisterService(AuctionRegisterRepository registerRepository, AuctionSessionRepository sessionRepository,
+                                  NotificationService notificationService, AccountRepository accountRepository) {
         this.registerRepository = registerRepository;
         this.sessionRepository = sessionRepository;
+        this.notificationService = notificationService;
+        this.accountRepository = accountRepository;
     }
 
     public AuctionRegister getAuctionRegister(int auctionId, int accountId) {
@@ -94,21 +102,23 @@ public class AuctionRegisterService {
         registers.stream()
                 .sorted(Comparator.comparing(AuctionRegister::getMaxBidAmount).reversed())
                 .forEachOrdered(register -> {
-                    int rank = currentRank.getAndIncrement();
-                    register.setRank(rank);
+                    if (register.getRegisterStatus().equals("Confirmed")) {
+                        int rank = currentRank.getAndIncrement();
+                        register.setRank(rank);
 
-                    // Cấp quyền mua cho người xếp hạng 1, những người khác không có quyền mua
-                    if (rank == 1) {
-                        register.setPurchaseStatus("Eligible to purchase");
-                        register.setResult("Winner");
-                        auctionSession.setWinner(register.getBuyer());
-                    } else {
-                        register.setPurchaseStatus("Not eligible to purchase");
-                        register.setResult("Participant");
+                        // Cấp quyền mua cho người xếp hạng 1, những người khác không có quyền mua
+                        if (rank == 1) {
+                            register.setPurchaseStatus("Eligible to purchase");
+                            register.setResult("Winner");
+                            auctionSession.setWinner(register.getBuyer());
+                        } else {
+                            register.setPurchaseStatus("Not eligible to purchase");
+                            register.setResult("Participant");
+                        }
+
+                        // Tất cả đặt cọc đều chuyển thành trạng thái "Locked"
+                        register.setDepositStatus("Locked");
                     }
-
-                    // Tất cả đặt cọc đều chuyển thành trạng thái "Locked"
-                    register.setDepositStatus("Locked");
                 });
 
         // Lưu tất cả thay đổi vào cơ sở dữ liệu
@@ -128,13 +138,37 @@ public class AuctionRegisterService {
                     register.setResult("Forfeited");
                     register.setPurchaseStatus("Not eligible to purchase");
 
+                    Notification notification = new Notification();
+                    notification.setContent("You are no longer have right to buy asset of the auction" + register.getAuction().getAuctionName() + " because of forfeit.");
+                    notification.setCreatedDate(LocalDateTime.now());
+                    notification.setReadStatus("unread");
+                    notification.setAuction(register.getAuction());
+
+                    notification.addAccount(register.getBuyer());
+                    notificationService.saveNotification(notification);
+                    register.getBuyer().addNotification(notification);
+                    accountRepository.save(register.getBuyer());
+                    notificationService.sendNotification(notification);
+
                     // Tìm người tiếp theo để cấp quyền mua nếu họ không bỏ quyền đăng ký
                     registers.stream()
                             .filter(nextRegister -> nextRegister.getRank() > rank && nextRegister.getRegisterStatus().equals("Confirmed"))
                             .findFirst()
                             .ifPresent(nextRegister -> {
-                                nextRegister.setPurchaseStatus("Allowed");
+                                nextRegister.setPurchaseStatus("Eligible to purchase");
                                 nextRegister.setResult("Winner");
+
+                                Notification notification2 = new Notification();
+                                notification2.setContent("Congratulations! You are the winner of the auction! We will send contract for you as soon as by email. Please check carefully!");
+                                notification2.setCreatedDate(LocalDateTime.now());
+                                notification2.setReadStatus("unread");
+                                notification2.setAuction(nextRegister.getAuction());
+
+                                notification2.addAccount(nextRegister.getBuyer());
+                                notificationService.saveNotification(notification2);
+                                nextRegister.getBuyer().addNotification(notification2);
+                                accountRepository.save(nextRegister.getBuyer());
+                                notificationService.sendNotification(notification2);
                             });
                 });
 
@@ -174,6 +208,7 @@ public class AuctionRegisterService {
         Pageable pageable = PageRequest.of(page, size, sort);
         return registerRepository.findByBuyer_AccountId(accountId, pageable);
     }
-
-
+    public List<AuctionRegister> resultOfAuction(int auctionId, String registerStatus) {
+        return registerRepository.findByAuction_AuctionIdAndRegisterStatusOrderByRankAsc(auctionId, registerStatus);
+    }
 }

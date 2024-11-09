@@ -102,9 +102,6 @@ public class CustomerController {
     }
 
 
-
-
-
     @GetMapping("/get_all_asset")
     public String getAllAsset(
             @RequestParam(defaultValue = "0") int page,
@@ -152,14 +149,14 @@ public class CustomerController {
         model.addAttribute("top3LatestNews", top3News);
 //        lay danh sach cac tag
         List<TagForNews> tagList = tagForNewsService.getAllTagsForNews();
-        model.addAttribute( "listTag", tagList);
+        model.addAttribute("listTag", tagList);
         return "customer/newsList";
     }
 
     @GetMapping("/viewNotification")
     public String getNotificationList(Model model) {
         Account this_user = userDetailsService.accountAuthenticated();
-        List<NotificationDTO> notificationDTOList = notificationService.getNotificationsForAccount(this_user) ;
+        List<NotificationDTO> notificationDTOList = notificationService.getNotificationsForAccount(this_user);
         model.addAttribute("notifications", notificationDTOList);
         return "customer/notificationList";
     }
@@ -313,7 +310,7 @@ public class CustomerController {
         }
         //lay ra nguoi dang ky
         Account this_user = userDetailsService.accountAuthenticated();
-        if(this_user!=null){
+        if (this_user != null) {
             qrCode.setAmount(auction.getDeposit() + auction.getRegisterFee() + "");
             qrCode.setDescription("UserId " + this_user.getAccountId() + " deposit fee AuctionId " + auction.getAuctionId());
             model.addAttribute("qrCode", qrCode);

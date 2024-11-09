@@ -76,11 +76,4 @@ public class NotificationController {
         subscriptionNotificationService.deleteSubscriptionByEndpoint(endpoint);
         return ResponseEntity.ok().build();
     }
-
-//    // Endpoint gửi thông báo push đến tất cả các subscriptions của một account
-//    @PostMapping("/notify")
-//    public ResponseEntity<?> sendNotification(@RequestParam int accountId, @RequestBody NotificationRequest notificationRequest) {
-//        subscriptionNotificationService.sendNotificationToAccount(accountId, notificationRequest.getTitle(), notificationRequest.getBody());
-//        return ResponseEntity.ok().build();
-//    }
 }

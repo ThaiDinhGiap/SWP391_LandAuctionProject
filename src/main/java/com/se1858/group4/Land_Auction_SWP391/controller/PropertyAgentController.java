@@ -39,11 +39,6 @@ public class PropertyAgentController {
         this.userDetailsService = userDetailsService;
     }
 
-    @GetMapping("/dashboard")
-    public String dashboard() {
-        return "propertyAgent/Dashboard";
-    }
-
     @GetMapping("/detail")
     public String detail() {
         return "propertyAgent/AssetDetail";

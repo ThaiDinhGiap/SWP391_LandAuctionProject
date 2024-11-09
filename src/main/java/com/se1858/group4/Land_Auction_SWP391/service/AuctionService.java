@@ -2,11 +2,9 @@ package com.se1858.group4.Land_Auction_SWP391.service;
 
 
 import com.se1858.group4.Land_Auction_SWP391.dto.AuctionSessionDTO;
-import com.se1858.group4.Land_Auction_SWP391.entity.Account;
-import com.se1858.group4.Land_Auction_SWP391.entity.AuctionRegister;
-import com.se1858.group4.Land_Auction_SWP391.entity.AuctionSession;
-import com.se1858.group4.Land_Auction_SWP391.entity.Notification;
+import com.se1858.group4.Land_Auction_SWP391.entity.*;
 import com.se1858.group4.Land_Auction_SWP391.repository.AccountRepository;
+import com.se1858.group4.Land_Auction_SWP391.repository.AssetRepository;
 import com.se1858.group4.Land_Auction_SWP391.repository.AuctionRegisterRepository;
 import com.se1858.group4.Land_Auction_SWP391.repository.AuctionSessionRepository;
 import jakarta.transaction.Transactional;
@@ -30,12 +28,15 @@ public class AuctionService {
     private AuctionSessionRepository auctionSessionRepository;
     private NotificationService notificationService;
     private AccountRepository accountRepository;
+    private AssetRepository assetRepository;
 
-    public AuctionService(AuctionRegisterRepository auctionRegisterRepository, AuctionSessionRepository auctionSessionRepository, NotificationService notificationService, AccountRepository accountRepository) {
+    public AuctionService(AuctionRegisterRepository auctionRegisterRepository, AuctionSessionRepository auctionSessionRepository,
+                          NotificationService notificationService, AccountRepository accountRepository, AssetRepository assetRepository) {
         this.auctionRegisterRepository = auctionRegisterRepository;
         this.auctionSessionRepository = auctionSessionRepository;
         this.notificationService = notificationService;
         this.accountRepository = accountRepository;
+        this.assetRepository = assetRepository;
     }
 
     // Kiểm tra xem người dùng có được phép truy cập vào phiên đấu giá hay không
