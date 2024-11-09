@@ -20,7 +20,6 @@ public class RegisterController {
     }
 
 
-// Trong phương thức đăng ký, sử dụng RedirectAttributes thay vì Model để truyền thông báo lỗi
 
     @PostMapping("/register")
     public String registerUser(@RequestParam String username,

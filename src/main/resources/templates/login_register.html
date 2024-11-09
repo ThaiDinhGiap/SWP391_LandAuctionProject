@@ -10,7 +10,6 @@
 
 <body>
 
-<!-- Thêm điều kiện Thymeleaf vào lớp CSS của container -->
 <div th:classappend="${isRegister} ? ' right-panel-active' : ''" class="container" id="container">
     <div class="form-container sign-up-container">
         <form action="/register" method="POST">
@@ -19,7 +18,6 @@
             <input type="email" name="email" placeholder="Email" required/>
             <input type="password" name="password" placeholder="Password" required/>
 
-            <!-- Display error message for username if exists and less than 6 characters -->
             <div th:if="${errorMessage}" style="color: red;">
                 <p th:text="${errorMessage}"></p>
             </div>
