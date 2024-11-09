@@ -48,7 +48,7 @@ public class LoginController {
         if (hasRole("ROLE_Admin")) return "redirect:/admin/localAuthorityList";
         if (hasRole("ROLE_Property_Agent")) return "redirect:/property_agent/dashboard";
         if (hasRole("ROLE_Auctioneer")) return "redirect:/auctioneer/dashboard";
-        if (hasRole("ROLE_Customer_Care")) return "redirect:/customer-care/home";
+        if (hasRole("ROLE_Customer_Care")) return "redirect:/customercare/profile";
         if (hasRole("ROLE_News_Writer")) return "redirect:/news_writer/dashboard";
         return "redirect:/";
     }
