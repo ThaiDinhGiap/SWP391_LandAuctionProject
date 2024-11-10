@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(data => {
             const mainTopicsTable = document.querySelector('#mainTopics');
             data.forEach(topic => {
+                if (topic.topicName === "Direct Support") return;
+
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${topic.topicId}</td>

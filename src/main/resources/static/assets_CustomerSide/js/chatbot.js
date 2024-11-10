@@ -185,10 +185,10 @@ function sendConnectionRequest(staff) {
         .then(data => {
             // Xử lý trạng thái pending
             if (data.status === 'Pending') {
-                displayMessage("Đang chờ phản hồi từ Staff...");
+                displayMessage("Waiting response of staff...");
                 handleStaffResponse(clientId);
             } else if (data.status === 'Rejected'){
-                displayMessage("Staff này đang bận, vui lòng chọn Staff khác.")
+                displayMessage("This staff is busy, please choose another staff!")
             }
         });
 }
@@ -210,7 +210,7 @@ function handleStaffResponse(clientId) {
                 localStorage.setItem('currentSessionId', currentSessionId);
                 setupWebSocket(currentSessionId); // Khởi tạo WebSocket nếu staff chấp nhận
             } else if (data.status === 'Rejected') {
-                displayMessage("Staff này đang bận, vui lòng chọn Staff khác.");
+                displayMessage("This staff is busy, please choose another staff!");
                 disconnectWebSocket(); // Ngắt WebSocket nếu staff từ chối
             }
         });
@@ -325,7 +325,7 @@ function resetInactivityTimer() {
     clearTimeout(inactivityTimer);
     inactivityTimer = setTimeout(() => {
         disconnectWebSocket();
-    }, 30 * 60 * 1000); // 30 phút
+    }, 30 * 60 * 1000);
 }
 
 // window.onload = function () {

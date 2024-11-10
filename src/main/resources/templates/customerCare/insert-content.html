@@ -136,6 +136,7 @@
                 <select id="selectMainTopic" class="form-control" style="width: 50%; display: inline-block;">
                     <!-- Sử dụng Thymeleaf để hiển thị danh sách mainTopics từ model -->
                     <option th:each="mainTopic : ${mainTopics}"
+                            th:if="${mainTopic.topicName != 'Direct Support'}"
                             th:value="${mainTopic.topicId}"
                             th:text="${mainTopic.topicName}">
                     </option>
@@ -153,6 +154,7 @@
                 <select id="selectSubTopic" class="form-control" style="width: 50%; display: inline-block;">
                     <!-- Sử dụng Thymeleaf để hiển thị danh sách subTopics từ model -->
                     <option th:each="subTopic : ${subTopics}"
+                            th:if="${subTopic.topicName != 'Direct Support'}"
                             th:value="${subTopic.topicId}"
                             th:text="${subTopic.topicName}">
                     </option>

@@ -102,7 +102,6 @@ public class AuctionService {
     }
 
 
-
     public Page<AuctionSession> getAllAuctionSessionsByAuctioneerId(int auctioneerId, Pageable pageable) {
 //        return auctionSessionRepository.findByAuctioneerId(auctioneerId, pageable);
         Page<AuctionSession> list = auctionSessionRepository.findByAuctioneerId(auctioneerId, pageable);
@@ -187,12 +186,13 @@ public class AuctionService {
         }
     }
 
-    @Scheduled(fixedRate = 6000) // Kiểm tra mỗi phút
+    @Scheduled(fixedRate = 6000)
     public void checkAuctionEnd() {
-        List<AuctionSession> activeAuctions = auctionSessionRepository.findByStatus("Ongoing");
-        long now = System.currentTimeMillis();
+        List<AuctionSession> activeAuctions = auctionSessionRepository.findAll();
         for (AuctionSession auction : activeAuctions) {
-            if (auction.getExpectedEndTime().getSecond() >= now) {
+            if (auction.getActualEndTime() != null && auction.getStatus().equals("Ongoing") &&LocalDateTime.now().isAfter(auction.getActualEndTime())) {
+                auction.setStatus("Ending");
+                auctionSessionRepository.save(auction);
                 sendAuctionEndNotifications(auction);
             }
         }
